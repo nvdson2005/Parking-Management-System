@@ -44,6 +44,19 @@ describe('lots/zones service', () => {
     expect(after).toBe(before + 1)
   })
 
+  it('edits lot name/address and zone name without touching status or capacity (FR-07, FR-08)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    const lot = await updateLot(db, f.manager.id, f.lot.id, { name: 'Renamed Lot', address: '9 New St' })
+    expect(lot).toMatchObject({ name: 'Renamed Lot', address: '9 New St', status: 'ACTIVE' })
+
+    const zone = await updateZone(db, f.manager.id, f.zoneA.id, { name: 'A-East' })
+    expect(zone.name).toBe('A-East')
+    const cap = await db.zoneCapacity.findFirst({ where: { zoneId: f.zoneA.id, vehicleTypeCode: 'MOTORBIKE' } })
+    expect(cap?.capacity).toBe(2)
+  })
+
   it('suspend then reactivate lot toggles status; entry allowed again after reactivation', async () => {
     await resetDb()
     const f = await makeFixture()

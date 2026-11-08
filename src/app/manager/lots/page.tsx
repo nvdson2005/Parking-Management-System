@@ -31,6 +31,8 @@ export default function ManagerLotsPage() {
 
   const [zoneDrafts, setZoneDrafts] = useState<Record<string, { name: string; MOTORBIKE: string; CAR: string }>>({})
   const [capDrafts, setCapDrafts] = useState<Record<string, string>>({})
+  const [lotEdits, setLotEdits] = useState<Record<string, { name: string; address: string }>>({})
+  const [zoneNameDrafts, setZoneNameDrafts] = useState<Record<string, string>>({})
 
   const load = useCallback(async () => {
     const res = await fetch('/api/lots')
@@ -79,6 +81,37 @@ export default function ManagerLotsPage() {
   async function handleToggleStatus(lot: Lot) {
     const status = lot.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE'
     await send(`/api/lots/${lot.id}`, 'PATCH', { status }, `status-${lot.id}`)
+  }
+
+  async function handleSaveLotDetails(e: FormEvent, lot: Lot) {
+    e.preventDefault()
+    const draft = lotEdits[lot.id] ?? { name: lot.name, address: lot.address }
+    const ok = await send(
+      `/api/lots/${lot.id}`,
+      'PATCH',
+      { name: draft.name, address: draft.address },
+      `details-${lot.id}`,
+    )
+    if (ok) {
+      setLotEdits((prev) => {
+        const next = { ...prev }
+        delete next[lot.id]
+        return next
+      })
+    }
+  }
+
+  async function handleSaveZoneName(e: FormEvent, zone: Zone) {
+    e.preventDefault()
+    const name = zoneNameDrafts[zone.id] ?? zone.name
+    const ok = await send(`/api/zones/${zone.id}`, 'PATCH', { name }, `zone-name-${zone.id}`)
+    if (ok) {
+      setZoneNameDrafts((prev) => {
+        const next = { ...prev }
+        delete next[zone.id]
+        return next
+      })
+    }
   }
 
   async function handleAddZone(e: FormEvent, lotId: string) {
@@ -160,6 +193,42 @@ export default function ManagerLotsPage() {
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">{lot.address}</p>
+              <form
+                className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-end"
+                onSubmit={(e) => handleSaveLotDetails(e, lot)}
+              >
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <Label htmlFor={`editLotName-${lot.id}`}>{t('lots.name')}</Label>
+                  <Input
+                    id={`editLotName-${lot.id}`}
+                    required
+                    value={lotEdits[lot.id]?.name ?? lot.name}
+                    onChange={(e) =>
+                      setLotEdits((prev) => ({
+                        ...prev,
+                        [lot.id]: { name: e.target.value, address: prev[lot.id]?.address ?? lot.address },
+                      }))
+                    }
+                  />
+                </div>
+                <div className="flex flex-1 flex-col gap-1.5">
+                  <Label htmlFor={`editLotAddress-${lot.id}`}>{t('lots.address')}</Label>
+                  <Input
+                    id={`editLotAddress-${lot.id}`}
+                    required
+                    value={lotEdits[lot.id]?.address ?? lot.address}
+                    onChange={(e) =>
+                      setLotEdits((prev) => ({
+                        ...prev,
+                        [lot.id]: { name: prev[lot.id]?.name ?? lot.name, address: e.target.value },
+                      }))
+                    }
+                  />
+                </div>
+                <Button type="submit" variant="outline" disabled={busy === `details-${lot.id}`}>
+                  {busy === `details-${lot.id}` ? t('lots.saving') : t('lots.save')}
+                </Button>
+              </form>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               <div className="flex flex-col gap-3">
@@ -169,7 +238,26 @@ export default function ManagerLotsPage() {
                 ) : (
                   lot.zones.map((zone) => (
                     <div key={zone.id} className="flex flex-wrap items-end gap-4 rounded border p-3">
-                      <span className="min-w-20 font-medium">{zone.name}</span>
+                      <form className="flex items-end gap-2" onSubmit={(e) => handleSaveZoneName(e, zone)}>
+                        <div className="flex flex-col gap-1.5">
+                          <Label htmlFor={`zoneEditName-${zone.id}`}>{t('lots.zoneName')}</Label>
+                          <Input
+                            id={`zoneEditName-${zone.id}`}
+                            required
+                            className="w-32"
+                            value={zoneNameDrafts[zone.id] ?? zone.name}
+                            onChange={(e) => setZoneNameDrafts((prev) => ({ ...prev, [zone.id]: e.target.value }))}
+                          />
+                        </div>
+                        <Button
+                          type="submit"
+                          size="sm"
+                          variant="outline"
+                          disabled={busy === `zone-name-${zone.id}`}
+                        >
+                          {busy === `zone-name-${zone.id}` ? t('lots.saving') : t('lots.save')}
+                        </Button>
+                      </form>
                       {VEHICLE_TYPES.map((type) => {
                         const key = `${zone.id}:${type}`
                         return (
