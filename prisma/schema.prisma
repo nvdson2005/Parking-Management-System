@@ -1,0 +1,203 @@
+// SQLite has no enums; status/type fields are String, checked by the TS unions
+// defined in src/lib/types.ts.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  code String @id
+
+  users User[]
+
+  @@map("roles")
+}
+
+model VehicleType {
+  code   String @id
+  nameVi String @map("name_vi")
+  nameEn String @map("name_en")
+
+  zoneCapacities  ZoneCapacity[]
+  vehicles        Vehicle[]
+  parkingSessions ParkingSession[]
+  reservations    Reservation[]
+  tariffs         Tariff[]
+
+  @@map("vehicle_types")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  roleCode     String   @map("role_code")
+  role         Role     @relation(fields: [roleCode], references: [code])
+  userGroup    String?  @map("user_group")
+  locked       Boolean  @default(false)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  ownedVehicles     Vehicle[]        @relation("VehicleOwner")
+  entrySessions     ParkingSession[] @relation("SessionEntryStaff")
+  exitSessions      ParkingSession[] @relation("SessionExitStaff")
+  sessionEvents     SessionEvent[]
+  reservations      Reservation[]
+  confirmedPayments Payment[]
+  accessLogs        AccessLog[]
+
+  @@map("users")
+}
+
+model ParkingLot {
+  id      String @id @default(cuid())
+  name    String
+  address String
+  status  String @default("ACTIVE")
+
+  zones Zone[]
+
+  @@map("parking_lots")
+}
+
+model Zone {
+  id    String     @id @default(cuid())
+  lotId String     @map("lot_id")
+  lot   ParkingLot @relation(fields: [lotId], references: [id])
+  name  String
+
+  capacities   ZoneCapacity[]
+  sessions     ParkingSession[]
+  reservations Reservation[]
+
+  @@map("zones")
+}
+
+model ZoneCapacity {
+  zoneId          String      @map("zone_id")
+  zone            Zone        @relation(fields: [zoneId], references: [id])
+  vehicleTypeCode String      @map("vehicle_type_code")
+  vehicleType     VehicleType @relation(fields: [vehicleTypeCode], references: [code])
+  capacity        Int
+
+  @@id([zoneId, vehicleTypeCode])
+  @@map("zone_capacities")
+}
+
+model Vehicle {
+  id              String      @id @default(cuid())
+  plate           String      @unique
+  qrCode          String      @unique @map("qr_code")
+  rfidCode        String      @unique @map("rfid_code")
+  vehicleTypeCode String      @map("vehicle_type_code")
+  vehicleType     VehicleType @relation(fields: [vehicleTypeCode], references: [code])
+  ownerId         String?     @map("owner_id")
+  owner           User?       @relation("VehicleOwner", fields: [ownerId], references: [id])
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  sessions     ParkingSession[]
+  reservations Reservation[]
+
+  @@map("vehicles")
+}
+
+model ParkingSession {
+  id              String       @id @default(cuid())
+  vehicleId       String?      @map("vehicle_id")
+  vehicle         Vehicle?     @relation(fields: [vehicleId], references: [id])
+  plateSnapshot   String       @map("plate_snapshot")
+  zoneId          String       @map("zone_id")
+  zone            Zone         @relation(fields: [zoneId], references: [id])
+  vehicleTypeCode String       @map("vehicle_type_code")
+  vehicleType     VehicleType  @relation(fields: [vehicleTypeCode], references: [code])
+  feeGroup        String       @map("fee_group")
+  idMethod        String       @map("id_method")
+  entryTime       DateTime     @map("entry_time")
+  exitTime        DateTime?    @map("exit_time")
+  entryStaffId    String       @map("entry_staff_id")
+  entryStaff      User         @relation("SessionEntryStaff", fields: [entryStaffId], references: [id])
+  exitStaffId     String?      @map("exit_staff_id")
+  exitStaff       User?        @relation("SessionExitStaff", fields: [exitStaffId], references: [id])
+  status          String
+  reservationId   String?      @unique @map("reservation_id")
+  reservation     Reservation? @relation(fields: [reservationId], references: [id])
+
+  events  SessionEvent[]
+  payment Payment?
+
+  @@index([status, zoneId])
+  @@map("parking_sessions")
+}
+
+model SessionEvent {
+  id        String         @id @default(cuid())
+  sessionId String         @map("session_id")
+  session   ParkingSession @relation(fields: [sessionId], references: [id])
+  type      String
+  staffId   String         @map("staff_id")
+  staff     User           @relation(fields: [staffId], references: [id])
+  note      String?
+  createdAt DateTime       @default(now()) @map("created_at")
+
+  @@map("session_events")
+}
+
+model Reservation {
+  id              String      @id @default(cuid())
+  customerId      String      @map("customer_id")
+  customer        User        @relation(fields: [customerId], references: [id])
+  vehicleId       String      @map("vehicle_id")
+  vehicle         Vehicle     @relation(fields: [vehicleId], references: [id])
+  zoneId          String      @map("zone_id")
+  zone            Zone        @relation(fields: [zoneId], references: [id])
+  vehicleTypeCode String      @map("vehicle_type_code")
+  vehicleType     VehicleType @relation(fields: [vehicleTypeCode], references: [code])
+  arrivalTime     DateTime    @map("arrival_time")
+  holdUntil       DateTime    @map("hold_until")
+  status          String
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  session ParkingSession?
+
+  @@index([status, zoneId])
+  @@map("reservations")
+}
+
+model Tariff {
+  vehicleTypeCode String      @map("vehicle_type_code")
+  vehicleType     VehicleType @relation(fields: [vehicleTypeCode], references: [code])
+  feeGroup        String      @map("fee_group")
+  price           Int
+
+  @@id([vehicleTypeCode, feeGroup])
+  @@map("tariffs")
+}
+
+model Payment {
+  id            String         @id @default(cuid())
+  sessionId     String         @unique @map("session_id")
+  session       ParkingSession @relation(fields: [sessionId], references: [id])
+  amount        Int
+  status        String         @default("CONFIRMED")
+  paidAt        DateTime       @map("paid_at")
+  confirmedById String         @map("confirmed_by_id")
+  confirmedBy   User           @relation(fields: [confirmedById], references: [id])
+
+  @@map("payments")
+}
+
+model AccessLog {
+  id        String   @id @default(cuid())
+  userId    String?  @map("user_id")
+  user      User?    @relation(fields: [userId], references: [id])
+  action    String
+  target    String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("access_logs")
+}
