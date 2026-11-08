@@ -102,6 +102,65 @@ describe('vehicles service', () => {
     expect(vehicles).toHaveLength(1)
   })
 
+  it('rejects concurrent registrations of separator variants of the same plate', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    const results = await Promise.allSettled([
+      addVehicle(db, { ownerId: f.student.id, plate: '51F-123.45', vehicleType: 'MOTORBIKE' }),
+      addVehicle(db, { ownerId: f.lecturer.id, plate: '51F 123.45', vehicleType: 'MOTORBIKE' }),
+    ])
+
+    expect(results.filter((result) => result.status === 'fulfilled')).toHaveLength(1)
+    expect(results.filter((result) => result.status === 'rejected')).toHaveLength(1)
+    const rejected = results.find((result) => result.status === 'rejected')
+    expect(rejected).toMatchObject({ reason: { code: 'PLATE_TAKEN' } })
+    expect(await db.vehicle.count()).toBe(1)
+  })
+
+  it('rejects concurrent registrations of the exact same plate string', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    const results = await Promise.allSettled([
+      addVehicle(db, { ownerId: f.student.id, plate: '30A-70001', vehicleType: 'MOTORBIKE' }),
+      addVehicle(db, { ownerId: f.lecturer.id, plate: '30A-70001', vehicleType: 'MOTORBIKE' }),
+    ])
+
+    expect(results.filter((result) => result.status === 'fulfilled')).toHaveLength(1)
+    const rejected = results.find((result) => result.status === 'rejected')
+    expect(rejected).toMatchObject({ reason: { code: 'PLATE_TAKEN' } })
+    expect(await db.vehicle.count()).toBe(1)
+  })
+
+  it('serializes concurrent claims of the same Guest vehicle to a single winner', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    const guestVehicle = await db.vehicle.create({
+      data: {
+        plate: '30A-70002',
+        qrCode: 'QR-GUESTRACE1',
+        rfidCode: 'RF-GUESTRACE1',
+        vehicleTypeCode: 'MOTORBIKE',
+        ownerId: null,
+      },
+    })
+
+    const results = await Promise.allSettled([
+      addVehicle(db, { ownerId: f.student.id, plate: '30A-70002', vehicleType: 'MOTORBIKE' }),
+      addVehicle(db, { ownerId: f.lecturer.id, plate: '30A 700 02', vehicleType: 'MOTORBIKE' }),
+    ])
+
+    expect(results.filter((result) => result.status === 'fulfilled')).toHaveLength(1)
+    const rejected = results.find((result) => result.status === 'rejected')
+    expect(rejected).toMatchObject({ reason: { code: 'PLATE_TAKEN' } })
+
+    const final = await db.vehicle.findUnique({ where: { id: guestVehicle.id } })
+    expect([f.student.id, f.lecturer.id]).toContain(final?.ownerId)
+    expect(await db.vehicle.count()).toBe(1)
+  })
+
   it('removeVehicle: NOT_OWNER when vehicle belongs to someone else', async () => {
     await resetDb()
     const f = await makeFixture()

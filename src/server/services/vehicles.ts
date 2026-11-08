@@ -1,8 +1,10 @@
 import { randomBytes } from 'crypto'
 import { z } from 'zod'
+import { Prisma } from '@prisma/client'
 import type { Vehicle } from '@prisma/client'
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
+import { withLock } from '@/server/lock'
 import { normalizePlate } from '@/lib/plate'
 import type { IdMethod, VehicleTypeCode } from '@/lib/types'
 
@@ -39,6 +41,18 @@ async function findVehicleByCompareKey(db: Db, compareKey: string): Promise<Vehi
   return candidates.find((candidate) => plateCompareKey(candidate.plate) === compareKey) ?? null
 }
 
+/**
+ * Prisma's unique-constraint violation (P2002) for `Vehicle`, with the
+ * mapped column name(s) it hit (`plate`, `qr_code` or `rfid_code`), so
+ * callers can tell "the plate itself conflicted" apart from "a generated
+ * code happened to collide".
+ */
+function uniqueConflictTarget(err: unknown): string[] | null {
+  if (!(err instanceof Prisma.PrismaClientKnownRequestError) || err.code !== 'P2002') return null
+  const target = err.meta?.target
+  return Array.isArray(target) ? (target as string[]) : null
+}
+
 const addVehicleSchema = z.object({
   ownerId: z.string().min(1),
   plate: z.string().min(1),
@@ -53,6 +67,12 @@ const addVehicleSchema = z.object({
  *   (D-33), keeping its existing codes and vehicle type;
  * - another customer (or the same one) already owns that plate →
  *   `PLATE_TAKEN`.
+ *
+ * The whole find-then-act sequence runs inside `withLock` so two concurrent
+ * calls (including separator variants of the same plate, which only agree
+ * on the compare key, not the stored string) can't both pass the read and
+ * both create/claim a row — this is a single-process serialization, not a
+ * DB-level constraint, matching the MVP's single-process SQLite deployment.
  */
 export async function addVehicle(
   db: Db,
@@ -62,36 +82,46 @@ export async function addVehicle(
   const plate = normalizePlate(parsed.plate)
   const compareKey = plateCompareKey(plate)
 
-  const existing = await findVehicleByCompareKey(db, compareKey)
-  if (existing) {
-    if (existing.ownerId !== null) {
-      throw new DomainError('PLATE_TAKEN', 'Plate already registered')
+  return withLock(async () => {
+    const existing = await findVehicleByCompareKey(db, compareKey)
+    if (existing) {
+      if (existing.ownerId !== null) {
+        throw new DomainError('PLATE_TAKEN', 'Plate already registered')
+      }
+      // Claim: this update only runs after the read above, both inside the
+      // same lock epoch, so no other `addVehicle` call can race it.
+      return db.vehicle.update({ where: { id: existing.id }, data: { ownerId: parsed.ownerId } })
     }
-    return db.vehicle.update({ where: { id: existing.id }, data: { ownerId: parsed.ownerId } })
-  }
 
-  for (let attempt = 0; attempt < MAX_CODE_ATTEMPTS; attempt++) {
-    try {
-      return await db.vehicle.create({
-        data: {
-          plate,
-          qrCode: generateCode('QR'),
-          rfidCode: generateCode('RF'),
-          vehicleTypeCode: parsed.vehicleType,
-          ownerId: parsed.ownerId,
-        },
-      })
-    } catch (err) {
-      // Astronomically unlikely qrCode/rfidCode collision (P2002): retry
-      // with freshly generated codes rather than surfacing a 500.
-      const isUniqueConflict =
-        typeof err === 'object' && err !== null && 'code' in err && (err as { code: unknown }).code === 'P2002'
-      if (!isUniqueConflict || attempt === MAX_CODE_ATTEMPTS - 1) throw err
+    for (let attempt = 0; attempt < MAX_CODE_ATTEMPTS; attempt++) {
+      try {
+        return await db.vehicle.create({
+          data: {
+            plate,
+            qrCode: generateCode('QR'),
+            rfidCode: generateCode('RF'),
+            vehicleTypeCode: parsed.vehicleType,
+            ownerId: parsed.ownerId,
+          },
+        })
+      } catch (err) {
+        const target = uniqueConflictTarget(err)
+        if (!target) throw err
+
+        // The exact plate string collided (e.g. the same plate was just
+        // created by another caller inside this same lock epoch): surface
+        // PLATE_TAKEN instead of retrying with new codes.
+        if (target.includes('plate')) throw new DomainError('PLATE_TAKEN', 'Plate already registered')
+
+        // Astronomically unlikely qrCode/rfidCode collision: retry with
+        // freshly generated codes rather than surfacing a raw 500.
+        if (attempt === MAX_CODE_ATTEMPTS - 1) throw err
+      }
     }
-  }
 
-  /* istanbul ignore next -- unreachable: loop always returns or throws */
-  throw new DomainError('VALIDATION', 'Could not register vehicle')
+    /* istanbul ignore next -- unreachable: loop always returns or throws */
+    throw new DomainError('VALIDATION', 'Could not register vehicle')
+  })
 }
 
 export async function listVehicles(db: Db, ownerId: string): Promise<Vehicle[]> {
