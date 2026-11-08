@@ -22,6 +22,9 @@ export default async function ManagerPage() {
         <Link href="/manager/payments" className="hover:underline">
           {t(dict, 'payments.title')}
         </Link>
+        <Link href="/manager/reports" className="hover:underline">
+          {t(dict, 'reports.title')}
+        </Link>
         <Link href="/manager/accounts" className="hover:underline">
           {t(dict, 'accounts.title')}
         </Link>
