@@ -49,7 +49,7 @@ for (const r of plan.risks) {
   for (const a of r.acts) if (!byId[a] && !/^W\d/.test(a)) errors.push(`${r.id}: unknown activity ${a}`);
 }
 for (const o of plan.objectives) for (const p of o.products) if (!prodIds.has(p)) errors.push(`${o.id}: unknown product ${p}`);
-for (const p of plan.products.filter((p) => p.status === 'planned' && p.id !== 'P00' && p.id !== 'P24'))
+for (const p of plan.products.filter((p) => ['planned', 'built'].includes(p.status) && p.id !== 'P00' && p.id !== 'P24'))
   if (!acts.some((a) => a.product === p.id)) errors.push(`${p.id}: planned product without activity`);
 
 // topological order + cycle check
@@ -198,7 +198,10 @@ const files = {};
 files['products.md'] = table(['P-ID', 'P-ID cha', 'Sản phẩm', 'Loại', 'Trạng thái', 'Nghiệm thu / sử dụng'],
   plan.products.map((p) => [p.id, p.group ? `${p.group} (${plan.productGroups.find((g) => g.id === p.group).name})` : '—', p.name,
     p.type === 'D' ? 'Bàn giao' : 'Trung gian',
-    { planned: 'Lập kế hoạch' + (p.inc ? ` (Inc ${p.inc})` : ''), done: 'Đã hoàn thành', deferred: 'Hoãn (Q22)' }[p.status], p.acceptance]));
+    { planned: 'Lập kế hoạch', built: 'Có trong MVP, kiểm chứng ở V1.0', done: 'Đã hoàn thành', deferred: 'Hoãn' }[p.status], p.acceptance]));
+
+files['completed.md'] = table(['C-ID', 'Công việc đã hoàn thành', 'Sản phẩm', 'Thời gian thực tế', 'Minh chứng', 'Effort thực tế'],
+  (plan.completedBeforeBaseline || []).map((c) => [c.id, c.name, c.products.join(', '), c.dates, c.evidence, 'Chưa ghi trong Task Log (ISS-04)']));
 
 files['activities.md'] = table(['A-ID', 'Hoạt động', 'Sản phẩm', 'Hoạt động trước', 'Phụ trách', 'CP'],
   acts.map((a) => [a.id, a.name, a.product, a.pred.join(', ') || '—',
@@ -230,7 +233,7 @@ files['schedule.md'] = table(['A-ID / mốc', 'Hoạt động trước', 'Phụ 
 
 const msDate = (m) => m.date ? `${m.date.slice(8, 10)}/${m.date.slice(5, 7)}` : dayLabel(Math.max(...m.after.map((x) => byId[x].lvFinish)), true);
 files['milestones.md'] = table(['Mốc', 'Ngày dự kiến', 'Điều kiện vào', 'Phê duyệt / minh chứng'],
-  plan.milestones.map((m) => [m.id + ' ' + m.name, msDate(m), m.after.join(', ') || 'Báo cáo M2 hoàn tất', m.id === 'M-01' ? 'Email gửi khách hàng (Q19)' : m.id === 'M-05' ? 'Nộp LMS' : 'Video demo qua email (Q23)']));
+  plan.milestones.map((m) => [m.id + ' ' + m.name, msDate(m), m.after.join(', ') || 'Báo cáo M2 hoàn tất', m.evidence || '']));
 
 files['gantt.md'] = table(['A-ID / hoạt động', ...W.map((w) => `${w.id} (${ddmm(days.find((d) => d.week === w.id).date)})`)],
   [...acts].sort((x, y) => x.lvStart - y.lvStart || x.lvFinish - y.lvFinish).map((a) => [`${a.id} ${a.name}`, ...W.map((w) => {
@@ -248,7 +251,7 @@ files['gantt.md'] = table(['A-ID / hoạt động', ...W.map((w) => `${w.id} (${
     })];
   })));
 
-files['resource-capacity.md'] = table(['RES-ID / vai trò', 'Thành viên', 'Kỹ năng / trách nhiệm', 'Giờ/tuần (W9 / W10-W12)', 'Giờ khả dụng W9-W12', 'Ghi chú'],
+files['resource-capacity.md'] = table(['RES-ID / vai trò', 'Thành viên', 'Kỹ năng / trách nhiệm', 'Giờ/tuần (W12 / W13-W15)', 'Giờ khả dụng W12-W15', 'Ghi chú'],
   plan.resources.map((r) => [`${r.id} / ${r.role}`, r.name, r.skill, `${W[0].hoursPerPerson} / ${W[1].hoursPerPerson}`, resCap, r.note]));
 
 files['resource-load.md'] = table(['RES-ID', 'Thành viên', ...W.map((w) => `${w.id} (giờ / ${w.hoursPerPerson})`), 'Tổng giao', 'Khả dụng', 'Dư'],
@@ -293,7 +296,7 @@ files['totals.md'] = table(['Chỉ số', 'Giá trị'], [
   ['Trong đó hoạt động ứng phó rủi ro', fmt(totals.responseEffort)],
   ['Dự phòng làm lại (Σ phơi nhiễm còn lại)', fmt(totals.reserve)],
   ['Tổng effort baseline', fmt(totals.totalWithReserve)],
-  ['Năng lực W9-W12', totals.capacityTotal],
+  ['Năng lực W12-W15', totals.capacityTotal],
   ['Mức sử dụng năng lực', `${fmt(totals.loading)}%`],
   ['Đường găng (mạng lý tưởng)', `${critical.join(' → ')} = ${fmt(projectEF)} ngày`],
   ['Kết thúc theo lịch đã cân bằng nguồn lực', `${totals.levelledFinish} (ngày làm việc thứ ${fmt(lvEnd)} / ${days.length})`],

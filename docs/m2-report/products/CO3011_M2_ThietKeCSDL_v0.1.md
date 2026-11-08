@@ -7,7 +7,7 @@
 | Mã và tên | P03 - Thiết kế CSDL |
 | Loại | Sản phẩm trung gian |
 | Tên file | CO3011_M2_ThietKeCSDL_v0.1 (tài liệu); thư mục `prisma/` trong repo (lược đồ, migration, seed) |
-| Phiên bản | v0.1 (bản nháp, chờ review CP-03) |
+| Phiên bản | v0.2 (bản nháp, chờ review CP-03); 09/11/2026: đưa reservations, payments vào phạm vi V1.0 |
 | Chủ sở hữu | Nguyễn Phạm Mạnh Dũng |
 | Người review | Đào Xuân Sơn (QA) |
 | Mục tiêu liên quan | O1, O2, O4, O5 |
@@ -16,7 +16,7 @@
 ## 1. Mô hình thực thể - quan hệ
 
 > 📐 **SƠ ĐỒ CẦN REVIEW:** `diagrams/07-erd.drawio` (xuất ảnh: `diagrams/07-erd.png`, nguồn Mermaid: `diagrams/07-erd.mmd`)
-> Kiểm tra: 13 bảng, khóa chính, khóa ngoại và bội số quan hệ khớp mục 3; quan hệ của bảng hoãn ghi "(hoan)".
+> Kiểm tra: 13 bảng, khóa chính, khóa ngoại và bội số quan hệ khớp mục 3; bội số quan hệ đúng với ràng buộc NULL/UNIQUE.
 
 Loại CSDL: quan hệ, SQLite (một file), truy cập qua Prisma ORM. Lựa chọn này thuộc quyết định kiến trúc ở P18 (D-02): miễn phí (CN5), chạy cục bộ cho demo (D-16), hỗ trợ khóa ngoại và giao dịch.
 
@@ -33,12 +33,12 @@ Loại CSDL: quan hệ, SQLite (một file), truy cập qua Prisma ORM. Lựa ch
 | ENT-07 | vehicles | Xe: biển số, mã QR, mã RFID mô phỏng, loại xe, chủ xe (có thể trống = xe vãng lai) | FR-06, FR-06a, FR-12 | Trong baseline |
 | ENT-08 | parking_sessions | Lượt gửi: xe, ảnh chụp biển số, khu vực, loại xe, nhóm tính phí, phương thức nhận diện, thời điểm vào/ra, nhân viên vào/ra, trạng thái, đặt chỗ, chủ xe lúc vào | FR-13, D-29 | Trong baseline |
 | ENT-09 | session_events | Sự kiện của lượt: xác nhận biển số không khớp, mất thẻ | EX-02, EX-03 | Trong baseline |
-| ENT-11 | tariffs | Giá theo lượt cho loại xe × nhóm tính phí | FR-09 | Trong baseline (lưu và sửa); dùng để tính phí ở FR-26 (hoãn) |
+| ENT-11 | tariffs | Giá theo lượt cho loại xe × nhóm tính phí | FR-09 | Trong baseline (lưu, sửa và tính phí FR-26) |
 | ENT-13 | access_logs | Nhật ký truy cập | FR-31 | Trong baseline |
-| ENT-10 | reservations | Đặt chỗ: khách, xe, khu vực, loại xe, giờ đến, hạn giữ, trạng thái, lý do hủy | FR-20 đến FR-25 | Hoãn theo Q22, ứng viên Baseline V2.0 |
-| ENT-12 | payments | Giao dịch thanh toán mô phỏng của một lượt | FR-26 đến FR-28 | Hoãn theo Q22, ứng viên Baseline V2.0 |
+| ENT-10 | reservations | Đặt chỗ: khách, xe, khu vực, loại xe, giờ đến, hạn giữ, trạng thái, lý do hủy | FR-20 đến FR-25 | Trong baseline |
+| ENT-12 | payments | Giao dịch thanh toán mô phỏng của một lượt | FR-26 đến FR-28 | Trong baseline |
 
-ENT-14 parking_slots **không tạo**: chỗ trống tính theo lượt vào/ra của khu vực (Q17). Bảng của phần hoãn vẫn có trong lược đồ để không phải đổi lược đồ khi khôi phục ở Baseline V2.0; các cột liên kết tới chúng (`parking_sessions.reservation_id`) được phép trống.
+ENT-14 parking_slots **không tạo**: chỗ trống tính theo lượt vào/ra của khu vực (Q17). Cột liên kết tới đặt chỗ (`parking_sessions.reservation_id`) được phép trống vì phần lớn lượt gửi là xe vãng lai hoặc không đặt trước.
 
 ## 3. Từ điển dữ liệu
 
@@ -132,7 +132,7 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | entry_staff_id | TEXT | NOT NULL, FK → users.id | Nhân viên ghi nhận vào | FR-13 |
 | exit_staff_id | TEXT | NULL, FK → users.id | Nhân viên ghi nhận ra | FR-13, FR-14 |
 | status | TEXT | NOT NULL | OPEN hoặc CLOSED | FR-13, FR-17 |
-| reservation_id | TEXT | NULL, UNIQUE, FK → reservations.id | Đặt chỗ được dùng (phần hoãn) | FR-24 |
+| reservation_id | TEXT | NULL, UNIQUE, FK → reservations.id | Đặt chỗ được dùng | FR-24 |
 | owner_id | TEXT | NULL | Chủ xe tại thời điểm vào (trống = khách); không đổi về sau | FR-28 |
 
 ### 3.10 session_events (ENT-09)
@@ -156,7 +156,7 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | target | TEXT | NULL | Đối tượng tác động | FR-31 |
 | created_at | DATETIME | NOT NULL, mặc định now | Thời điểm | FR-31 |
 
-### 3.12 reservations (ENT-10) - Hoãn theo Q22, ứng viên Baseline V2.0
+### 3.12 reservations (ENT-10)
 
 | Cột | Kiểu | Ràng buộc | Mô tả | FR |
 |---|---|---|---|---|
@@ -172,7 +172,7 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | cancel_reason | TEXT | NULL | CUSTOMER hoặc ENTERED_OTHER_ZONE | FR-22, FR-24, D-41 |
 | cancel_zone_id | TEXT | NULL, FK → zones.id | Khu vực xe thực sự vào | FR-24 |
 
-### 3.13 payments (ENT-12) - Hoãn theo Q22, ứng viên Baseline V2.0
+### 3.13 payments (ENT-12)
 
 | Cột | Kiểu | Ràng buộc | Mô tả | FR |
 |---|---|---|---|---|
@@ -194,7 +194,7 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | Không vượt sức chứa khi sự kiện đồng thời (FR-18) | Ứng dụng | Đọc chỗ trống và ghi lượt trong cùng `withLock` + giao dịch |
 | Giờ ra không trước giờ vào | Ứng dụng | Giờ ra lấy thời điểm xử lý trên máy chủ; riêng bộ mô phỏng khi sinh dữ liệu quá khứ truyền thời điểm vào/ra theo thứ tự. Không có ràng buộc CSDL riêng |
 
-**Cách tính chỗ trống** (FR-17, D-21): với mỗi khu vực × loại xe, chỗ trống = sức chứa − số lượt có `status = OPEN` − số đặt chỗ `PENDING` có `hold_until > hiện tại`, chặn dưới ở 0 (trường hợp Manager giảm sức chứa xuống dưới số xe đang đỗ). Giá trị được tính khi truy vấn, không lưu thành cột. Trước mỗi lần đọc, đặt chỗ quá hạn được chuyển sang NO_SHOW (phần hoãn). Khi phần đặt chỗ chưa được khôi phục, số đặt chỗ đang chờ luôn bằng 0 nên công thức trở thành sức chứa − số lượt đang mở.
+**Cách tính chỗ trống** (FR-17, D-21): với mỗi khu vực × loại xe, chỗ trống = sức chứa − số lượt có `status = OPEN` − số đặt chỗ `PENDING` có `hold_until > hiện tại`, chặn dưới ở 0 (trường hợp Manager giảm sức chứa xuống dưới số xe đang đỗ). Giá trị được tính khi truy vấn, không lưu thành cột. Trước mỗi lần đọc, đặt chỗ quá hạn được chuyển sang NO_SHOW (FR-23) để chỗ được giải phóng đúng lúc.
 
 Khóa `withLock` là khóa trong một tiến trình. Nó đủ cho demo chạy một tiến trình cục bộ (D-16); nếu triển khai nhiều tiến trình phải thay bằng ràng buộc hoặc khóa ở CSDL. Đây là giới hạn đã biết, ghi ở mục 10.
 
@@ -217,7 +217,7 @@ Mọi dữ liệu theo bãi gắn với bãi qua `zones.lot_id`: sức chứa (q
 | Chỉ mục | Phục vụ |
 |---|---|
 | `parking_sessions(status, zone_id)` | Đếm lượt đang mở theo khu vực (FR-17); tìm lượt đang mở |
-| `reservations(status, zone_id)` | Đếm đặt chỗ đang chờ (FR-17, phần hoãn) |
+| `reservations(status, zone_id)` | Đếm đặt chỗ đang chờ (FR-17, FR-25) |
 | `parking_sessions(owner_id)` | Lịch sử của Customer (FR-28) |
 | UNIQUE `vehicles(plate)`, `vehicles(qr_code)`, `vehicles(rfid_code)` | Tìm xe theo biển số, QR, RFID khi vào/ra (FR-11, FR-14) |
 | UNIQUE `users(email)` | Đăng nhập |
@@ -241,10 +241,10 @@ Thay đổi lược đồ sau Baseline V1.0 được thực hiện bằng migrat
 |---|---|---|---|
 | FR-01 đến FR-04 | users, roles | FR-17, FR-18 | zone_capacities, parking_sessions, reservations |
 | FR-05 | vehicle_types (tên song ngữ) | FR-19, FR-19a | parking_lots, zone_capacities (đọc) |
-| FR-06, FR-06a | vehicles | FR-20 đến FR-25 (hoãn) | reservations, parking_sessions.reservation_id |
-| FR-07 | parking_lots | FR-26 (hoãn) | tariffs, parking_sessions.fee_group |
-| FR-08 | zones, zone_capacities | FR-27, FR-28 (hoãn) | payments, parking_sessions.owner_id |
-| FR-09 | tariffs | FR-29 (hoãn) | parking_sessions, payments, reservations |
+| FR-06, FR-06a | vehicles | FR-20 đến FR-25 | reservations, parking_sessions.reservation_id |
+| FR-07 | parking_lots | FR-26 | tariffs, parking_sessions.fee_group |
+| FR-08 | zones, zone_capacities | FR-27, FR-28 | payments, parking_sessions.owner_id |
+| FR-09 | tariffs | FR-29 | parking_sessions, payments, reservations |
 | FR-10 | parking_lots, zones | FR-30 | vehicles.owner_id (quyền xem), plate_snapshot |
 | FR-11, FR-12 | vehicles, parking_sessions | FR-31 | access_logs |
 | FR-13 | parking_sessions | FR-32 | parking_sessions.plate_snapshot, vehicles, access_logs |
@@ -260,10 +260,10 @@ Mọi FR có lưu dữ liệu đều có ít nhất một thực thể; FR-16 l�
 | 1 | PD-P03 dự kiến thư mục `database/`; thực tế dùng `prisma/` theo quy ước của Prisma | Không | Cập nhật PD-P03 mục Format |
 | 2 | PD-P03 tiêu chí 8 yêu cầu biển số đầy đủ chỉ ở `vehicles`; thiết kế lưu thêm `plate_snapshot` trên lượt gửi (D-29) | Biển số xuất hiện ở hai bảng | Ảnh chụp cần cho EX-02 và lịch sử; được che khi hiển thị và xóa sau 12 tháng. Đề xuất sửa tiêu chí 8 |
 | 3 | PD-P03 tiêu chí 8 yêu cầu cột của `access_logs` không trống; `user_id` cho phép trống | Dòng nhật ký có thể không gắn tài khoản | Đề xuất sửa tiêu chí: `action`, `created_at` bắt buộc; `user_id` trống chỉ cho thao tác hệ thống |
-| 4 | PD-P03 tiêu chí 10 yêu cầu cờ "dữ liệu mô phỏng"; lược đồ không có cột này | Không lọc riêng được dữ liệu mô phỏng | Toàn bộ dữ liệu trong demo là mô phỏng (NFR-10); đề xuất bỏ tiêu chí hoặc thêm cột ở Baseline V2.0 |
+| 4 | PD-P03 tiêu chí 10 yêu cầu cờ "dữ liệu mô phỏng"; lược đồ không có cột này | Không lọc riêng được dữ liệu mô phỏng | Toàn bộ dữ liệu trong demo là mô phỏng (NFR-10); đề xuất bỏ tiêu chí (quyết định ở A-24, CP-03) |
 | 5 | "Một lượt mở mỗi xe" và "giờ ra sau giờ vào" bảo đảm ở ứng dụng, không bằng ràng buộc CSDL | Phụ thuộc mọi đường ghi đi qua dịch vụ | Bộ mô phỏng cũng đi qua API (FR-15); có kiểm thử tự động |
 | 6 | Khóa `withLock` chỉ trong một tiến trình | Không đủ nếu chạy nhiều tiến trình | Phù hợp demo cục bộ (D-16) |
-| 7 | R3-Q1 (biển số duy nhất), R3-Q6 (cách xóa) chờ khách hàng | Có thể đổi UNIQUE của `vehicles.plate`, phạm vi xóa | Xử lý bằng CR và migration mới |
+| 7 | Biển số duy nhất (R3-Q1) và cách xóa dữ liệu (R3-Q6) là giả định của nhóm, dự kiến hỏi ở vòng 3 (chưa gửi) | Có thể đổi UNIQUE của `vehicles.plate`, phạm vi xóa | Xử lý bằng CR và migration mới |
 
 ## 11. Tự kiểm theo tiêu chí chất lượng PD-P03
 

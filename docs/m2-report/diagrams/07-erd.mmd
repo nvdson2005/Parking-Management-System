@@ -13,12 +13,12 @@ erDiagram
     parking_sessions ||--o{ session_events : "session_id"
     users ||--o{ session_events : "staff_id"
     users |o--o{ access_logs : "user_id"
-    users ||--o{ reservations : "customer_id (hoan)"
-    vehicles ||--o{ reservations : "vehicle_id (hoan)"
-    zones ||--o{ reservations : "zone_id (hoan)"
-    reservations |o--o| parking_sessions : "reservation_id (hoan)"
-    parking_sessions ||--o| payments : "session_id (hoan)"
-    users ||--o{ payments : "confirmed_by_id (hoan)"
+    users ||--o{ reservations : "customer_id"
+    vehicles ||--o{ reservations : "vehicle_id"
+    zones ||--o{ reservations : "zone_id"
+    reservations |o--o| parking_sessions : "reservation_id"
+    parking_sessions ||--o| payments : "session_id"
+    users ||--o{ payments : "confirmed_by_id"
 
     roles {
         string code PK

@@ -51,7 +51,7 @@ const prodStyle = (p) => (p.status === 'deferred' ? C.deferred : p.status === 'd
     cells.push(box(g.id, `<b>${g.id}</b><br>${g.name}`, x, 120, W, H, 'fillColor=#E5E7EB;strokeColor=#374151;'));
     cells.push(edge('P00', g.id, 'edgeStyle=orthogonalEdgeStyle;'));
     plan.products.filter((p) => p.group === g.id).forEach((p, j) => {
-      const label = `<b>${p.id}</b> ${p.name}${p.status === 'deferred' ? '<br><i>(hoãn, Q22)</i>' : p.status === 'done' ? '<br><i>(đã hoàn thành)</i>' : p.inc ? `<br><i>Inc ${p.inc}</i>` : ''}`;
+      const label = `<b>${p.id}</b> ${p.name}${p.status === 'deferred' ? '<br><i>(hoãn)</i>' : p.status === 'done' ? '<br><i>(đã hoàn thành)</i>' : p.status === 'built' ? '<br><i>(có trong MVP)</i>' : ''}`;
       cells.push(box(p.id, label, x + 20, 210 + j * (H + 14), W - 20, H, prodStyle(p)));
       cells.push(edge(g.id, p.id, 'exitX=0;exitY=0.5;entryX=0;entryY=0.5;exitDx=10;'));
     });
@@ -60,7 +60,7 @@ const prodStyle = (p) => (p.status === 'deferred' ? C.deferred : p.status === 'd
   cells.push(box('lg1', 'Bàn giao (phần mềm, tài liệu)', 0, ly, 190, 30, C.deliver));
   cells.push(box('lg2', 'Trung gian', 200, ly, 120, 30, C.inter));
   cells.push(box('lg3', 'Quản lý dự án', 330, ly, 130, 30, C.mgmt));
-  cells.push(box('lg4', 'Hoãn theo Q22', 470, ly, 130, 30, C.deferred));
+  cells.push(box('lg4', 'Hoãn', 470, ly, 130, 30, C.deferred));
   cells.push(box('lg5', 'Đã hoàn thành trước 09/11', 610, ly, 180, 30, C.done));
   write('01-pbs.drawio', cells);
 }
