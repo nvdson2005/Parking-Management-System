@@ -1,4 +1,5 @@
 import type { ParkingSession, PrismaClient, Vehicle } from '@prisma/client'
+import { z } from 'zod'
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { withLock } from '@/server/lock'
@@ -10,6 +11,15 @@ import { normalizePlate } from '@/lib/plate'
 import type { IdMethod, VehicleTypeCode } from '@/lib/types'
 
 const MAX_CODE_ATTEMPTS = 10
+
+const recordEntrySchema = z.object({
+  method: z.enum(['PLATE', 'QR', 'RFID']),
+  identifier: z.string().min(1),
+  zoneId: z.string().min(1),
+  vehicleType: z.enum(['MOTORBIKE', 'CAR']).optional(),
+  staffId: z.string().min(1),
+  now: z.date().optional(),
+})
 
 /**
  * Creates an unowned Guest vehicle for an unknown plate (FR-12, D-36) with
@@ -57,7 +67,10 @@ export async function recordEntry(
     now?: Date
   },
 ): Promise<ParkingSession> {
-  const now = input.now ?? new Date()
+  const parsed = recordEntrySchema.safeParse(input)
+  if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid entry input')
+  const data = parsed.data
+  const now = data.now ?? new Date()
 
   // `recordEntry` is always the top-level caller holding a real client (the
   // route and tests pass `db`), so it owns the transaction boundary the
@@ -66,15 +79,15 @@ export async function recordEntry(
 
   const session = await withLock(() =>
     prisma.$transaction(async (tx) => {
-      const zone = await tx.zone.findUnique({ where: { id: input.zoneId }, include: { lot: true } })
+      const zone = await tx.zone.findUnique({ where: { id: data.zoneId }, include: { lot: true } })
       if (!zone) throw new DomainError('NOT_FOUND', 'Zone not found')
       if (zone.lot.status === 'SUSPENDED') throw new DomainError('LOT_SUSPENDED', 'Lot is suspended')
 
-      let vehicle = await findVehicleByIdentifier(tx, input.method, input.identifier)
+      let vehicle = await findVehicleByIdentifier(tx, data.method, data.identifier)
       if (!vehicle) {
-        if (input.method !== 'PLATE') throw new DomainError('UNKNOWN_CODE', 'Unknown code')
-        if (!input.vehicleType) throw new DomainError('VALIDATION', 'Vehicle type is required')
-        vehicle = await createGuestVehicle(tx, normalizePlate(input.identifier), input.vehicleType)
+        if (data.method !== 'PLATE') throw new DomainError('UNKNOWN_CODE', 'Unknown code')
+        if (!data.vehicleType) throw new DomainError('VALIDATION', 'Vehicle type is required')
+        vehicle = await createGuestVehicle(tx, normalizePlate(data.identifier), data.vehicleType)
       }
 
       const type = vehicle.vehicleTypeCode as VehicleTypeCode
@@ -91,7 +104,7 @@ export async function recordEntry(
 
       let ownReservationId: string | null = null
       if (reservation) {
-        if (reservation.zoneId === input.zoneId) {
+        if (reservation.zoneId === data.zoneId) {
           ownReservationId = reservation.id
         } else {
           // Reservation held for a different zone: cancel it (D-34) and
@@ -101,7 +114,7 @@ export async function recordEntry(
       }
 
       if (!ownReservationId) {
-        const free = await getFree(tx, input.zoneId, type, now)
+        const free = await getFree(tx, data.zoneId, type, now)
         if (free <= 0) throw new DomainError('ZONE_FULL', 'Zone is full')
       }
 
@@ -114,12 +127,12 @@ export async function recordEntry(
         data: {
           vehicleId: vehicle.id,
           plateSnapshot: vehicle.plate,
-          zoneId: input.zoneId,
+          zoneId: data.zoneId,
           vehicleTypeCode: type,
           feeGroup,
-          idMethod: input.method,
+          idMethod: data.method,
           entryTime: now,
-          entryStaffId: input.staffId,
+          entryStaffId: data.staffId,
           status: 'OPEN',
           reservationId: ownReservationId,
         },
@@ -133,7 +146,7 @@ export async function recordEntry(
     }),
   )
 
-  await logAccess(db, { userId: input.staffId, action: 'ENTRY', target: session.id })
+  await logAccess(db, { userId: data.staffId, action: 'ENTRY', target: session.id })
   publishAvailabilityChanged()
 
   return session

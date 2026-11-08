@@ -48,6 +48,25 @@ describe('recordEntry', () => {
     expect(vehicle?.rfidCode).toMatch(/^RF-[A-Z2-7]{10}$/)
   })
 
+  it('VALIDATION when required zoneId is missing', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    await expect(
+      // zoneId absent, as a malformed JSON request body can provide.
+      recordEntry(db, { method: 'PLATE', identifier: '59A-90000', vehicleType: 'MOTORBIKE', staffId: f.staff.id } as never),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+
+  it('VALIDATION for an unknown identification method', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    await expect(
+      recordEntry(db, { method: 'BADGE', identifier: 'x', zoneId: f.zoneA.id, staffId: f.staff.id } as never),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+
   it('requires vehicleType for an unknown plate', async () => {
     await resetDb()
     const f = await makeFixture()
