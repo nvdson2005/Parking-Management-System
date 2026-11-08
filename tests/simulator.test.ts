@@ -130,6 +130,17 @@ describe('simulator', () => {
     expect(lot?.status).toBe('ACTIVE')
   })
 
+  it('EX05 on a lot the manager already suspended keeps it SUSPENDED', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    await db.parkingLot.update({ where: { id: f.lot.id }, data: { status: 'SUSPENDED' } })
+
+    const ex05 = await triggerException(db, f.manager.id, 'EX05')
+    expect(ex05.outcome).toBe('LOT_SUSPENDED')
+    const lot = await db.parkingLot.findUnique({ where: { id: f.lot.id } })
+    expect(lot?.status).toBe('SUSPENDED')
+  })
+
   it('EX02 instructions lead previewExit to plateMismatch true', async () => {
     await resetDb()
     const f = await seedSimFixture()

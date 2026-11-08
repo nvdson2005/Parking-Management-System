@@ -212,6 +212,9 @@ export async function triggerException(
     if (!zone) throw new DomainError('NOT_FOUND', 'No zone to enter')
     const type = zone.capacities[0].vehicleTypeCode as VehicleTypeCode
 
+    // Restore whatever status the manager had set, not a hard-coded ACTIVE:
+    // a lot that was already suspended must stay suspended.
+    const originalStatus = lot.status
     await db.parkingLot.update({ where: { id: lot.id }, data: { status: 'SUSPENDED' } })
     try {
       await openWalkIn(db, actorId, { zoneId: zone.id, vehicleType: type }, randomPlate())
@@ -220,7 +223,7 @@ export async function triggerException(
       if (!isDomainError(err)) throw err
       return { exception: ex, outcome: err.code }
     } finally {
-      await db.parkingLot.update({ where: { id: lot.id }, data: { status: 'ACTIVE' } })
+      await db.parkingLot.update({ where: { id: lot.id }, data: { status: originalStatus } })
     }
   }
 
