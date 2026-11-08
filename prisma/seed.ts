@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { db } from '../src/server/db'
+import { addVehicle } from '../src/server/services/vehicles'
 import type { FeeGroup, UserGroup, VehicleTypeCode } from '../src/lib/types'
 
 const PASSWORD = 'password123'
@@ -99,9 +100,11 @@ async function main() {
       },
     })
 
-    // TODO(Task 8): replace with the addVehicle service once it exists, to
-    // create one motorbike per customer via the real registration flow.
-    void customer
+    await addVehicle(db, {
+      ownerId: customer.id,
+      plate: `29A-${num}001`,
+      vehicleType: 'MOTORBIKE' as VehicleTypeCode,
+    })
   }
 }
 
