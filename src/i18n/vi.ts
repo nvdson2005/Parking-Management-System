@@ -42,6 +42,18 @@ export const vi = {
     loading: 'Đang tải...',
     networkError: 'Lỗi kết nối mạng. Vui lòng thử lại.',
   },
+  availability: {
+    suspended: 'Tạm ngưng',
+    zone: 'Khu vực',
+    vehicleType: 'Loại xe',
+    free: 'Còn trống',
+    capacity: 'Sức chứa',
+  },
+  home: {
+    customerTitle: 'Trang khách hàng',
+    staffTitle: 'Trang nhân viên',
+    managerTitle: 'Trang quản lý',
+  },
   errors: {
     VALIDATION: 'Dữ liệu không hợp lệ',
     UNAUTHENTICATED: 'Vui lòng đăng nhập để tiếp tục',

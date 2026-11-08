@@ -43,6 +43,18 @@ export const en: Dict = {
     loading: 'Loading...',
     networkError: 'Network error. Please try again.',
   },
+  availability: {
+    suspended: 'Suspended',
+    zone: 'Zone',
+    vehicleType: 'Vehicle type',
+    free: 'Free',
+    capacity: 'Capacity',
+  },
+  home: {
+    customerTitle: 'Customer home',
+    staffTitle: 'Staff home',
+    managerTitle: 'Manager home',
+  },
   errors: {
     VALIDATION: 'Invalid data',
     UNAUTHENTICATED: 'Please log in to continue',
