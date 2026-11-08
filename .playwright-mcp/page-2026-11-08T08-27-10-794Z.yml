@@ -1,0 +1,31 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Bãi Đỗ Xe Thông Minh" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e7]:
+          - link "Trang quản lý" [ref=e8] [cursor=pointer]:
+            - /url: /manager
+          - generic [ref=e9]:
+            - group "Language" [ref=e11]:
+              - button "VI" [pressed] [ref=e12]
+              - generic [aria-hidden] [ref=e13]: "|"
+              - button "EN" [ref=e14]
+            - button "Đăng xuất" [ref=e16]
+    - main [ref=e17]:
+      - generic [ref=e19]:
+        - generic [ref=e20]: Đăng nhập
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - generic [ref=e25]: Email
+            - textbox "Email" [ref=e26]: customer01@demo.local
+          - generic [ref=e27]:
+            - generic [ref=e28]: Mật khẩu
+            - textbox "Mật khẩu" [ref=e29]: password123
+          - button "Đăng nhập" [ref=e30]
+          - paragraph [ref=e31]:
+            - text: Chưa có tài khoản?
+            - link "Đăng ký ngay" [ref=e32] [cursor=pointer]:
+              - /url: /register
+  - alert [ref=e33]
