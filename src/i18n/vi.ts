@@ -1,0 +1,65 @@
+// Vietnamese dictionary — the source-of-truth key shape for the app.
+// `en.ts` must declare the exact same keys (type `Dict`, see `index.ts`);
+// every later task that adds a user-visible string adds a key here too.
+export const vi = {
+  app: {
+    name: 'Bãi Đỗ Xe Thông Minh',
+  },
+  nav: {
+    customer: 'Trang khách hàng',
+    staff: 'Trang nhân viên',
+    manager: 'Trang quản lý',
+    login: 'Đăng nhập',
+    register: 'Đăng ký',
+    logout: 'Đăng xuất',
+    menu: 'Menu',
+  },
+  auth: {
+    login: {
+      title: 'Đăng nhập',
+      email: 'Email',
+      password: 'Mật khẩu',
+      submit: 'Đăng nhập',
+      submitting: 'Đang đăng nhập...',
+      noAccount: 'Chưa có tài khoản?',
+      registerLink: 'Đăng ký ngay',
+    },
+    register: {
+      title: 'Đăng ký',
+      email: 'Email',
+      password: 'Mật khẩu',
+      name: 'Họ và tên',
+      userGroup: 'Nhóm người dùng',
+      userGroupStudent: 'Sinh viên',
+      userGroupLecturerStaff: 'Giảng viên / Nhân viên',
+      submit: 'Đăng ký',
+      submitting: 'Đang đăng ký...',
+      haveAccount: 'Đã có tài khoản?',
+      loginLink: 'Đăng nhập',
+    },
+  },
+  common: {
+    loading: 'Đang tải...',
+  },
+  errors: {
+    VALIDATION: 'Dữ liệu không hợp lệ',
+    UNAUTHENTICATED: 'Vui lòng đăng nhập để tiếp tục',
+    FORBIDDEN: 'Bạn không có quyền thực hiện thao tác này',
+    INVALID_CREDENTIALS: 'Email hoặc mật khẩu không đúng',
+    ACCOUNT_LOCKED: 'Tài khoản đã bị khóa',
+    EMAIL_TAKEN: 'Email đã được đăng ký',
+    PLATE_TAKEN: 'Biển số đã được đăng ký',
+    NOT_FOUND: 'Không tìm thấy dữ liệu',
+    UNKNOWN_CODE: 'Mã không xác định',
+    ZONE_FULL: 'Khu vực đã hết chỗ',
+    ALREADY_OPEN: 'Đã có phiên đỗ xe đang mở',
+    LOT_SUSPENDED: 'Bãi xe đang tạm ngưng hoạt động',
+    NO_OPEN_SESSION: 'Không có phiên đỗ xe đang mở',
+    PLATE_MISMATCH: 'Biển số không khớp',
+    RESERVATION_WINDOW: 'Ngoài khung giờ cho phép đặt chỗ',
+    NOT_CANCELLABLE: 'Không thể hủy đặt chỗ này',
+    VEHICLE_ALREADY_RESERVED: 'Xe đã được đặt chỗ',
+    VEHICLE_PARKED: 'Xe đang đỗ trong bãi',
+    NOT_OWNER: 'Bạn không phải chủ sở hữu xe này',
+  },
+} as const
