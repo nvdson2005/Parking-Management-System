@@ -62,7 +62,7 @@ export function LiveAvailability({ initial }: { initial: LotAvailability[] }) {
                   zone.byType.map((type) => (
                     <TableRow key={`${zone.zoneId}-${type.vehicleType}`}>
                       <TableCell>{zone.zoneName}</TableCell>
-                      <TableCell>{type.vehicleType}</TableCell>
+                      <TableCell>{t(`availability.vehicleTypes.${type.vehicleType}`)}</TableCell>
                       <TableCell>{type.free}</TableCell>
                       <TableCell>{type.capacity}</TableCell>
                     </TableRow>

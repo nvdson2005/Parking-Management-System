@@ -48,6 +48,10 @@ export const vi = {
     vehicleType: 'Loại xe',
     free: 'Còn trống',
     capacity: 'Sức chứa',
+    vehicleTypes: {
+      MOTORBIKE: 'Xe máy',
+      CAR: 'Ô tô',
+    },
   },
   home: {
     customerTitle: 'Trang khách hàng',

@@ -49,6 +49,10 @@ export const en: Dict = {
     vehicleType: 'Vehicle type',
     free: 'Free',
     capacity: 'Capacity',
+    vehicleTypes: {
+      MOTORBIKE: 'Motorbike',
+      CAR: 'Car',
+    },
   },
   home: {
     customerTitle: 'Customer home',
