@@ -79,6 +79,34 @@ describe('purge service', () => {
     expect(orphan?.vehicleId).toBeNull()
   })
 
+  it('keeps an unowned vehicle whose old session is still OPEN, so it can still exit', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-50001', null)
+    const open = await db.parkingSession.create({
+      data: {
+        vehicleId: v.id,
+        plateSnapshot: '51F-50001',
+        zoneId: f.zoneA.id,
+        vehicleTypeCode: 'MOTORBIKE',
+        feeGroup: 'GUEST',
+        idMethod: 'PLATE',
+        entryTime: OLD,
+        entryStaffId: f.staff.id,
+        status: 'OPEN',
+      },
+    })
+
+    const result = await purgeOldData(db, f.manager.id, NOW)
+    expect(result.vehiclesDeleted).toBe(0)
+    expect(result.sessionsMasked).toBe(0)
+
+    expect(await db.vehicle.findUnique({ where: { id: v.id } })).not.toBeNull()
+    const refreshed = await db.parkingSession.findUnique({ where: { id: open.id } })
+    expect(refreshed?.vehicleId).toBe(v.id)
+    expect(refreshed?.plateSnapshot).toBe('51F-50001')
+  })
+
   it('logs PURGE with counts', async () => {
     await resetDb()
     const f = await makeFixture()

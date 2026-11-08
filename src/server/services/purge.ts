@@ -9,10 +9,10 @@ const RETENTION_MONTHS = 12
 /**
  * Applies the 12-month data-retention policy (FR-32, D-29). With
  * `cutoff = subMonths(now, 12)`:
- *   - Every session with `entryTime < cutoff` whose plate is not yet masked
- *     gets `plateSnapshot = '[purged]'`.
- *   - Every ownerless vehicle that has no session at/after the cutoff and no
- *     reservation is deleted; its old sessions are detached (`vehicleId =
+ *   - Every non-OPEN session with `entryTime < cutoff` whose plate is not yet
+ *     masked gets `plateSnapshot = '[purged]'` (an OPEN one is still in use).
+ *   - Every ownerless vehicle that has no session at/after the cutoff, no
+ *     OPEN session and no reservation is deleted; its old sessions are detached (`vehicleId =
  *     null`) first so the historical/masked rows survive the delete.
  * Logs `PURGE` with target `"<n> sessions, <m> vehicles"` and returns counts.
  */
@@ -26,7 +26,7 @@ export async function purgeOldData(
 
   const { sessionsMasked, vehiclesDeleted } = await prisma.$transaction(async (tx) => {
     const masked = await tx.parkingSession.updateMany({
-      where: { entryTime: { lt: cutoff }, plateSnapshot: { not: PURGED } },
+      where: { entryTime: { lt: cutoff }, plateSnapshot: { not: PURGED }, status: { not: 'OPEN' } },
       data: { plateSnapshot: PURGED },
     })
 
@@ -34,7 +34,12 @@ export async function purgeOldData(
       where: {
         ownerId: null,
         reservations: { none: {} },
-        sessions: { none: { entryTime: { gte: cutoff } } },
+        // A vehicle still parked (OPEN session) must survive until checkout,
+        // or staff could no longer find its session at exit.
+        AND: [
+          { sessions: { none: { entryTime: { gte: cutoff } } } },
+          { sessions: { none: { status: 'OPEN' } } },
+        ],
       },
       select: { id: true },
     })
