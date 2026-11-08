@@ -12,7 +12,7 @@ type HistoryResult = { sessions: number; reservations: number; payments: number 
 type ExceptionResult = {
   exception: string
   outcome: string
-  instructions?: { identifier: string; method: string; observedPlate?: string }
+  instructions?: { identifier: string; method: string; observedPlate?: string; lostCard?: boolean }
 }
 
 const EXCEPTIONS = ['EX01', 'EX02', 'EX03', 'EX04', 'EX05'] as const
@@ -183,6 +183,9 @@ export function SimulatorPanels({ defaultCount }: { defaultCount: number }) {
                       {t('simulator.instructionsObservedPlate')}:{' '}
                       <span className="font-mono">{exResult.instructions.observedPlate}</span>
                     </p>
+                  ) : null}
+                  {exResult.instructions.lostCard ? (
+                    <p className="text-foreground">{t('simulator.instructionsLostCard')}</p>
                   ) : null}
                 </div>
               ) : null}

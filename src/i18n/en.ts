@@ -309,6 +309,7 @@ export const en: Dict = {
     instructionsMethod: 'Method',
     instructionsIdentifier: 'Identifier',
     instructionsObservedPlate: 'Observed plate',
+    instructionsLostCard: 'Tick "Lost card" on the exit screen.',
     historyTitle: 'Historical data',
     daysLabel: 'Number of days',
     generate: 'Generate history',

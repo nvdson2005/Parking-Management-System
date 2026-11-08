@@ -14,7 +14,7 @@ export type ExceptionCode = 'EX01' | 'EX02' | 'EX03' | 'EX04' | 'EX05'
 export type ExceptionResult = {
   exception: string
   outcome: string
-  instructions?: { identifier: string; method: IdMethod; observedPlate?: string }
+  instructions?: { identifier: string; method: IdMethod; observedPlate?: string; lostCard?: boolean }
 }
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -249,19 +249,28 @@ export async function triggerException(
   })
   if (!vehicle) throw new DomainError('NOT_FOUND', 'No seeded customer vehicle available')
   const type = vehicle.vehicleTypeCode as VehicleTypeCode
-  const zoneCap = await db.zoneCapacity.findFirst({ where: { vehicleTypeCode: type } })
-  if (!zoneCap) throw new DomainError('NOT_FOUND', 'No zone accepts this vehicle type')
+
+  // Choose a zone that still has free capacity for this vehicle type so the
+  // seeded vehicle actually enters (a naive "first capacity row" pick can hit
+  // a full zone and raise ZONE_FULL instead of setting up the demo session).
+  const freeForType = (await freeCandidates(db, now)).filter((c) => c.vehicleType === type)
+  let zoneId = freeForType.length > 0 ? pick(freeForType).zoneId : null
+  if (!zoneId) {
+    const anyForType = await db.zoneCapacity.findFirst({ where: { vehicleTypeCode: type } })
+    if (!anyForType) throw new DomainError('NOT_FOUND', 'No zone accepts this vehicle type')
+    zoneId = anyForType.zoneId
+  }
 
   await recordEntry(db, {
     method: 'QR',
     identifier: vehicle.qrCode,
-    zoneId: zoneCap.zoneId,
+    zoneId,
     staffId: actorId,
   })
   return {
     exception: ex,
     outcome: 'SESSION_OPEN',
-    instructions: { method: 'PLATE', identifier: vehicle.plate },
+    instructions: { method: 'PLATE', identifier: vehicle.plate, lostCard: true },
   }
 }
 

@@ -308,6 +308,7 @@ export const vi = {
     instructionsMethod: 'Phương thức',
     instructionsIdentifier: 'Định danh',
     instructionsObservedPlate: 'Biển số quan sát',
+    instructionsLostCard: 'Chọn "Mất thẻ" trên màn hình xe ra.',
     historyTitle: 'Dữ liệu lịch sử',
     daysLabel: 'Số ngày',
     generate: 'Tạo dữ liệu lịch sử',

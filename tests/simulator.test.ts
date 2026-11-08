@@ -1,7 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { db } from '@/server/db'
 import { resetDb, makeFixture } from './helpers/db'
 import { addVehicle } from '@/server/services/vehicles'
+import * as entryModule from '@/server/services/entry'
+import * as exitModule from '@/server/services/exit'
 import { previewExit } from '@/server/services/exit'
 import { getAvailability } from '@/server/services/availability'
 import {
@@ -69,13 +71,43 @@ describe('simulator', () => {
     await resetDb()
     const f = await seedSimFixture()
 
-    const start = Date.now()
-    const result = await simulateLive(db, f.manager.id, 100)
-    const elapsed = Date.now() - start
+    // Instrument each entry/exit service call so we can assert the *maximum*
+    // individual latency, not just the average, per FR-16.
+    const durations: number[] = []
+    const origEntry = entryModule.recordEntry
+    const origConfirm = exitModule.confirmExit
+    const entrySpy = vi
+      .spyOn(entryModule, 'recordEntry')
+      .mockImplementation(async (...args: Parameters<typeof origEntry>) => {
+        const start = performance.now()
+        try {
+          return await origEntry(...args)
+        } finally {
+          durations.push(performance.now() - start)
+        }
+      })
+    const confirmSpy = vi
+      .spyOn(exitModule, 'confirmExit')
+      .mockImplementation(async (...args: Parameters<typeof origConfirm>) => {
+        const start = performance.now()
+        try {
+          return await origConfirm(...args)
+        } finally {
+          durations.push(performance.now() - start)
+        }
+      })
 
-    const events = result.entries + result.exits + result.rejected
-    expect(events).toBe(100)
-    expect(elapsed / events).toBeLessThan(2000)
+    try {
+      const result = await simulateLive(db, f.manager.id, 100)
+      const events = result.entries + result.exits + result.rejected
+      expect(events).toBe(100)
+      expect(durations.length).toBeGreaterThan(0)
+      const maxDuration = Math.max(...durations)
+      expect(maxDuration).toBeLessThan(2000)
+    } finally {
+      entrySpy.mockRestore()
+      confirmSpy.mockRestore()
+    }
   })
 
   it('EX01 -> ZONE_FULL, EX04 -> ALREADY_OPEN, EX05 -> LOT_SUSPENDED and lot ACTIVE afterwards', async () => {
@@ -112,6 +144,56 @@ describe('simulator', () => {
       observedPlate: instructions.observedPlate!,
     })
     expect(preview.plateMismatch).toBe(true)
+  })
+
+  it('EX03 opens a session and returns lost-card instructions', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+
+    const ex03 = await triggerException(db, f.manager.id, 'EX03')
+    expect(ex03.outcome).toBe('SESSION_OPEN')
+    expect(ex03.instructions).toBeDefined()
+    expect(ex03.instructions!.method).toBe('PLATE')
+    expect(ex03.instructions!.lostCard).toBe(true)
+
+    const open = await db.parkingSession.findFirst({
+      where: { status: 'OPEN', plateSnapshot: ex03.instructions!.identifier },
+    })
+    expect(open).not.toBeNull()
+  })
+
+  it('EX03 opens a session even when one zone for the vehicle type is full (no ZONE_FULL crash)', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+
+    // Exhaust zone A/MOTORBIKE; zone B/MOTORBIKE still has free capacity, so
+    // EX03 must route the seeded motorbike there instead of crashing.
+    const capA = await db.zoneCapacity.findUniqueOrThrow({
+      where: { zoneId_vehicleTypeCode: { zoneId: f.zoneA.id, vehicleTypeCode: 'MOTORBIKE' } },
+    })
+    await db.parkingSession.createMany({
+      data: Array.from({ length: capA.capacity }, () => ({
+        plateSnapshot: randomPlate(),
+        zoneId: f.zoneA.id,
+        vehicleTypeCode: 'MOTORBIKE',
+        feeGroup: 'GUEST',
+        idMethod: 'PLATE',
+        entryTime: new Date(),
+        entryStaffId: f.manager.id,
+        status: 'OPEN',
+      })),
+    })
+
+    const ex03 = await triggerException(db, f.manager.id, 'EX03')
+    expect(ex03.outcome).toBe('SESSION_OPEN')
+    expect(ex03.instructions!.lostCard).toBe(true)
+
+    const open = await db.parkingSession.findFirst({
+      where: { status: 'OPEN', plateSnapshot: ex03.instructions!.identifier },
+      include: { zone: true },
+    })
+    expect(open).not.toBeNull()
+    expect(open!.zoneId).toBe(f.zoneB.id)
   })
 
   it('generateHistory(3) creates payments and NO_SHOW reservations and >= 20 sessions older than 12 months', async () => {
