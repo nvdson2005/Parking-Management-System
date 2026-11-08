@@ -41,6 +41,7 @@ export const en: Dict = {
   },
   common: {
     loading: 'Loading...',
+    networkError: 'Network error. Please try again.',
   },
   errors: {
     VALIDATION: 'Invalid data',

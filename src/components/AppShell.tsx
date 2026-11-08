@@ -43,17 +43,22 @@ export function AppShell({
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
   const [loggingOut, setLoggingOut] = useState(false)
+  const [logoutError, setLogoutError] = useState<string | null>(null)
 
   const roleNav: NavItem[] = user ? [{ href: ROLE_HOME[user.role], label: t(`nav.${user.role.toLowerCase()}`) }] : []
   const navItems = [...roleNav, ...nav]
 
   async function handleLogout() {
     setLoggingOut(true)
+    setLogoutError(null)
     try {
       await fetch('/api/auth/logout', { method: 'POST' })
       setMenuOpen(false)
       router.push('/login')
       router.refresh()
+    } catch {
+      // fetch rejected (offline, DNS failure, etc.) rather than resolving
+      setLogoutError(t('common.networkError'))
     } finally {
       setLoggingOut(false)
     }
@@ -94,9 +99,16 @@ export function AppShell({
             <div className="flex items-center gap-3">
               <LangToggle />
               {user ? (
-                <Button size="sm" variant="outline" onClick={handleLogout} disabled={loggingOut}>
-                  {t('nav.logout')}
-                </Button>
+                <div className="flex flex-col items-end gap-1">
+                  <Button size="sm" variant="outline" onClick={handleLogout} disabled={loggingOut}>
+                    {t('nav.logout')}
+                  </Button>
+                  {logoutError ? (
+                    <span role="alert" className="text-xs text-destructive">
+                      {logoutError}
+                    </span>
+                  ) : null}
+                </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <Link href="/login" className="text-sm hover:underline">

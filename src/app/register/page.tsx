@@ -45,6 +45,9 @@ export default function RegisterPage() {
       }
       router.push('/customer')
       router.refresh()
+    } catch {
+      // fetch rejected (offline, DNS failure, etc.) rather than resolving
+      setError(t('common.networkError'))
     } finally {
       setSubmitting(false)
     }
@@ -102,7 +105,11 @@ export default function RegisterPage() {
                 </SelectContent>
               </Select>
             </div>
-            {error ? <p className="text-sm text-destructive">{error}</p> : null}
+            {error ? (
+              <p role="alert" className="text-sm text-destructive">
+                {error}
+              </p>
+            ) : null}
             <Button type="submit" disabled={submitting}>
               {submitting ? t('auth.register.submitting') : t('auth.register.submit')}
             </Button>

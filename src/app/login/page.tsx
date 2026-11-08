@@ -42,6 +42,9 @@ export default function LoginPage() {
       }
       router.push(ROLE_HOME[body.role as Role] ?? '/')
       router.refresh()
+    } catch {
+      // fetch rejected (offline, DNS failure, etc.) rather than resolving
+      setError(t('common.networkError'))
     } finally {
       setSubmitting(false)
     }
@@ -75,7 +78,11 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {error ? <p className="text-sm text-destructive">{error}</p> : null}
+            {error ? (
+              <p role="alert" className="text-sm text-destructive">
+                {error}
+              </p>
+            ) : null}
             <Button type="submit" disabled={submitting}>
               {submitting ? t('auth.login.submitting') : t('auth.login.submit')}
             </Button>

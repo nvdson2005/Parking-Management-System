@@ -40,6 +40,7 @@ export const vi = {
   },
   common: {
     loading: 'Đang tải...',
+    networkError: 'Lỗi kết nối mạng. Vui lòng thử lại.',
   },
   errors: {
     VALIDATION: 'Dữ liệu không hợp lệ',
