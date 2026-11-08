@@ -1,3 +1,4 @@
+import { publishAvailabilityChanged } from '@/server/bus'
 import type { Db } from '@/server/db'
 import { expireReservations } from '@/server/services/reservations'
 import type { LotStatus, VehicleTypeCode } from '@/lib/types'
@@ -55,7 +56,11 @@ export async function getFree(db: Db, zoneId: string, vehicleType: VehicleTypeCo
  * `holdUntil > now`; `free` is clamped at 0.
  */
 export async function getAvailability(db: Db, now: Date = new Date()): Promise<LotAvailability[]> {
-  await expireReservations(db, now)
+  // Expiry here is committed immediately (not inside a caller's transaction),
+  // so broadcast it now: otherwise the 30 s timer later finds nothing to
+  // expire and existing SSE clients keep the stale count (FR-23, FR-25).
+  const expired = await expireReservations(db, now)
+  if (expired > 0) publishAvailabilityChanged()
 
   const lots = await db.parkingLot.findMany({
     include: {

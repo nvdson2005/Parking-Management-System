@@ -138,6 +138,21 @@ describe('buildReport', () => {
     expect(report.noShowRate).toBe(0.5)
   })
 
+  it('expires lapsed PENDING holds to NO_SHOW before computing noShowRate', async () => {
+    await resetDb()
+    const f = await seedCanonical()
+    const { addVehicle } = await import('@/server/services/vehicles')
+    const v4 = await addVehicle(db, { ownerId: f.student.id, plate: '51F-100.04', vehicleType: 'MOTORBIKE' })
+    // Hold lapsed (D is in the past) but the expiry timer has not run yet.
+    const lapsed = await makeReservation(f.student.id, v4.id, f.zoneA.id, local(D, 9), 'PENDING')
+
+    const report = await buildReport(db, { from: local(D, 0), to: local(D, 23) })
+
+    // 2 NO_SHOW / (4 - 1 CANCELLED)
+    expect(report.noShowRate).toBe(0.6667)
+    expect((await db.reservation.findUnique({ where: { id: lapsed.id } }))?.status).toBe('NO_SHOW')
+  })
+
   it('empty range -> zeros and noShowRate null', async () => {
     await resetDb()
     await makeFixture()

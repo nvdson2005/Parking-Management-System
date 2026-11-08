@@ -1,6 +1,8 @@
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { startOfLocalDay, endOfLocalDay } from '@/lib/time'
+import { expireReservations } from '@/server/services/reservations'
+import { publishAvailabilityChanged } from '@/server/bus'
 
 export type Report = {
   utilisationByHour: Array<{ hour: number; rate: number }>
@@ -41,6 +43,10 @@ export async function buildReport(db: Db, input: { from: Date; to: Date }): Prom
   if (startOfLocalDay(input.from) > startOfLocalDay(input.to)) {
     throw new DomainError('VALIDATION', 'from must be on or before to')
   }
+
+  // Lapsed holds must be NO_SHOW before the no-show rate is computed (spec §8).
+  const expired = await expireReservations(db)
+  if (expired > 0) publishAvailabilityChanged()
 
   const days: Date[] = []
   for (

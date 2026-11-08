@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { db } from '@/server/db'
 import { resetDb, makeFixture } from './helpers/db'
 import { getAvailability, getFree } from '@/server/services/availability'
+import { onAvailabilityChanged } from '@/server/bus'
 
 const NOW = new Date('2026-01-01T10:00:00Z')
 const HOLD_UNTIL = new Date('2026-01-01T10:30:00Z')
@@ -147,5 +148,34 @@ describe('availability service', () => {
     const moto = a[0].zones.find((z) => z.zoneName === 'A')!.byType.find((t) => t.vehicleType === 'MOTORBIKE')!
     expect(moto).toMatchObject({ reserved: 0, free: 2 })
     expect((await db.reservation.findUnique({ where: { id: stale.id } }))?.status).toBe('NO_SHOW')
+  })
+
+  it('publishes availability:changed when the read expires a hold, and only then', async () => {
+    await resetDb()
+    const fixture = await makeFixture()
+    const vehicle = await db.vehicle.create({
+      data: {
+        plate: '29A-00010',
+        qrCode: 'qr-pub',
+        rfidCode: 'rfid-pub',
+        vehicleTypeCode: 'MOTORBIKE',
+        ownerId: fixture.student.id,
+      },
+    })
+    await pendingReservation(fixture.zoneA.id, fixture.student.id, vehicle.id, NOW)
+
+    let events = 0
+    const off = onAvailabilityChanged(() => {
+      events++
+    })
+    try {
+      await getAvailability(db, NOW)
+      expect(events).toBe(1)
+      // Nothing left to expire: a second read must not broadcast again.
+      await getAvailability(db, NOW)
+      expect(events).toBe(1)
+    } finally {
+      off()
+    }
   })
 })
