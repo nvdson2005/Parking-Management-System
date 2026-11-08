@@ -22,6 +22,12 @@ export default async function ManagerPage() {
         <Link href="/manager/payments" className="hover:underline">
           {t(dict, 'payments.title')}
         </Link>
+        <Link href="/manager/accounts" className="hover:underline">
+          {t(dict, 'accounts.title')}
+        </Link>
+        <Link href="/manager/access-log" className="hover:underline">
+          {t(dict, 'accessLog.title')}
+        </Link>
       </nav>
       <LiveAvailability initial={initial} />
     </div>
