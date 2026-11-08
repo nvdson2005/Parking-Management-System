@@ -1,4 +1,5 @@
 import type { Db } from '@/server/db'
+import { expireReservations } from '@/server/services/reservations'
 import type { LotStatus, VehicleTypeCode } from '@/lib/types'
 
 export type TypeAvailability = {
@@ -54,6 +55,8 @@ export async function getFree(db: Db, zoneId: string, vehicleType: VehicleTypeCo
  * `holdUntil > now`; `free` is clamped at 0.
  */
 export async function getAvailability(db: Db, now: Date = new Date()): Promise<LotAvailability[]> {
+  await expireReservations(db, now)
+
   const lots = await db.parkingLot.findMany({
     include: {
       zones: {

@@ -128,4 +128,24 @@ describe('availability service', () => {
     const moto = a[0].zones.find((z) => z.zoneName === 'A')!.byType.find((t) => t.vehicleType === 'MOTORBIKE')!
     expect(moto).toMatchObject({ capacity: 2, open: 0, reserved: 0, free: 2 })
   })
+
+  it('expires stale PENDING reservations before reporting availability', async () => {
+    await resetDb()
+    const fixture = await makeFixture()
+    const vehicle = await db.vehicle.create({
+      data: {
+        plate: '29A-00009',
+        qrCode: 'qr-stale',
+        rfidCode: 'rfid-stale',
+        vehicleTypeCode: 'MOTORBIKE',
+        ownerId: fixture.student.id,
+      },
+    })
+    const stale = await pendingReservation(fixture.zoneA.id, fixture.student.id, vehicle.id, NOW)
+
+    const a = await getAvailability(db, NOW)
+    const moto = a[0].zones.find((z) => z.zoneName === 'A')!.byType.find((t) => t.vehicleType === 'MOTORBIKE')!
+    expect(moto).toMatchObject({ reserved: 0, free: 2 })
+    expect((await db.reservation.findUnique({ where: { id: stale.id } }))?.status).toBe('NO_SHOW')
+  })
 })

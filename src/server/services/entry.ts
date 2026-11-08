@@ -4,6 +4,7 @@ import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { withLock } from '@/server/lock'
 import { getFree } from '@/server/services/availability'
+import { expireReservations } from '@/server/services/reservations'
 import { findVehicleByIdentifier, generateCode } from '@/server/services/vehicles'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
@@ -79,6 +80,8 @@ export async function recordEntry(
 
   const session = await withLock(() =>
     prisma.$transaction(async (tx) => {
+      await expireReservations(tx, now)
+
       const zone = await tx.zone.findUnique({ where: { id: data.zoneId }, include: { lot: true } })
       if (!zone) throw new DomainError('NOT_FOUND', 'Zone not found')
       if (zone.lot.status === 'SUSPENDED') throw new DomainError('LOT_SUSPENDED', 'Lot is suspended')

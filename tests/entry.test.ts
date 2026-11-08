@@ -225,6 +225,37 @@ describe('recordEntry', () => {
     expect((await db.reservation.findUnique({ where: { id: reservation.id } }))?.status).toBe('CANCELLED')
   })
 
+  it('expires a stale reservation before the capacity check so the freed spot is usable', async () => {
+    await resetDb()
+    const f = await makeFixture({ carCapC: 1 })
+    const reserved = await addVehicle(db, { ownerId: f.student.id, plate: '51A-030.30', vehicleType: 'CAR' })
+    const now = new Date('2026-02-01T10:00:00Z')
+
+    const stale = await db.reservation.create({
+      data: {
+        customerId: f.student.id,
+        vehicleId: reserved.id,
+        zoneId: f.zoneC.id,
+        vehicleTypeCode: 'CAR',
+        arrivalTime: new Date('2026-02-01T09:00:00Z'),
+        holdUntil: new Date('2026-02-01T09:30:00Z'), // already elapsed at `now`
+        status: 'PENDING',
+      },
+    })
+
+    const session = await recordEntry(db, {
+      method: 'PLATE',
+      identifier: '51A-040.40',
+      zoneId: f.zoneC.id,
+      vehicleType: 'CAR',
+      staffId: f.staff.id,
+      now,
+    })
+
+    expect(session.status).toBe('OPEN')
+    expect((await db.reservation.findUnique({ where: { id: stale.id } }))?.status).toBe('NO_SHOW')
+  })
+
   it('20 concurrent entries into zone with cap 2 -> exactly 2 succeed', async () => {
     await resetDb()
     const f = await makeFixture()
