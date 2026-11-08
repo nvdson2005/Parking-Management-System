@@ -99,7 +99,7 @@ describe('customerHistory', () => {
     expect(history[0].paidAt).toBeNull()
   })
 
-  it('excludes sessions of a vehicle the customer no longer owns', async () => {
+  it('keeps sessions with the owner at entry time after the vehicle is removed and re-claimed', async () => {
     await resetDb()
     const f = await makeFixture()
     const { vehicle, session } = await openAndClose(
@@ -110,13 +110,19 @@ describe('customerHistory', () => {
       new Date('2025-01-01T08:00:00Z'),
       new Date('2025-01-01T10:00:00Z'),
     )
-    expect(session).toBeTruthy()
 
     // History has a session, so removeVehicle unlinks ownership rather than deleting.
     await removeVehicle(db, f.student.id, vehicle.id)
+    // Another customer claims the now-unlinked plate.
+    const claimed = await addVehicle(db, { ownerId: f.lecturer.id, plate: '51F-555.55', vehicleType: 'MOTORBIKE' })
+    expect(claimed.id).toBe(vehicle.id)
 
-    const history = await customerHistory(db, f.student.id)
-    expect(history).toHaveLength(0)
+    const former = await customerHistory(db, f.student.id)
+    expect(former.map((h) => h.sessionId)).toEqual([session.id])
+
+    // The new owner must not see the former owner's transactions.
+    const current = await customerHistory(db, f.lecturer.id)
+    expect(current).toHaveLength(0)
   })
 })
 

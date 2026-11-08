@@ -126,11 +126,15 @@ model ParkingSession {
   status          String
   reservationId   String?      @unique @map("reservation_id")
   reservation     Reservation? @relation(fields: [reservationId], references: [id])
+  /// Vehicle owner at entry time (null = Guest). Immutable; customer history
+  /// (FR-28) is scoped by this, not by the vehicle's current owner.
+  ownerId         String?      @map("owner_id")
 
   events  SessionEvent[]
   payment Payment?
 
   @@index([status, zoneId])
+  @@index([ownerId])
   @@map("parking_sessions")
 }
 

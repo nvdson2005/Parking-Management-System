@@ -1,10 +1,10 @@
 import type { Db } from '@/server/db'
 
 /**
- * Sessions of vehicles `customerId` currently owns (FR-28), newest first by
- * entry time. Ownership is checked live (`vehicle.ownerId`), so a session on
- * a vehicle the customer has since given up (unlinked by `removeVehicle`)
- * drops out of their history.
+ * Sessions the customer parked as owner (FR-28), newest first by entry time.
+ * Scoped by the owner snapshot taken at entry (`session.ownerId`), never by
+ * the vehicle's current owner: after `removeVehicle` and a re-claim, the
+ * former owner keeps their transactions and the new owner cannot see them.
  */
 export async function customerHistory(
   db: Db,
@@ -21,7 +21,7 @@ export async function customerHistory(
   }>
 > {
   const sessions = await db.parkingSession.findMany({
-    where: { vehicle: { ownerId: customerId } },
+    where: { ownerId: customerId },
     include: { zone: true, payment: true },
     orderBy: { entryTime: 'desc' },
   })

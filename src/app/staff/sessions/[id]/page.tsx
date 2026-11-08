@@ -57,7 +57,7 @@ export default async function StaffSessionDetailPage({
           <dl className="grid grid-cols-2 gap-2 text-sm">
             <dt className="text-muted-foreground">{t(dict, 'sessions.plate')}</dt>
             <dd className="font-mono">
-              {presentPlate(session.plateSnapshot, user, session.vehicle?.ownerId ?? null)}
+              {presentPlate(session.plateSnapshot, user, session.ownerId)}
             </dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.zone')}</dt>
             <dd>{session.zone.name}</dd>

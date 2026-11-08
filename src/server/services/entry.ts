@@ -138,6 +138,7 @@ export async function recordEntry(
           entryStaffId: data.staffId,
           status: 'OPEN',
           reservationId: ownReservationId,
+          ownerId: vehicle.ownerId,
         },
       })
 

@@ -44,7 +44,7 @@ export default async function StaffSessionsPage() {
               <TableRow key={session.id} className="cursor-pointer">
                 <TableCell className="font-mono">
                   <Link href={`/staff/sessions/${session.id}`} className="block hover:underline">
-                    {presentPlate(session.plateSnapshot, user, session.vehicle?.ownerId ?? null)}
+                    {presentPlate(session.plateSnapshot, user, session.ownerId)}
                   </Link>
                 </TableCell>
                 <TableCell>
