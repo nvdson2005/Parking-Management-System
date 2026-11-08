@@ -1,0 +1,121 @@
+erDiagram
+    roles ||--o{ users : "role_code"
+    users ||--o{ vehicles : "owner_id"
+    vehicle_types ||--o{ vehicles : "vehicle_type_code"
+    parking_lots ||--o{ zones : "lot_id"
+    zones ||--o{ zone_capacities : "zone_id"
+    vehicle_types ||--o{ zone_capacities : "vehicle_type_code"
+    vehicle_types ||--o{ tariffs : "vehicle_type_code"
+    vehicles |o--o{ parking_sessions : "vehicle_id"
+    zones ||--o{ parking_sessions : "zone_id"
+    vehicle_types ||--o{ parking_sessions : "vehicle_type_code"
+    users ||--o{ parking_sessions : "entry_staff_id / exit_staff_id"
+    parking_sessions ||--o{ session_events : "session_id"
+    users ||--o{ session_events : "staff_id"
+    users |o--o{ access_logs : "user_id"
+    users ||--o{ reservations : "customer_id (hoan)"
+    vehicles ||--o{ reservations : "vehicle_id (hoan)"
+    zones ||--o{ reservations : "zone_id (hoan)"
+    reservations |o--o| parking_sessions : "reservation_id (hoan)"
+    parking_sessions ||--o| payments : "session_id (hoan)"
+    users ||--o{ payments : "confirmed_by_id (hoan)"
+
+    roles {
+        string code PK
+    }
+    users {
+        string id PK
+        string email UK
+        string password_hash
+        string name
+        string role_code FK
+        string user_group
+        boolean locked
+        datetime created_at
+    }
+    vehicle_types {
+        string code PK
+        string name_vi
+        string name_en
+    }
+    parking_lots {
+        string id PK
+        string name
+        string address
+        string status
+    }
+    zones {
+        string id PK
+        string lot_id FK
+        string name
+    }
+    zone_capacities {
+        string zone_id PK
+        string vehicle_type_code PK
+        int capacity
+    }
+    tariffs {
+        string vehicle_type_code PK
+        string fee_group PK
+        int price
+    }
+    vehicles {
+        string id PK
+        string plate UK
+        string qr_code UK
+        string rfid_code UK
+        string vehicle_type_code FK
+        string owner_id FK
+        datetime created_at
+    }
+    parking_sessions {
+        string id PK
+        string vehicle_id FK
+        string plate_snapshot
+        string zone_id FK
+        string vehicle_type_code FK
+        string fee_group
+        string id_method
+        datetime entry_time
+        datetime exit_time
+        string entry_staff_id FK
+        string exit_staff_id FK
+        string status
+        string reservation_id FK
+        string owner_id
+    }
+    session_events {
+        string id PK
+        string session_id FK
+        string type
+        string staff_id FK
+        string note
+        datetime created_at
+    }
+    access_logs {
+        string id PK
+        string user_id FK
+        string action
+        string target
+        datetime created_at
+    }
+    reservations {
+        string id PK
+        string customer_id FK
+        string vehicle_id FK
+        string zone_id FK
+        string vehicle_type_code FK
+        datetime arrival_time
+        datetime hold_until
+        string status
+        string cancel_reason
+        string cancel_zone_id FK
+    }
+    payments {
+        string id PK
+        string session_id FK
+        int amount
+        string status
+        datetime paid_at
+        string confirmed_by_id FK
+    }

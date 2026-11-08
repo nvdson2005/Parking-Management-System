@@ -1,0 +1,1124 @@
+{
+  "days": [
+    {
+      "week": "W9",
+      "date": "09/11"
+    },
+    {
+      "week": "W9",
+      "date": "10/11"
+    },
+    {
+      "week": "W9",
+      "date": "11/11"
+    },
+    {
+      "week": "W9",
+      "date": "12/11"
+    },
+    {
+      "week": "W9",
+      "date": "13/11"
+    },
+    {
+      "week": "W10",
+      "date": "16/11"
+    },
+    {
+      "week": "W10",
+      "date": "17/11"
+    },
+    {
+      "week": "W10",
+      "date": "18/11"
+    },
+    {
+      "week": "W10",
+      "date": "19/11"
+    },
+    {
+      "week": "W10",
+      "date": "20/11"
+    },
+    {
+      "week": "W11",
+      "date": "23/11"
+    },
+    {
+      "week": "W11",
+      "date": "24/11"
+    },
+    {
+      "week": "W11",
+      "date": "25/11"
+    },
+    {
+      "week": "W11",
+      "date": "26/11"
+    },
+    {
+      "week": "W11",
+      "date": "27/11"
+    },
+    {
+      "week": "W12",
+      "date": "30/11"
+    },
+    {
+      "week": "W12",
+      "date": "01/12"
+    },
+    {
+      "week": "W12",
+      "date": "02/12"
+    },
+    {
+      "week": "W12",
+      "date": "03/12"
+    },
+    {
+      "week": "W12",
+      "date": "04/12"
+    }
+  ],
+  "totals": {
+    "baseEffort": 178.72,
+    "capacityTotal": 220,
+    "reserve": 11.5,
+    "exposure": 15.7,
+    "responseEffort": 6.33,
+    "totalWithReserve": 190.22,
+    "loading": 86.46,
+    "costBase": 8935833,
+    "costReserve": 575000,
+    "costTotal": 9510833,
+    "idealDurationDays": 15.35,
+    "levelledFinish": "03/12",
+    "levelledDays": 18.24,
+    "critical": [
+      "A-24",
+      "A-26",
+      "A-78",
+      "A-63",
+      "A-66",
+      "A-68",
+      "A-90",
+      "A-92"
+    ],
+    "resLoad": {
+      "RES-01": 35.58,
+      "RES-02": 34.13,
+      "RES-03": 37.13,
+      "RES-04": 35.92,
+      "RES-05": 35.96
+    }
+  },
+  "activities": [
+    {
+      "id": "A-01",
+      "name": "Viết SRS v1.0 phạm vi Must",
+      "product": "P02",
+      "pred": [],
+      "E": 12.33,
+      "dur": 4.01,
+      "ES": 0,
+      "EF": 4.008333333333334,
+      "LS": 1.604166666666667,
+      "LF": 5.612500000000001,
+      "TF": 1.604166666666667,
+      "lvStart": 0,
+      "lvFinish": 5.256944444444445,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-04": 0.65,
+        "RES-02": 0.35
+      }
+    },
+    {
+      "id": "A-09",
+      "name": "Review SRS",
+      "product": "P02",
+      "pred": [
+        "A-01"
+      ],
+      "E": 3,
+      "dur": 0.75,
+      "ES": 4.008333333333334,
+      "EF": 4.758333333333334,
+      "LS": 8.320833333333333,
+      "LF": 9.070833333333333,
+      "TF": 4.312499999999999,
+      "lvStart": 5,
+      "lvFinish": 5.881944444444445,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-01",
+      "assign": {
+        "RES-04": 0.5,
+        "RES-05": 0.3333333333333333,
+        "RES-01": 0.16666666666666666
+      }
+    },
+    {
+      "id": "A-13",
+      "name": "Thiết kế giao diện luồng cốt lõi",
+      "product": "P19",
+      "pred": [
+        "A-01"
+      ],
+      "E": 4.75,
+      "dur": 2.38,
+      "ES": 4.008333333333334,
+      "EF": 6.383333333333334,
+      "LS": 5.612500000000001,
+      "LF": 7.987500000000001,
+      "TF": 1.604166666666667,
+      "lvStart": 5,
+      "lvFinish": 7.944444444444445,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-04": 1
+      }
+    },
+    {
+      "id": "A-16",
+      "name": "Gửi câu hỏi vòng 3 và cập nhật Client Interaction Log",
+      "product": "P15",
+      "pred": [],
+      "E": 2,
+      "lvStart": 0,
+      "lvFinish": 10,
+      "critical": false,
+      "fixed": true,
+      "assign": {
+        "RES-01": 1
+      }
+    },
+    {
+      "id": "A-30",
+      "name": "Xây dựng che biển số, nhật ký truy cập và màn hình tài khoản",
+      "product": "P07",
+      "pred": [
+        "A-28"
+      ],
+      "E": 4.92,
+      "dur": 2.46,
+      "ES": 8.625,
+      "EF": 11.083333333333334,
+      "LS": 8.645833333333334,
+      "LF": 11.104166666666668,
+      "TF": 0.020833333333333925,
+      "lvStart": 10,
+      "lvFinish": 12.17361111111111,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-02": 1
+      }
+    },
+    {
+      "id": "A-66",
+      "name": "Xây dựng màn hình ghi nhận xe vào/ra",
+      "product": "P05",
+      "pred": [
+        "A-63",
+        "A-13"
+      ],
+      "E": 4.92,
+      "dur": 2.46,
+      "ES": 8.645833333333334,
+      "EF": 11.104166666666668,
+      "LS": 8.645833333333334,
+      "LF": 11.104166666666668,
+      "TF": 0,
+      "lvStart": 12,
+      "lvFinish": 14.17361111111111,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-04": 1
+      }
+    },
+    {
+      "id": "A-89",
+      "name": "Viết báo cáo kết quả nghiệm thu",
+      "product": "P14",
+      "pred": [
+        "A-88"
+      ],
+      "E": 3.17,
+      "dur": 0.79,
+      "ES": 13.908333333333335,
+      "EF": 14.700000000000001,
+      "LS": 14.562500000000002,
+      "LF": 15.354166666666668,
+      "TF": 0.6541666666666668,
+      "lvStart": 17,
+      "lvFinish": 18.243055555555557,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-04": 0.5,
+        "RES-03": 0.5
+      }
+    },
+    {
+      "id": "A-20",
+      "name": "Chọn công nghệ và thiết kế kiến trúc tổng thể",
+      "product": "P18",
+      "pred": [],
+      "E": 5.42,
+      "dur": 2.71,
+      "ES": 0,
+      "EF": 2.7083333333333335,
+      "LS": 2.1458333333333335,
+      "LF": 4.854166666666667,
+      "TF": 2.1458333333333335,
+      "lvStart": 0,
+      "lvFinish": 4.635416666666667,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-01": 1
+      }
+    },
+    {
+      "id": "A-21",
+      "name": "Thiết kế quy ước API và hợp đồng sự kiện vào/ra",
+      "product": "P18",
+      "pred": [
+        "A-20"
+      ],
+      "E": 3.17,
+      "dur": 0.79,
+      "ES": 2.7083333333333335,
+      "EF": 3.5,
+      "LS": 4.854166666666667,
+      "LF": 5.645833333333334,
+      "TF": 2.1458333333333335,
+      "lvStart": 4,
+      "lvFinish": 5.916666666666667,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-01": 0.5,
+        "RES-05": 0.5
+      }
+    },
+    {
+      "id": "A-22",
+      "name": "Đặc tả API mô-đun cốt lõi",
+      "product": "P18",
+      "pred": [
+        "A-21"
+      ],
+      "E": 4.83,
+      "dur": 1.21,
+      "ES": 3.5,
+      "EF": 4.708333333333333,
+      "LS": 8.708333333333334,
+      "LF": 9.916666666666668,
+      "TF": 5.208333333333334,
+      "lvStart": 5,
+      "lvFinish": 7.902777777777778,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-01": 0.5,
+        "RES-03": 0.5
+      }
+    },
+    {
+      "id": "A-23",
+      "name": "Review kiến trúc và API",
+      "product": "P18",
+      "pred": [
+        "A-22",
+        "A-09"
+      ],
+      "E": 2,
+      "dur": 0.5,
+      "ES": 4.758333333333334,
+      "EF": 5.258333333333334,
+      "LS": 9.916666666666668,
+      "LF": 10.416666666666668,
+      "TF": 5.158333333333334,
+      "lvStart": 7,
+      "lvFinish": 8.36111111111111,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-02",
+      "assign": {
+        "RES-02": 0.5,
+        "RES-03": 0.5
+      }
+    },
+    {
+      "id": "A-24",
+      "name": "Thiết kế ERD và từ điển dữ liệu",
+      "product": "P03",
+      "pred": [],
+      "E": 5.83,
+      "dur": 2.92,
+      "ES": 0,
+      "EF": 2.9166666666666665,
+      "LS": 0,
+      "LF": 2.9166666666666665,
+      "TF": 0,
+      "lvStart": 0,
+      "lvFinish": 3.895833333333333,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-03": 1
+      }
+    },
+    {
+      "id": "A-26",
+      "name": "Viết và kiểm thử script lược đồ, dữ liệu mẫu, script lưu giữ",
+      "product": "P03",
+      "pred": [
+        "A-24"
+      ],
+      "E": 5.42,
+      "dur": 2.71,
+      "ES": 2.9166666666666665,
+      "EF": 5.625,
+      "LS": 2.9166666666666665,
+      "LF": 5.625,
+      "TF": 0,
+      "lvStart": 3,
+      "lvFinish": 6.645833333333334,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-03": 1
+      }
+    },
+    {
+      "id": "A-27",
+      "name": "Review thiết kế CSDL",
+      "product": "P03",
+      "pred": [
+        "A-26"
+      ],
+      "E": 1.5,
+      "dur": 0.5,
+      "ES": 5.625,
+      "EF": 6.125,
+      "LS": 14.854166666666668,
+      "LF": 15.354166666666668,
+      "TF": 9.229166666666668,
+      "lvStart": 6,
+      "lvFinish": 6.854166666666667,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-03",
+      "assign": {
+        "RES-02": 0.6666666666666666,
+        "RES-03": 0.3333333333333333
+      }
+    },
+    {
+      "id": "A-28",
+      "name": "Xây dựng đăng ký, đăng nhập, phiên và RBAC",
+      "product": "P07",
+      "pred": [
+        "A-21",
+        "A-26"
+      ],
+      "E": 6,
+      "dur": 3,
+      "ES": 5.625,
+      "EF": 8.625,
+      "LS": 5.645833333333334,
+      "LF": 8.645833333333334,
+      "TF": 0.020833333333333925,
+      "lvStart": 8,
+      "lvFinish": 10.944444444444445,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-03": 1
+      }
+    },
+    {
+      "id": "A-90",
+      "name": "Tổng hợp số liệu thực tế và so sánh với baseline",
+      "product": "P17",
+      "pred": [
+        "A-68"
+      ],
+      "E": 3.42,
+      "dur": 1.71,
+      "ES": 11.895833333333334,
+      "EF": 13.604166666666668,
+      "LS": 11.895833333333334,
+      "LF": 13.604166666666668,
+      "TF": 0,
+      "lvStart": 15,
+      "lvFinish": 16.59027777777778,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-01": 1
+      }
+    },
+    {
+      "id": "A-40",
+      "name": "Xây dựng cấu hình, bộ sinh dữ liệu giả và bộ sinh sự kiện",
+      "product": "P04",
+      "pred": [],
+      "E": 4.75,
+      "dur": 2.38,
+      "ES": 0,
+      "EF": 2.375,
+      "LS": 4.270833333333334,
+      "LF": 6.645833333333334,
+      "TF": 4.270833333333334,
+      "lvStart": 0,
+      "lvFinish": 3.21875,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-42",
+      "name": "Xây dựng bộ gửi sự kiện và nhật ký chạy",
+      "product": "P04",
+      "pred": [
+        "A-40",
+        "A-21"
+      ],
+      "E": 3.75,
+      "dur": 1.88,
+      "ES": 3.5,
+      "EF": 5.375,
+      "LS": 6.645833333333334,
+      "LF": 8.520833333333334,
+      "TF": 3.145833333333334,
+      "lvStart": 5,
+      "lvFinish": 7.138888888888889,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-43",
+      "name": "Xây dựng kịch bản mô phỏng và README",
+      "product": "P04",
+      "pred": [
+        "A-42"
+      ],
+      "E": 4.17,
+      "dur": 2.08,
+      "ES": 5.375,
+      "EF": 7.458333333333334,
+      "LS": 8.520833333333334,
+      "LF": 10.604166666666668,
+      "TF": 3.145833333333334,
+      "lvStart": 7,
+      "lvFinish": 8.916666666666668,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-45",
+      "name": "Kiểm thử và review bộ mô phỏng",
+      "product": "P04",
+      "pred": [
+        "A-43"
+      ],
+      "E": 2,
+      "dur": 0.5,
+      "ES": 7.458333333333334,
+      "EF": 7.958333333333334,
+      "LS": 10.604166666666668,
+      "LF": 11.104166666666668,
+      "TF": 3.145833333333334,
+      "lvStart": 8,
+      "lvFinish": 9.375,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-04",
+      "assign": {
+        "RES-05": 0.5,
+        "RES-02": 0.5
+      }
+    },
+    {
+      "id": "A-47",
+      "name": "Tạo dữ liệu mô phỏng bãi thí điểm",
+      "product": "P22",
+      "pred": [
+        "A-26",
+        "A-42"
+      ],
+      "E": 2.25,
+      "dur": 1.13,
+      "ES": 5.625,
+      "EF": 6.75,
+      "LS": 9.291666666666668,
+      "LF": 10.416666666666668,
+      "TF": 3.666666666666668,
+      "lvStart": 9,
+      "lvFinish": 10.354166666666668,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-48",
+      "name": "Xây dựng mô-đun hiển thị tình trạng chỗ đỗ",
+      "product": "P09",
+      "pred": [
+        "A-21",
+        "A-26",
+        "A-13"
+      ],
+      "E": 7,
+      "dur": 3.5,
+      "ES": 6.383333333333334,
+      "EF": 9.883333333333333,
+      "LS": 7.987500000000001,
+      "LF": 11.4875,
+      "TF": 1.604166666666667,
+      "lvStart": 11,
+      "lvFinish": 14.305555555555555,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-79",
+      "name": "Xây dựng bộ kiểm thử hợp đồng API vào/ra",
+      "product": "P05",
+      "pred": [
+        "A-21"
+      ],
+      "E": 2.08,
+      "dur": 1.04,
+      "ES": 3.5,
+      "EF": 4.541666666666667,
+      "LS": 9.375000000000002,
+      "LF": 10.416666666666668,
+      "TF": 5.875000000000002,
+      "lvStart": 10,
+      "lvFinish": 11.26388888888889,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-33",
+      "name": "Viết hướng dẫn cài đặt và chạy demo",
+      "product": "P13",
+      "pred": [
+        "A-45"
+      ],
+      "E": 2,
+      "dur": 1,
+      "ES": 7.958333333333334,
+      "EF": 8.958333333333334,
+      "LS": 12.854166666666668,
+      "LF": 13.854166666666668,
+      "TF": 4.895833333333334,
+      "lvStart": 13,
+      "lvFinish": 14.809027777777779,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-03": 1
+      }
+    },
+    {
+      "id": "A-61",
+      "name": "Kiểm thử mô-đun quản lý thông tin bãi",
+      "product": "P08",
+      "pred": [
+        "A-60",
+        "A-28"
+      ],
+      "E": 1.5,
+      "dur": 0.75,
+      "ES": 8.625,
+      "EF": 9.375,
+      "LS": 11.7375,
+      "LF": 12.4875,
+      "TF": 3.1125000000000007,
+      "lvStart": 11,
+      "lvFinish": 11.833333333333334,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-01": 1
+      }
+    },
+    {
+      "id": "A-68",
+      "name": "Kiểm thử mô-đun xe ra/vào",
+      "product": "P05",
+      "pred": [
+        "A-66",
+        "A-67",
+        "A-30",
+        "A-45"
+      ],
+      "E": 3.17,
+      "dur": 0.79,
+      "ES": 11.104166666666668,
+      "EF": 11.895833333333334,
+      "LS": 11.104166666666668,
+      "LF": 11.895833333333334,
+      "TF": 0,
+      "lvStart": 14,
+      "lvFinish": 15.579861111111112,
+      "critical": true,
+      "fixed": false,
+      "cp": "CP-05",
+      "assign": {
+        "RES-05": 0.5,
+        "RES-02": 0.5
+      }
+    },
+    {
+      "id": "A-60",
+      "name": "Xây dựng mô-đun quản lý thông tin bãi",
+      "product": "P08",
+      "pred": [
+        "A-21",
+        "A-26",
+        "A-13"
+      ],
+      "E": 7.92,
+      "dur": 1.98,
+      "ES": 6.383333333333334,
+      "EF": 8.3625,
+      "LS": 9.758333333333335,
+      "LF": 11.7375,
+      "TF": 3.375000000000001,
+      "lvStart": 7,
+      "lvFinish": 11.409722222222223,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-04": 0.5,
+        "RES-01": 0.5
+      }
+    },
+    {
+      "id": "A-78",
+      "name": "Thử nghiệm xử lý đồng thời cập nhật chỗ trống",
+      "product": "P05",
+      "pred": [
+        "A-26"
+      ],
+      "E": 2.08,
+      "dur": 1.04,
+      "ES": 5.625,
+      "EF": 6.666666666666667,
+      "LS": 5.625,
+      "LF": 6.666666666666667,
+      "TF": 0,
+      "lvStart": 7,
+      "lvFinish": 8.666666666666668,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-01": 1
+      }
+    },
+    {
+      "id": "A-63",
+      "name": "Xây dựng API sự kiện vào/ra và cập nhật chỗ trống",
+      "product": "P05",
+      "pred": [
+        "A-21",
+        "A-26",
+        "A-78"
+      ],
+      "E": 7.92,
+      "dur": 1.98,
+      "ES": 6.666666666666667,
+      "EF": 8.645833333333334,
+      "LS": 6.666666666666667,
+      "LF": 8.645833333333334,
+      "TF": 0,
+      "lvStart": 8,
+      "lvFinish": 12.677083333333334,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-03": 0.5,
+        "RES-04": 0.5
+      }
+    },
+    {
+      "id": "A-65",
+      "name": "Xây dựng xử lý 5 ngoại lệ xe vào/ra",
+      "product": "P05",
+      "pred": [
+        "A-63"
+      ],
+      "E": 5.83,
+      "dur": 1.46,
+      "ES": 8.645833333333334,
+      "EF": 10.104166666666668,
+      "LS": 8.958333333333334,
+      "LF": 10.416666666666668,
+      "TF": 0.3125,
+      "lvStart": 12,
+      "lvFinish": 13.934027777777779,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-03": 0.5,
+        "RES-01": 0.5
+      }
+    },
+    {
+      "id": "A-67",
+      "name": "Tích hợp mô-đun xe ra/vào với bộ mô phỏng",
+      "product": "P05",
+      "pred": [
+        "A-65",
+        "A-42",
+        "A-47",
+        "A-79",
+        "A-23"
+      ],
+      "E": 2.75,
+      "dur": 0.69,
+      "ES": 10.104166666666668,
+      "EF": 10.791666666666668,
+      "LS": 10.416666666666668,
+      "LF": 11.104166666666668,
+      "TF": 0.3125,
+      "lvStart": 13,
+      "lvFinish": 14.878472222222223,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-01": 0.5,
+        "RES-05": 0.5
+      }
+    },
+    {
+      "id": "A-49",
+      "name": "Kiểm thử mô-đun hiển thị chỗ trống",
+      "product": "P09",
+      "pred": [
+        "A-48",
+        "A-67"
+      ],
+      "E": 2,
+      "dur": 1,
+      "ES": 10.791666666666668,
+      "EF": 11.791666666666668,
+      "LS": 11.4875,
+      "LF": 12.4875,
+      "TF": 0.6958333333333329,
+      "lvStart": 14,
+      "lvFinish": 15.465277777777779,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-04": 1
+      }
+    },
+    {
+      "id": "A-31",
+      "name": "Kiểm thử mô-đun xác thực và phân quyền",
+      "product": "P07",
+      "pred": [
+        "A-30"
+      ],
+      "E": 2,
+      "dur": 1,
+      "ES": 11.083333333333334,
+      "EF": 12.083333333333334,
+      "LS": 11.4875,
+      "LF": 12.4875,
+      "TF": 0.4041666666666668,
+      "lvStart": 15,
+      "lvFinish": 16.45486111111111,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-05": 1
+      }
+    },
+    {
+      "id": "A-80",
+      "name": "Viết kế hoạch kiểm thử",
+      "product": "P20",
+      "pred": [
+        "A-01"
+      ],
+      "E": 3.75,
+      "dur": 1.88,
+      "ES": 4.008333333333334,
+      "EF": 5.883333333333334,
+      "LS": 7.195833333333333,
+      "LF": 9.070833333333333,
+      "TF": 3.187499999999999,
+      "lvStart": 5,
+      "lvFinish": 7.520833333333334,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-02": 1
+      }
+    },
+    {
+      "id": "A-82",
+      "name": "Viết kịch bản nghiệm thu chính AT-01 đến AT-04",
+      "product": "P21",
+      "pred": [
+        "A-80",
+        "A-09"
+      ],
+      "E": 3.17,
+      "dur": 1.58,
+      "ES": 5.883333333333334,
+      "EF": 7.466666666666667,
+      "LS": 9.070833333333333,
+      "LF": 10.654166666666667,
+      "TF": 3.187499999999999,
+      "lvStart": 7,
+      "lvFinish": 9.340277777777779,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-02": 1
+      }
+    },
+    {
+      "id": "A-83",
+      "name": "Viết kịch bản nghiệm thu ngoại lệ và kịch bản 100 lượt",
+      "product": "P21",
+      "pred": [
+        "A-80",
+        "A-09"
+      ],
+      "E": 3.17,
+      "dur": 1.58,
+      "ES": 5.883333333333334,
+      "EF": 7.466666666666667,
+      "LS": 9.070833333333333,
+      "LF": 10.654166666666667,
+      "TF": 3.187499999999999,
+      "lvStart": 9,
+      "lvFinish": 12.833333333333334,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-02": 1
+      }
+    },
+    {
+      "id": "A-85",
+      "name": "Review bộ test nghiệm thu và gửi khách hàng xác nhận",
+      "product": "P21",
+      "pred": [
+        "A-82",
+        "A-83"
+      ],
+      "E": 2.5,
+      "dur": 0.75,
+      "ES": 7.466666666666667,
+      "EF": 8.216666666666667,
+      "LS": 10.654166666666667,
+      "LF": 11.404166666666667,
+      "TF": 3.1875,
+      "lvStart": 12,
+      "lvFinish": 14.590277777777779,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-06",
+      "assign": {
+        "RES-02": 0.6,
+        "RES-04": 0.4
+      }
+    },
+    {
+      "id": "A-95",
+      "name": "Chạy thử sớm AT-01, AT-02 và kịch bản 100 lượt",
+      "product": "P21",
+      "pred": [
+        "A-85",
+        "A-67"
+      ],
+      "E": 2.17,
+      "dur": 1.08,
+      "ES": 10.791666666666668,
+      "EF": 11.875000000000002,
+      "LS": 11.404166666666667,
+      "LF": 12.4875,
+      "TF": 0.6124999999999989,
+      "lvStart": 14,
+      "lvFinish": 15.645833333333334,
+      "critical": false,
+      "fixed": false,
+      "assign": {
+        "RES-02": 1
+      }
+    },
+    {
+      "id": "A-87",
+      "name": "Chạy thử nghiệm thu nội bộ",
+      "product": "P21",
+      "pred": [
+        "A-95",
+        "A-68",
+        "A-49",
+        "A-31",
+        "A-61"
+      ],
+      "E": 4.47,
+      "dur": 1.12,
+      "ES": 12.083333333333334,
+      "EF": 13.200000000000001,
+      "LS": 12.4875,
+      "LF": 13.604166666666668,
+      "TF": 0.4041666666666668,
+      "lvStart": 16,
+      "lvFinish": 16.97222222222222,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-07",
+      "assign": {
+        "RES-02": 0.5,
+        "RES-04": 0.5
+      }
+    },
+    {
+      "id": "A-88",
+      "name": "Trình diễn nghiệm thu với khách hàng",
+      "product": "P14",
+      "pred": [
+        "A-87",
+        "A-33"
+      ],
+      "E": 2.83,
+      "dur": 0.71,
+      "ES": 13.200000000000001,
+      "EF": 13.908333333333335,
+      "LS": 13.854166666666668,
+      "LF": 14.562500000000002,
+      "TF": 0.6541666666666668,
+      "lvStart": 16,
+      "lvFinish": 17.26388888888889,
+      "critical": false,
+      "fixed": false,
+      "cp": "CP-08",
+      "assign": {
+        "RES-01": 0.5,
+        "RES-05": 0.5
+      }
+    },
+    {
+      "id": "A-92",
+      "name": "Viết và rà soát báo cáo quản lý dự án cuối kỳ",
+      "product": "P17",
+      "pred": [
+        "A-90",
+        "A-87"
+      ],
+      "E": 5.83,
+      "dur": 1.75,
+      "ES": 13.604166666666668,
+      "EF": 15.354166666666668,
+      "LS": 13.604166666666668,
+      "LF": 15.354166666666668,
+      "TF": 0,
+      "lvStart": 16,
+      "lvFinish": 17.98611111111111,
+      "critical": true,
+      "fixed": false,
+      "assign": {
+        "RES-03": 0.6,
+        "RES-02": 0.4
+      }
+    },
+    {
+      "id": "A-94",
+      "name": "Ghi nhật ký dự án hằng tuần",
+      "product": "P16",
+      "pred": [],
+      "E": 2,
+      "lvStart": 0,
+      "lvFinish": 20,
+      "critical": false,
+      "fixed": true,
+      "assign": {
+        "RES-01": 0.5
+      }
+    },
+    {
+      "id": "A-97",
+      "name": "Họp tiến độ hằng tuần",
+      "product": "P16",
+      "pred": [],
+      "E": 7.5,
+      "lvStart": 0,
+      "lvFinish": 15,
+      "critical": false,
+      "fixed": true,
+      "assign": {
+        "RES-01": 0.5,
+        "RES-02": 0.5,
+        "RES-03": 0.5,
+        "RES-04": 0.5,
+        "RES-05": 0.5
+      }
+    },
+    {
+      "id": "A-91",
+      "name": "Họp tổng kết và ghi bài học kinh nghiệm",
+      "product": "P17",
+      "pred": [],
+      "E": 2.5,
+      "lvStart": 15,
+      "lvFinish": 20,
+      "critical": false,
+      "fixed": true,
+      "assign": {
+        "RES-01": 0.5,
+        "RES-02": 0.5,
+        "RES-03": 0.5,
+        "RES-04": 0.5,
+        "RES-05": 0.5
+      }
+    },
+    {
+      "id": "A-99",
+      "name": "Phân tích tác động sự kiện thay đổi và cập nhật baseline",
+      "product": "P01",
+      "pred": [],
+      "E": 3,
+      "lvStart": 5,
+      "lvFinish": 15,
+      "critical": false,
+      "fixed": true,
+      "assign": {
+        "RES-01": 1.5
+      }
+    }
+  ]
+}
