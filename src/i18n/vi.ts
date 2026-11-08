@@ -88,6 +88,10 @@ export const vi = {
     status: 'Trạng thái',
     holdUntil: 'Giữ chỗ đến',
     selectVehicle: 'Chọn xe',
+    cancelReason: {
+      CUSTOMER: 'Đã hủy bởi bạn',
+      ENTERED_OTHER_ZONE: 'Đã hủy: bạn đã đỗ xe ở khu vực {zone}',
+    },
     selectZone: 'Chọn khu vực',
     statuses: {
       PENDING: 'Đang chờ',

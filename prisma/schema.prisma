@@ -73,7 +73,8 @@ model Zone {
 
   capacities   ZoneCapacity[]
   sessions     ParkingSession[]
-  reservations Reservation[]
+  reservations          Reservation[] @relation("ReservationZone")
+  cancelledReservations Reservation[] @relation("ReservationCancelZone")
 
   @@map("zones")
 }
@@ -158,13 +159,18 @@ model Reservation {
   vehicleId       String      @map("vehicle_id")
   vehicle         Vehicle     @relation(fields: [vehicleId], references: [id])
   zoneId          String      @map("zone_id")
-  zone            Zone        @relation(fields: [zoneId], references: [id])
+  zone            Zone        @relation("ReservationZone", fields: [zoneId], references: [id])
   vehicleTypeCode String      @map("vehicle_type_code")
   vehicleType     VehicleType @relation(fields: [vehicleTypeCode], references: [code])
   arrivalTime     DateTime    @map("arrival_time")
   holdUntil       DateTime    @map("hold_until")
   status          String
   createdAt       DateTime    @default(now()) @map("created_at")
+  /// Why a CANCELLED reservation was cancelled: CUSTOMER | ENTERED_OTHER_ZONE (D-41).
+  cancelReason    String?     @map("cancel_reason")
+  /// For ENTERED_OTHER_ZONE: the zone the vehicle actually entered.
+  cancelZoneId    String?     @map("cancel_zone_id")
+  cancelZone      Zone?       @relation("ReservationCancelZone", fields: [cancelZoneId], references: [id])
 
   session ParkingSession?
 

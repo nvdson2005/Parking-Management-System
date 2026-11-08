@@ -223,6 +223,8 @@ describe('cancelReservation', () => {
       now: new Date(arrival.getTime() - 10 * MINUTE),
     })
     expect(cancelled.status).toBe('CANCELLED')
+    expect(cancelled.cancelReason).toBe('CUSTOMER')
+    expect(cancelled.cancelZoneId).toBeNull()
 
     const again = await createReservation(db, {
       customerId: f.student.id,

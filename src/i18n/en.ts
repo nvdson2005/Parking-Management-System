@@ -89,6 +89,10 @@ export const en: Dict = {
     status: 'Status',
     holdUntil: 'Hold until',
     selectVehicle: 'Select a vehicle',
+    cancelReason: {
+      CUSTOMER: 'Cancelled by you',
+      ENTERED_OTHER_ZONE: 'Cancelled: you parked in zone {zone} instead',
+    },
     selectZone: 'Select a zone',
     statuses: {
       PENDING: 'Pending',

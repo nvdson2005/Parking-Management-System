@@ -93,6 +93,7 @@ The three highest-priority client functions: vehicle entry/exit management, park
 | D-38 | Language toggle is available on **every page** | FR-05 |
 | D-39 | A Customer sees **own vehicles' plates in full**; other plates masked per D-13 | Section 4 |
 | D-40 | Seed accounts: **at least 15 Customers, 2 Staff, 2 Managers** | Section 7.1 |
+| D-41 | A CANCELLED reservation records why: **by the Customer** or **vehicle entered another zone** (with that zone). The Customer's reservation list shows the reason. Added after demo testing 2026-11-08 | FR-22, FR-24 |
 
 ### 2.1 Basis of each decision
 
@@ -146,6 +147,7 @@ The three highest-priority client functions: vehicle entry/exit management, park
 | D-38 toggle on every page | [TEAM] | — |
 | D-39 customer sees own plates | [DOC+TEAM] masking `[M1 CN4]`; own-plate rule = team | — |
 | D-40 seed accounts 15/2/2 | [TEAM] | — |
+| D-41 cancel reason shown to Customer | [TEAM] | — |
 
 ---
 

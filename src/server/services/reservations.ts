@@ -140,7 +140,10 @@ export async function cancelReservation(
         throw new DomainError('NOT_CANCELLABLE', 'This reservation cannot be cancelled')
       }
 
-      return tx.reservation.update({ where: { id: existing.id }, data: { status: 'CANCELLED' } })
+      return tx.reservation.update({
+        where: { id: existing.id },
+        data: { status: 'CANCELLED', cancelReason: 'CUSTOMER' },
+      })
     }),
   )
 
@@ -148,6 +151,17 @@ export async function cancelReservation(
   return reservation
 }
 
-export async function listReservations(db: Db, customerId: string): Promise<Reservation[]> {
-  return db.reservation.findMany({ where: { customerId }, orderBy: { arrivalTime: 'desc' } })
+export type ReservationListItem = Reservation & { cancelZoneName: string | null }
+
+/**
+ * The customer's reservations, newest arrival first. `cancelZoneName` is the
+ * zone the vehicle entered instead, for `ENTERED_OTHER_ZONE` cancellations (D-41).
+ */
+export async function listReservations(db: Db, customerId: string): Promise<ReservationListItem[]> {
+  const rows = await db.reservation.findMany({
+    where: { customerId },
+    orderBy: { arrivalTime: 'desc' },
+    include: { cancelZone: { select: { name: true } } },
+  })
+  return rows.map(({ cancelZone, ...r }) => ({ ...r, cancelZoneName: cancelZone?.name ?? null }))
 }

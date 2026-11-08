@@ -222,7 +222,15 @@ describe('recordEntry', () => {
 
     expect(session.reservationId).toBeNull()
     expect(session.zoneId).toBe(f.zoneA.id)
-    expect((await db.reservation.findUnique({ where: { id: reservation.id } }))?.status).toBe('CANCELLED')
+    const cancelled = await db.reservation.findUnique({ where: { id: reservation.id } })
+    expect(cancelled?.status).toBe('CANCELLED')
+    expect(cancelled?.cancelReason).toBe('ENTERED_OTHER_ZONE')
+    expect(cancelled?.cancelZoneId).toBe(f.zoneA.id)
+
+    // The customer's list carries the zone they actually entered, for display.
+    const { listReservations } = await import('@/server/services/reservations')
+    const listed = (await listReservations(db, f.student.id)).find((r) => r.id === reservation.id)
+    expect(listed?.cancelZoneName).toBe('A')
   })
 
   it('expires a stale reservation before the capacity check so the freed spot is usable', async () => {

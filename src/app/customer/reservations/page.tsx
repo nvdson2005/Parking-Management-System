@@ -45,6 +45,8 @@ type Reservation = {
   arrivalTime: string
   holdUntil: string
   status: ReservationStatus
+  cancelReason: 'CUSTOMER' | 'ENTERED_OTHER_ZONE' | null
+  cancelZoneName: string | null
 }
 
 function toLocalDateTimeInput(d: Date): string {
@@ -258,6 +260,11 @@ export default function ReservationsPage() {
                     <span className="font-medium">
                       {t('reservations.status')}: {t(`reservations.statuses.${r.status}`)}
                     </span>
+                    {r.status === 'CANCELLED' && r.cancelReason ? (
+                      <span className="text-muted-foreground">
+                        {t(`reservations.cancelReason.${r.cancelReason}`).replace('{zone}', r.cancelZoneName ?? '')}
+                      </span>
+                    ) : null}
                     <span className="text-muted-foreground">
                       {t('reservations.arrivalTime')}: {new Date(r.arrivalTime).toLocaleString()}
                     </span>

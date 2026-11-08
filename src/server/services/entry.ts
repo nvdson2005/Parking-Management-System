@@ -112,7 +112,10 @@ export async function recordEntry(
         } else {
           // Reservation held for a different zone: cancel it (D-34) and
           // treat this as a walk-in.
-          await tx.reservation.update({ where: { id: reservation.id }, data: { status: 'CANCELLED' } })
+          await tx.reservation.update({
+            where: { id: reservation.id },
+            data: { status: 'CANCELLED', cancelReason: 'ENTERED_OTHER_ZONE', cancelZoneId: data.zoneId },
+          })
         }
       }
 

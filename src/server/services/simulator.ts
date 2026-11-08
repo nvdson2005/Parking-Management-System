@@ -347,6 +347,7 @@ export async function generateHistory(
     arrivalTime: Date
     holdUntil: Date
     status: string
+    cancelReason?: string
     createdAt: Date
   }
 
@@ -404,6 +405,7 @@ export async function generateHistory(
         const cap = matching.length > 0 ? pick(matching) : pick(capacities)
         const arrival = new Date(base)
         arrival.setHours(randomInt(6, 20), randomInt(0, 59), 0, 0)
+        const status = RESERVATION_STATUSES[r % RESERVATION_STATUSES.length]
         reservationRows.push({
           customerId: vehicle.ownerId!,
           vehicleId: vehicle.id,
@@ -412,7 +414,9 @@ export async function generateHistory(
           arrivalTime: arrival,
           holdUntil: new Date(arrival.getTime() + 30 * 60_000),
           // Cycle the terminal statuses so every demo run shows all three.
-          status: RESERVATION_STATUSES[r % RESERVATION_STATUSES.length],
+          status,
+          // Generated cancellations model a customer cancelling (D-41).
+          ...(status === 'CANCELLED' ? { cancelReason: 'CUSTOMER' } : {}),
           createdAt: arrival,
         })
       }
