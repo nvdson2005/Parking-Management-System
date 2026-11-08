@@ -36,6 +36,18 @@ npm test        # vitest run — full suite (130 tests)
 npm run build   # production build / type-check
 ```
 
+## Verification
+
+The automated suite (130 tests) covers the API, services, RBAC, i18n key
+parity, fee/exception logic and the live-availability stream. In addition, the
+demo flows were walked through in a real Chromium browser (Playwright) using
+separate browser contexts per role. That pass confirmed, at a **375px** viewport
+with no horizontal overflow, each customer/staff/manager/auth page listed below;
+the **VI ↔ EN** toggle switching every page's header between languages; a
+rendered customer **QR image** with nonzero natural dimensions; and a Zone A
+motorbike reservation made in the customer context dropping the live free count
+on the staff page (150 → 149) via the SSE stream.
+
 ## Demo accounts
 
 All accounts share the password **`password123`**.
@@ -104,5 +116,6 @@ Use separate browsers/profiles per role so you can watch live updates.
    and opens `/manager/reports` with a date range.
 9. **Manager views the access log** (`/manager/access-log`, showing LOGIN /
    VIEW_FULL_PLATE / PURGE entries) and runs a purge, which masks old plate rows.
-10. **Language toggle VI ↔ EN** works on every page; the layout is responsive
-    down to 375px width.
+10. **Language toggle VI ↔ EN** works on every page (verified in-browser across
+    all customer, staff, manager and auth pages); the layout fits a 375px-wide
+    viewport with no horizontal overflow.
