@@ -1,0 +1,13 @@
+import { PrismaClient, Prisma } from '@prisma/client'
+
+declare global {
+  var __prisma: PrismaClient | undefined
+}
+
+export const db = globalThis.__prisma ?? new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') {
+  globalThis.__prisma = db
+}
+
+export type Db = PrismaClient | Prisma.TransactionClient

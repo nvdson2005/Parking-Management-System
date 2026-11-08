@@ -597,7 +597,7 @@ it('walk-in rejected when last free spot is reserved (ZONE_FULL)');
 - Create: `src/server/services/history.ts`, `src/app/customer/history/page.tsx`, `src/app/manager/payments/page.tsx`, `tests/history.test.ts`
 
 **Interfaces — Produces:**
-- `customerHistory(db: Db, customerId: string): Promise<Array<{sessionId: string; plate: string; zoneName: string; entryTime: Date; exitTime: Date | null; amount: number | null; paidAt: Date | null}>>`. Sessions of vehicles the customer currently owns, newest first (FR-28).
+- `customerHistory(db: Db, customerId: string): Promise<Array<{sessionId: string; plate: string; zoneName: string; entryTime: Date; exitTime: Date | null; amount: number | null; paidAt: Date | null}>>`. Sessions whose owner snapshot at entry (`parking_sessions.owner_id`) is the customer, newest first (FR-28); never scoped by current vehicle owner.
 - `allPayments(db: Db, opts: {from?: Date; to?: Date}): Promise<Array<{paymentId: string; plateSnapshot: string; amount: number; paidAt: Date; confirmedByName: string; zoneName: string}>>`, newest first.
 - Pages render tables. The customer sees own plates in full (D-39). The manager sees full plates; `[purged]` is shown as-is.
 
