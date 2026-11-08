@@ -1,0 +1,2 @@
+Tên đề tài: Hệ thống quản lý bãi đỗ xe thông minh (Smart Parking Management System)
+Mô tả: Một trường đại học muốn xây dựng hệ thống hỗ trợ quản lý bãi đỗ xe dành cho sinh viên, giảng viên và nhân viên. Hiện nay, việc sử dụng các khu vực đỗ xe chủ yếu được quản lý theo phương thức truyền thống, khiến người dùng khó biết trước tình trạng chỗ đỗ và đơn vị quản lý cũng gặp khó khăn trong việc theo dõi nhu cầu sử dụng. Hệ thống mới được kỳ vọng hỗ trợ việc quản lý chỗ đỗ xe, nhu cầu sử dụng chỗ đỗ và các dịch vụ có liên quan đến bãi đỗ xe.
