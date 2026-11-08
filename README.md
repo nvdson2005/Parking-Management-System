@@ -32,13 +32,13 @@ demo accounts. Re-run it any time to return to a clean demo state.
 ## Tests
 
 ```bash
-npm test        # vitest run — full suite (130 tests)
+npm test        # vitest run — full suite (137 tests)
 npm run build   # production build / type-check
 ```
 
 ## Verification
 
-The automated suite (130 tests) covers the API, services, RBAC, i18n key
+The automated suite (137 tests) covers the API, services, RBAC, i18n key
 parity, fee/exception logic and the live-availability stream. In addition, the
 demo flows were walked through in a real Chromium browser (Playwright) using
 separate browser contexts per role. That pass confirmed, at a **375px** viewport

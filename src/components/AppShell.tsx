@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { useT } from '@/components/I18nProvider'
 import { LangToggle } from '@/components/LangToggle'
 import type { Role } from '@/lib/types'
+import { ROLE_LINKS } from '@/lib/nav'
 import type { CurrentUser } from '@/server/auth/session'
 
 export type NavItem = {
@@ -26,7 +27,8 @@ type AppShellUser = Pick<CurrentUser, 'name' | 'role'>
 
 /**
  * Top bar shown on every page, including `/login` and `/register` (D-38):
- * app name, the signed-in user's role home link plus any page-specific
+ * app name, the signed-in user's role home link and every page of that role
+ * (`ROLE_LINKS`), plus any page-specific
  * `nav` items, the language toggle, and logout (or login/register links
  * when signed out). Collapses to a menu below `md`.
  */
@@ -45,7 +47,12 @@ export function AppShell({
   const [loggingOut, setLoggingOut] = useState(false)
   const [logoutError, setLogoutError] = useState<string | null>(null)
 
-  const roleNav: NavItem[] = user ? [{ href: ROLE_HOME[user.role], label: t(`nav.${user.role.toLowerCase()}`) }] : []
+  const roleNav: NavItem[] = user
+    ? [
+        { href: ROLE_HOME[user.role], label: t(`nav.${user.role.toLowerCase()}`) },
+        ...ROLE_LINKS[user.role].map((link) => ({ href: link.href, label: t(link.labelKey) })),
+      ]
+    : []
   const navItems = [...roleNav, ...nav]
 
   async function handleLogout() {
