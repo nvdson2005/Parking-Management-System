@@ -1,14 +1,14 @@
 function getLockPromise(): Promise<void> {
-  const globalThis_ = globalThis as Record<string, any>
-  if (!globalThis_.__lockPromise) {
-    globalThis_.__lockPromise = Promise.resolve()
+  const store = globalThis as typeof globalThis & { __lockPromise?: Promise<void> }
+  if (!store.__lockPromise) {
+    store.__lockPromise = Promise.resolve()
   }
-  return globalThis_.__lockPromise
+  return store.__lockPromise
 }
 
 function setLockPromise(promise: Promise<void>): void {
-  const globalThis_ = globalThis as Record<string, any>
-  globalThis_.__lockPromise = promise
+  const store = globalThis as typeof globalThis & { __lockPromise?: Promise<void> }
+  store.__lockPromise = promise
 }
 
 export async function withLock<T>(fn: () => Promise<T>): Promise<T> {

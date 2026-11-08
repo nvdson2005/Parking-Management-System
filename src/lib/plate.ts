@@ -5,7 +5,7 @@ export function normalizePlate(raw: string): string {
 }
 
 export function maskPlate(plate: string): string {
-  let hyphenIndex = plate.indexOf('-')
+  const hyphenIndex = plate.indexOf('-')
   let prefix: string
   let rest: string
 

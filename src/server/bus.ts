@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events'
 
 function getEventEmitter(): EventEmitter {
-  const globalThis_ = globalThis as Record<string, any>
-  if (!globalThis_.__availabilityBus) {
-    globalThis_.__availabilityBus = new EventEmitter()
+  const store = globalThis as typeof globalThis & { __availabilityBus?: EventEmitter }
+  if (!store.__availabilityBus) {
+    store.__availabilityBus = new EventEmitter()
   }
-  return globalThis_.__availabilityBus
+  return store.__availabilityBus
 }
 
 export function publishAvailabilityChanged(): void {
