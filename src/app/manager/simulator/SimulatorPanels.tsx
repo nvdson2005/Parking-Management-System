@@ -7,11 +7,12 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useT } from '@/components/I18nProvider'
 
-type LiveResult = { entries: number; exits: number; rejected: number }
+type LiveResult = { entries: number; exits: number; rejected: number; sessions: number; seed: number }
 type HistoryResult = { sessions: number; reservations: number; payments: number }
 type ExceptionResult = {
   exception: string
   outcome: string
+  needsReset?: boolean
   instructions?: { identifier: string; method: string; observedPlate?: string; lostCard?: boolean }
 }
 
@@ -37,6 +38,8 @@ export function SimulatorPanels({ defaultCount }: { defaultCount: number }) {
   const t = useT()
 
   const [count, setCount] = useState(defaultCount)
+  const [seed, setSeed] = useState('')
+  const [minSessionsMode, setMinSessionsMode] = useState(false)
   const [liveBusy, setLiveBusy] = useState(false)
   const [liveResult, setLiveResult] = useState<LiveResult | null>(null)
   const [liveError, setLiveError] = useState<string | null>(null)
@@ -54,7 +57,11 @@ export function SimulatorPanels({ defaultCount }: { defaultCount: number }) {
     setLiveBusy(true)
     setLiveError(null)
     try {
-      const { ok, data } = await post({ action: 'live', n: count })
+      const { ok, data } = await post({
+        action: 'live',
+        ...(minSessionsMode ? { minSessions: count } : { n: count }),
+        ...(seed.trim() !== '' ? { seed: Number(seed) } : {}),
+      })
       if (!ok) {
         setLiveError(t(`errors.${(data as { error?: string }).error ?? 'VALIDATION'}`))
         return
@@ -122,6 +129,26 @@ export function SimulatorPanels({ defaultCount }: { defaultCount: number }) {
                 className="w-32"
               />
             </div>
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="live-seed">{t('simulator.seedLabel')}</Label>
+              <Input
+                id="live-seed"
+                type="number"
+                min={0}
+                placeholder={t('simulator.seedPlaceholder')}
+                value={seed}
+                onChange={(e) => setSeed(e.target.value)}
+                className="w-40"
+              />
+            </div>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={minSessionsMode}
+                onChange={(e) => setMinSessionsMode(e.target.checked)}
+              />
+              {t('simulator.minSessionsLabel')}
+            </label>
             <Button onClick={fireLive} disabled={liveBusy}>
               {liveBusy ? t('simulator.firing') : t('simulator.fire')}
             </Button>
@@ -168,6 +195,9 @@ export function SimulatorPanels({ defaultCount }: { defaultCount: number }) {
                 <span className="text-muted-foreground">{t('simulator.outcomeLabel')}: </span>
                 {t(`simulator.outcomes.${exResult.outcome}`)}
               </p>
+              {exResult.needsReset ? (
+                <p className="text-destructive">{t('simulator.needsReset')}</p>
+              ) : null}
               {exResult.instructions ? (
                 <div className="rounded border p-2 text-muted-foreground">
                   <p className="font-medium text-foreground">{t('simulator.instructionsLabel')}</p>

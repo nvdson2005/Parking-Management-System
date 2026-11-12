@@ -8,6 +8,7 @@ import { previewExit } from '@/server/services/exit'
 import { getAvailability } from '@/server/services/availability'
 import {
   randomPlate,
+  makeRng,
   simulateLive,
   triggerException,
   generateHistory,
@@ -224,5 +225,74 @@ describe('simulator', () => {
     const cutoff = subMonths(new Date(), 12)
     const oldSessions = await db.parkingSession.count({ where: { entryTime: { lt: cutoff } } })
     expect(oldSessions).toBeGreaterThanOrEqual(20)
+  })
+
+  it('makeRng: same seed gives the same stream, ints stay in range and cover the span', () => {
+    const a = makeRng(42)
+    const b = makeRng(42)
+    expect(Array.from({ length: 20 }, () => a.next())).toEqual(Array.from({ length: 20 }, () => b.next()))
+    const r = makeRng(7)
+    const seen = new Set<number>()
+    for (let i = 0; i < 2000; i++) {
+      const v = r.int(0, 999) // span > 256: the old randomBytes(1) % span could not reach this
+      expect(v).toBeGreaterThanOrEqual(0)
+      expect(v).toBeLessThanOrEqual(999)
+      seen.add(v)
+    }
+    expect(Math.max(...seen)).toBeGreaterThan(256)
+  })
+
+  it('same seed on a fresh DB reproduces the same guest plates', async () => {
+    const run = async () => {
+      await resetDb()
+      const f = await seedSimFixture()
+      const res = await simulateLive(db, f.manager.id, 40, { seed: 1234 })
+      const plates = (await db.parkingSession.findMany({ orderBy: { plateSnapshot: 'asc' } })).map(
+        (x) => x.plateSnapshot,
+      )
+      return { res, plates }
+    }
+    const first = await run()
+    const second = await run()
+    expect(second.res).toEqual(first.res)
+    expect(second.plates).toEqual(first.plates)
+    expect(first.res.seed).toBe(1234)
+  })
+
+  it('minSessions mode opens >= 100 sessions (SC-07)', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    const result = await simulateLive(db, f.manager.id, 0, { minSessions: 100, seed: 99 })
+    expect(result.sessions).toBeGreaterThanOrEqual(100)
+    expect(result.sessions).toBe(result.entries)
+    expect(await db.parkingSession.count()).toBeGreaterThanOrEqual(100)
+  })
+
+  it('live events use QR and RFID as well as PLATE', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    await simulateLive(db, f.manager.id, 300, { seed: 5 })
+    const methods = new Set((await db.parkingSession.findMany()).map((x) => x.idMethod))
+    expect(methods.has('PLATE')).toBe(true)
+    expect(methods.has('QR') || methods.has('RFID')).toBe(true)
+  })
+
+  it('EX05 writes LOT_CHANGE audit entries; EX01 flags needsReset', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    const before = await db.accessLog.count({ where: { action: 'LOT_CHANGE' } })
+    await triggerException(db, f.manager.id, 'EX05')
+    expect(await db.accessLog.count({ where: { action: 'LOT_CHANGE' } })).toBe(before + 2)
+
+    const ex01 = await triggerException(db, f.manager.id, 'EX01')
+    expect(ex01.needsReset).toBe(true)
+  })
+
+  it('rejects invalid seed, minSessions and exitRatio', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    await expect(simulateLive(db, f.manager.id, 5, { seed: -1 })).rejects.toThrow()
+    await expect(simulateLive(db, f.manager.id, 0, { minSessions: 0 })).rejects.toThrow()
+    await expect(simulateLive(db, f.manager.id, 5, { exitRatio: 2 })).rejects.toThrow()
   })
 })
