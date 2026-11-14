@@ -1,5 +1,6 @@
 /**
  * A-77 — Đối chiếu 4 chỉ số báo cáo (D-30) với số tính tay trên dữ liệu mẫu.
+ * Bảng tính tay: xem Quality Evidence QE-A77-01..05.
  *
  * Dữ liệu mẫu, ngày D = 10/11/2026 (giờ địa phương), tổng sức chứa = 10:
  *   S1 07:10-09:40  S2 07:50-08:20  S3 08:05-10:15  S4 08:40-12:00 (ô tô)
@@ -7,6 +8,18 @@
  *   Thanh toán = giờ ra: xe máy 2.000, ô tô 10.000.
  *   Đặt chỗ: R1-R3 FULFILLED, R4 NO_SHOW, R5-R6 CANCELLED,
  *            R7 PENDING đã quá hạn giữ chỗ, R8 NO_SHOW ngày D+1.
+ *
+ * Quy tắc biên (D-30, E-6): tỷ lệ sử dụng lấy mẫu tại h:30; một lượt được tính
+ * là đang trong bãi khi entry <= h:30 < exit (exit = null là còn trong bãi).
+ * Bao gồm thời điểm vào: S8 vào đúng 22:30 được tính cho giờ 22. Không gồm thời
+ * điểm ra. Lượt nằm gọn giữa hai mốc :30 (S2 07:50-08:20) không được tính ở giờ nào.
+ *
+ * Ngày được dựng theo giờ địa phương, và buildReport cũng nhóm/đặt chuỗi ngày theo
+ * giờ địa phương (localDateKey, không dùng toISOString), nên các chuỗi '2026-11-10'
+ * đúng ở mọi múi giờ (cùng cách với tests/reports.test.ts).
+ *
+ * Tỷ lệ được so bằng toBeCloseTo(_, 4) vì report làm tròn 4 chữ số (round4);
+ * tránh phụ thuộc vào việc phép tính số thực tình cờ ra giá trị chính xác.
  */
 import { describe, it, expect, beforeAll } from 'vitest'
 import { db } from '@/server/db'
@@ -16,12 +29,14 @@ import { buildReport } from '@/server/services/reports'
 const Y = 2026
 const M = 10 // tháng 11 (0-based)
 const D = 10
+const DIGITS = 4 // report rounds rates to 4 decimals (round4)
 
 function local(day: number, hour: number, minute = 0): Date {
   return new Date(Y, M, day, hour, minute, 0, 0)
 }
 
 async function seedA77() {
+  // A=6 + B=2 xe máy, C=2 ô tô => tổng sức chứa 10
   const f = await makeFixture({ motoCapA: 6, carCapC: 2 })
 
   const sessions: Array<[string, 'MOTORBIKE' | 'CAR', Date, Date | null, number | null]> = [
@@ -94,6 +109,11 @@ async function seedA77() {
 describe('A-77 report vs hand calculation (D-30)', () => {
   let r7Id: string
 
+  // Dữ liệu seed một lần, dùng chung cho mọi test. buildReport có side effect:
+  // mỗi lần gọi đều chạy expireReservations, chuyển MỌI đặt chỗ PENDING đã quá hạn
+  // (ở đây chỉ R7) sang NO_SHOW, bất kể khoảng ngày. Vì vậy mỗi test đều tự thấy
+  // R7 = NO_SHOW trước khi tính, kết quả không phụ thuộc thứ tự chạy hay .only.
+  // QE-A77-05 (chỉ ngày D+1) không dùng R7; QE-A77-06 tính R7 là NO_SHOW.
   beforeAll(async () => {
     await resetDb()
     ;({ r7Id } = await seedA77())
@@ -108,8 +128,10 @@ describe('A-77 report vs hand calculation (D-30)', () => {
       14: 0.1, 15: 0.1, 16: 0.1, 17: 0.1, 18: 0.1, 19: 0.1, 20: 0.1, 21: 0.1,
       22: 0.2, 23: 0.2,
     }
-    const actual = Object.fromEntries(report.utilisationByHour.map((u) => [u.hour, u.rate]))
-    expect(actual).toEqual(expected)
+    expect(report.utilisationByHour).toHaveLength(24)
+    for (const { hour, rate } of report.utilisationByHour) {
+      expect(rate, `hour ${hour}`).toBeCloseTo(expected[hour], DIGITS)
+    }
   })
 
   it('QE-A77-02 peak hours, day D (tie broken by earlier hour)', async () => {
@@ -129,7 +151,7 @@ describe('A-77 report vs hand calculation (D-30)', () => {
 
   it('QE-A77-04 no-show rate, day D = 2 / (7 - 2) = 0.4', async () => {
     const report = await buildReport(db, { from: local(D, 0), to: local(D, 0) })
-    expect(report.noShowRate).toBe(0.4)
+    expect(report.noShowRate).toBeCloseTo(0.4, DIGITS)
     expect((await db.reservation.findUnique({ where: { id: r7Id } }))?.status).toBe('NO_SHOW')
   })
 
@@ -138,19 +160,19 @@ describe('A-77 report vs hand calculation (D-30)', () => {
     expect(report.revenue.total).toBe(2000)
     expect(report.revenue.byDate).toEqual([{ date: '2026-11-11', amount: 2000 }])
     expect(report.peakHours).toEqual([])
-    expect(report.noShowRate).toBe(1)
+    expect(report.noShowRate).toBeCloseTo(1, DIGITS)
     const byHour = Object.fromEntries(report.utilisationByHour.map((u) => [u.hour, u.rate]))
-    expect(byHour[0]).toBe(0.2) // S5 + S8 (S8 ra 00:40)
-    expect(byHour[1]).toBe(0.1) // chỉ S5
-    expect(byHour[23]).toBe(0.1)
+    expect(byHour[0]).toBeCloseTo(0.2, DIGITS) // S5 + S8 (S8 ra 00:40, 00:30 < exit)
+    expect(byHour[1]).toBeCloseTo(0.1, DIGITS) // chỉ S5
+    expect(byHour[23]).toBeCloseTo(0.1, DIGITS)
   })
 
   it('QE-A77-06 two-day range averages utilisation and sums revenue', async () => {
     const report = await buildReport(db, { from: local(D, 0), to: local(D + 1, 0) })
     const byHour = Object.fromEntries(report.utilisationByHour.map((u) => [u.hour, u.rate]))
-    expect(byHour[9]).toBe(0.3) // (0.5 + 0.1) / 2
-    expect(byHour[0]).toBe(0.1) // (0 + 0.2) / 2
+    expect(byHour[9]).toBeCloseTo(0.3, DIGITS) // (0.5 + 0.1) / 2
+    expect(byHour[0]).toBeCloseTo(0.1, DIGITS) // (0 + 0.2) / 2
     expect(report.revenue.total).toBe(30000)
-    expect(report.noShowRate).toBe(0.5) // (2 + 1) / (8 - 2)
+    expect(report.noShowRate).toBeCloseTo(0.5, DIGITS) // (2 + 1) / (8 - 2)
   })
 })
