@@ -162,11 +162,23 @@ describe('validation', () => {
 describe('suspending a lot cancels pending reservations (lecturer R3)', () => {
   const MINUTE = 60 * 1000
   const NOW = new Date(2026, 0, 1, 12, 0, 0, 0)
-  const ARRIVAL = new Date(NOW.getTime() + 60 * MINUTE)
+  const ARRIVAL = new Date(Date.now() + 60 * MINUTE)
 
+  // Inserted directly with a future-relative arrival: `updateLot` sweeps lapsed
+  // holds against the real clock, so fixed past dates would be NO_SHOW.
   async function reserve(customerId: string, plate: string, zoneId: string) {
     const vehicle = await addVehicle(db, { ownerId: customerId, plate, vehicleType: 'MOTORBIKE' })
-    return createReservation(db, { customerId, vehicleId: vehicle.id, zoneId, arrivalTime: ARRIVAL, now: NOW })
+    return db.reservation.create({
+      data: {
+        customerId,
+        vehicleId: vehicle.id,
+        zoneId,
+        vehicleTypeCode: 'MOTORBIKE',
+        arrivalTime: ARRIVAL,
+        holdUntil: new Date(ARRIVAL.getTime() + 30 * MINUTE),
+        status: 'PENDING',
+      },
+    })
   }
 
   it('cancels PENDING reservations in that lot with LOT_SUSPENDED and notifies each customer', async () => {
@@ -225,6 +237,29 @@ describe('suspending a lot cancels pending reservations (lecturer R3)', () => {
     expect(await db.reservation.count({ where: { status: 'PENDING' } })).toBe(0)
   })
 
+  it('a lapsed hold becomes NO_SHOW on suspension: not cancelled, no notification', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const vehicle = await addVehicle(db, { ownerId: f.student.id, plate: '51F-880.01', vehicleType: 'MOTORBIKE' })
+    const past = new Date(Date.now() - 2 * 60 * 60 * 1000)
+    const lapsed = await db.reservation.create({
+      data: {
+        customerId: f.student.id,
+        vehicleId: vehicle.id,
+        zoneId: f.zoneA.id,
+        vehicleTypeCode: 'MOTORBIKE',
+        arrivalTime: past,
+        holdUntil: new Date(past.getTime() + 30 * MINUTE),
+        status: 'PENDING',
+      },
+    })
+
+    await updateLot(db, f.manager.id, f.lot.id, { status: 'SUSPENDED' })
+
+    expect((await db.reservation.findUnique({ where: { id: lapsed.id } }))?.status).toBe('NO_SHOW')
+    expect(await db.notification.count()).toBe(0)
+  })
+
   it('open sessions are unaffected and can still exit', async () => {
     await resetDb()
     const f = await makeFixture()
@@ -256,7 +291,7 @@ describe('suspending a lot cancels pending reservations (lecturer R3)', () => {
     await updateLot(db, f.manager.id, f.lot.id, { status: 'SUSPENDED' })
 
     await expect(
-      createReservation(db, { customerId: f.student.id, vehicleId: vehicle.id, zoneId: f.zoneA.id, arrivalTime: ARRIVAL, now: NOW }),
+      createReservation(db, { customerId: f.student.id, vehicleId: vehicle.id, zoneId: f.zoneA.id, arrivalTime: new Date(NOW.getTime() + 60 * MINUTE), now: NOW }),
     ).rejects.toMatchObject({ code: 'LOT_SUSPENDED' })
     await expect(
       recordEntry(db, { method: 'QR', identifier: vehicle.qrCode, zoneId: f.zoneA.id, staffId: f.staff.id }),

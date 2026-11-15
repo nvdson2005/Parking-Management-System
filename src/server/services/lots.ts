@@ -6,6 +6,7 @@ import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
 import { withLock } from '@/server/lock'
 import { createNotification } from '@/server/services/notifications'
+import { expireReservations } from '@/server/services/reservations'
 import type { VehicleTypeCode } from '@/lib/types'
 
 const capacitiesSchema = z
@@ -114,6 +115,8 @@ export async function updateLot(
     const prisma = db as PrismaClient
     lot = await withLock(() =>
       prisma.$transaction(async (tx) => {
+        // Sweep lapsed holds first so they become NO_SHOW, not LOT_SUSPENDED cancels.
+        await expireReservations(tx)
         const updated = await tx.parkingLot.update({ where: { id: lotId }, data: parsed.data })
         const pending = await tx.reservation.findMany({
           where: { status: 'PENDING', zone: { lotId } },
