@@ -350,7 +350,7 @@ export const vi = {
     empty: 'Chưa có thông báo.',
     markAllRead: 'Đánh dấu đã đọc',
     types: {
-      LOT_SUSPENDED: 'Bãi {lot} đã tạm ngưng; đặt chỗ lúc {arrival} của bạn đã bị hủy.',
+      LOT_SUSPENDED: '{lot} đã tạm ngưng hoạt động; đặt chỗ lúc {arrival} của bạn đã bị hủy.',
     },
   },
   errors: {
