@@ -109,6 +109,61 @@ describe('buildReport', () => {
     expect(report.utilisationByHour).toHaveLength(24)
   })
 
+  it('slices: one per zone/type with capacity, sorted by zone then type', async () => {
+    await resetDb()
+    const f = await seedCanonical()
+
+    const report = await buildReport(db, { from: local(D, 0), to: local(D, 23) })
+
+    expect(report.utilisationBySlice.map((s) => `${s.zoneName}:${s.vehicleTypeCode}`)).toEqual([
+      'A:MOTORBIKE',
+      'B:MOTORBIKE',
+      'C:CAR',
+    ])
+    expect(report.utilisationBySlice[0].zoneId).toBe(f.zoneA.id)
+    for (const slice of report.utilisationBySlice) expect(slice.byHour).toHaveLength(24)
+  })
+
+  it('slice rate = occupied in that slice / that slice capacity', async () => {
+    await resetDb()
+    await seedCanonical()
+
+    const report = await buildReport(db, { from: local(D, 0), to: local(D, 23) })
+
+    const rate = (zoneName: string, hour: number) =>
+      report.utilisationBySlice.find((s) => s.zoneName === zoneName)!.byHour.find((h) => h.hour === hour)!.rate
+    // Zone A (motorbike cap 2): S1 08-10 and S2 09-open.
+    expect(rate('A', 8)).toBe(0.5)
+    expect(rate('A', 9)).toBe(1)
+    expect(rate('A', 11)).toBe(0.5)
+    expect(rate('A', 7)).toBe(0)
+    expect(rate('B', 9)).toBe(0)
+    expect(rate('C', 9)).toBe(0)
+  })
+
+  it('overall utilisationByHour is unchanged by the breakdown', async () => {
+    await resetDb()
+    await seedCanonical()
+
+    const report = await buildReport(db, { from: local(D, 0), to: local(D, 23) })
+
+    const byHour = Object.fromEntries(report.utilisationByHour.map((u) => [u.hour, u.rate]))
+    expect([byHour[8], byHour[9], byHour[11]]).toEqual([0.2, 0.4, 0.2])
+  })
+
+  it('a zero-capacity slice is omitted', async () => {
+    await resetDb()
+    const f = await seedCanonical()
+    await db.zoneCapacity.update({
+      where: { zoneId_vehicleTypeCode: { zoneId: f.zoneB.id, vehicleTypeCode: 'MOTORBIKE' } },
+      data: { capacity: 0 },
+    })
+
+    const report = await buildReport(db, { from: local(D, 0), to: local(D, 23) })
+
+    expect(report.utilisationBySlice.map((s) => s.zoneName)).toEqual(['A', 'C'])
+  })
+
   it('peakHours top entry hours = [8, 9]', async () => {
     await resetDb()
     await seedCanonical()

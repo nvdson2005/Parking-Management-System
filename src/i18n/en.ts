@@ -207,6 +207,8 @@ export const en: Dict = {
     apply: 'Apply',
     utilisationTitle: 'Hourly utilisation',
     utilisationRate: 'Utilisation',
+    utilisationScope: 'Scope',
+    utilisationOverall: 'Overall',
     peakTitle: 'Peak hours',
     peakEntries: 'entries',
     peakEmpty: 'No entries in this range.',

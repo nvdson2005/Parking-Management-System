@@ -206,6 +206,8 @@ export const vi = {
     apply: 'Áp dụng',
     utilisationTitle: 'Tỷ lệ sử dụng theo giờ',
     utilisationRate: 'Tỷ lệ',
+    utilisationScope: 'Phạm vi',
+    utilisationOverall: 'Tổng thể',
     peakTitle: 'Giờ cao điểm',
     peakEntries: 'lượt vào',
     peakEmpty: 'Không có lượt vào nào trong khoảng này.',

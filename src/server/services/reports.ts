@@ -3,9 +3,19 @@ import { DomainError } from '@/server/errors'
 import { startOfLocalDay, endOfLocalDay } from '@/lib/time'
 import { expireReservations } from '@/server/services/reservations'
 import { publishAvailabilityChanged } from '@/server/bus'
+import type { VehicleTypeCode } from '@/lib/types'
+
+export type UtilisationSlice = {
+  zoneId: string
+  zoneName: string
+  vehicleTypeCode: VehicleTypeCode
+  byHour: Array<{ hour: number; rate: number }>
+}
 
 export type Report = {
   utilisationByHour: Array<{ hour: number; rate: number }>
+  /** Per zone and vehicle type (lecturer R3); slices with capacity 0 are omitted. */
+  utilisationBySlice: UtilisationSlice[]
   peakHours: Array<{ hour: number; entries: number }>
   revenue: { total: number; byDate: Array<{ date: string; amount: number }> }
   noShowRate: number | null
@@ -15,6 +25,35 @@ const HOURS = Array.from({ length: 24 }, (_, hour) => hour)
 
 function round4(value: number): number {
   return Math.round(value * 10_000) / 10_000
+}
+
+type SessionWindow = { entryTime: Date; exitTime: Date | null }
+
+/**
+ * Average occupancy / capacity for each hour, sampled at hh:30 on every day of
+ * the range. Shared by the overall series and each zone/type slice.
+ */
+function hourlyRates(
+  sessions: SessionWindow[],
+  capacity: number,
+  days: Date[],
+): Array<{ hour: number; rate: number }> {
+  return HOURS.map((hour) => {
+    if (capacity === 0) return { hour, rate: 0 }
+    let rateSum = 0
+    for (const day of days) {
+      const sample = new Date(day)
+      sample.setHours(hour, 30, 0, 0)
+      let occupied = 0
+      for (const session of sessions) {
+        if (session.entryTime <= sample && (session.exitTime === null || session.exitTime > sample)) {
+          occupied += 1
+        }
+      }
+      rateSum += occupied / capacity
+    }
+    return { hour, rate: round4(rateSum / days.length) }
+  })
 }
 
 function addLocalDays(d: Date, days: number): Date {
@@ -64,25 +103,27 @@ export async function buildReport(db: Db, input: { from: Date; to: Date }): Prom
   // instant inside the range, so it is excluded up front.
   const sessions = await db.parkingSession.findMany({
     where: { entryTime: { lte: rangeEnd } },
-    select: { entryTime: true, exitTime: true },
+    select: { entryTime: true, exitTime: true, zoneId: true, vehicleTypeCode: true },
   })
 
-  const utilisationByHour = HOURS.map((hour) => {
-    if (totalCapacity === 0) return { hour, rate: 0 }
-    let rateSum = 0
-    for (const day of days) {
-      const sample = new Date(day)
-      sample.setHours(hour, 30, 0, 0)
-      let occupied = 0
-      for (const session of sessions) {
-        if (session.entryTime <= sample && (session.exitTime === null || session.exitTime > sample)) {
-          occupied += 1
-        }
-      }
-      rateSum += occupied / totalCapacity
-    }
-    return { hour, rate: round4(rateSum / days.length) }
+  const utilisationByHour = hourlyRates(sessions, totalCapacity, days)
+
+  const capacityRows = await db.zoneCapacity.findMany({
+    where: { capacity: { gt: 0 } },
+    include: { zone: { select: { name: true } } },
   })
+  const utilisationBySlice: UtilisationSlice[] = capacityRows
+    .map((row) => ({
+      zoneId: row.zoneId,
+      zoneName: row.zone.name,
+      vehicleTypeCode: row.vehicleTypeCode as VehicleTypeCode,
+      byHour: hourlyRates(
+        sessions.filter((x) => x.zoneId === row.zoneId && x.vehicleTypeCode === row.vehicleTypeCode),
+        row.capacity,
+        days,
+      ),
+    }))
+    .sort((a, b) => a.zoneName.localeCompare(b.zoneName) || a.vehicleTypeCode.localeCompare(b.vehicleTypeCode))
 
   const entryCounts = new Array<number>(24).fill(0)
   for (const session of sessions) {
@@ -121,6 +162,7 @@ export async function buildReport(db: Db, input: { from: Date; to: Date }): Prom
 
   return {
     utilisationByHour,
+    utilisationBySlice,
     peakHours,
     revenue: { total, byDate },
     noShowRate,
