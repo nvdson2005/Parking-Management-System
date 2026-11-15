@@ -356,6 +356,7 @@ export const en: Dict = {
     RESERVATION_WINDOW: 'Outside the allowed reservation window',
     NOT_CANCELLABLE: 'This reservation cannot be cancelled',
     VEHICLE_ALREADY_RESERVED: 'Vehicle already has a reservation',
+    RESERVATION_LIMIT: 'You already have an active reservation',
     VEHICLE_PARKED: 'Vehicle is currently parked',
     NOT_OWNER: 'You are not the owner of this vehicle',
   },

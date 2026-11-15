@@ -355,6 +355,7 @@ export const vi = {
     RESERVATION_WINDOW: 'Ngoài khung giờ cho phép đặt chỗ',
     NOT_CANCELLABLE: 'Không thể hủy đặt chỗ này',
     VEHICLE_ALREADY_RESERVED: 'Xe đã được đặt chỗ',
+    RESERVATION_LIMIT: 'Bạn đã có một lượt đặt chỗ đang hiệu lực',
     VEHICLE_PARKED: 'Xe đang đỗ trong bãi',
     NOT_OWNER: 'Bạn không phải chủ sở hữu xe này',
   },
