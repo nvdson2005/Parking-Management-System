@@ -16,6 +16,8 @@ export type LotStatus = 'ACTIVE' | 'SUSPENDED'
 
 export type SessionEventType = 'PLATE_MISMATCH_CONFIRMED' | 'LOST_CARD' | 'EARLY_ARRIVAL_CONFIRMED'
 
+export type NotificationType = 'LOT_SUSPENDED'
+
 export type AccessAction =
   | 'LOGIN'
   | 'LOGOUT'

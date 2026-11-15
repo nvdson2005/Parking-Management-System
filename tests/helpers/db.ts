@@ -19,6 +19,7 @@ export async function resetDb(): Promise<void> {
   await db.parkingSession.deleteMany()
   await db.reservation.deleteMany()
   await db.accessLog.deleteMany()
+  await db.notification.deleteMany()
   await db.vehicle.deleteMany()
   await db.tariff.deleteMany()
   await db.zoneCapacity.deleteMany()

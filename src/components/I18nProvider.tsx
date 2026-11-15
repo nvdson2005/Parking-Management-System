@@ -31,9 +31,9 @@ function useI18n(): I18nContextValue {
   return ctx
 }
 
-export function useT(): (key: string) => string {
+export function useT(): (key: string, params?: Record<string, string | number>) => string {
   const { dict } = useI18n()
-  return (key: string) => t(dict, key)
+  return (key: string, params?: Record<string, string | number>) => t(dict, key, params)
 }
 
 export function useLang(): Lang {

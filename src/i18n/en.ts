@@ -345,6 +345,14 @@ export const en: Dict = {
       UNEXPECTED: 'Unexpected result.',
     },
   },
+  notifications: {
+    title: 'Notifications',
+    empty: 'No notifications.',
+    markAllRead: 'Mark all read',
+    types: {
+      LOT_SUSPENDED: 'Lot {lot} was suspended; your reservation for {arrival} was cancelled.',
+    },
+  },
   errors: {
     VALIDATION: 'Invalid data',
     UNAUTHENTICATED: 'Please log in to continue',

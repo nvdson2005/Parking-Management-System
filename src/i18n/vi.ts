@@ -344,6 +344,14 @@ export const vi = {
       UNEXPECTED: 'Kết quả không mong đợi.',
     },
   },
+  notifications: {
+    title: 'Thông báo',
+    empty: 'Chưa có thông báo.',
+    markAllRead: 'Đánh dấu đã đọc',
+    types: {
+      LOT_SUSPENDED: 'Bãi {lot} đã tạm ngưng; đặt chỗ lúc {arrival} của bạn đã bị hủy.',
+    },
+  },
   errors: {
     VALIDATION: 'Dữ liệu không hợp lệ',
     UNAUTHENTICATED: 'Vui lòng đăng nhập để tiếp tục',

@@ -50,6 +50,7 @@ model User {
   reservations      Reservation[]
   confirmedPayments Payment[]
   accessLogs        AccessLog[]
+  notifications     Notification[]
 
   @@map("users")
 }
@@ -166,7 +167,7 @@ model Reservation {
   holdUntil       DateTime    @map("hold_until")
   status          String
   createdAt       DateTime    @default(now()) @map("created_at")
-  /// Why a CANCELLED reservation was cancelled: CUSTOMER | ENTERED_OTHER_ZONE (D-41).
+  /// Why a CANCELLED reservation was cancelled: CUSTOMER | ENTERED_OTHER_ZONE (D-41) | LOT_SUSPENDED.
   cancelReason    String?     @map("cancel_reason")
   /// For ENTERED_OTHER_ZONE: the zone the vehicle actually entered.
   cancelZoneId    String?     @map("cancel_zone_id")
@@ -199,6 +200,21 @@ model Payment {
   confirmedBy   User           @relation(fields: [confirmedById], references: [id])
 
   @@map("payments")
+}
+
+/// In-app notification shown in the bell. `type` selects an i18n key
+/// (`notifications.types.<type>`); `params` is JSON text of its placeholders.
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id])
+  type      String
+  params    String    @default("{}")
+  createdAt DateTime  @default(now()) @map("created_at")
+  readAt    DateTime? @map("read_at")
+
+  @@index([userId, readAt, createdAt])
+  @@map("notifications")
 }
 
 model AccessLog {

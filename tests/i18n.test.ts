@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { vi } from '@/i18n/vi'
 import { en } from '@/i18n/en'
+import { t } from '@/i18n'
 import type { ErrorCode } from '@/server/errors'
 
 // Kept in sync by hand with `ErrorCode` in src/server/errors.ts (Task 4).
@@ -51,5 +52,19 @@ describe('i18n dictionaries', () => {
       expect(viKeys.has(`errors.${code}`)).toBe(true)
       expect(enKeys.has(`errors.${code}`)).toBe(true)
     }
+  })
+})
+
+describe('t() interpolation', () => {
+  it('t interpolates {placeholders}', () => {
+    const text = t(en, 'notifications.types.LOT_SUSPENDED', { lot: 'Lot X', arrival: '10:00' })
+    expect(text).toContain('Lot X')
+    expect(text).toContain('10:00')
+    expect(text).not.toMatch(/[{}]/)
+  })
+
+  it('t without params is unchanged', () => {
+    expect(t(en, 'errors.ZONE_FULL')).toBe('Zone is full')
+    expect(t(en, 'no.such.key')).toBe('no.such.key')
   })
 })
