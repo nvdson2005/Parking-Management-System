@@ -354,7 +354,9 @@ export async function triggerException(
     // Both transitions go through `updateLot` so they log `LOT_CHANGE` and
     // broadcast availability like a real manager action (KB-08).
     const originalStatus = lot.status as 'ACTIVE' | 'SUSPENDED'
-    await updateLot(db, actorId, lot.id, { status: 'SUSPENDED' })
+    // `cancelPendingReservations: false`: a simulated suspension must not cancel
+    // real reservations or notify real customers.
+    await updateLot(db, actorId, lot.id, { status: 'SUSPENDED' }, { cancelPendingReservations: false })
     try {
       await openWalkIn(db, actorId, { zoneId: zone.id, vehicleType: type }, randomPlate(rng))
       return { exception: ex, outcome: 'UNEXPECTED' }
@@ -362,7 +364,7 @@ export async function triggerException(
       if (!isDomainError(err)) throw err
       return { exception: ex, outcome: err.code }
     } finally {
-      await updateLot(db, actorId, lot.id, { status: originalStatus })
+      await updateLot(db, actorId, lot.id, { status: originalStatus }, { cancelPendingReservations: false })
     }
   }
 

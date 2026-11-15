@@ -92,6 +92,7 @@ export const en: Dict = {
     cancelReason: {
       CUSTOMER: 'Cancelled by you',
       ENTERED_OTHER_ZONE: 'Cancelled: you parked in zone {zone} instead',
+      LOT_SUSPENDED: 'Cancelled: the lot was suspended',
     },
     selectZone: 'Select a zone',
     statuses: {

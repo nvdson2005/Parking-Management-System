@@ -91,6 +91,7 @@ export const vi = {
     cancelReason: {
       CUSTOMER: 'Đã hủy bởi bạn',
       ENTERED_OTHER_ZONE: 'Đã hủy: bạn đã đỗ xe ở khu vực {zone}',
+      LOT_SUSPENDED: 'Đã hủy: bãi tạm ngưng hoạt động',
     },
     selectZone: 'Chọn khu vực',
     statuses: {

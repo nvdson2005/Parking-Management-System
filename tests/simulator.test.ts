@@ -131,6 +131,30 @@ describe('simulator', () => {
     expect(lot?.status).toBe('ACTIVE')
   })
 
+  it('EX05 leaves real pending reservations and notifications untouched', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    const vehicle = await addVehicle(db, { ownerId: f.student.id, plate: '51F-870.01', vehicleType: 'MOTORBIKE' })
+    const soon = new Date(Date.now() + 60 * 60 * 1000)
+    const reservation = await db.reservation.create({
+      data: {
+        customerId: f.student.id,
+        vehicleId: vehicle.id,
+        zoneId: f.zoneA.id,
+        vehicleTypeCode: 'MOTORBIKE',
+        arrivalTime: soon,
+        holdUntil: new Date(soon.getTime() + 30 * 60 * 1000),
+        status: 'PENDING',
+      },
+    })
+
+    const ex05 = await triggerException(db, f.manager.id, 'EX05')
+
+    expect(ex05.outcome).toBe('LOT_SUSPENDED')
+    expect((await db.reservation.findUnique({ where: { id: reservation.id } }))?.status).toBe('PENDING')
+    expect(await db.notification.count()).toBe(0)
+  })
+
   it('EX05 on a lot the manager already suspended keeps it SUSPENDED', async () => {
     await resetDb()
     const f = await seedSimFixture()
