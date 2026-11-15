@@ -16,6 +16,15 @@ Code references were checked against `src/server/services/*` at the time of writ
 | 3 | Utilisation report | Average occupied ÷ capacity | Same formula, but compute **separately per vehicle type or zone** when capacity is split | `reports.ts:61` sums `zoneCapacity` across all zones and types into one `totalCapacity`. Output is a single series by hour. | ⚠️ | Group `utilisationByHour` by zone and vehicle type. Update the report API shape and UI. |
 | 4 | Suspended lot: pending reservations | Cancel pending reservations and notify users | Confirmed ("agree") | `updateLot` (`lots.ts:85`) only updates the `status` field. No reservation cancellation found in this function. No user notification found. | ❓ | Verify whether cancellation happens elsewhere (e.g. the expiry timer). If not, implement it, plus a notification (or a documented substitute). |
 
+### Resolved on branch `refactor/round3-lecturer-alignment`
+
+| # | Resolution |
+|---|------------|
+| 1 | Early arrival: `recordEntry` throws `EARLY_ARRIVAL` unless staff pass `confirmEarly`; a confirmed arrival writes an `EARLY_ARRIVAL_CONFIRMED` session event and a `MANUAL_CONFIRM` access log. |
+| 2 | One active reservation per account: `RESERVATION_LIMIT`. |
+| 3 | `Report.utilisationBySlice` per zone and vehicle type, with a scope selector on the manager reports page; the overall series is unchanged. |
+| 4 | `updateLot` cancels the lot's PENDING reservations on suspension and creates in-app notifications (bell, 30 s polling). The simulator opts out. |
+
 ## 2. Assumptions that hold
 
 | Topic | Agreed behaviour | Where in code | Status |
