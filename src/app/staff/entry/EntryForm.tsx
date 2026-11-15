@@ -28,9 +28,14 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
   const [zoneId, setZoneId] = useState(zones[0]?.id ?? '')
   const [vehicleType, setVehicleType] = useState<VehicleTypeCode>('MOTORBIKE')
   const [submitting, setSubmitting] = useState(false)
+  const [earlyPrompt, setEarlyPrompt] = useState(false)
 
-  async function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault()
+    void submit(false)
+  }
+
+  async function submit(confirmEarly: boolean) {
     setSubmitting(true)
     try {
       const res = await fetch('/api/events/entry', {
@@ -41,13 +46,20 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
           identifier,
           zoneId,
           vehicleType: method === 'PLATE' ? vehicleType : undefined,
+          confirmEarly: confirmEarly || undefined,
         }),
       })
       const body = await res.json()
       if (!res.ok) {
+        if (body.error === 'EARLY_ARRIVAL') {
+          setEarlyPrompt(true)
+          return
+        }
+        setEarlyPrompt(false)
         toast.error(t(`errors.${body.error ?? 'VALIDATION'}`))
         return
       }
+      setEarlyPrompt(false)
       toast.success(t('entry.success'))
       setIdentifier('')
     } catch {
@@ -82,13 +94,19 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
               required
               value={identifier}
               placeholder={method === 'PLATE' ? t('entry.identifierPlateHint') : t('entry.identifierCodeHint')}
-              onChange={(e) => setIdentifier(e.target.value)}
+              onChange={(e) => {
+                setIdentifier(e.target.value)
+                setEarlyPrompt(false)
+              }}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="zone">{t('entry.zone')}</Label>
-            <Select value={zoneId} onValueChange={(value) => setZoneId(value ?? '')}>
+            <Select value={zoneId} onValueChange={(value) => {
+                setZoneId(value ?? '')
+                setEarlyPrompt(false)
+              }}>
               <SelectTrigger id="zone">
                 <SelectValue />
               </SelectTrigger>
@@ -114,6 +132,23 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
                   <SelectItem value="CAR">{t('availability.vehicleTypes.CAR')}</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+          ) : null}
+
+          {earlyPrompt ? (
+            <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">
+              <p role="alert" className="text-sm font-medium">
+                {t('entry.earlyTitle')}
+              </p>
+              <p className="text-sm">{t('entry.earlyWarning')}</p>
+              <div className="flex gap-2">
+                <Button type="button" disabled={submitting} onClick={() => void submit(true)}>
+                  {t('entry.earlyConfirm')}
+                </Button>
+                <Button type="button" variant="outline" disabled={submitting} onClick={() => setEarlyPrompt(false)}>
+                  {t('entry.earlyCancel')}
+                </Button>
+              </div>
             </div>
           ) : null}
 

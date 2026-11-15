@@ -114,6 +114,10 @@ export const vi = {
     submit: 'Ghi nhận xe vào',
     submitting: 'Đang xử lý...',
     success: 'Đã ghi nhận xe vào bãi',
+    earlyTitle: 'Xe đến sớm',
+    earlyWarning: 'Xe này có đặt chỗ vào giờ muộn hơn. Kiểm tra chỗ rồi xác nhận để cho xe vào ngay.',
+    earlyConfirm: 'Xác nhận và ghi nhận xe vào',
+    earlyCancel: 'Hủy',
   },
   exit: {
     title: 'Ghi nhận xe ra',
@@ -169,6 +173,7 @@ export const vi = {
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Xác nhận lệch biển số',
       LOST_CARD: 'Mất thẻ',
+      EARLY_ARRIVAL_CONFIRMED: 'Đã xác nhận xe đến sớm',
     },
   },
   history: {
@@ -356,6 +361,7 @@ export const vi = {
     NOT_CANCELLABLE: 'Không thể hủy đặt chỗ này',
     VEHICLE_ALREADY_RESERVED: 'Xe đã được đặt chỗ',
     RESERVATION_LIMIT: 'Bạn đã có một lượt đặt chỗ đang hiệu lực',
+    EARLY_ARRIVAL: 'Xe đến sớm hơn giờ đặt; nhân viên cần xác nhận',
     VEHICLE_PARKED: 'Xe đang đỗ trong bãi',
     NOT_OWNER: 'Bạn không phải chủ sở hữu xe này',
   },

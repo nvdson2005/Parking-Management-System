@@ -115,6 +115,10 @@ export const en: Dict = {
     submit: 'Record entry',
     submitting: 'Processing...',
     success: 'Vehicle entry recorded',
+    earlyTitle: 'Early arrival',
+    earlyWarning: 'This vehicle has a reservation for a later time. Check the spot, then confirm to admit it now.',
+    earlyConfirm: 'Confirm and record entry',
+    earlyCancel: 'Cancel',
   },
   exit: {
     title: 'Vehicle exit',
@@ -170,6 +174,7 @@ export const en: Dict = {
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Plate mismatch confirmed',
       LOST_CARD: 'Lost card',
+      EARLY_ARRIVAL_CONFIRMED: 'Early arrival confirmed',
     },
   },
   history: {
@@ -357,6 +362,7 @@ export const en: Dict = {
     NOT_CANCELLABLE: 'This reservation cannot be cancelled',
     VEHICLE_ALREADY_RESERVED: 'Vehicle already has a reservation',
     RESERVATION_LIMIT: 'You already have an active reservation',
+    EARLY_ARRIVAL: 'Vehicle arrived before the reserved time; staff must confirm',
     VEHICLE_PARKED: 'Vehicle is currently parked',
     NOT_OWNER: 'You are not the owner of this vehicle',
   },

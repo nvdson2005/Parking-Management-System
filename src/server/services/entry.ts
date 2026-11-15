@@ -19,6 +19,7 @@ const recordEntrySchema = z.object({
   zoneId: z.string().min(1),
   vehicleType: z.enum(['MOTORBIKE', 'CAR']).optional(),
   staffId: z.string().min(1),
+  confirmEarly: z.boolean().optional(),
   now: z.date().optional(),
 })
 
@@ -65,6 +66,7 @@ export async function recordEntry(
     zoneId: string
     vehicleType?: VehicleTypeCode
     staffId: string
+    confirmEarly?: boolean
     now?: Date
   },
 ): Promise<ParkingSession> {
@@ -78,7 +80,7 @@ export async function recordEntry(
   // `Db` union type can't express.
   const prisma = db as PrismaClient
 
-  const session = await withLock(() =>
+  const { created: session, early } = await withLock(() =>
     prisma.$transaction(async (tx) => {
       await expireReservations(tx, now)
 
@@ -106,8 +108,17 @@ export async function recordEntry(
       })
 
       let ownReservationId: string | null = null
+      let earlyArrivalAt: Date | null = null
       if (reservation) {
         if (reservation.zoneId === data.zoneId) {
+          if (now < reservation.arrivalTime) {
+            // Lecturer R3: staff must check and explicitly confirm an early
+            // arrival before the reservation is fulfilled.
+            if (!data.confirmEarly) {
+              throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time')
+            }
+            earlyArrivalAt = reservation.arrivalTime
+          }
           ownReservationId = reservation.id
         } else {
           // Reservation held for a different zone: cancel it (D-34) and
@@ -149,11 +160,23 @@ export async function recordEntry(
         await tx.reservation.update({ where: { id: ownReservationId }, data: { status: 'FULFILLED' } })
       }
 
-      return created
+      if (earlyArrivalAt) {
+        await tx.sessionEvent.create({
+          data: {
+            sessionId: created.id,
+            type: 'EARLY_ARRIVAL_CONFIRMED',
+            staffId: data.staffId,
+            note: `Reserved arrival: ${earlyArrivalAt.toISOString()}`,
+          },
+        })
+      }
+
+      return { created, early: earlyArrivalAt !== null }
     }),
   )
 
   await logAccess(db, { userId: data.staffId, action: 'ENTRY', target: session.id })
+  if (early) await logAccess(db, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: session.id })
   publishAvailabilityChanged()
 
   return session

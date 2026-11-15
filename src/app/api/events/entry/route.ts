@@ -13,6 +13,7 @@ export const POST = handle(async (req) => {
     identifier: body.identifier as string,
     zoneId: body.zoneId as string,
     vehicleType: body.vehicleType as VehicleTypeCode | undefined,
+    confirmEarly: body.confirmEarly as boolean | undefined,
     staffId: user.id,
   })
 })
