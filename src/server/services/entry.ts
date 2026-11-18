@@ -55,8 +55,10 @@ async function createGuestVehicle(db: Db, plate: string, vehicleType: VehicleTyp
  * The whole find-then-create sequence runs inside `withLock` (single-process
  * serialization for the MVP's SQLite deployment) and a `db.$transaction`, so
  * concurrent entries can't both pass the capacity read and both open a
- * session beyond capacity. `logAccess` and the availability broadcast run
- * after the transaction commits.
+ * session beyond capacity. Lapsed holds are swept in their own commit before
+ * the transaction, so a rejected entry (e.g. EARLY_ARRIVAL) keeps the sweep.
+ * The access logs are written inside the transaction, so an admitted session
+ * always has its audit rows; the availability broadcast runs afterwards.
  */
 export async function recordEntry(
   db: Db,
@@ -80,103 +82,113 @@ export async function recordEntry(
   // `Db` union type can't express.
   const prisma = db as PrismaClient
 
-  const { created: session, early } = await withLock(() =>
-    prisma.$transaction(async (tx) => {
-      await expireReservations(tx, now)
+  let expired = 0
+  let result: { created: ParkingSession; early: boolean }
+  try {
+    result = await withLock(async () => {
+      expired = await expireReservations(prisma, now)
+      return prisma.$transaction(async (tx) => {
+        const zone = await tx.zone.findUnique({ where: { id: data.zoneId }, include: { lot: true } })
+        if (!zone) throw new DomainError('NOT_FOUND', 'Zone not found')
+        if (zone.lot.status === 'SUSPENDED') throw new DomainError('LOT_SUSPENDED', 'Lot is suspended')
 
-      const zone = await tx.zone.findUnique({ where: { id: data.zoneId }, include: { lot: true } })
-      if (!zone) throw new DomainError('NOT_FOUND', 'Zone not found')
-      if (zone.lot.status === 'SUSPENDED') throw new DomainError('LOT_SUSPENDED', 'Lot is suspended')
-
-      let vehicle = await findVehicleByIdentifier(tx, data.method, data.identifier)
-      if (!vehicle) {
-        if (data.method !== 'PLATE') throw new DomainError('UNKNOWN_CODE', 'Unknown code')
-        if (!data.vehicleType) throw new DomainError('VALIDATION', 'Vehicle type is required')
-        vehicle = await createGuestVehicle(tx, normalizePlate(data.identifier), data.vehicleType)
-      }
-
-      const type = vehicle.vehicleTypeCode as VehicleTypeCode
-
-      const openSession = await tx.parkingSession.findFirst({
-        where: { vehicleId: vehicle.id, status: 'OPEN' },
-      })
-      if (openSession) throw new DomainError('ALREADY_OPEN', 'Vehicle already has an open session')
-
-      const reservation = await tx.reservation.findFirst({
-        where: { vehicleId: vehicle.id, status: 'PENDING', holdUntil: { gt: now } },
-        orderBy: { arrivalTime: 'asc' },
-      })
-
-      let ownReservationId: string | null = null
-      let earlyArrivalAt: Date | null = null
-      if (reservation) {
-        if (reservation.zoneId === data.zoneId) {
-          if (now < reservation.arrivalTime) {
-            // Lecturer R3: staff must check and explicitly confirm an early
-            // arrival before the reservation is fulfilled.
-            if (!data.confirmEarly) {
-              throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time')
-            }
-            earlyArrivalAt = reservation.arrivalTime
-          }
-          ownReservationId = reservation.id
-        } else {
-          // Reservation held for a different zone: cancel it (D-34) and
-          // treat this as a walk-in.
-          await tx.reservation.update({
-            where: { id: reservation.id },
-            data: { status: 'CANCELLED', cancelReason: 'ENTERED_OTHER_ZONE', cancelZoneId: data.zoneId },
-          })
+        let vehicle = await findVehicleByIdentifier(tx, data.method, data.identifier)
+        if (!vehicle) {
+          if (data.method !== 'PLATE') throw new DomainError('UNKNOWN_CODE', 'Unknown code')
+          if (!data.vehicleType) throw new DomainError('VALIDATION', 'Vehicle type is required')
+          vehicle = await createGuestVehicle(tx, normalizePlate(data.identifier), data.vehicleType)
         }
-      }
 
-      if (!ownReservationId) {
-        const free = await getFree(tx, data.zoneId, type, now)
-        if (free <= 0) throw new DomainError('ZONE_FULL', 'Zone is full')
-      }
+        const type = vehicle.vehicleTypeCode as VehicleTypeCode
 
-      const owner = vehicle.ownerId
-        ? await tx.user.findUnique({ where: { id: vehicle.ownerId } })
-        : null
-      const feeGroup = owner?.userGroup ?? 'GUEST'
+        const openSession = await tx.parkingSession.findFirst({
+          where: { vehicleId: vehicle.id, status: 'OPEN' },
+        })
+        if (openSession) throw new DomainError('ALREADY_OPEN', 'Vehicle already has an open session')
 
-      const created = await tx.parkingSession.create({
-        data: {
-          vehicleId: vehicle.id,
-          plateSnapshot: vehicle.plate,
-          zoneId: data.zoneId,
-          vehicleTypeCode: type,
-          feeGroup,
-          idMethod: data.method,
-          entryTime: now,
-          entryStaffId: data.staffId,
-          status: 'OPEN',
-          reservationId: ownReservationId,
-          ownerId: vehicle.ownerId,
-        },
-      })
+        const reservation = await tx.reservation.findFirst({
+          where: { vehicleId: vehicle.id, status: 'PENDING', holdUntil: { gt: now } },
+          orderBy: { arrivalTime: 'asc' },
+        })
 
-      if (ownReservationId) {
-        await tx.reservation.update({ where: { id: ownReservationId }, data: { status: 'FULFILLED' } })
-      }
+        let ownReservationId: string | null = null
+        let earlyArrivalAt: Date | null = null
+        if (reservation) {
+          if (reservation.zoneId === data.zoneId) {
+            if (now < reservation.arrivalTime) {
+              // Lecturer R3: staff must check and explicitly confirm an early
+              // arrival before the reservation is fulfilled.
+              if (!data.confirmEarly) {
+                throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time')
+              }
+              earlyArrivalAt = reservation.arrivalTime
+            }
+            ownReservationId = reservation.id
+          } else {
+            // Reservation held for a different zone: cancel it (D-34) and
+            // treat this as a walk-in.
+            await tx.reservation.update({
+              where: { id: reservation.id },
+              data: { status: 'CANCELLED', cancelReason: 'ENTERED_OTHER_ZONE', cancelZoneId: data.zoneId },
+            })
+          }
+        }
 
-      if (earlyArrivalAt) {
-        await tx.sessionEvent.create({
+        if (!ownReservationId) {
+          const free = await getFree(tx, data.zoneId, type, now)
+          if (free <= 0) throw new DomainError('ZONE_FULL', 'Zone is full')
+        }
+
+        const owner = vehicle.ownerId
+          ? await tx.user.findUnique({ where: { id: vehicle.ownerId } })
+          : null
+        const feeGroup = owner?.userGroup ?? 'GUEST'
+
+        const created = await tx.parkingSession.create({
           data: {
-            sessionId: created.id,
-            type: 'EARLY_ARRIVAL_CONFIRMED',
-            staffId: data.staffId,
-            note: `Reserved arrival: ${earlyArrivalAt.toISOString()}`,
+            vehicleId: vehicle.id,
+            plateSnapshot: vehicle.plate,
+            zoneId: data.zoneId,
+            vehicleTypeCode: type,
+            feeGroup,
+            idMethod: data.method,
+            entryTime: now,
+            entryStaffId: data.staffId,
+            status: 'OPEN',
+            reservationId: ownReservationId,
+            ownerId: vehicle.ownerId,
           },
         })
-      }
 
-      return { created, early: earlyArrivalAt !== null }
-    }),
-  )
+        if (ownReservationId) {
+          await tx.reservation.update({ where: { id: ownReservationId }, data: { status: 'FULFILLED' } })
+        }
 
-  await logAccess(db, { userId: data.staffId, action: 'ENTRY', target: session.id })
-  if (early) await logAccess(db, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: session.id })
+        if (earlyArrivalAt) {
+          await tx.sessionEvent.create({
+            data: {
+              sessionId: created.id,
+              type: 'EARLY_ARRIVAL_CONFIRMED',
+              staffId: data.staffId,
+              note: `Reserved arrival: ${earlyArrivalAt.toISOString()}`,
+            },
+          })
+        }
+
+        await logAccess(tx, { userId: data.staffId, action: 'ENTRY', target: created.id })
+        if (earlyArrivalAt) {
+          await logAccess(tx, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: created.id })
+        }
+
+        return { created, early: earlyArrivalAt !== null }
+      })
+    })
+  } finally {
+    // Sweeping lapsed holds changes availability even if the entry is rejected.
+    if (expired > 0) publishAvailabilityChanged()
+  }
+
+  const { created: session } = result
   publishAvailabilityChanged()
 
   return session

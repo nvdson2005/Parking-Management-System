@@ -317,6 +317,25 @@ describe('recordEntry: early arrival', () => {
     expect(await db.parkingSession.count({ where: { vehicleId: vehicle.id } })).toBe(0)
   })
 
+  it('a rejected EARLY_ARRIVAL keeps the sweep of other lapsed holds', async () => {
+    const { f, vehicle } = await setup()
+    const other = await addVehicle(db, { ownerId: f.lecturer.id, plate: '51F-900.02', vehicleType: 'MOTORBIKE' })
+    const lapsed = await createReservation(db, {
+      customerId: f.lecturer.id,
+      vehicleId: other.id,
+      zoneId: f.zoneA.id,
+      arrivalTime: ARRIVAL,
+      now: NOW,
+    })
+    await db.reservation.update({ where: { id: lapsed.id }, data: { holdUntil: new Date(NOW.getTime() - MINUTE) } })
+
+    await expect(
+      recordEntry(db, { method: 'QR', identifier: vehicle.qrCode, zoneId: f.zoneA.id, staffId: f.staff.id, now: NOW }),
+    ).rejects.toMatchObject({ code: 'EARLY_ARRIVAL' })
+
+    expect((await db.reservation.findUnique({ where: { id: lapsed.id } }))?.status).toBe('NO_SHOW')
+  })
+
   it('confirmEarly admits, fulfils the reservation, and records the override', async () => {
     const { f, vehicle, reservation } = await setup()
 

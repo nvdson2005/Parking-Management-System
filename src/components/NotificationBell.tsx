@@ -58,11 +58,15 @@ export function NotificationBell() {
   }, [open, load])
 
   async function markAllRead() {
+    // Only mark what the user actually saw; a notification that arrived after
+    // the last poll stays unread.
+    const ids = items.filter((item) => !item.readAt).map((item) => item.id)
+    if (ids.length === 0) return
     try {
       await fetch('/api/notifications/read', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: '{}',
+        body: JSON.stringify({ ids }),
       })
     } catch {
       return
