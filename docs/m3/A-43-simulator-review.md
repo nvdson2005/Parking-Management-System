@@ -7,7 +7,8 @@
 | Kế hoạch | 09/11 → 11/11/2026; E = 3,17 h (đối chiếu 10 tiêu chí 1,5 h; mô tả 7 kịch bản 1,4 h) |
 | Effort thực tế | 2,5 giờ |
 | Mã được rà soát | `main` @ `0babc33`: `src/server/services/simulator.ts`, `src/app/api/simulator/route.ts`, `src/app/manager/simulator/*`, `tests/simulator.test.ts` |
-| Căn cứ | PD-P04 (M2 mục 2.2); SRS v0.1 (FR-11, FR-15, FR-33, FR-34, EX-01..EX-05); P18 mục 10 (KB-01, KB-08, KB-09) |
+| Căn cứ | PD-P04 (M2 mục 2.2); SRS v0.1 (FR-11, FR-15, FR-33, FR-34, EX-01..EX-05); P18 mục 10 (KB-01, KB-08, KB-09); Client Interaction Round 3 (trả lời câu 27, 28, 32) |
+| Phiên bản | v1.1 (16/11/2026): cập nhật SC-04, SC-06, SC-07 và ghi chú A-83 theo Round 3 |
 | Đầu ra cho | A-44 (sửa theo cột "Chuyển cho" ở mục 1), CP-02, A-45 / CP-04, A-47, A-83 |
 
 ## 1. Đối chiếu 10 tiêu chí PD-P04
@@ -40,9 +41,11 @@ Quy ước chung:
 | SC-01 | Luồng thường vào/ra | Live events, N = 20 | `entries + exits + rejected = 20`; `rejected = 0`; mỗi lượt đủ trường; chỗ trống = sức chứa − lượt đang mở; màn hình chỗ trống tự cập nhật | FR-11, FR-15; T05, T11; AT-01, AT-02 |
 | SC-02 | EX-01 Khu vực hết chỗ | Bấm EX-01 Zone full | Trả về `ZONE_FULL`; chỗ trống = 0, không âm. **Reset CSDL sau khi chạy** | EX-01; T06; AT-EX01 |
 | SC-03 | EX-02 Biển số không khớp | Bấm EX-02; Staff ra xe tại `/staff/exit` với biển quan sát trong hướng dẫn | Trả về `SESSION_OPEN`. Màn hình cảnh báo lệch biển. Không tích "Confirm manually" → bị từ chối `PLATE_MISMATCH`. Có tích → lượt đóng, có `MANUAL_CONFIRM` | EX-02; T07; AT-EX02 |
-| SC-04 | EX-03 Mất mã QR/thẻ | Bấm EX-03; Staff ra xe theo biển số, tích "Lost card" | Trả về `SESSION_OPEN` (lượt vào bằng QR); khi ra: lượt đóng, có sự kiện `LOST_CARD`, phí bình thường, không phạt | EX-03; T08; AT-EX03 |
+| SC-04 | EX-03 Mất mã QR/thẻ | Bấm EX-03; Staff ra xe theo biển số, tích "Lost card" | Trả về `SESSION_OPEN` (lượt vào bằng QR); khi ra: lượt đóng, có sự kiện `LOST_CARD`, phí bình thường, không bắt buộc thu phí phạt (Round 3, câu 27) | EX-03; T08; AT-EX03 |
 | SC-05 | EX-04 Vào trùng | Bấm EX-04 Duplicate entry | Trả về `ALREADY_OPEN`; chỉ còn 1 lượt mở cho biển số đó | EX-04; T09; AT-EX04 |
-| SC-06 | EX-05 Bãi tạm ngưng | Bấm EX-05 Lot suspended | Trả về `LOT_SUSPENDED`; bãi trở về trạng thái ban đầu. Sau A-44: có `LOT_CHANGE` và SSE | EX-05; T10; AT-EX05 |
-| SC-07 | Tải ≥ 100 lượt gửi | Live events, N = 200 (sau A-44: chế độ "≥ 100 lượt gửi") | ≥ 100 lượt gửi; 100% lượt đủ trường; chỗ trống khớp số đếm tay; mỗi lượt ≤ 2 s | FR-16, FR-34; T11; AT-100; CP-04, CP-05 |
+| SC-06 | EX-05 Bãi tạm ngưng | Bấm EX-05 Lot suspended | Trả về `LOT_SUSPENDED`; bãi trở về trạng thái ban đầu. Sau A-44: có `LOT_CHANGE` và SSE. Theo Round 3 (câu 32), khi bãi tạm ngưng thì các đặt chỗ PENDING của bãi bị hủy (`cancelReason = LOT_SUSPENDED`) và người đặt nhận thông báo. Bộ mô phỏng cố ý bỏ qua bước này để không đụng dữ liệu thật, nên phần này kiểm bằng tay (xem ghi chú A-83) | EX-05; T10; AT-EX05 |
+| SC-07 | Tải ≥ 100 lượt gửi | Live events, N = 200 (sau A-44: chế độ "≥ 100 lượt gửi") | ≥ 100 lượt gửi; 100% lượt đủ trường; chỗ trống khớp 100% số đếm tay (ngưỡng do nhóm đề xuất; Round 3 câu 28 thầy không phản đối nhưng chưa xác nhận rõ); mỗi lượt ≤ 2 s | FR-16, FR-34; T11; AT-100; CP-04, CP-05 |
 
-**Ghi chú cho A-83:** SC-02..SC-06 tương ứng AT-EX01..AT-EX05; SC-07 tương ứng AT-100. Bộ mô phỏng chưa kiểm ý "xe vẫn ra được khi bãi tạm ngưng" của EX-05, nên AT-EX05 cần thêm bước này làm bằng tay.
+**Ghi chú cho A-83:** SC-02..SC-06 tương ứng AT-EX01..AT-EX05; SC-07 tương ứng AT-100. Bộ mô phỏng không kiểm hai ý sau của EX-05, nên AT-EX05 cần thêm hai bước làm bằng tay:
+1. Xe đang gửi vẫn ra được khi bãi tạm ngưng.
+2. Tạo trước một đặt chỗ PENDING trong bãi, rồi tạm ngưng bãi tại `/manager/lots`: đặt chỗ chuyển sang CANCELLED (`LOT_SUSPENDED`), người đặt nhận thông báo, và không đặt chỗ mới được (`LOT_SUSPENDED`).
