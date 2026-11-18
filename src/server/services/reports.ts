@@ -108,6 +108,15 @@ export async function buildReport(db: Db, input: { from: Date; to: Date }): Prom
 
   const utilisationByHour = hourlyRates(sessions, totalCapacity, days)
 
+  // Bucket sessions once so each slice only scans its own sessions.
+  const sessionsBySlice = new Map<string, SessionWindow[]>()
+  for (const session of sessions) {
+    const key = `${session.zoneId}:${session.vehicleTypeCode}`
+    const bucket = sessionsBySlice.get(key)
+    if (bucket) bucket.push(session)
+    else sessionsBySlice.set(key, [session])
+  }
+
   const capacityRows = await db.zoneCapacity.findMany({
     where: { capacity: { gt: 0 } },
     include: { zone: { select: { name: true } } },
@@ -117,11 +126,7 @@ export async function buildReport(db: Db, input: { from: Date; to: Date }): Prom
       zoneId: row.zoneId,
       zoneName: row.zone.name,
       vehicleTypeCode: row.vehicleTypeCode as VehicleTypeCode,
-      byHour: hourlyRates(
-        sessions.filter((x) => x.zoneId === row.zoneId && x.vehicleTypeCode === row.vehicleTypeCode),
-        row.capacity,
-        days,
-      ),
+      byHour: hourlyRates(sessionsBySlice.get(`${row.zoneId}:${row.vehicleTypeCode}`) ?? [], row.capacity, days),
     }))
     .sort((a, b) => a.zoneName.localeCompare(b.zoneName) || a.vehicleTypeCode.localeCompare(b.vehicleTypeCode))
 

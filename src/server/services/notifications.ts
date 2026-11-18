@@ -32,6 +32,22 @@ export async function createNotification(
   })
 }
 
+/** Bulk variant of `createNotification`: one INSERT for many recipients. */
+export async function createNotifications(
+  db: Db,
+  inputs: Array<{ userId: string; type: NotificationType; params?: NotificationParams }>,
+): Promise<number> {
+  if (inputs.length === 0) return 0
+  const result = await db.notification.createMany({
+    data: inputs.map((input) => ({
+      userId: input.userId,
+      type: input.type,
+      params: JSON.stringify(input.params ?? {}),
+    })),
+  })
+  return result.count
+}
+
 function parseParams(raw: string): NotificationParams {
   try {
     const value: unknown = JSON.parse(raw)
