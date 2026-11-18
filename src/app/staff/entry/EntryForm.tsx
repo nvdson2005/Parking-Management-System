@@ -78,7 +78,10 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-1.5">
             <Label>{t('entry.method')}</Label>
-            <Tabs value={method} onValueChange={(value) => setMethod(value as IdMethod)}>
+            <Tabs value={method} onValueChange={(value) => {
+              setMethod(value as IdMethod)
+              setEarlyPrompt(false)
+            }}>
               <TabsList>
                 <TabsTrigger value="PLATE">{t('entry.methodPlate')}</TabsTrigger>
                 <TabsTrigger value="QR">{t('entry.methodQr')}</TabsTrigger>
@@ -123,7 +126,10 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
           {method === 'PLATE' ? (
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="vehicleType">{t('entry.vehicleType')}</Label>
-              <Select value={vehicleType} onValueChange={(value) => setVehicleType(value as VehicleTypeCode)}>
+              <Select value={vehicleType} onValueChange={(value) => {
+                setVehicleType(value as VehicleTypeCode)
+                setEarlyPrompt(false)
+              }}>
                 <SelectTrigger id="vehicleType" className="w-full sm:w-40">
                   <SelectValue />
                 </SelectTrigger>

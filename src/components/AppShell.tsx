@@ -106,7 +106,7 @@ export function AppShell({
 
             <div className="flex items-center gap-3">
               <LangToggle />
-              {user ? <NotificationBell /> : null}
+              {user?.role === 'CUSTOMER' ? <NotificationBell /> : null}
               {user ? (
                 <div className="flex flex-col items-end gap-1">
                   <Button size="sm" variant="outline" onClick={handleLogout} disabled={loggingOut}>

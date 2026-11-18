@@ -149,7 +149,7 @@ describe('createReservation', () => {
     ).rejects.toMatchObject({ code: 'ZONE_FULL' })
   })
 
-  it('RESERVATION_LIMIT on second reservation for same vehicle', async () => {
+  it('VEHICLE_ALREADY_RESERVED on second reservation for same vehicle', async () => {
     await resetDb()
     const f = await makeFixture()
     const vehicle = await addVehicle(db, { ownerId: f.student.id, plate: '51F-666.66', vehicleType: 'MOTORBIKE' })
@@ -172,7 +172,7 @@ describe('createReservation', () => {
         arrivalTime: arrival,
         now,
       }),
-    ).rejects.toMatchObject({ code: 'RESERVATION_LIMIT' })
+    ).rejects.toMatchObject({ code: 'VEHICLE_ALREADY_RESERVED' })
   })
 
   it('RESERVATION_LIMIT when the same account already has a PENDING reservation on another vehicle', async () => {

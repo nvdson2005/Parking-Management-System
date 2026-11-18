@@ -80,15 +80,15 @@ export async function createReservation(
       if (!zone) throw new DomainError('NOT_FOUND', 'Zone not found')
       if (zone.lot.status === 'SUSPENDED') throw new DomainError('LOT_SUSPENDED', 'Lot is suspended')
 
-      const accountHold = await tx.reservation.findFirst({
-        where: { customerId: data.customerId, status: 'PENDING' },
-      })
-      if (accountHold) throw new DomainError('RESERVATION_LIMIT', 'Account already has an active reservation')
-
       const existing = await tx.reservation.findFirst({
         where: { vehicleId: vehicle.id, status: 'PENDING' },
       })
       if (existing) throw new DomainError('VEHICLE_ALREADY_RESERVED', 'Vehicle already has a reservation')
+
+      const accountHold = await tx.reservation.findFirst({
+        where: { customerId: data.customerId, status: 'PENDING' },
+      })
+      if (accountHold) throw new DomainError('RESERVATION_LIMIT', 'Account already has an active reservation')
 
       const openSession = await tx.parkingSession.findFirst({
         where: { vehicleId: vehicle.id, status: 'OPEN' },
