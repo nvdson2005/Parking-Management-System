@@ -1,6 +1,6 @@
 # A-90 Planned vs Actual: skeleton (RES-01 activities)
 
-Planned values come from `docs/m2-report/generated/estimates.md` and the work-division plan. **Actual hours and start dates are unknown** (assumed 8 h per member per week at team level; per-activity actuals `TODO(member)`); finish dates come from commits and documents. Deviations over 20% are explained once actual hours exist (A-103, Task 3.3). This file covers RES-01's activities only; RES-03 owns the full tracker.
+Planned values come from `docs/m2-report/generated/estimates.md` and the work-division plan. **Actual hours and start dates are unknown** (assumed equal to capacity at team level, 8 h in W12 and 10 h from W13; per-activity actuals `TODO(member)`); finish dates come from commits and documents. Deviations over 20% are explained once actual hours exist (A-103, Task 3.3). This file covers RES-01's activities only; RES-03 owns the full tracker.
 
 | A-ID | Activity | Planned start–finish | Planned E (h) | Actual finish (evidence) | Actual effort (h) | Deviation | Explanation |
 |---|---|---|---|---|---|---|---|
@@ -15,7 +15,7 @@ Planned values come from `docs/m2-report/generated/estimates.md` and the work-di
 | A-105 | Options workshop | when event arrives | 2.5 | decision record 19/11; workshop not held | TODO | pending | TODO(RES-01): date |
 | A-106 | Baseline V2.0 hand-off | after A-105 | 3.0 (now 1.5) | hand-off 19/11 (`e43c2bf`); regeneration by RES-03 pending | TODO | pending | — |
 | A-94 / A-97 | Weekly log and meeting | weekly | TODO | draft 19/11 (`docs/m3/weekly-log-draft.md`) | TODO | late (no log for W12) | Log started in W13 |
-| A-100 | Own hours in Task Log | weekly | 1 per week | not started; hours ASSUMED 8 h per member per week | TODO | missed W12 | No hours were logged; see weekly-log-draft.md |
+| A-100 | Own hours in Task Log | weekly | 1 per week | not started; hours ASSUMED equal to capacity (8 h W12, 10 h W13) | TODO | missed W12 | No hours were logged; see weekly-log-draft.md |
 | A-90 | Actuals vs baseline | 23–25/11 | 3.42 | pending | — | — | Needs actuals from all members |
 | A-88 | Client acceptance demo | 27/11 | 2.83 | pending | — | — | — |
 

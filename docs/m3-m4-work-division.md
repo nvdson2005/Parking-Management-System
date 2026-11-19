@@ -149,7 +149,7 @@ Cause: the lecturer moved the final report and submission (M-05) from 07/12 to 2
 | W14 | 23/11 – 29/11 | 10 h (+2 h accepted, see below) | M-03 24/11; A-88 client demo 27/11; A-92 finish and review 28/11; **M-05 submission 29/11** |
 | W15 | removed | 0 | — |
 
-Total capacity W12–W14 is 140 h (RES-01 alone 28 h). Planned effort after the cuts is about 164 h (172.1 h minus 8 h net). Cover is about 2.6 h (Q22 fallback) plus 2 h per person in W14 (10 h). **About 11.5 h remain unresolved** (31.5 h if every member works 8 h per week instead of the baseline's 10 h in W13–W14; the team must confirm) pending actual hours to date and the team's choice of levers (`docs/m3/decision-record.md`). RES-01 carries 26.7 h of baseline against 28 h and about 30.7 h with the new activities.
+Total capacity W12–W14 is 140 h (RES-01 alone 28 h). Planned effort after the cuts is about 164 h (172.1 h minus 8 h net). Cover is about 2.6 h (Q22 fallback) plus 2 h per person in W14 (10 h). **About 11.5 h remain unresolved** (31.5 h only if members work 8 h per week instead of the baseline's 10 h in W13–W14; RES-01 confirmed 10 h applies) pending actual hours to date and the team's choice of levers (`docs/m3/decision-record.md`). RES-01 carries 26.7 h of baseline against 28 h and about 30.7 h with the new activities.
 
 ### Changes per member
 
