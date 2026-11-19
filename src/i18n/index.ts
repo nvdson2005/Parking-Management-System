@@ -31,12 +31,14 @@ export async function getLang(): Promise<Lang> {
   return value === 'en' ? 'en' : 'vi'
 }
 
-export function t(dict: Dict, key: string): string {
+export function t(dict: Dict, key: string, params?: Record<string, string | number>): string {
   const parts = key.split('.')
   let node: unknown = dict
   for (const part of parts) {
     if (typeof node !== 'object' || node === null) return key
     node = (node as Record<string, unknown>)[part]
   }
-  return typeof node === 'string' ? node : key
+  if (typeof node !== 'string') return key
+  if (!params) return node
+  return node.replace(/\{(\w+)\}/g, (match, name: string) => (name in params ? String(params[name]) : match))
 }

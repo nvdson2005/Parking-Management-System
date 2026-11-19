@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { UtilisationChart, RevenueChart } from '@/components/ReportsCharts'
+import { RevenueChart } from '@/components/ReportsCharts'
+import { UtilisationPanel } from '@/components/UtilisationPanel'
 
 function localDateKey(d: Date): string {
   const year = d.getFullYear()
@@ -67,7 +68,7 @@ export default async function ManagerReportsPage({
               <CardTitle>{t(dict, 'reports.utilisationTitle')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <UtilisationChart data={report.utilisationByHour} />
+              <UtilisationPanel overall={report.utilisationByHour} slices={report.utilisationBySlice} />
             </CardContent>
           </Card>
 

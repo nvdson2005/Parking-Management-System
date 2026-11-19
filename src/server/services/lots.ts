@@ -4,6 +4,9 @@ import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
+import { withLock } from '@/server/lock'
+import { createNotifications } from '@/server/services/notifications'
+import { expireReservations } from '@/server/services/reservations'
 import type { VehicleTypeCode } from '@/lib/types'
 
 const capacitiesSchema = z
@@ -81,20 +84,66 @@ export async function createLot(
  * Updates a lot's name/address/status (MANAGER only). The Active/Suspended
  * toggle flows through `status` (FR-10). Logs `LOT_CHANGE` and broadcasts
  * availability so a suspension immediately hides the lot's free spots.
+ *
+ * Moving a lot to SUSPENDED (from any other status) also cancels its PENDING
+ * reservations with `cancelReason: 'LOT_SUSPENDED'` and notifies each customer,
+ * in the same transaction as the status change (lecturer R3). That runs under
+ * `withLock` so it can't interleave with entry/reservation. Pass
+ * `cancelPendingReservations: false` for non-manager callers (the simulator)
+ * that must not touch real reservations.
  */
 export async function updateLot(
   db: Db,
   actorId: string,
   lotId: string,
   input: { name?: string; address?: string; status?: 'ACTIVE' | 'SUSPENDED' },
+  opts: { cancelPendingReservations?: boolean } = {},
 ): Promise<ParkingLot> {
   const parsed = updateLotSchema.safeParse(input)
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid lot input')
 
-  const existing = await db.parkingLot.findUnique({ where: { id: lotId } })
-  if (!existing) throw new DomainError('NOT_FOUND', 'Lot not found')
+  let lot: ParkingLot
+  if (opts.cancelPendingReservations === false) {
+    const existing = await db.parkingLot.findUnique({ where: { id: lotId } })
+    if (!existing) throw new DomainError('NOT_FOUND', 'Lot not found')
+    lot = await db.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+  } else {
+    const prisma = db as PrismaClient
+    // The status read, the suspend decision and the writes share one lock and
+    // transaction, so a concurrent PATCH cannot make the decision stale.
+    lot = await withLock(() =>
+      prisma.$transaction(async (tx) => {
+        const existing = await tx.parkingLot.findUnique({ where: { id: lotId } })
+        if (!existing) throw new DomainError('NOT_FOUND', 'Lot not found')
 
-  const lot = await db.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+        const suspending = parsed.data.status === 'SUSPENDED' && existing.status !== 'SUSPENDED'
+        if (!suspending) return tx.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+
+        // Sweep lapsed holds first so they become NO_SHOW, not LOT_SUSPENDED cancels.
+        await expireReservations(tx)
+        const updated = await tx.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+        const pending = await tx.reservation.findMany({
+          where: { status: 'PENDING', zone: { lotId } },
+          select: { id: true, customerId: true, arrivalTime: true },
+        })
+        if (pending.length > 0) {
+          await tx.reservation.updateMany({
+            where: { id: { in: pending.map((r) => r.id) } },
+            data: { status: 'CANCELLED', cancelReason: 'LOT_SUSPENDED' },
+          })
+          await createNotifications(
+            tx,
+            pending.map((r) => ({
+              userId: r.customerId,
+              type: 'LOT_SUSPENDED' as const,
+              params: { lot: updated.name, arrival: r.arrivalTime.toISOString() },
+            })),
+          )
+        }
+        return updated
+      }),
+    )
+  }
 
   await logAccess(db, { userId: actorId, action: 'LOT_CHANGE', target: lot.id })
   publishAvailabilityChanged()

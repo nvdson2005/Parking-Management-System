@@ -175,6 +175,52 @@ describe('createReservation', () => {
     ).rejects.toMatchObject({ code: 'VEHICLE_ALREADY_RESERVED' })
   })
 
+  it('RESERVATION_LIMIT when the same account already has a PENDING reservation on another vehicle', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v1 = await addVehicle(db, { ownerId: f.student.id, plate: '51F-710.01', vehicleType: 'MOTORBIKE' })
+    const v2 = await addVehicle(db, { ownerId: f.student.id, plate: '51F-710.02', vehicleType: 'MOTORBIKE' })
+    const now = localNoon()
+    const arrival = new Date(now.getTime() + 60 * MINUTE)
+
+    await createReservation(db, { customerId: f.student.id, vehicleId: v1.id, zoneId: f.zoneA.id, arrivalTime: arrival, now })
+
+    await expect(
+      createReservation(db, { customerId: f.student.id, vehicleId: v2.id, zoneId: f.zoneA.id, arrivalTime: arrival, now }),
+    ).rejects.toMatchObject({ code: 'RESERVATION_LIMIT' })
+  })
+
+  it('a different account is not blocked by another account reservation', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v1 = await addVehicle(db, { ownerId: f.student.id, plate: '51F-720.01', vehicleType: 'MOTORBIKE' })
+    const v2 = await addVehicle(db, { ownerId: f.lecturer.id, plate: '51F-720.02', vehicleType: 'MOTORBIKE' })
+    const now = localNoon()
+    const arrival = new Date(now.getTime() + 60 * MINUTE)
+
+    await createReservation(db, { customerId: f.student.id, vehicleId: v1.id, zoneId: f.zoneA.id, arrivalTime: arrival, now })
+
+    await expect(
+      createReservation(db, { customerId: f.lecturer.id, vehicleId: v2.id, zoneId: f.zoneA.id, arrivalTime: arrival, now }),
+    ).resolves.toMatchObject({ status: 'PENDING' })
+  })
+
+  it('cancelling frees the account to reserve again', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v1 = await addVehicle(db, { ownerId: f.student.id, plate: '51F-730.01', vehicleType: 'MOTORBIKE' })
+    const v2 = await addVehicle(db, { ownerId: f.student.id, plate: '51F-730.02', vehicleType: 'MOTORBIKE' })
+    const now = localNoon()
+    const arrival = new Date(now.getTime() + 60 * MINUTE)
+
+    const first = await createReservation(db, { customerId: f.student.id, vehicleId: v1.id, zoneId: f.zoneA.id, arrivalTime: arrival, now })
+    await cancelReservation(db, { customerId: f.student.id, reservationId: first.id, now })
+
+    await expect(
+      createReservation(db, { customerId: f.student.id, vehicleId: v2.id, zoneId: f.zoneA.id, arrivalTime: arrival, now }),
+    ).resolves.toMatchObject({ status: 'PENDING' })
+  })
+
   it('VEHICLE_PARKED when vehicle has open session', async () => {
     await resetDb()
     const f = await makeFixture()

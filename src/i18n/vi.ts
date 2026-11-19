@@ -91,6 +91,7 @@ export const vi = {
     cancelReason: {
       CUSTOMER: 'Đã hủy bởi bạn',
       ENTERED_OTHER_ZONE: 'Đã hủy: bạn đã đỗ xe ở khu vực {zone}',
+      LOT_SUSPENDED: 'Đã hủy: bãi tạm ngưng hoạt động',
     },
     selectZone: 'Chọn khu vực',
     statuses: {
@@ -114,6 +115,10 @@ export const vi = {
     submit: 'Ghi nhận xe vào',
     submitting: 'Đang xử lý...',
     success: 'Đã ghi nhận xe vào bãi',
+    earlyTitle: 'Xe đến sớm',
+    earlyWarning: 'Xe này có đặt chỗ vào giờ muộn hơn. Kiểm tra chỗ rồi xác nhận để cho xe vào ngay.',
+    earlyConfirm: 'Xác nhận và ghi nhận xe vào',
+    earlyCancel: 'Hủy',
   },
   exit: {
     title: 'Ghi nhận xe ra',
@@ -169,6 +174,7 @@ export const vi = {
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Xác nhận lệch biển số',
       LOST_CARD: 'Mất thẻ',
+      EARLY_ARRIVAL_CONFIRMED: 'Đã xác nhận xe đến sớm',
     },
   },
   history: {
@@ -201,6 +207,8 @@ export const vi = {
     apply: 'Áp dụng',
     utilisationTitle: 'Tỷ lệ sử dụng theo giờ',
     utilisationRate: 'Tỷ lệ',
+    utilisationScope: 'Phạm vi',
+    utilisationOverall: 'Tổng thể',
     peakTitle: 'Giờ cao điểm',
     peakEntries: 'lượt vào',
     peakEmpty: 'Không có lượt vào nào trong khoảng này.',
@@ -337,6 +345,14 @@ export const vi = {
       UNEXPECTED: 'Kết quả không mong đợi.',
     },
   },
+  notifications: {
+    title: 'Thông báo',
+    empty: 'Chưa có thông báo.',
+    markAllRead: 'Đánh dấu đã đọc',
+    types: {
+      LOT_SUSPENDED: '{lot} đã tạm ngưng hoạt động; đặt chỗ lúc {arrival} của bạn đã bị hủy.',
+    },
+  },
   errors: {
     VALIDATION: 'Dữ liệu không hợp lệ',
     UNAUTHENTICATED: 'Vui lòng đăng nhập để tiếp tục',
@@ -355,6 +371,8 @@ export const vi = {
     RESERVATION_WINDOW: 'Ngoài khung giờ cho phép đặt chỗ',
     NOT_CANCELLABLE: 'Không thể hủy đặt chỗ này',
     VEHICLE_ALREADY_RESERVED: 'Xe đã được đặt chỗ',
+    RESERVATION_LIMIT: 'Bạn đã có một lượt đặt chỗ đang hiệu lực',
+    EARLY_ARRIVAL: 'Xe đến sớm hơn giờ đặt; nhân viên cần xác nhận',
     VEHICLE_PARKED: 'Xe đang đỗ trong bãi',
     NOT_OWNER: 'Bạn không phải chủ sở hữu xe này',
   },

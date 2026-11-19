@@ -8,6 +8,7 @@ import { cn } from 'cn'
 import { Button } from '@/components/ui/button'
 import { useT } from '@/components/I18nProvider'
 import { LangToggle } from '@/components/LangToggle'
+import { NotificationBell } from '@/components/NotificationBell'
 import type { Role } from '@/lib/types'
 import { ROLE_LINKS } from '@/lib/nav'
 import type { CurrentUser } from '@/server/auth/session'
@@ -105,6 +106,7 @@ export function AppShell({
 
             <div className="flex items-center gap-3">
               <LangToggle />
+              {user?.role === 'CUSTOMER' ? <NotificationBell /> : null}
               {user ? (
                 <div className="flex flex-col items-end gap-1">
                   <Button size="sm" variant="outline" onClick={handleLogout} disabled={loggingOut}>

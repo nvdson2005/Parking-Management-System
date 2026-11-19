@@ -45,7 +45,7 @@ type Reservation = {
   arrivalTime: string
   holdUntil: string
   status: ReservationStatus
-  cancelReason: 'CUSTOMER' | 'ENTERED_OTHER_ZONE' | null
+  cancelReason: 'CUSTOMER' | 'ENTERED_OTHER_ZONE' | 'LOT_SUSPENDED' | null
   cancelZoneName: string | null
 }
 

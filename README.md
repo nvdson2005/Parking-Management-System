@@ -82,14 +82,16 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | POST | `/api/reservations/[id]/cancel` | Customer | Cancel a reservation |
 | GET | `/api/availability` | any auth | Current free/open/reserved counts |
 | GET | `/api/availability/stream` | any auth | Live availability (SSE) |
-| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate) |
+| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time |
 | POST | `/api/events/exit/preview` | Staff/Manager | Preview exit fee |
 | POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment |
 | GET/POST | `/api/lots`, PATCH `/api/lots/[id]` | Manager | Lot info and status (active/suspended) |
 | POST `/api/zones`, PATCH `/api/zones/[id]` | Manager | Zone and capacity management |
 | GET/PUT | `/api/tariffs` | Manager | View / edit tariffs |
 | GET/POST | `/api/accounts`, PATCH `/api/accounts/[id]` | Manager | Staff/manager account management |
-| GET | `/api/reports?from=&to=` | Manager | Reports over a date range |
+| GET | `/api/reports?from=&to=` | Manager | Reports over a date range (includes `utilisationBySlice` per zone and vehicle type) |
+| GET | `/api/notifications` | any auth | Own notifications (newest first) and unread count |
+| POST | `/api/notifications/read` | any auth | Mark own notifications read (`{ ids? }`, all when omitted) |
 | POST | `/api/simulator` | Manager | `live` / `history` / `exception` triggers |
 | POST | `/api/purge` | Manager | Mask old plate data |
 

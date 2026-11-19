@@ -3,6 +3,7 @@ import { db } from '@/server/db'
 import { resetDb, makeFixture } from './helpers/db'
 import { addVehicle } from '@/server/services/vehicles'
 import { recordEntry } from '@/server/services/entry'
+import { createReservation } from '@/server/services/reservations'
 
 const HOUR = 60 * 60 * 1000
 
@@ -158,6 +159,7 @@ describe('recordEntry', () => {
       identifier: '30A-22222',
       zoneId: f.zoneA.id,
       staffId: f.staff.id,
+      confirmEarly: true,
       now,
     })
 
@@ -166,7 +168,7 @@ describe('recordEntry', () => {
     expect(updated?.status).toBe('FULFILLED')
   })
 
-  it('early arrival (before arrivalTime, before holdUntil) still fulfils', async () => {
+  it('early arrival (before arrivalTime, before holdUntil) fulfils once staff confirm', async () => {
     await resetDb()
     const f = await makeFixture()
     const vehicle = await addVehicle(db, { ownerId: f.student.id, plate: '30A-33333', vehicleType: 'MOTORBIKE' })
@@ -188,6 +190,7 @@ describe('recordEntry', () => {
       identifier: vehicle.qrCode,
       zoneId: f.zoneA.id,
       staffId: f.staff.id,
+      confirmEarly: true,
       now,
     })
 
@@ -281,5 +284,127 @@ describe('recordEntry', () => {
     )
 
     expect(results.filter((r) => r.status === 'fulfilled')).toHaveLength(2)
+  })
+})
+
+describe('recordEntry: early arrival', () => {
+  const MINUTE = 60 * 1000
+  const NOW = new Date(2026, 0, 1, 12, 0, 0, 0)
+  const ARRIVAL = new Date(NOW.getTime() + 60 * MINUTE)
+
+  async function setup() {
+    await resetDb()
+    const f = await makeFixture()
+    const vehicle = await addVehicle(db, { ownerId: f.student.id, plate: '51F-900.01', vehicleType: 'MOTORBIKE' })
+    const reservation = await createReservation(db, {
+      customerId: f.student.id,
+      vehicleId: vehicle.id,
+      zoneId: f.zoneA.id,
+      arrivalTime: ARRIVAL,
+      now: NOW,
+    })
+    return { f, vehicle, reservation }
+  }
+
+  it('EARLY_ARRIVAL without confirmEarly: nothing written', async () => {
+    const { f, vehicle, reservation } = await setup()
+
+    await expect(
+      recordEntry(db, { method: 'QR', identifier: vehicle.qrCode, zoneId: f.zoneA.id, staffId: f.staff.id, now: NOW }),
+    ).rejects.toMatchObject({ code: 'EARLY_ARRIVAL' })
+
+    expect((await db.reservation.findUnique({ where: { id: reservation.id } }))?.status).toBe('PENDING')
+    expect(await db.parkingSession.count({ where: { vehicleId: vehicle.id } })).toBe(0)
+  })
+
+  it('a rejected EARLY_ARRIVAL keeps the sweep of other lapsed holds', async () => {
+    const { f, vehicle } = await setup()
+    const other = await addVehicle(db, { ownerId: f.lecturer.id, plate: '51F-900.02', vehicleType: 'MOTORBIKE' })
+    const lapsed = await createReservation(db, {
+      customerId: f.lecturer.id,
+      vehicleId: other.id,
+      zoneId: f.zoneA.id,
+      arrivalTime: ARRIVAL,
+      now: NOW,
+    })
+    await db.reservation.update({ where: { id: lapsed.id }, data: { holdUntil: new Date(NOW.getTime() - MINUTE) } })
+
+    await expect(
+      recordEntry(db, { method: 'QR', identifier: vehicle.qrCode, zoneId: f.zoneA.id, staffId: f.staff.id, now: NOW }),
+    ).rejects.toMatchObject({ code: 'EARLY_ARRIVAL' })
+
+    expect((await db.reservation.findUnique({ where: { id: lapsed.id } }))?.status).toBe('NO_SHOW')
+  })
+
+  it('confirmEarly admits, fulfils the reservation, and records the override', async () => {
+    const { f, vehicle, reservation } = await setup()
+
+    const session = await recordEntry(db, {
+      method: 'QR',
+      identifier: vehicle.qrCode,
+      zoneId: f.zoneA.id,
+      staffId: f.staff.id,
+      confirmEarly: true,
+      now: NOW,
+    })
+
+    expect(session.reservationId).toBe(reservation.id)
+    expect((await db.reservation.findUnique({ where: { id: reservation.id } }))?.status).toBe('FULFILLED')
+
+    const events = await db.sessionEvent.findMany({ where: { sessionId: session.id } })
+    expect(events).toHaveLength(1)
+    expect(events[0].type).toBe('EARLY_ARRIVAL_CONFIRMED')
+    expect(events[0].staffId).toBe(f.staff.id)
+    expect(events[0].note).toContain(ARRIVAL.toISOString())
+
+    const logs = await db.accessLog.findMany({ where: { action: 'MANUAL_CONFIRM', target: session.id } })
+    expect(logs).toHaveLength(1)
+  })
+
+  it('entering exactly at arrivalTime is not early', async () => {
+    const { f, vehicle } = await setup()
+
+    const session = await recordEntry(db, {
+      method: 'QR',
+      identifier: vehicle.qrCode,
+      zoneId: f.zoneA.id,
+      staffId: f.staff.id,
+      now: ARRIVAL,
+    })
+
+    expect(session.status).toBe('OPEN')
+    expect(await db.sessionEvent.count({ where: { sessionId: session.id } })).toBe(0)
+  })
+
+  it('wrong-zone entry ignores confirmEarly and still cancels the reservation', async () => {
+    const { f, vehicle, reservation } = await setup()
+
+    const session = await recordEntry(db, {
+      method: 'QR',
+      identifier: vehicle.qrCode,
+      zoneId: f.zoneB.id,
+      staffId: f.staff.id,
+      now: NOW,
+    })
+
+    expect(session.reservationId).toBeNull()
+    const cancelled = await db.reservation.findUnique({ where: { id: reservation.id } })
+    expect(cancelled?.status).toBe('CANCELLED')
+    expect(cancelled?.cancelReason).toBe('ENTERED_OTHER_ZONE')
+  })
+
+  it('non-boolean confirmEarly is VALIDATION', async () => {
+    const { f, vehicle } = await setup()
+
+    await expect(
+      recordEntry(db, {
+        method: 'QR',
+        identifier: vehicle.qrCode,
+        zoneId: f.zoneA.id,
+        staffId: f.staff.id,
+        confirmEarly: 'true' as unknown as boolean,
+        now: NOW,
+      }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 })
