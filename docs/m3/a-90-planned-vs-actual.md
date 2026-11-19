@@ -5,7 +5,7 @@ Planned values come from `docs/m2-report/generated/estimates.md` and the work-di
 | A-ID | Activity | Planned start–finish | Planned E (h) | Actual finish (evidence) | Actual effort (h) | Deviation | Explanation |
 |---|---|---|---|---|---|---|---|
 | A-22 | P18 v1.0 + KB-01..KB-19 decisions | 09–12/11 | 4.33 | 19/11 (`3d911b6`, P18 v1.0) | TODO | +7 days; effort TODO | Decisions waited on the fee-timing and transaction choices (KB-02, KB-03); round-3 lecturer changes took priority 15/11 |
-| A-09 | SRS review (CP-01) | W12 | TODO | none: no commit, PR or document on any branch (checked 19/11) | TODO | status unknown | TODO(RES-01): confirm whether the SRS review (CP-01) took place and where it is recorded |
+| A-09 | SRS review (CP-01) | W12 | TODO | none: no commit, PR or document on any branch (checked 19/11) | TODO | assumed pending (no evidence) | Owners per baseline: RES-04 (fixes), RES-05 (review), RES-01 (reads architecture parts, approves CP-01). TODO(RES-04/RES-05): confirm status and where it is recorded |
 | A-16 | Round-3 questions to client | W12 | TODO | before 15/11 (`resources/client-round3-questions.md`, replies reflected in `5b3ac52`) | TODO | on time | — |
 | A-61 | Lot management test | 13–23/11 | 1.5 | evidence drafted 19/11 (`docs/m3/quality-evidence-A-61.md`), route 403 check pending | TODO | in progress | — |
 | A-63 | Entry/exit fixes (with RES-03) | 16–18/11 | 6.33 | 19/11 (`42b9d98`, `9e07e29`) | TODO | +1 day | KB-02 and KB-03 decided as "accept"; only KB-04, KB-05, KB-13 needed code |

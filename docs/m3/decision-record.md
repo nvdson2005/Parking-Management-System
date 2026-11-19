@@ -75,6 +75,6 @@ CR-02 | TODO(RES-01): date round-3 replies received (changelog written 15/11) | 
 
 A 30-minute session with all five members (5 x 0.5 h = 2.5 h, as planned for A-105). Agenda: (1) the facts and the 24 h gap (5 min); (2) options A, B, C (5 min); (3) cuts per member and the W14 2 h (5 min); (4) pick levers for the residual 11.5 h (10 min); (5) fallback trigger and who reports on 24/11 (5 min). The decision is recorded straight after.
 
-`TODO(RES-01): workshop date (proposal: 20/11 or 21/11, 30 minutes, all five) and attendance.`
+Date: **20/11/2026** (per RES-01). Chair: RES-01. Duration 30 minutes, all five members. `TODO(RES-01): record attendance and the levers chosen after the session.`
 Approved by Nguyễn Võ Đức Sơn (RES-01, PM) on 19/11/2026. The decision stands with the residual gap open; the team's choice of levers is still outstanding.
 `TODO(team): levers chosen for the residual gap.`

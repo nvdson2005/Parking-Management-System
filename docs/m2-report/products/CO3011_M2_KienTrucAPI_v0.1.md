@@ -482,9 +482,9 @@ Các lựa chọn [BUILDER] khác của spec §8 và mã đã chọn: thư việ
 | Quyết định | KB-01..KB-19 đều có quyết định (cột cuối bảng mục 10); KB-02, KB-03 chấp nhận; KB-04, KB-05 sửa mã (A-63); KB-18 sửa chú thích |
 | Hợp đồng vào/ra | Đóng băng với hai thay đổi: `method` ở `/api/events/exit/confirm` (KB-05) và quy tắc so biển (KB-04) |
 | Người duyệt | Nguyễn Võ Đức Sơn (RES-01) |
-| Người review | Đào Xuân Sơn (RES-02) |
-| Ngày review | TODO(RES-02): xác nhận ngày review CP-02 |
-| Kết quả | TODO(RES-02): đạt / sửa và review lại |
+| Người review | Đào Xuân Sơn (RES-02) và Nguyễn Phạm Mạnh Dũng (RES-03), theo A-23 |
+| Ngày review | Dự kiến 20/11/2026 (giả định kế hoạch, chưa diễn ra; ghi ngày thực tế sau buổi review) |
+| Kết quả | Chờ review. Trạng thái giả định: chưa đạt cho đến khi RES-02 và RES-03 ghi kết quả |
 
 ### 10.3 Rà soát A-74 (thanh toán mô phỏng, FR-26..FR-28)
 
