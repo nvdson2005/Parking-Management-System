@@ -5,6 +5,7 @@
 | Date | 2026-11-19 (W13) |
 | Owner | Nguyễn Võ Đức Sơn (RES-01) |
 | Analysis | `docs/m3/change-impact-analysis.md` (CR-01, CR-02) |
+| Approved | RES-01 (PM), 19/11/2026 |
 | Decision | **Option C**: keep scope, merge paperwork, trim verification depth, Q22 fallback. The residual gap of about 11.5 h is open and needs the team's decision. |
 
 ## Options for CR-01 (final submission moved to 29/11)
@@ -43,8 +44,10 @@ Demand after the cuts is about 164.1 h (172.1 − 8.0) against 140 h capacity: a
 
 That covers about **12.6 h, leaving about 11.5 h unresolved.** The "near-zero float" statement in earlier drafts was wrong. Two things decide what happens next:
 
-1. **Actual hours to date.** The 172.1 h and 140 h figures are totals including work already done. If the team is ahead of plan (the MVP existed before the baseline, and A-43, A-44, A-77 and A-79 are already committed), the real remaining demand is lower, and the residual may shrink or vanish. `TODO(RES-01): actual hours W12 and W13 from members.`
+1. **Actual hours to date.** The 172.1 h and 140 h figures are totals including work already done. If the team is ahead of plan (the MVP existed before the baseline, and A-43, A-44, A-77 and A-79 are already committed), the real remaining demand is lower, and the residual may shrink or vanish. Hours to date are ASSUMED at 8 h per member per week (not measured); replace with real hours.
 2. **Further levers if the residual stands:** more W14 hours (3 h per person gives 5 h more), hold the A-91 retrospective as 30 minutes at the end of the workshop, drop further Could-level acceptance scenarios, or reduce the final report depth for Should modules. The team must choose; none is applied here.
+
+**Capacity sensitivity (RES-01 recollection of 8 h per week for everyone).** The baseline records 8 h in W12 and 10 h per week from W13 (140 h in total). If every member in fact works 8 h per week, capacity is 120 h, demand after cuts (164.1 h) exceeds it by about 44 h (137%), the W14 +2 h per person (10 h) plus the fallback (2.6 h) cover 12.6 h, and **about 31.5 h remain unresolved**. Under the baseline's 10 h the residual is 11.5 h. The team must confirm which weekly hours apply. In both cases the plan depends on earned value, not hours: only a per-activity completion status (what is already done) shows the real remaining demand, because the 172.1 h total includes finished work.
 
 RES-01 is already carrying 26.7 h of baseline against 28 h of capacity (95%) and 30.7 h with the new activities, so RES-01 cannot absorb the change out of its own slack.
 
@@ -54,6 +57,7 @@ The Q22 fallback fires if, at M-03, any Must product is not verified or the sche
 
 ## Consequences
 
+- M3 and the final report are submitted together on 29/11 (confirmed by RES-01: everything goes in on that date). There is no separate M3 submission date.
 - Objectives O1 and O2 keep full evidence. O3 and O4 evidence for Should modules rests on automated tests plus one acceptance pass (and on nothing further if the fallback fires).
 - The final report is written once and carries the M3 and M4 content. A-92 finishes by 28/11; 29/11 is the submission day.
 - Baseline V2.0 is required (Task 3.7). See `docs/m3/baseline-v2-handoff.md`.
@@ -63,14 +67,14 @@ The Q22 fallback fires if, at M-03, any Must product is not verified or the sche
 For pasting into the workbook's Change Log sheet. Columns: CR ID | Date raised | Raised by | Description | Affected products / activities | Effort impact (h) | Schedule impact (days) | Cost impact | Scope impact | Risk impact | Options considered | Decision | Justification | Approved by | Date approved | New baseline required?
 
 ```text
-CR-01 | TODO(RES-01): date lecturer issued | Lecturer | Final report and submission moved from 07/12 to 29/11 | P14, P17, A-88..A-92, A-95, A-105, A-106, A-108, A-110..A-116 | +32.5 demand (172.1 h), -8.0 net from cuts, about 12.6 covered by fallback and W14 hours, about 11.5 unresolved | -8 (M-05 07/12 to 29/11) | 172.1 h = 8,605,000 VND (+1,625,000 vs V1.0 6,980,000); after cuts about 164.1 h = 8,205,000 VND (+1,225,000); converted, not cash | None; verification depth reduced for Should/Could | R-G4-02 near-certain; new R-G5-04 | 1 absorb, 2 descope under Q22, 3 hybrid | Option 3 (C) | Protects O1, O2 and the 27/11 demo; Q22 is the pre-agreed fallback; residual gap open | TODO(team lead) | TODO(date) | Yes, V2.0 minimal
-CR-02 | TODO(RES-01): date round-3 replies received (changelog written 15/11) | Lecturer (round-3 replies) | Early arrival needs staff confirmation; one active reservation per account; utilisation per zone and vehicle type; suspension cancels reservations and notifies customers | P05, P06, P11, notifications | 0 additional (already built) | 0 | 0 | Four behaviours clarified | None | 1 build as clarified | Option 1 | Matches lecturer wording; already implemented and tested | TODO(team lead) | TODO(date) | No; listed as a V2.0 change entry
+CR-01 | week of 16/11 (per RES-01) | Lecturer | Final report and submission moved from 07/12 to 29/11 | P14, P17, A-88..A-92, A-95, A-105, A-106, A-108, A-110..A-116 | +32.5 demand (172.1 h), -8.0 net from cuts, about 12.6 covered by fallback and W14 hours, about 11.5 unresolved | -8 (M-05 07/12 to 29/11) | 172.1 h = 8,605,000 VND (+1,625,000 vs V1.0 6,980,000); after cuts about 164.1 h = 8,205,000 VND (+1,225,000); converted, not cash | None; verification depth reduced for Should/Could | R-G4-02 near-certain; new R-G5-04 | 1 absorb, 2 descope under Q22, 3 hybrid | Option 3 (C) | Protects O1, O2 and the 27/11 demo; Q22 is the pre-agreed fallback; residual gap open | Nguyễn Võ Đức Sơn (RES-01, PM) | 19/11/2026 | Yes, V2.0 minimal
+CR-02 | TODO(RES-01): date round-3 replies received (changelog written 15/11) | Lecturer (round-3 replies) | Early arrival needs staff confirmation; one active reservation per account; utilisation per zone and vehicle type; suspension cancels reservations and notifies customers | P05, P06, P11, notifications | 0 additional (already built) | 0 | 0 | Four behaviours clarified | None | 1 build as clarified | Option 1 | Matches lecturer wording; already implemented and tested | Nguyễn Võ Đức Sơn (RES-01, PM) | 19/11/2026 | No; listed as a V2.0 change entry
 ```
 
 ## Workshop (A-105)
 
 A 30-minute session with all five members (5 x 0.5 h = 2.5 h, as planned for A-105). Agenda: (1) the facts and the 24 h gap (5 min); (2) options A, B, C (5 min); (3) cuts per member and the W14 2 h (5 min); (4) pick levers for the residual 11.5 h (10 min); (5) fallback trigger and who reports on 24/11 (5 min). The decision is recorded straight after.
 
-`TODO(RES-01): workshop date and attendance.`
-`TODO(team lead): approver of this decision and approval date.`
+`TODO(RES-01): workshop date (proposal: 20/11 or 21/11, 30 minutes, all five) and attendance.`
+Approved by Nguyễn Võ Đức Sơn (RES-01, PM) on 19/11/2026. The decision stands with the residual gap open; the team's choice of levers is still outstanding.
 `TODO(team): levers chosen for the residual gap.`

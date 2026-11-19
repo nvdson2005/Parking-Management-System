@@ -10,14 +10,14 @@
 
 ## CR-01 Final report and submission moved from 07/12 to 29/11
 
-**Event.** The lecturer moved M-05 (final report and submission) from 07/12 to 29/11, eight days earlier. W15 no longer exists as working time. M3 deliverables, M4 deliverables and the final report now fall in the same week.
+**Event.** The lecturer moved M-05 (final report and submission) from 07/12 to 29/11, eight days earlier. It was issued in the week of 16/11 (per RES-01). M3 and the final report go in together on 29/11; there is no separate M3 date. W15 no longer exists as working time. M3 deliverables, M4 deliverables and the final report now fall in the same week.
 
 **Facts.**
 - Capacity falls from 190 h to 140 h (W12 40 h, W13 50 h, W14 50 h; RES-01 alone 28 h).
 - Planned effort is 139.6 h in Baseline V1.0, which is 99.7% of the new capacity and leaves no float. With the 32.5 h of M3/M4 activities from the work-division plan it is 172.1 h, which is 123%.
 - The baseline's levelled finish was already 01/12. A-92 (critical) ends 30/11 and A-89 ends 01/12, so both now land after the deadline.
 - Fixed dates stay: M-03 on 24/11 and the client demo A-88 on 27/11.
-- Actual hours to date are not recorded (the workbook's Weekly Project Log and Planned vs Actual sheets are empty templates). `TODO(RES-01): enter actual hours for W12 and W13 from members.`
+- Actual hours to date are not recorded (the workbook's Weekly Project Log and Planned vs Actual sheets are empty templates). Hours to date are assumed at 8 h per member per week (RES-01's recollection, not measured). The baseline records 8 h in W12 and 10 h from W13; at 8 h per week capacity is 120 h and about 31.5 h would remain unresolved (see the decision record, capacity sensitivity).
 
 | Dimension | Impact |
 |---|---|
