@@ -54,9 +54,9 @@
 
 ## Phase 8: Polish
 
-- [ ] T016 Ask the user for consent to run the suite, then run `npm test`, `npm run lint`, `npm run build`; report real output. Prisma blocks `db push --force-reset` for AI agents without explicit user consent text
-- [ ] T017 Run `codegraph sync`, then verify the quickstart in `specs/001-m3-kb-fixes/quickstart.md`
-- [ ] T018 Check `src/i18n/en.ts` and `src/i18n/vi.ts` key parity is unchanged (no new keys expected)
+- [x] T016 Ask the user for consent to run the suite, then run `npm test`, `npm run lint`, `npm run build`; report real output. Prisma blocks `db push --force-reset` for AI agents without explicit user consent text
+- [x] T017 Run `codegraph sync`, then verify the quickstart in `specs/001-m3-kb-fixes/quickstart.md`
+- [x] T018 Check `src/i18n/en.ts` and `src/i18n/vi.ts` key parity is unchanged (no new keys expected)
 
 ## Dependencies
 
@@ -72,3 +72,7 @@
 ## Strategy
 
 MVP is US1 + US2 (both P1 code fixes), plus US4 to unblock CP-02. Commit after each task or logical pair.
+
+## Verification (2026-11-19)
+
+`npm test`: 22 files, 181 tests pass. `npx tsc --noEmit` clean. `npm run lint`: 2 pre-existing warnings in `docs/m2-report/scripts`. `npm run build`: passes after `rm -rf .next` (earlier failure was a stale cache, also reproduced on the clean tree).
