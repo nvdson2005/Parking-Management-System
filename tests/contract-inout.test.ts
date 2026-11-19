@@ -74,14 +74,14 @@ describe('CT-01..CT-03 POST /api/events/entry', () => {
     ['JSON hỏng', 'not json'],
   ])('CT-02 %s → 400 VALIDATION', async (_n, body) => {
     const r = await call(entryPOST, body)
-    expect(r).toEqual({ status: 400, body: { error: 'VALIDATION' } })
+    expect(r).toMatchObject({ status: 400, body: { error: 'VALIDATION' } })
   })
 
   it('CT-03 phân quyền: chưa đăng nhập 401, Customer 403', async () => {
     currentUser = null
     expect((await call(entryPOST, entryBody(f))).status).toBe(401)
     as(f, 'CUSTOMER')
-    expect(await call(entryPOST, entryBody(f))).toEqual({ status: 403, body: { error: 'FORBIDDEN' } })
+    expect(await call(entryPOST, entryBody(f))).toMatchObject({ status: 403, body: { error: 'FORBIDDEN' } })
   })
 })
 
@@ -91,7 +91,7 @@ describe('CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05)', () => {
     await call(entryPOST, entryBody(f, '59X1-00001'))
     await call(entryPOST, entryBody(f, '59X1-00002')) // sức chứa A = 2
     const r = await call(entryPOST, entryBody(f, '59X1-00003'))
-    expect(r).toEqual({ status: 409, body: { error: 'ZONE_FULL' } })
+    expect(r).toMatchObject({ status: 409, body: { error: 'ZONE_FULL' } })
   })
 
   it('CT-05 EX-02 biển lệch, không xác nhận → 409 PLATE_MISMATCH; có xác nhận → đóng lượt', async () => {
@@ -100,10 +100,10 @@ describe('CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05)', () => {
     expect(pv.status).toBe(200)
     expect(pv.body).toMatchObject({ sessionId: s.id, plateMismatch: true, fee: expect.any(Number) })
 
-    const no = await call(confirmPOST, { sessionId: s.id, observedPlate: '59X1-99999', confirmMismatch: false, lostCard: false })
-    expect(no).toEqual({ status: 409, body: { error: 'PLATE_MISMATCH' } })
+    const no = await call(confirmPOST, { method: 'PLATE', sessionId: s.id, observedPlate: '59X1-99999', confirmMismatch: false, lostCard: false })
+    expect(no).toMatchObject({ status: 409, body: { error: 'PLATE_MISMATCH' } })
 
-    const yes = await call(confirmPOST, { sessionId: s.id, observedPlate: '59X1-99999', confirmMismatch: true, lostCard: false })
+    const yes = await call(confirmPOST, { method: 'PLATE', sessionId: s.id, observedPlate: '59X1-99999', confirmMismatch: true, lostCard: false })
     expect(yes.status).toBe(200)
     expect(yes.body.session).toMatchObject({ id: s.id, status: 'CLOSED', exitTime: expect.stringMatching(ISO) })
   })
@@ -111,7 +111,7 @@ describe('CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05)', () => {
   it('CT-06 EX-03 mất thẻ → đóng lượt, phí thường, không phạt', async () => {
     const s = (await call(entryPOST, entryBody(f))).body
     const pv = (await call(previewPOST, { method: 'PLATE', identifier: '59X1-12345', observedPlate: '59X1-12345' })).body
-    const r = await call(confirmPOST, { sessionId: s.id, observedPlate: '59X1-12345', confirmMismatch: false, lostCard: true })
+    const r = await call(confirmPOST, { method: 'PLATE', sessionId: s.id, observedPlate: '59X1-12345', confirmMismatch: false, lostCard: true })
     expect(r.status).toBe(200)
     expect(r.body.session.status).toBe('CLOSED')
     expect(r.body.payment.amount).toBe(pv.fee) // phí như preview, không cộng phạt
@@ -122,19 +122,19 @@ describe('CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05)', () => {
   it('CT-07 EX-04 vào trùng → 409 ALREADY_OPEN, chỉ 1 lượt mở', async () => {
     await call(entryPOST, entryBody(f))
     const r = await call(entryPOST, entryBody(f))
-    expect(r).toEqual({ status: 409, body: { error: 'ALREADY_OPEN' } })
+    expect(r).toMatchObject({ status: 409, body: { error: 'ALREADY_OPEN' } })
     expect(await db.parkingSession.count({ where: { status: 'OPEN' } })).toBe(1)
   })
 
   it('CT-08 EX-05 bãi tạm ngưng → 409 LOT_SUSPENDED', async () => {
     await db.parkingLot.update({ where: { id: f.lot.id }, data: { status: 'SUSPENDED' } })
     const r = await call(entryPOST, entryBody(f))
-    expect(r).toEqual({ status: 409, body: { error: 'LOT_SUSPENDED' } })
+    expect(r).toMatchObject({ status: 409, body: { error: 'LOT_SUSPENDED' } })
   })
 
   it('CT-09 ra xe không có lượt mở → 404 NO_OPEN_SESSION', async () => {
     const r = await call(previewPOST, { method: 'PLATE', identifier: '51A-00000', observedPlate: '51A-00000' })
-    expect(r).toEqual({ status: 404, body: { error: 'NO_OPEN_SESSION' } })
+    expect(r).toMatchObject({ status: 404, body: { error: 'NO_OPEN_SESSION' } })
   })
 })
 
@@ -149,19 +149,28 @@ describe('CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng)', () =
       rejected: expect.any(Number), sessions: expect.any(Number), seed: 42 })
     expect(r.body.entries + r.body.exits + r.body.rejected).toBe(20)
 
-    const open = await db.parkingSession.count({ where: { status: 'OPEN' } })
-    const avail = (await call(availGET, undefined, 'GET')).body
+    const avail = (await call(availGET, undefined, 'GET')).body as {
+      zones: { byType: { capacity: number; open: number; reserved: number; free: number }[] }[]
+    }[]
     expect(Array.isArray(avail)).toBe(true)
-    // Tổng sức chứa fixture = 2 + 2 + 1 = 5; trống + mở = sức chứa (không có đặt chỗ)
-    const free = JSON.stringify(avail).match(/"free":(\d+)/g)!.reduce((s, m) => s + Number(m.split(':')[1]), 0)
-    expect(free + open).toBe(5)
+    const types = avail.flatMap((l) => l.zones.flatMap((z) => z.byType))
+    const sum = (k: 'capacity' | 'open' | 'reserved' | 'free') => types.reduce((a, t) => a + t[k], 0)
+    // Sức chứa lấy từ fixture, không viết cứng
+    const caps = await db.zoneCapacity.findMany()
+    expect(sum('capacity')).toBe(caps.reduce((a, c) => a + c.capacity, 0))
+    expect(sum('open')).toBe(await db.parkingSession.count({ where: { status: 'OPEN' } }))
+    for (const t of types) expect(t.free + t.open + t.reserved).toBe(t.capacity)
   })
 
   it('CT-11 mọi lượt bộ mô phỏng tạo đều qua đúng hợp đồng (đủ trường, có timestamp)', async () => {
     await call(simPOST, { action: 'live', n: 20, seed: 7 })
     const sessions = await db.parkingSession.findMany()
+    expect(sessions.length).toBeGreaterThan(0)
     for (const s of sessions) {
       expect(s.plateSnapshot).toBeTruthy()
+      expect(['STUDENT', 'LECTURER_STAFF', 'GUEST']).toContain(s.feeGroup)
+      expect(['PLATE', 'QR', 'RFID']).toContain(s.idMethod)
+      expect(['MOTORBIKE', 'CAR']).toContain(s.vehicleTypeCode)
       expect(s.zoneId).toBeTruthy()
       expect(s.entryTime).toBeInstanceOf(Date)
       if (s.status === 'CLOSED') expect(s.exitTime!.getTime()).toBeGreaterThanOrEqual(s.entryTime.getTime())
@@ -174,7 +183,7 @@ describe('CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng)', () =
     ['EX03', 'SESSION_OPEN'],
     ['EX04', 'ALREADY_OPEN'],
     ['EX05', 'LOT_SUSPENDED'],
-  ])('CT-12 simulator %s → outcome %s (khớp mã lỗi của P05)', async (ex, outcome) => {
+  ])('CT-12 simulator %s → outcome %s (simulator dựng đúng tình huống)', async (ex, outcome) => {
     // EX03 cần một xe đã có chủ (như dữ liệu db:seed) để vào bằng QR rồi ra theo biển số
     if (ex === 'EX03') {
       await db.vehicle.create({
@@ -187,9 +196,44 @@ describe('CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng)', () =
     expect(r.body).toMatchObject({ exception: ex, outcome })
   })
 
+  it('CT-12b EX02: instructions của simulator qua preview/confirm → PLATE_MISMATCH, xác nhận thì đóng lượt', async () => {
+    const sim = (await call(simPOST, { action: 'exception', ex: 'EX02', seed: 1 })).body
+    const { method, identifier, observedPlate } = sim.instructions
+    as(f, 'STAFF')
+    const pv = await call(previewPOST, { method, identifier, observedPlate })
+    expect(pv.status).toBe(200)
+    expect(pv.body.plateMismatch).toBe(true)
+    const base = { method, sessionId: pv.body.sessionId, observedPlate, lostCard: false }
+    expect(await call(confirmPOST, { ...base, confirmMismatch: false }))
+      .toMatchObject({ status: 409, body: { error: 'PLATE_MISMATCH' } })
+    const ok = await call(confirmPOST, { ...base, confirmMismatch: true })
+    expect(ok.status).toBe(200)
+    expect(ok.body.session.status).toBe('CLOSED')
+  })
+
+  it('CT-12c EX03: instructions của simulator qua preview/confirm → mất thẻ, phí thường, có LOST_CARD', async () => {
+    await db.vehicle.create({
+      data: { plate: '59X1-55555', qrCode: 'QR-A79-TEST', rfidCode: 'RF-A79-TEST',
+        vehicleTypeCode: 'MOTORBIKE', ownerId: f.student.id },
+    })
+    const sim = (await call(simPOST, { action: 'exception', ex: 'EX03', seed: 1 })).body
+    const { method, identifier, lostCard } = sim.instructions
+    expect(lostCard).toBe(true)
+    as(f, 'STAFF')
+    const pv = await call(previewPOST, { method, identifier, observedPlate: identifier })
+    expect(pv.status).toBe(200)
+    const r = await call(confirmPOST, { method, sessionId: pv.body.sessionId, observedPlate: identifier,
+      confirmMismatch: false, lostCard: true })
+    expect(r.status).toBe(200)
+    expect(r.body.session.status).toBe('CLOSED')
+    expect(r.body.payment.amount).toBe(pv.body.fee)
+    const ev = await db.sessionEvent.findMany({ where: { sessionId: pv.body.sessionId } })
+    expect(ev.map((e) => e.type)).toContain('LOST_CARD')
+  })
+
   it('CT-13 simulator input sai → 400 VALIDATION; Staff gọi → 403', async () => {
-    expect(await call(simPOST, { action: 'live', n: 'abc' })).toEqual({ status: 400, body: { error: 'VALIDATION' } })
-    expect(await call(simPOST, { action: 'exception', ex: 'EX99' })).toEqual({ status: 400, body: { error: 'VALIDATION' } })
+    expect(await call(simPOST, { action: 'live', n: 'abc' })).toMatchObject({ status: 400, body: { error: 'VALIDATION' } })
+    expect(await call(simPOST, { action: 'exception', ex: 'EX99' })).toMatchObject({ status: 400, body: { error: 'VALIDATION' } })
     as(f, 'STAFF')
     expect((await call(simPOST, { action: 'live', n: 1 })).status).toBe(403)
   })
