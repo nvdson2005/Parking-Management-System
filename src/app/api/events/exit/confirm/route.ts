@@ -1,6 +1,7 @@
 import { db } from '@/server/db'
 import { handle, readJsonObject } from '@/server/api'
 import { requireRole } from '@/server/auth/rbac'
+import type { IdMethod } from '@/lib/types'
 import { confirmExit } from '@/server/services/exit'
 
 export const POST = handle(async (req) => {
@@ -12,6 +13,7 @@ export const POST = handle(async (req) => {
     observedPlate: body.observedPlate as string,
     confirmMismatch: body.confirmMismatch as boolean,
     lostCard: body.lostCard as boolean,
+    method: body.method as IdMethod | undefined,
     note: body.note as string | undefined,
     staffId: user.id,
   })

@@ -4,6 +4,16 @@ export function normalizePlate(raw: string): string {
   return raw.trim().toUpperCase().replace(/\s/g, '')
 }
 
+/**
+ * Separator-insensitive comparison key: uppercases and strips everything but
+ * letters/digits, so `51F-123.45`, `51f 123 45` and `51F12345` compare equal.
+ * Used for vehicle lookup and the exit plate-mismatch check; stored and
+ * displayed plates still use `normalizePlate`.
+ */
+export function plateCompareKey(raw: string): string {
+  return normalizePlate(raw).replace(/[^A-Z0-9]/g, '')
+}
+
 export function maskPlate(plate: string): string {
   const hyphenIndex = plate.indexOf('-')
   let prefix: string

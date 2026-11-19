@@ -5,7 +5,7 @@ import type { Vehicle } from '@prisma/client'
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { withLock } from '@/server/lock'
-import { normalizePlate } from '@/lib/plate'
+import { normalizePlate, plateCompareKey } from '@/lib/plate'
 import type { IdMethod, VehicleTypeCode } from '@/lib/types'
 
 // RFC 4648 base32 alphabet (no padding), matching D-32's "uppercase base32" codes.
@@ -24,16 +24,6 @@ export function generateCode(prefix: 'QR' | 'RF'): string {
     code += BASE32_ALPHABET[bytes[i] % BASE32_ALPHABET.length]
   }
   return `${prefix}-${code}`
-}
-
-/**
- * Separator-insensitive comparison key for an already-`normalizePlate`'d
- * string: strips everything but letters/digits so hyphen and spacing
- * variants (e.g. `51F-123.45` vs `51F123.45`) resolve to the same vehicle,
- * without changing `normalizePlate`'s own stored/displayed output.
- */
-function plateCompareKey(normalizedPlate: string): string {
-  return normalizedPlate.replace(/[^A-Z0-9]/g, '')
 }
 
 async function findVehicleByCompareKey(db: Db, compareKey: string): Promise<Vehicle | null> {
