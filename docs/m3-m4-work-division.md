@@ -145,11 +145,11 @@ Cause: the lecturer moved the final report and submission (M-05) from 07/12 to 2
 
 | Week | Dates | Capacity / person | Milestone |
 |---|---|---|---|
-| W13 (remainder) | 19/11 – 22/11 | about 6 h left of 10 h | A-67 integrate simulator 20/11 |
+| W13 (remainder) | 19/11 – 22/11 | `TODO(RES-01)`: remaining hours per member from actuals | A-67 integrate simulator 20/11 |
 | W14 | 23/11 – 29/11 | 10 h (+2 h accepted, see below) | M-03 24/11; A-88 client demo 27/11; A-92 finish and review 28/11; **M-05 submission 29/11** |
 | W15 | removed | 0 | — |
 
-Total capacity W12–W14 is 140 h. Planned effort after the cuts is about 155 h. The covering is about 4 h (Q22 tripwire) plus 2 h per person in W14 (10 h). Float is near zero.
+Total capacity W12–W14 is 140 h (RES-01 alone 28 h). Planned effort after the cuts is about 164 h (172.1 h minus 8 h net). Cover is about 2.6 h (Q22 fallback) plus 2 h per person in W14 (10 h). **About 11.5 h remain unresolved** pending actual hours to date and the team's choice of levers (`docs/m3/decision-record.md`). RES-01 carries 26.7 h of baseline against 28 h and about 30.7 h with the new activities.
 
 ### Changes per member
 
@@ -157,17 +157,17 @@ Total capacity W12–W14 is 140 h. Planned effort after the cuts is about 155 h.
 |---|---|---|
 | RES-01 | A-99 and A-105 documents (this change), A-63 with RES-03, A-67\* on 20/11, A-74 | A-90\* actuals vs baseline 23–25/11, A-88 demo 27/11, A-91 retrospective as 30 minutes, A-114, A-106 approval (0.5 h), review of A-92 on 28/11 |
 | RES-02 | A-82/A-85 as planned; A-72 limited to existing automated tests | merged A-95 + A-87 run (one run, 26–27/11), A-68\* on 23/11, review of A-92, O3–O5 section, A-114 |
-| RES-03 | A-63 with RES-01, A-28, A-33; start tracker data for A-90 | A-65 as planned, A-90 data, **A-92\* writes with sections for A-89, A-110, A-112, A-113 built in**, A-106 regenerate minimal V2.0 (1 h), A-114 |
-| RES-04 | A-70, A-104; A-76 limited to existing automated tests | A-49, A-87 with RES-02, write A-110 and A-113 as sections of A-92, A-116 submission package assembled in parallel, A-114 |
-| RES-05 | A-79, A-45\*, A-67\* | A-68\*, A-31, A-77 limited to existing tests, **A-108 folded into A-92** (O1/O2 section and M3 content), A-115 demo script only (no slides), A-114 |
+| RES-03 | A-63 with RES-01, A-28, A-33; start tracker data for A-90 | A-65 as planned, A-90 data, **A-92\* writes, with A-89 and A-112 as sections and RES-04's A-110 and A-113 sections integrated**, A-106 regenerate minimal V2.0 (1 h), A-114 |
+| RES-04 | A-70, A-104; A-76 limited to existing automated tests | A-49, A-87 with RES-02, write A-110 and A-113 as sections of A-92 (RES-04 writes, RES-03 integrates), supply acceptance results for the A-89 section, A-116 submission package assembled in parallel, A-114 |
+| RES-05 | A-79, A-45\*, A-67\* | A-68\*, A-31 (A-77 report tests are already committed), **A-108 folded into A-92** (O1/O2 section and M3 content), A-115 demo script only (no slides), A-114 |
 
 ### Cuts in force
 
-A-108 folded into A-92; A-110, A-112 and A-113 written as sections of A-92; A-95 merged into A-87; A-72, A-76 and A-77 reduced to existing automated tests plus one acceptance pass; A-115 reduced to a demo script and a 15-minute mock viva; A-106 minimal (1.5 h total); A-105 one 1-hour workshop.
+A-108 folded into A-92; A-89, A-110, A-112 and A-113 written as sections of A-92; A-95 merged into A-87; A-72 and A-76 reduced to existing automated tests plus one acceptance pass; A-115 reduced to a demo script and a 15-minute mock viva; A-106 minimal (1.5 h total, required); A-105 stays 5 x 0.5 h as a 30-minute session.
 
-### Tripwire (24/11, M-03)
+### Fallback trigger (24/11, M-03)
 
-If the team is more than 2 days behind or any member is short by more than 2 h in the week, the Q22 fallback fires (reports, then payment, then reservations): A-72, A-76 and A-77 verification is dropped and recorded as a known gap. Owner RES-01. Risk R-G5-04.
+If at M-03 any Must product is not verified or the schedule is more than 2 days behind, the Q22 fallback fires (reports, then payment, then reservations): A-72 and A-76 verification is dropped and recorded as a known gap. A member short on hours is escalated under working rule 3 and is not itself a trigger. Owner RES-01. Risk R-G5-04.
 
 ### Final report timeline
 

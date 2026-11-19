@@ -11,6 +11,7 @@ The Round-3 replies (early arrival, one reservation per account, per-zone utilis
 ## Facts the analysis rests on
 
 - Capacity drops from 190 h to 140 h (W12 40 + W13 50 + W14 50). W15 is gone.
+- RES-01 alone has 28 h of capacity and carries 26.7 h baseline (95%), about 30.7 h with the new activities.
 - Planned effort: 139.6 h baseline (99.7% of 140 h), 172.1 h with the M3/M4 activities from `docs/m3-m4-work-division.md` (123%).
 - Baseline levelled finish was already 01/12. A-92 (critical) ends 30/11 and A-89 ends 01/12.
 - Fixed: M-03 on 24/11, A-88 client demo on 27/11.
@@ -38,27 +39,26 @@ The Round-3 replies (early arrival, one reservation per account, per-zone utilis
 | B | Descope under Q22 (reports, then payment, then reservations) | Kept only as the safety net. Breaks O3/O4 evidence and round-3 per-zone reporting. |
 | **C** | **Hybrid: keep scope, merge paperwork, trim verification depth, Q22 tripwire** | **Chosen.** |
 
-## Decision C: the cuts (estimates from the baseline, hours)
+## Decision C: the cuts (corrected 2026-11-19 after review)
 
-| Cut | Saves |
+The first draft claimed about 17 h of savings. Review found that two items added hours instead of saving them and that A-77 was already done. Corrected, measured against the 172.1 h demand (which excludes A-106):
+
+| Cut | Net saving (h) |
 |---|---|
-| Fold the M3 report (A-108) into the final report as one document | 2.5 |
-| Write A-110, A-112, A-113 as final-report sections while the work happens | 1.5 |
-| Merge the early acceptance run (A-95) into the dry run (A-87) | 2.2 |
-| Trim Should/Could verification (A-72, A-76, A-77) to existing automated tests plus one acceptance pass | 5 |
-| A-115: demo script only, no slides, 15-minute mock viva | 3 |
-| Baseline V2.0 minimal: schedule, capacity, risks (A-106 from 3 h to 1.5 h) | 1.5 |
-| A-105 workshop as one 1-hour session (was 5 x 0.5 h) | 1.5 |
-| **Total** | **about 17** |
+| Fold the M3 report (A-108) into the final report | 2.5 |
+| A-110, A-112, A-113 as sections of the final report (estimate) | 1.0 |
+| Merge the early acceptance run (A-95) into the dry run (A-87) (estimate) | 1.1 |
+| Trim A-72 and A-76 to existing automated tests plus one acceptance pass; A-77 already committed (estimate) | 2.6 |
+| A-115: demo script only; 15-minute mock viva | 2.3 |
+| A-106 minimal V2.0 is now required (172.1 h omits it) | -1.5 |
+| A-105 stays 5 x 0.5 h (a 1-hour session would cost more) | 0 |
+| **Net** | **8.0** |
 
-**Residual gap: about 15 h** (172.1 − 17 = 155 h against 140 h). Proposed cover, to be confirmed by the owner:
+**Residual gap: about 24 h** (172.1 − 8.0 = 164.1 h against 140 h, 117%). Cover that exists: the Q22 fallback (about 2.6 h) and 2 h per person in W14 (10 h), about 12.6 h in total. **About 11.5 h remain unresolved.** The earlier "near-zero float" claim is withdrawn.
 
-- Pre-commit the Q22 tripwire (below) and, if it fires, drop A-72, A-76 and A-77 verification entirely (about 4 h more).
-- Accept about 2 h extra per person in W14 (10 h total) as a recorded realisation of R-G4-02, with escalation per working rule 3.
+Two things decide the rest: the actual hours to date (the totals include work already done, and several activities are already committed), and further levers the team must choose (more W14 hours, a shorter retrospective, fewer Could-level acceptance scenarios, shallower Should-module sections in the report).
 
-That sums to about 31 h against a 32 h need, so the plan has near-zero float even if all of it works. The analysis must state this plainly.
-
-**Tripwire:** at M-03 on 24/11, if the team is more than 2 days behind or short by more than 2 h/week, Q22 fires and option B's cuts apply. Owner: RES-01.
+**Fallback trigger:** at M-03 on 24/11, any Must product not verified, or more than 2 days behind, fires Q22 (reports, payment, reservations verification). A member short on hours is escalated separately, not a trigger. Owner: RES-01.
 
 ## Constraints
 

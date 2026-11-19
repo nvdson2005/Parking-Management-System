@@ -5,47 +5,56 @@
 | Date | 2026-11-19 (W13) |
 | Owner | Nguyễn Võ Đức Sơn (RES-01) |
 | Analysis | `docs/m3/change-impact-analysis.md` (CR-01, CR-02) |
-| Decision | **Option C**: keep scope, merge paperwork, trim verification depth, Q22 tripwire |
+| Decision | **Option C**: keep scope, merge paperwork, trim verification depth, Q22 fallback. The residual gap of about 11.5 h is open and needs the team's decision. |
 
 ## Options for CR-01 (final submission moved to 29/11)
 
-| Option | Description | Effort | Verdict |
+| Option | Description | Effect on effort | Verdict |
 |---|---|---|---|
-| A | Absorb: keep all scope and all planned activities; about 6.5 h extra per person | 0 h saved; 32 h over capacity | Rejected. Team load is 123%; R-G4-02 is near-certain; the first slip breaks the submission. |
-| B | Descope under Q22 (reports, then payment, then reservations) | about 12–15 h saved | Kept only as the safety net. The client agreed the order, but cutting these features damages objectives O3 and O4 and the round-3 per-zone reporting. The features are already built, so descoping only removes their verification. |
-| **C** | **Hybrid: keep scope, merge paperwork, trim verification depth, pre-commit the Q22 tripwire** | **about 17 h saved plus tripwire and W14 hours** | **Chosen.** Protects objectives O1 and O2 and the 27/11 demo, and does not rely on overtime alone. |
+| A | Absorb: keep all scope and all planned activities; extra hours only | 0 h saved; demand 172.1 h (+1.5 h for A-106) on 140 h | Rejected. 123% load, R-G4-02 near-certain, the first slip breaks the submission. |
+| B | Descope under Q22: drop verification of reports, payment, reservations | at most about 5 h (A-72 3.2 h and A-76 2.0 h; A-77 2.6 h is already committed on `main`) | Too small on its own, and it damages O3 and O4 evidence. Kept as the fallback inside C. |
+| **C** | **Hybrid: keep scope, merge paperwork, trim verification, Q22 as a pre-agreed fallback** | about 8 h net (table below) plus the fallback and W14 hours | **Chosen.** It takes B's cut only if needed, and it protects O1, O2 and the 27/11 demo. It does **not** close the whole gap (see below). |
 
 Extending the deadline was not considered: the date is set by the lecturer.
 
 ## The cuts in option C
 
-| Cut | Owner | Saves (h) |
+Savings are measured against the 172.1 h demand, which excludes A-106. Items marked "estimate" are judgment, not baseline figures.
+
+| Cut | Owner | Net saving (h) |
 |---|---|---|
-| Fold the M3 report (A-108) into the final report (A-92) as one document | RES-05 | 2.5 |
-| Write A-110, A-112 and A-113 as sections of the final report while the work happens | RES-04, RES-03 | 1.5 |
-| Merge the early acceptance run (A-95) into the dry run (A-87) | RES-02 | 2.2 |
-| Trim Should/Could verification (A-72, A-76, A-77) to existing automated tests plus one acceptance pass | RES-02, RES-04, RES-05 | 5 |
-| A-115: demo script only, no slides; 15-minute mock viva | RES-05 | 3 |
-| Baseline V2.0 kept minimal (A-106 from 3 h to 1.5 h) | RES-03, RES-01 | 1.5 |
-| A-105 workshop as one 1-hour session (was 5 x 0.5 h) | all | 1.5 |
-| **Total** | | **about 17** |
+| Fold the M3 report (A-108) into the final report (A-92); RES-01's 1 h review stays | RES-05 | 2.5 |
+| Write A-110, A-112 and A-113 as sections of A-92 (estimate: about 30% of their 3.5 h) | RES-04, RES-03 | 1.0 |
+| Merge the early acceptance run (A-95, 2.2 h) into the dry run A-87 (estimate: half) | RES-02 | 1.1 |
+| Trim A-72 and A-76 to existing automated tests plus one acceptance pass (estimate: half of 5.2 h); A-77 needs nothing, it is committed | RES-02, RES-04 | 2.6 |
+| A-115: demo script only, no slides (about 1 h); mock viva 15 minutes instead of 30 (about 1.3 h) | RES-05, all | 2.3 |
+| A-106 minimal V2.0 is now **required**; 1.5 h total (the 172.1 h figure leaves A-106 out, so this adds) | RES-03, RES-01 | -1.5 |
+| A-105 workshop stays at 5 x 0.5 h (a single 1-hour session would cost 5 h, more than planned) | all | 0 |
+| **Net total** | | **8.0** |
 
-## Residual gap and its cover
+A-89 (acceptance report) becomes a section of A-92, written by RES-03 with the acceptance results supplied by RES-04 and RES-02. This is a restructure with no hours counted as saved.
 
-Demand after the cuts is about 155 h against 140 h capacity, a gap of about 15 h. Cover:
+## Residual gap: unresolved
 
-- **Q22 tripwire** (about 4 h more): if it fires, A-72, A-76 and A-77 verification is dropped entirely.
-- **Extra hours:** 2 h per person in W14 (10 h total), recorded as R-G4-02 occurring, with escalation per working rule 3 of the work-division plan.
+Demand after the cuts is about 164.1 h (172.1 − 8.0) against 140 h capacity: a gap of about **24 h**, 117% load. Cover that exists:
 
-Total cover is about 31 h against about 32 h needed. Float is near zero. The plan works only if nothing else slips, and the final report states this plainly.
+- **Q22 fallback** (about 2.6 h more): if it fires, A-72 and A-76 verification is dropped entirely.
+- **Extra hours:** 2 h per person in W14 (10 h total), recorded as R-G4-02 occurring, with escalation per working rule 3.
 
-## Tripwire
+That covers about **12.6 h, leaving about 11.5 h unresolved.** The "near-zero float" statement in earlier drafts was wrong. Two things decide what happens next:
 
-At M-03 on 24/11, if the team is more than 2 days behind plan, or any member is short by more than 2 h in the week, Q22 fires and option B's cuts apply in the order reports, payment, reservations (verification only). Owner: RES-01. The firing and its effect are recorded in the weekly log and the risk register (R-G5-04).
+1. **Actual hours to date.** The 172.1 h and 140 h figures are totals including work already done. If the team is ahead of plan (the MVP existed before the baseline, and A-43, A-44, A-77 and A-79 are already committed), the real remaining demand is lower, and the residual may shrink or vanish. `TODO(RES-01): actual hours W12 and W13 from members.`
+2. **Further levers if the residual stands:** more W14 hours (3 h per person gives 5 h more), hold the A-91 retrospective as 30 minutes at the end of the workshop, drop further Could-level acceptance scenarios, or reduce the final report depth for Should modules. The team must choose; none is applied here.
+
+RES-01 is already carrying 26.7 h of baseline against 28 h of capacity (95%) and 30.7 h with the new activities, so RES-01 cannot absorb the change out of its own slack.
+
+## Fallback trigger (24/11, M-03)
+
+The Q22 fallback fires if, at M-03, any Must product is not verified or the schedule is more than 2 days behind. A member being short on hours is **not** a trigger, because it is already expected under R-G4-02; it is escalated to RES-01 under working rule 3. Owner: RES-01. The decision and its effect go in the weekly log and the risk register (R-G5-04).
 
 ## Consequences
 
-- Objectives O1 and O2 keep full evidence. O3 and O4 evidence for Should modules rests on automated tests plus one acceptance pass.
+- Objectives O1 and O2 keep full evidence. O3 and O4 evidence for Should modules rests on automated tests plus one acceptance pass (and on nothing further if the fallback fires).
 - The final report is written once and carries the M3 and M4 content. A-92 finishes by 28/11; 29/11 is the submission day.
 - Baseline V2.0 is required (Task 3.7). See `docs/m3/baseline-v2-handoff.md`.
 
@@ -54,13 +63,14 @@ At M-03 on 24/11, if the team is more than 2 days behind plan, or any member is 
 For pasting into the workbook's Change Log sheet. Columns: CR ID | Date raised | Raised by | Description | Affected products / activities | Effort impact (h) | Schedule impact (days) | Cost impact | Scope impact | Risk impact | Options considered | Decision | Justification | Approved by | Date approved | New baseline required?
 
 ```text
-CR-01 | TODO(RES-01): date lecturer issued | Lecturer | Final report and submission moved from 07/12 to 29/11 | P14, P17, A-88..A-92, A-95, A-105, A-106, A-108, A-110..A-116 | +32.5 demand, about -17 saved, about 15 covered by tripwire and W14 hours | -8 (M-05 07/12 to 29/11) | 172.1 h = 8,605,000 VND converted (V1.0 total 6,980,000) | None; verification depth reduced for Should/Could | R-G4-02 near-certain; new R-G5-04 | 1 absorb, 2 descope under Q22, 3 hybrid | Option 3 (C) | Protects O1, O2 and the 27/11 demo without overtime alone; Q22 is the pre-agreed fallback | TODO(team lead) | TODO(date) | Yes, V2.0 minimal
-CR-02 | 15/11 | Lecturer (round-3 replies) | Early arrival needs staff confirmation; one active reservation per account; utilisation per zone and vehicle type; suspension cancels reservations and notifies customers | P05, P06, P11, notifications | 0 additional (already built) | 0 | 0 | Four behaviours clarified | None | 1 build as clarified | Option 1 | Matches lecturer wording; already implemented and tested | TODO(team lead) | TODO(date) | No; listed as a V2.0 change entry
+CR-01 | TODO(RES-01): date lecturer issued | Lecturer | Final report and submission moved from 07/12 to 29/11 | P14, P17, A-88..A-92, A-95, A-105, A-106, A-108, A-110..A-116 | +32.5 demand (172.1 h), -8.0 net from cuts, about 12.6 covered by fallback and W14 hours, about 11.5 unresolved | -8 (M-05 07/12 to 29/11) | 172.1 h = 8,605,000 VND (+1,625,000 vs V1.0 6,980,000); after cuts about 164.1 h = 8,205,000 VND (+1,225,000); converted, not cash | None; verification depth reduced for Should/Could | R-G4-02 near-certain; new R-G5-04 | 1 absorb, 2 descope under Q22, 3 hybrid | Option 3 (C) | Protects O1, O2 and the 27/11 demo; Q22 is the pre-agreed fallback; residual gap open | TODO(team lead) | TODO(date) | Yes, V2.0 minimal
+CR-02 | TODO(RES-01): date round-3 replies received (changelog written 15/11) | Lecturer (round-3 replies) | Early arrival needs staff confirmation; one active reservation per account; utilisation per zone and vehicle type; suspension cancels reservations and notifies customers | P05, P06, P11, notifications | 0 additional (already built) | 0 | 0 | Four behaviours clarified | None | 1 build as clarified | Option 1 | Matches lecturer wording; already implemented and tested | TODO(team lead) | TODO(date) | No; listed as a V2.0 change entry
 ```
 
 ## Workshop (A-105)
 
-One-hour session with all five members, agenda: (1) the 32 h gap and the facts (10 min); (2) walk through options A, B, C (15 min); (3) confirm cuts per member and the W14 2 h (20 min); (4) agree the tripwire and who reports on 24/11 (10 min); (5) record the decision (5 min).
+A 30-minute session with all five members (5 x 0.5 h = 2.5 h, as planned for A-105). Agenda: (1) the facts and the 24 h gap (5 min); (2) options A, B, C (5 min); (3) cuts per member and the W14 2 h (5 min); (4) pick levers for the residual 11.5 h (10 min); (5) fallback trigger and who reports on 24/11 (5 min). The decision is recorded straight after.
 
 `TODO(RES-01): workshop date and attendance.`
 `TODO(team lead): approver of this decision and approval date.`
+`TODO(team): levers chosen for the residual gap.`
