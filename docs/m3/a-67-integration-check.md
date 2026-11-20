@@ -30,3 +30,11 @@
 ## Verdict
 
 No integration defects found in code or tests. A-67 can be marked done once the e2e script run is recorded; otherwise it stays "integrated, e2e pending". Note for the log: RES-01 committed A-44 (`68ea467`, 12/11), an activity assigned to RES-05, so confirm with RES-05 that A-44 is closed.
+
+## Verification on 20 November 2026
+
+Commit `a55f6a8` ran on a local Next.js development server with a disposable seeded SQLite database.
+
+`TZ=Asia/Ho_Chi_Minh BASE_URL=http://127.0.0.1:43187 node e2e/round3.e2e.mjs` exited 0 with all 25 checks passing. The script exercised the reservation limit, early entry confirmation, suspension and customer notifications, exit while suspended, and utilisation reporting. It does not call the simulator endpoint.
+
+`POST /api/simulator` separately exercised the HTTP simulator as a Manager. `POST /api/simulator` with live action, 120 events, seed 67 and exit ratio 0.4 returned HTTP 200 with 73 entries, 47 exits, and zero rejections. This evidence covers HTTP and simulator integration using the development server. The browser UI, production build, and acceptance run remain separate checks. A-44 closure still needs confirmation from RES-05.

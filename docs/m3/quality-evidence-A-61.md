@@ -30,3 +30,19 @@ Service behaviour: verified by automated tests. Permission: open gap, one check 
 ```text
 A-61 | P08 lot management | Automated tests lots.test.ts (16 passing) cover FR-07..FR-10 and the suspension rule; route-level Manager-only check outstanding | RES-01 | 19/11 | Partly verified
 ```
+
+## Verification on 20 November 2026
+
+Commit `a55f6a8` ran on a local Next.js development server with a disposable seeded SQLite database.
+
+The targeted HTTP verification authenticated as the seeded Staff user. All seven protected endpoints returned HTTP 403 with valid requests. The preceding Manager GET authenticated successfully and supplied real lot and zone IDs.
+
+- GET /api/lots
+- POST /api/lots
+- PATCH /api/lots/:id
+- POST /api/zones
+- PATCH /api/zones/:id
+- GET /api/tariffs
+- PUT /api/tariffs
+
+The targeted script exited 0. The A-61 permission gap is closed.
