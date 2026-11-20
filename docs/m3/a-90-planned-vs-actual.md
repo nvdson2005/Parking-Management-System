@@ -12,7 +12,7 @@ Planned values come from `docs/m2-report/generated/estimates.md` and the work-di
 | A-74 | Payment review | 18–20/11 | 2.25 | 19/11 (tests in `42b9d98`, review in P18 10.3) | 0.75 | on time | — |
 | A-67 | Integrate simulator | 20/11 | TODO | 20/11 (`0faa6cb`, 25 HTTP checks passed and 120 simulator events ran with zero rejections) | 0.75 | verification complete | — |
 | A-99 | Change-event impact | W13–W14 | TODO | 19/11 (`3e7d822`) | 1.00 | early | Deadline change arrived W13 |
-| A-105 | Options workshop | when event arrives | 2.5 | decision draft 19/11 | 0.50 (preparation) | pending | Workshop attendance and outcome unverified |
+| A-105 | Options workshop | when event arrives | 2.5 | decision draft 19/11 | 0.50 (preparation) | planning assumption recorded | Option C with one additional W14 hour per member targeted. Confirm the workshop date, attendance, and capacity. |
 | A-106 | Baseline V2.0 hand-off | after A-105 | 3.0 (now 1.5) | hand-off 19/11 (`e43c2bf`); regeneration by RES-03 pending | 0.25 (handoff) | pending | — |
 | A-94 / A-97 | Weekly log and meeting | weekly | TODO | draft 19/11 (`docs/m3/weekly-log-draft.md`) | 0.50 (log) | late (no log for W12) | Log started in W13 |
 | A-100 | Own hours in Task Log | weekly | 1 per week | not started; hours ASSUMED equal to capacity (8 h W12, 10 h W13) | TODO | missed W12 | No hours were logged; see weekly-log-draft.md |
