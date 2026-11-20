@@ -1,0 +1,69 @@
+## access_logs (2)
+action="LOGIN"
+action="ENTRY"
+## notifications (0)
+## parking_lots (1)
+name="Bãi xe thí điểm" | address="Cơ sở chính" | status="ACTIVE"
+## parking_sessions (1)
+plate_snapshot="29A-01001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN"
+## payments (0)
+## reservations (0)
+## roles (3)
+code="CUSTOMER"
+code="STAFF"
+code="MANAGER"
+## session_events (0)
+## tariffs (6)
+vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | price=2000
+vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | price=2000
+vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | price=2000
+vehicle_type_code="CAR" | fee_group="STUDENT" | price=10000
+vehicle_type_code="CAR" | fee_group="LECTURER_STAFF" | price=10000
+vehicle_type_code="CAR" | fee_group="GUEST" | price=10000
+## users (19)
+email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false
+email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false
+email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false
+email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false
+email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
+email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+## vehicle_types (2)
+code="MOTORBIKE" | name_vi="Xe máy" | name_en="Motorbike"
+code="CAR" | name_vi="Ô tô" | name_en="Car"
+## vehicles (15)
+plate="29A-01001" | qr_code="QR-7RLGGTTBRF" | rfid_code="RF-AK3GC5QCUG" | vehicle_type_code="MOTORBIKE"
+plate="29A-02001" | qr_code="QR-TBACASCAAP" | rfid_code="RF-ODQIZIG43J" | vehicle_type_code="MOTORBIKE"
+plate="29A-03001" | qr_code="QR-OQDWQJBETL" | rfid_code="RF-6Q4UW56SWO" | vehicle_type_code="MOTORBIKE"
+plate="29A-04001" | qr_code="QR-MMOZQPGU3S" | rfid_code="RF-SICOO3PQWX" | vehicle_type_code="MOTORBIKE"
+plate="29A-05001" | qr_code="QR-Y3DFNSFWPY" | rfid_code="RF-KL6UFUNDMQ" | vehicle_type_code="MOTORBIKE"
+plate="29A-06001" | qr_code="QR-UST3MFFP3Y" | rfid_code="RF-7HA44FP3TR" | vehicle_type_code="MOTORBIKE"
+plate="29A-07001" | qr_code="QR-PJQMAN23WJ" | rfid_code="RF-7ZFOOI6JO3" | vehicle_type_code="MOTORBIKE"
+plate="29A-08001" | qr_code="QR-XNGH54KGBI" | rfid_code="RF-UNCY7SZSNL" | vehicle_type_code="MOTORBIKE"
+plate="29A-09001" | qr_code="QR-V6G2AM2OOB" | rfid_code="RF-GFZODOLEUE" | vehicle_type_code="MOTORBIKE"
+plate="29A-10001" | qr_code="QR-E7D4KYLXNY" | rfid_code="RF-VRBFZOQUOE" | vehicle_type_code="MOTORBIKE"
+plate="29A-11001" | qr_code="QR-KIQ73ZM7V2" | rfid_code="RF-R3EPFAZKV7" | vehicle_type_code="MOTORBIKE"
+plate="29A-12001" | qr_code="QR-7A4VQWARWG" | rfid_code="RF-COVFYD7Q55" | vehicle_type_code="MOTORBIKE"
+plate="29A-13001" | qr_code="QR-R6UKYC7HFK" | rfid_code="RF-5Q7JIB5JDU" | vehicle_type_code="MOTORBIKE"
+plate="29A-14001" | qr_code="QR-5LM2ND7KVR" | rfid_code="RF-RVO6H3TVZC" | vehicle_type_code="MOTORBIKE"
+plate="29A-15001" | qr_code="QR-QZE2KFJDUH" | rfid_code="RF-XPZQWXNWY3" | vehicle_type_code="MOTORBIKE"
+## zone_capacities (3)
+vehicle_type_code="MOTORBIKE" | capacity=150
+vehicle_type_code="MOTORBIKE" | capacity=150
+vehicle_type_code="CAR" | capacity=30
+## zones (3)
+name="A"
+name="B"
+name="C"
