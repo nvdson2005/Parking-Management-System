@@ -77,4 +77,8 @@ A 30-minute session with all five members (5 x 0.5 h = 2.5 h, as planned for A-1
 
 Date: **20/11/2026** (per RES-01). Chair: RES-01. Duration 30 minutes, all five members. `TODO(RES-01): record attendance and the levers chosen after the session.`
 Approved by Nguyễn Võ Đức Sơn (RES-01, PM) on 19/11/2026. The decision stands with the residual gap open; the team's choice of levers is still outstanding.
-`TODO(team): levers chosen for the residual gap.`
+### Proposed workshop decision pending team confirmation
+
+Retain Option C and protect Must verification, O1/O2 evidence, the client demo, and the submission. Ask each member to confirm one additional W14 hour above the existing two, for up to 5 h of additional team capacity. If all five confirm, the estimated gap falls from 14.1 h to 9.1 h before Q22, or from 11.5 h to 6.5 h if Q22 triggers. Treat these figures as scenarios until capacity is confirmed.
+
+Have RES-03 recalculate remaining effort from completed activities and owner estimates. If a gap remains, propose reducing Could-level acceptance coverage and shortening Should-module report sections while retaining the evidence required by the assignment. Record owners and revised effort before counting any savings. Evaluate Q22 only at the documented 24 November gate. Workshop attendance and agreement remain unverified.

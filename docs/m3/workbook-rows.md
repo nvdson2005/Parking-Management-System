@@ -27,7 +27,8 @@ A-74 / KB-02 | Fee is the tariff at confirm time | tests/exit.test.ts "KB-02 fee
 A-74 / KB-03 | Close and payment are one transaction | tests/exit.test.ts "KB-03 ... payment failure leaves session OPEN"; "one payment per closed session" | RES-01 | 19/11 | Verified
 A-74 / FR-28 | Customer and Manager payment history | tests/history.test.ts (existing); review in P18 section 10.3 | RES-01 | 19/11 | Verified, no gap
 A-22 | P18 v1.0, KB-01..KB-19 decisions | P18 section 10 and 10.2 | RES-01 | 19/11 | Done; CP-02 review by RES-02 and RES-03 planned 20/11, outcome pending
-A-61 | Lot management | docs/m3/quality-evidence-A-61.md | RES-01 | 19/11 | Partly verified (route-level 403 check outstanding)
+A-61 | Lot management | docs/m3/quality-evidence-A-61.md | RES-01 | 20/11 | Verified (seven Staff requests returned HTTP 403)
+A-67 | Simulator integration | docs/m3/a-67-integration-check.md | RES-01 / RES-05 | 20/11 | Verified (25 HTTP checks passed and 120 simulator events ran with zero rejections)
 ```
 
 ## Planned vs Actual sheet
@@ -36,4 +37,4 @@ Use `docs/m3/a-90-planned-vs-actual.md`.
 
 ## Task Log (A-100)
 
-`TODO(RES-01)`: own hours per activity for W12 and W13. No figures exist in the repo.
+Use the [RES-01 weekly effort estimates](a-90-planned-vs-actual.md#res-01-weekly-effort-estimates). Mark each row as estimated. W12 totals 8 h and W13 totals 10 h.
