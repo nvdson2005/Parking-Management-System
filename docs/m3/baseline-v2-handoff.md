@@ -31,3 +31,13 @@ Scope (all V1.0 products), objectives O1–O5, the Q22 fallback order, roles and
 
 `TODO(RES-03): date V2.0 is regenerated (target before 24/11 so M-03 uses it).`
 `TODO(RES-01): approval date.`
+
+Review the [V2.0 draft](baseline-v2-draft.md) for the revised milestones, dependencies, and capacity scenarios.
+
+## RES-01 approval checklist
+
+- [ ] Verify the archive includes the V1.0 plan and generated outputs and that the V2.0 set is separately identified.
+- [ ] Check the regenerated schedule shows M-03 on 24/11, the client demo on 27/11, A-92 finish on 28/11, and joint submission on 29/11.
+- [ ] Check the revised activities, regenerated Gantt and critical path, and risk register against CR-01 and the work-division plan. Check the CR-02 reply date is 15/11/2026.
+- [ ] Verify that any extra W14 capacity counted in the baseline has documented owner commitments. Use the assumed workshop outcome as a planning scenario while confirmations are open.
+- [ ] Record the V2.0 file locations or commit, any required corrections, and the dated approval. Share the approved version with RES-03 for A-92.

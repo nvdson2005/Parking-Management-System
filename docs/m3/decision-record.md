@@ -55,6 +55,15 @@ RES-01 is already carrying 26.7 h of baseline against 28 h of capacity (95%) and
 
 The Q22 fallback fires if, at M-03, any Must product is not verified or the schedule is more than 2 days behind. A member being short on hours is **not** a trigger, because it is already expected under R-G4-02; it is escalated to RES-01 under working rule 3. Owner: RES-01. The decision and its effect go in the weekly log and the risk register (R-G5-04).
 
+### M-03 decision record for 24 November
+
+| Input or decision | Evidence to record |
+|---|---|
+| Must verification | [A-67 integration](a-67-integration-check.md) and [A-61 lot management](quality-evidence-A-61.md) evidence are available. The formal A-68/CP-05 verdict and remaining Must checks are pending. RES-02 records any unverified product and its owner. |
+| Schedule variance | The [V2.0 draft](baseline-v2-draft.md) records target dates. The live forecast and measured variance are pending from RES-03. Record the reference baseline and variance in days. |
+| Q22 decision and effect | RES-01 records trigger status, rationale, verification omitted if triggered, and any recovery actions. Copy the result to R-G5-04 and the weekly log. |
+| Status | Pending gate evidence and RES-01 decision. |
+
 ## Consequences
 
 - M3 and the final report are submitted together on 29/11 (confirmed by RES-01: everything goes in on that date). There is no separate M3 submission date.
