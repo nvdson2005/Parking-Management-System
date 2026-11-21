@@ -1,6 +1,6 @@
-# A-90 Planned vs Actual: skeleton (RES-01 activities)
+# A-90 Planned vs Actual · report draft
 
-Planned values come from `docs/m2-report/generated/estimates.md` and the work-division plan. **Actual hours and start dates are unknown** (assumed equal to capacity at team level, 8 h in W12 and 10 h from W13; see the RES-01 effort estimates below); finish dates come from commits and documents. Deviations over 20% are explained once actual hours exist (A-103, Task 3.3). This file covers RES-01's activities only; RES-03 owns the full tracker.
+Planned values come from `docs/m2-report/generated/estimates.md` and the work-division plan. **Actual hours and start dates are unknown** (assumed equal to capacity at team level, 8 h in W12 and 10 h from W13; see the RES-01 effort estimates below); finish dates come from commits and documents. Deviations over 20% are explained once actual hours exist (A-103, Task 3.3). The detailed activity table covers RES-01. RES-03 owns the team tracker.
 
 | A-ID | Activity | Planned start–finish | Planned E (h) | Actual finish (evidence) | Estimated RES-01 effort (h) | Deviation | Explanation |
 |---|---|---|---|---|---|---|---|
@@ -16,8 +16,23 @@ Planned values come from `docs/m2-report/generated/estimates.md` and the work-di
 | A-106 | Baseline V2.0 hand-off | after A-105 | 3.0 (now 1.5) | hand-off 19/11 (`e43c2bf`); regeneration by RES-03 pending | 0.25 (handoff) | pending | — |
 | A-94 / A-97 | Weekly log and meeting | weekly | TODO | draft 19/11 (`docs/m3/weekly-log-draft.md`) | 0.50 (log) | late (no log for W12) | Log started in W13 |
 | A-100 | Own hours in Task Log | weekly | 1 per week | not started; hours ASSUMED equal to capacity (8 h W12, 10 h W13) | TODO | missed W12 | No hours were logged; see weekly-log-draft.md |
-| A-90 | Actuals vs baseline | 23–25/11 | 3.42 | pending | — | — | Needs actuals from all members |
+| A-90 | Actuals vs baseline | 23–25/11 | 3.42 | draft through 21/11 | — | in progress | Team actuals and gate evidence pending |
 | A-88 | Client acceptance demo | 27/11 | 2.83 | pending | — | — | — |
+
+## Comparison for A-92 · evidence through 21 November
+
+| Dimension | Original baseline and revised plan | Observed result or variance |
+|---|---|---|
+| Effort | V1.0 planned 139.6 team hours including reserve. Revised demand is about 164.1 h after the agreed cuts. | Team actuals are pending. RES-01 has 18 h estimated across W12–W13. A-22 is estimated at 4.50 h versus 4.33 h planned (+3.9%). A-61 is estimated at 1.50 h versus 1.50 h planned. Compare other activities once RES-03 provides like-for-like planned and actual allocations. |
+| Schedule | V1.0 submission was 7 Dec. CR-01 moves submission to 29 Nov and targets report sign-off on 28 Nov. | The submission target moved eight calendar days earlier. A-22 finished seven days late and A-63 finished one day late. A-67 verification was recorded on its 20 Nov target. Current project forecast and M-03 variance are pending. |
+| Cost | At the baseline proxy rate of 50,000 VND/h, V1.0 planned 6,980,000 VND and revised demand represents about 8,205,000 VND. | Revised planned cost is about 1,225,000 VND higher. RES-01's 18 h estimate represents 900,000 VND in proxy effort. Team actual cost awaits the tracker. |
+| Scope | Option C retains V1.0 product scope while consolidating report work and reducing verification depth. | CR-02 added four lecturer clarifications on 15 Nov. The changes were implemented, with 4.25 h estimated for RES-01. Final accepted scope and any omissions await A-87/A-88 and the M-03 gate. |
+| Quality | The revised plan protects Must verification and O1/O2 evidence. | A-61 recorded seven expected Staff authorization denials. A-67 recorded 25 passing HTTP checks and a 120-event simulator run with zero rejections. Formal CP-02 and A-68/CP-05 outcomes and the client acceptance record remain pending. |
+| Risk | Revised demand exceeds 140 h base capacity by about 24.1 h. R-G4-02 tracks capacity shortfalls and R-G5-04 tracks deadline compression. | The estimated gap is 14.1 h after the planned W14 extra hours. The workshop assumption reduces it to 9.1 h if all additional hours are confirmed. Q22 is conditional on the M-03 gate. |
+
+For final integration into A-92, add RES-03's dated team tracker and risk update, RES-02's gate evidence, and the M-03 decision. Keep the original and revised planned figures distinct from measured actuals. Explain comparable effort deviations over 20% once the tracker is available.
+
+Sources: [V1.0 totals](../m2-report/generated/totals.md), [V2.0 review draft](baseline-v2-draft.md), [change and gate decisions](decision-record.md), [A-61 evidence](quality-evidence-A-61.md), and [A-67 evidence](a-67-integration-check.md).
 
 ## Extra work not in Baseline V1.0 (scope and effort deviation)
 

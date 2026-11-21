@@ -1,9 +1,9 @@
 # A-114 Individual Contribution and Reflection: DRAFT (RES-01)
 
-Draft from the repository history. Edit freely: the reflection must be in your own words and match what you can explain at the viva. Hours are `TODO`.
+Draft from the repository history. Edit freely: the reflection must be in your own words and match what you can explain at the viva. Review the first-person draft below before submission.
 
 **Member:** Nguyễn Võ Đức Sơn (RES-01), PM and Tech lead
-**Period covered:** W12 to 19/11/2026 (update at the end of W14)
+**Period covered:** W12 through 21/11/2026 (update at the end of W14)
 
 ## Contribution (evidence)
 
@@ -16,16 +16,18 @@ Draft from the repository history. Edit freely: the reflection must be in your o
 | Design decisions | P18 v1.0 with decisions for KB-01..KB-19 | `3d911b6` |
 | Change event (Task 3.6, 3.7) | Impact analysis, decision record, revised W13–W14 plan, V2.0 hand-off | `3e7d822`, `d8dd6ce`, `d6dbfb2`, `e43c2bf`, `ca7808b` |
 | Process | Spec Kit scaffold and constitution; AGENTS.md, CLAUDE.md, codegraph rules | `0578a4e`, `5ee2186`, `7e99357` |
-| AI use | Claude Code assisted code and drafts; all decisions (KB-02, KB-03, option C) were mine. Record in the AI Usage Log. | `TODO(RES-01)` workbook AI Usage Log |
+| AI use | Claude Code assisted with code and drafts. Codex helped prepare the A-90 comparison, reflection, and demo rehearsal. | Workbook AI Usage Log for the 21/11 Codex session. Confirm earlier Claude Code entries before submission. |
 
-Effort: `TODO(RES-01)` hours per row.
+Estimated RES-01 effort through W13 was **18 h** across 8 h in W12 and 10 h in W13. The same allocation accounts for 4.50 h on P18, 4.25 h on CR-02 implementation and review fixes, 2.75 h across A-63/A-74, and 1.75 h across CR-01 analysis, workshop preparation, and V2.0 handoff. The [A-90 ledger](a-90-planned-vs-actual.md#res-01-weekly-effort-estimates) lists the full breakdown.
 
-## Reflection prompts (write in your own words)
+## Reflection draft for RES-01 review
 
-1. **What went to plan, what did not.** Data points: A-22 planned 12/11, finished 19/11; A-63 finished one day late; the round-3 changes were unplanned work; no weekly log existed in W12; the deadline moved a week earlier in W13.
-2. **A decision I would defend at the viva.** Candidates: accepting KB-02 (fee at exit time) and KB-03 (one transaction); option C over absorbing or descoping.
-3. **A mistake I made and what changed.** Candidates: I overstated the savings of option C (17 h claimed, 8 h real) until a review caught two sign errors; I marked a task done before writing its test and caught it myself; I did not start the weekly log or hours tracking at the start of W12.
-4. **What I would do differently on the next project.** Candidates: record hours from day one; do the design-decision gate (CP-02) before coding; cost every saving against the correct baseline before presenting it.
-5. **Viva readiness.** Be ready to explain any artifact, including one I did not write (`TODO(RES-01)`: choose which, A-115).
+I had planned to finish P18 on 12 November. It was committed on 19 November after the round-3 changes took priority and the fee and transaction decisions were settled. Entry and exit fixes finished one day after their target. The deadline also moved from 7 December to 29 November. I consolidated report work and kept the core entry, exit, and availability checks in the revised plan. The remaining hours gap still needed decisions from the team.
 
-`TODO(RES-01)`: finalise at the end of W14 after A-88 and A-90.
+I kept session closure and simulated payment in one transaction. If payment creation fails, the session remains open. The regression test checks that failure and that a successfully closed session has one payment. I would defend this decision at the viva because it gives staff a consistent session state when a payment write fails.
+
+I started the weekly log after W12 and had to reconstruct my effort from activity evidence. On a future project, I would log effort and review outcomes on the day they happen and compare remaining work with each owner's available hours before claiming a schedule saving.
+
+For the mock viva I will explain RES-05's A-43 simulator review, including how SC-07 tests the 100-session requirement and how that evidence feeds the demo.
+
+After A-88 and A-90, add the acceptance outcome, any W14 hours available, and one lesson from the retrospective. RES-01 should revise the first-person wording before submission.

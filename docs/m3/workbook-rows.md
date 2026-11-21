@@ -1,6 +1,6 @@
 # Workbook rows (paste-ready)
 
-Text rows for the tracking workbook (`resources/CO3011_Project_Tracking_Workbook (1).xlsx`). The repo does not edit the workbook; paste these in. Unknowns are `TODO`.
+Text rows for the tracking workbook (`resources/CO3011_Project_Tracking_Workbook (1).xlsx`). The workbook contains CR-02, A-61, A-67, and the 21/11 Codex AI usage entry. Use these notes to reconcile remaining entries. Unknowns are `TODO`.
 
 ## Change Log sheet
 
