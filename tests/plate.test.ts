@@ -1,8 +1,21 @@
 import { describe, it, expect } from 'vitest'
-import { normalizePlate, maskPlate, presentPlate } from '@/lib/plate'
+import { normalizePlate, plateCompareKey, maskPlate, presentPlate } from '@/lib/plate'
 import { Role } from '@/lib/types'
 
 describe('plate helpers', () => {
+  describe('plateCompareKey', () => {
+    it('gives the same key for separator and case variants (A-63, KB-04)', () => {
+      const key = plateCompareKey('51F-123.45')
+      expect(key).toBe('51F12345')
+      expect(plateCompareKey('51f 123 45')).toBe(key)
+      expect(plateCompareKey('51F12345')).toBe(key)
+    })
+
+    it('gives a different key for a different plate', () => {
+      expect(plateCompareKey('51F-999.99')).not.toBe(plateCompareKey('51F-123.45'))
+    })
+  })
+
   describe('normalizePlate', () => {
     it('should trim and uppercase and remove whitespace', () => {
       expect(normalizePlate(' 51f 123.45 ')).toBe('51F123.45')

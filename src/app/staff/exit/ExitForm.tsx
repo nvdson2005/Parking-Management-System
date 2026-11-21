@@ -84,6 +84,7 @@ export function ExitForm() {
           observedPlate,
           confirmMismatch,
           lostCard,
+          method: effectiveMethod,
           note: note.trim() ? note.trim() : undefined,
         }),
       })

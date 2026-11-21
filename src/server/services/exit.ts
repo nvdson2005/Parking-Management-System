@@ -7,7 +7,7 @@ import { findVehicleByIdentifier } from '@/server/services/vehicles'
 import { computeFee } from '@/server/services/fees'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
-import { normalizePlate } from '@/lib/plate'
+import { normalizePlate, plateCompareKey } from '@/lib/plate'
 import type { FeeGroup, IdMethod, VehicleTypeCode } from '@/lib/types'
 
 export type ExitPreview = {
@@ -62,7 +62,7 @@ export async function previewExit(
     feeGroup,
     entryTime: session.entryTime,
     fee,
-    plateMismatch: normalizePlate(observedPlate) !== session.plateSnapshot,
+    plateMismatch: plateCompareKey(observedPlate) !== plateCompareKey(session.plateSnapshot),
   }
 }
 
@@ -71,6 +71,7 @@ const confirmExitSchema = z.object({
   observedPlate: z.string().min(1),
   confirmMismatch: z.boolean(),
   lostCard: z.boolean(),
+  method: z.enum(['PLATE', 'QR', 'RFID']).optional(),
   note: z.string().optional(),
   staffId: z.string().min(1),
   now: z.date().optional(),
@@ -98,6 +99,7 @@ export async function confirmExit(
     observedPlate: string
     confirmMismatch: boolean
     lostCard: boolean
+    method?: IdMethod
     note?: string
     staffId: string
     now?: Date
@@ -107,6 +109,12 @@ export async function confirmExit(
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid exit input')
   const data = parsed.data
   const now = data.now ?? new Date()
+
+  // EX-03 / D-09: a lost card is looked up by plate. Enforced here so the
+  // simulator and any direct API client cannot skip the staff screen's rule.
+  if (data.lostCard && data.method !== 'PLATE') {
+    throw new DomainError('VALIDATION', 'Lost card requires plate lookup')
+  }
 
   // `confirmExit` is the top-level caller holding a real client, so it owns
   // the transaction boundary the `Db` union type can't express.
@@ -120,7 +128,7 @@ export async function confirmExit(
       }
 
       const observedPlate = normalizePlate(data.observedPlate)
-      const mismatch = observedPlate !== session.plateSnapshot
+      const mismatch = plateCompareKey(observedPlate) !== plateCompareKey(session.plateSnapshot)
       if (mismatch && !data.confirmMismatch) throw new DomainError('PLATE_MISMATCH', 'Observed plate does not match')
 
       let wroteEvent = false

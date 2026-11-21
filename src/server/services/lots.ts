@@ -83,7 +83,8 @@ export async function createLot(
 /**
  * Updates a lot's name/address/status (MANAGER only). The Active/Suspended
  * toggle flows through `status` (FR-10). Logs `LOT_CHANGE` and broadcasts
- * availability so a suspension immediately hides the lot's free spots.
+ * availability. A suspended lot keeps reporting its normal free counts together
+ * with its `status`; consumers decide how to present it (D-27, KB-18).
  *
  * Moving a lot to SUSPENDED (from any other status) also cancels its PENDING
  * reservations with `cancelReason: 'LOT_SUSPENDED'` and notifies each customer,
