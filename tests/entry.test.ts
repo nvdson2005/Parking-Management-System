@@ -408,3 +408,30 @@ describe('recordEntry: early arrival', () => {
     ).rejects.toMatchObject({ code: 'VALIDATION' })
   })
 })
+
+describe('recordEntry vehicle type (A-63, KB-13)', () => {
+  it('uses the stored type of a known vehicle and ignores the client-sent type', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const car = await addVehicle(db, { ownerId: f.student.id, plate: '51A-111.11', vehicleType: 'CAR' })
+
+    const session = await recordEntry(db, {
+      method: 'PLATE',
+      identifier: car.plate,
+      zoneId: f.zoneC.id,
+      vehicleType: 'MOTORBIKE',
+      staffId: f.staff.id,
+    })
+
+    expect(session.vehicleTypeCode).toBe('CAR')
+  })
+
+  it('requires a vehicle type for an unknown plate', async () => {
+    await resetDb()
+    const f = await makeFixture()
+
+    await expect(
+      recordEntry(db, { method: 'PLATE', identifier: '77Z-77777', zoneId: f.zoneA.id, staffId: f.staff.id }),
+    ).rejects.toMatchObject({ code: 'VALIDATION' })
+  })
+})

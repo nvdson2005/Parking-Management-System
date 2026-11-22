@@ -1,0 +1,43 @@
+# Baseline V2.0 Hand-off (Task 3.7, A-106)
+
+| Field | Value |
+|---|---|
+| From | Nguyễn Võ Đức Sơn (RES-01) |
+| To | Nguyễn Phạm Mạnh Dũng (RES-03), who regenerates; RES-01 approves |
+| Date | 2026-11-19 |
+| Trigger | CR-01 (final submission moved from 07/12 to 29/11) changes the schedule, capacity and risks, so V2.0 is required. CR-02 does not change the baseline but is listed. |
+| Effort | A-106 minimal: 1.5 h total (RES-03 1 h regenerating, RES-01 0.5 h approving) |
+
+## What changes in V2.0
+
+| Area | V1.0 | V2.0 |
+|---|---|---|
+| End date | M-05 07/12; work ends before 04/12 | M-05 **29/11**; A-92 finishes 28/11 |
+| Capacity | 190 h (W12–W15) | **140 h** (W12–W14) |
+| Activities | As V1.0 plus work-division additions | Cuts applied: A-108 folded into A-92; A-110, A-112, A-113 as sections of A-92; A-89 a section of A-92; A-95 merged into A-87; A-72 and A-76 reduced to automated tests plus one acceptance pass (A-77 already committed); A-115 demo script only; A-106 1.5 h; A-105 stays 5 x 0.5 h |
+| Effort | 139.6 h baseline (172.1 h with M3/M4 additions) | about 164.1 h after cuts (net -8.0 h, A-106 adds 1.5 h); gap to 140 h about 24 h, cover about 12.6 h, about 11.5 h open pending actual hours and the team's levers |
+| Risks | R-G4-02 at 30% | R-G4-02 near-certain; new **R-G5-04** deadline compression (owner RES-01); R-G5-01 and R-G5-02 raised by the A-95/A-87 merge |
+| Change log | empty | CR-01 and CR-02 (rows in `docs/m3/decision-record.md`) |
+
+## What stays
+
+Scope (all V1.0 products), objectives O1–O5, the Q22 fallback order, roles and RES-IDs, fixed dates M-03 24/11 and M-04 27/11.
+
+## Process
+
+1. RES-03 regenerates the plan set from `docs/m2-report/data/plan.mjs` into a new V2.0 output with the changes above. V1.0 outputs under `docs/m2-report/` are **not edited**; V1.0 outputs are copied into `docs/m2-report/data/archive/` before regenerating (today the archive holds only `plan-build-v0.2.mjs`, so the V1.0 `plan.mjs` and `generated/*` must be copied in by RES-03) for comparison.
+2. RES-01 reviews and approves the V2.0 set.
+3. The final report cites V1.0 and V2.0 side by side (Task 3.7: original information must remain available).
+
+`TODO(RES-03): date V2.0 is regenerated (target before 24/11 so M-03 uses it).`
+`TODO(RES-01): approval date.`
+
+Review the [V2.0 draft](baseline-v2-draft.md) for the revised milestones, dependencies, and capacity scenarios.
+
+## RES-01 approval checklist
+
+- [ ] Verify the archive includes the V1.0 plan and generated outputs and that the V2.0 set is separately identified.
+- [ ] Check the regenerated schedule shows M-03 on 24/11, the client demo on 27/11, A-92 finish on 28/11, and joint submission on 29/11.
+- [ ] Check the revised activities, regenerated Gantt and critical path, and risk register against CR-01 and the work-division plan. Check the CR-02 reply date is 15/11/2026.
+- [ ] Verify that any extra W14 capacity counted in the baseline has documented owner commitments. Use the assumed workshop outcome as a planning scenario while confirmations are open.
+- [ ] Record the V2.0 file locations or commit, any required corrections, and the dated approval. Share the approved version with RES-03 for A-92.
