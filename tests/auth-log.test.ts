@@ -12,8 +12,7 @@ import { db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { resetDb, makeFixture, type Fixture } from './helpers/db'
 import { authenticate } from '@/server/services/auth'
-import { requireRole } from '@/server/auth/rbac'
-import { logPageDenied } from '@/server/services/accessLog'
+import { requireRole, requireSection } from '@/server/auth/rbac'
 
 let f: Fixture
 
@@ -88,13 +87,50 @@ describe('G-06 access-denied logging (FR-43)', () => {
     expect(await rows('ACCESS_DENIED')).toHaveLength(0)
   })
 
-  it('logPageDenied logs a protected prefix and ignores anything else', async () => {
-    await logPageDenied(db, f.student.id, '/manager')
-    await logPageDenied(db, f.student.id, '/evil?x=<script>')
-    await logPageDenied(db, f.student.id, undefined)
+  it('logs nothing when the role is allowed in a shared section (MANAGER in /staff)', async () => {
+    currentUser = { id: f.manager.id, role: 'MANAGER', name: 'M', userGroup: null }
+    await expect(requireSection('/staff')).resolves.toMatchObject({ id: f.manager.id })
+    expect(await rows('ACCESS_DENIED')).toHaveLength(0)
+  })
+})
+
+// redirect() throws an error whose digest carries the target URL.
+async function redirectTarget(p: Promise<unknown>): Promise<string> {
+  const err = (await p.then(
+    () => null,
+    (e: unknown) => e,
+  )) as { digest?: string } | null
+  expect(err?.digest).toMatch(/^NEXT_REDIRECT/)
+  return err!.digest!.split(';')[2]
+}
+
+describe('G-06 page section guard (FR-43, review of PR #11)', () => {
+  it('logs one ACCESS_DENIED for a wrong role and redirects to /denied', async () => {
+    currentUser = { id: f.student.id, role: 'CUSTOMER', name: 'S', userGroup: 'STUDENT' }
+
+    expect(await redirectTarget(requireSection('/manager'))).toBe('/denied')
 
     const denied = await rows('ACCESS_DENIED')
     expect(denied).toHaveLength(1)
+    expect(denied[0].userId).toBe(f.student.id)
     expect(denied[0].target).toBe('page:/manager')
+  })
+
+  it('logs one row per refused request: two attempts are two rows, not more', async () => {
+    currentUser = { id: f.staff.id, role: 'STAFF', name: 'T', userGroup: null }
+    await redirectTarget(requireSection('/manager'))
+    await redirectTarget(requireSection('/customer'))
+    expect((await rows('ACCESS_DENIED')).map((r) => r.target).sort()).toEqual(['page:/customer', 'page:/manager'])
+  })
+
+  it('sends a signed-out user to /login and logs nothing', async () => {
+    expect(await redirectTarget(requireSection('/staff'))).toBe('/login')
+    expect(await db.accessLog.count()).toBe(0)
+  })
+
+  it('returns the user and logs nothing when the role is allowed', async () => {
+    currentUser = { id: f.student.id, role: 'CUSTOMER', name: 'S', userGroup: 'STUDENT' }
+    await expect(requireSection('/customer')).resolves.toMatchObject({ id: f.student.id })
+    expect(await db.accessLog.count()).toBe(0)
   })
 })

@@ -1,9 +1,7 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { db } from '@/server/db'
 import { getDict, getLang, t } from '@/i18n'
 import { getCurrentUser } from '@/server/auth/session'
-import { logPageDenied } from '@/server/services/accessLog'
 import type { Role } from '@/lib/types'
 
 const ROLE_HOME: Record<Role, string> = {
@@ -13,20 +11,13 @@ const ROLE_HOME: Record<Role, string> = {
 }
 
 /**
- * Landing page for a page the middleware refused for the user's role
- * (G-06, FR-43, NFR-09). It runs on Node, so it can write the ACCESS_DENIED
- * row the Edge middleware cannot.
+ * Shown after a section layout refused the user's role. Read-only: the
+ * ACCESS_DENIED row was written by requireSection at the decision point
+ * (G-06, FR-43), so refreshing or opening this page directly logs nothing.
  */
-export default async function DeniedPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ from?: string }>
-}) {
+export default async function DeniedPage() {
   const user = await getCurrentUser()
   if (!user) redirect('/login')
-
-  const { from } = await searchParams
-  await logPageDenied(db, user.id, from)
 
   const dict = getDict(await getLang())
 

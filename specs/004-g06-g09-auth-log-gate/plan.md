@@ -22,7 +22,7 @@ Next.js 15, Prisma 6, SQLite, Zod, vitest. Services take `Db` first; routes are 
 | Action types `LOGIN_FAILED`, `ACCESS_DENIED`; `GATES`, `GateCode` | `src/lib/types.ts` |
 | Failed sign-in logging | `src/server/services/auth.ts` |
 | Denied API logging | `src/server/auth/rbac.ts` (`requireRole`) |
-| Denied page | `src/middleware.ts` (redirect), `src/app/denied/page.tsx`, `src/server/services/accessLog.ts` (`logPageDenied`) |
+| Denied page | `src/lib/sections.ts` (section roles), `src/server/auth/rbac.ts` (`requireSection`, one row per render), `src/app/{customer,staff,manager}/layout.tsx`, `src/middleware.ts` (session check only), `src/app/denied/page.tsx` (read-only) |
 | Gate columns | `prisma/schema.prisma`, `prisma/migrations/20261123180000_g09_session_gate/migration.sql` |
 | Gate input | `src/server/services/entry.ts`, `src/server/services/exit.ts`, `src/app/api/events/entry/route.ts`, `src/app/api/events/exit/confirm/route.ts` |
 | Gate UI | `src/app/staff/entry/EntryForm.tsx`, `src/app/staff/exit/ExitForm.tsx`, `src/app/staff/sessions/[id]/page.tsx`, `src/i18n/{en,vi}.ts` |

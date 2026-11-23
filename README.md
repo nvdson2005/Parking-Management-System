@@ -150,7 +150,7 @@ Use separate browsers/profiles per role so you can watch live updates.
    and opens `/manager/reports` with a date range.
 9. **Manager views the access log** (`/manager/access-log`, showing LOGIN /
    LOGIN_FAILED / ACCESS_DENIED / VIEW_FULL_PLATE / PURGE entries; a wrong-role
-   page visit lands on `/denied` and is logged) and runs a purge, which masks old plate rows.
+   page visit is logged once by the section layout, then lands on the read-only `/denied` page) and runs a purge, which masks old plate rows.
 10. **Language toggle VI ↔ EN** works on every page (verified in-browser across
     all customer, staff, manager and auth pages); the layout fits a 375px-wide
     viewport with no horizontal overflow.

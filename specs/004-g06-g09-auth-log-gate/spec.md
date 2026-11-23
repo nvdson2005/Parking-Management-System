@@ -53,14 +53,15 @@ Added 23/11 after the second CP-03 review round (RES-02): FR-10 (Must) and AT-01
 
 - A rejected sign-in must still write its log row even though the request fails.
 - `ACCESS_DENIED` is written only for an authenticated user with the wrong role. Unauthenticated requests (401) are not logged: the Edge middleware cannot write to the database, and anonymous traffic would flood the log.
-- The access-denied page only logs a `from` value that is one of the protected prefixes (`/customer`, `/staff`, `/manager`), so the URL cannot inject arbitrary text into the log.
+- The `/denied` page writes nothing: refreshing it or opening it directly adds no row (review of PR #11, 23/11).
+- A page section layout and the page inside it may both refuse one request; only one row is written per request. Its target is `page:<section>`, or `roles:<roles>` when the page's own `requireRole` ran first; both name the refusal.
 - Existing sessions get `entry_gate = GATE-1` from the column default; existing closed sessions keep `exit_gate` empty.
 
 ## Requirements
 
 - **FR-A (G-06)**: `authenticate` writes `LOGIN_FAILED` for unknown email, wrong password and locked account, with the reasons above.
 - **FR-B (G-06)**: `requireRole` writes `ACCESS_DENIED` when a signed-in user lacks the role, then throws FORBIDDEN as before. `assertRole` stays a pure function.
-- **FR-C (G-06)**: the middleware sends a wrong-role page request to `/denied?from=<prefix>`; that page logs `ACCESS_DENIED` and shows a translated message (vi/en).
+- **FR-C (G-06)**: the middleware only checks the session. Each section layout (`/customer`, `/staff`, `/manager`) checks the role on Node, logs one `ACCESS_DENIED` (`page:<section>`) for a refused signed-in user and redirects to `/denied`, a read-only page with a translated message (vi/en). Changed after the review of PR #11: the first version logged when `/denied` rendered, which duplicated rows on refresh, accepted a forged `from`, and missed redirects that were never followed.
 - **FR-D (G-09)**: `parking_sessions.entry_gate TEXT NOT NULL DEFAULT 'GATE-1'` and `exit_gate TEXT NULL`, added by a new migration. Allowed gates: `GATE-1`, `GATE-2`.
 - **FR-E (G-09)**: `recordEntry` and `confirmExit` accept an optional `gate`; the API routes pass it through; the Staff forms send it; the session detail shows both gates.
 
