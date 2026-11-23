@@ -282,8 +282,8 @@ Q34 chốt: Quản lý (khách hàng gọi là **Admin**, trong hệ thống là
 | parking_sessions | Lượt của mình (`owner_id`) | Đọc, ghi vào/ra | Đọc | Staff có `/staff/sessions`, `/staff/sessions/[id]` (ghi VIEW_FULL_PLATE) | — |
 | payments | Của mình | Tạo khi xác nhận ra | Đọc | Đúng | — |
 | parking_lots, zones, zone_capacities (tình trạng bãi) | Đọc chỗ trống | Đọc chỗ trống và trạng thái bãi | Đọc, ghi | `/api/availability` cho cả 3 vai trò; `/api/lots`, `/api/zones` chỉ MANAGER | Staff chưa có màn hình chi tiết bãi; chỗ trống và trạng thái đã đủ cho nghiệp vụ |
-| vehicles | Xe của mình | **Đọc (tra cứu theo biển số, QR, RFID)** | Đọc | `GET /api/vehicles` chỉ CUSTOMER | **G-08** (làm trong A-65, mục 11.1) |
-| reservations | Của mình | **Đọc (đặt chỗ đang hiệu lực theo khu vực, theo biển số)** | Đọc | `GET /api/reservations` chỉ CUSTOMER; Staff chỉ thấy đặt chỗ gián tiếp khi xe vào | **G-08** |
+| vehicles | Xe của mình | **Đọc (tra cứu theo biển số, QR, RFID)** | Đọc | `GET /api/vehicles` chỉ CUSTOMER | **G-08 đã làm** (A-65, `49299ac`, PR #11) |
+| reservations | Của mình | **Đọc (đặt chỗ đang hiệu lực theo khu vực, theo biển số)** | Đọc | `GET /api/reservations` chỉ CUSTOMER; Staff chỉ thấy đặt chỗ gián tiếp khi xe vào | **G-08 đã làm** (A-65, `49299ac`, PR #11) |
 | tariffs, users, access_logs | — | — | Đọc, ghi | Đúng | — |
 
 Biển số hiển thị cho Staff khi tra cứu xe phải theo quy tắc che biển số (FR-42) và ghi `VIEW_FULL_PLATE` khi mở chi tiết (D-31, KB-06).
@@ -298,9 +298,9 @@ Biển số hiển thị cho Staff khi tra cứu xe phải theo quy tắc che bi
 | UNIQUE `vehicles(plate)`, `vehicles(qr_code)`, `vehicles(rfid_code)` | Tìm xe theo biển số, QR, RFID khi vào/ra (FR-09, FR-13) | [main] |
 | UNIQUE `users(email)` | Đăng nhập (FR-02) | [main] |
 | `notifications(user_id, read_at, created_at)` | Đếm và liệt kê thông báo (FR-50) | [round3] |
-| `reservations(customer_id, status)` | Kiểm tra 1 đặt chỗ đang hiệu lực mỗi tài khoản (Q31); danh sách đặt chỗ của Customer | [đề xuất] G-07 |
-| `parking_sessions(entry_time)` | Lọc lượt theo khoảng thời gian (FR-16), báo cáo theo giờ (FR-38, FR-39) | [đề xuất] G-07 |
-| `access_logs(created_at)`, `access_logs(user_id)` | Lọc nhật ký theo thời gian và tài khoản (FR-44) | [đề xuất] G-07 |
+| `reservations(customer_id, status)` | Kiểm tra 1 đặt chỗ đang hiệu lực mỗi tài khoản (Q31); danh sách đặt chỗ của Customer | G-07 **đã làm** (A-65, `d64e95f`, PR #11) |
+| `parking_sessions(entry_time)` | Lọc lượt theo khoảng thời gian (FR-16), báo cáo theo giờ (FR-38, FR-39) | G-07 **đã làm** (A-65, `d64e95f`, PR #11) |
+| `access_logs(created_at)`, `access_logs(user_id)` | Lọc nhật ký theo thời gian và tài khoản (FR-44) | G-07 **đã làm** (A-65, `d64e95f`, PR #11) |
 
 Ở quy mô thí điểm (330 chỗ, dữ liệu 60 ngày từ bộ mô phỏng) truy vấn chưa cần các chỉ mục G-07. Chúng là biện pháp phòng ngừa, không bắt buộc cho CP-03.
 
@@ -387,8 +387,8 @@ Nguyên tắc: hạn nộp 29/11 (CR-01) còn ≈ 11,5h chưa có nguồn bù, n
 | Mục | Quyết định | Làm trong | Giờ | Lý do |
 |---|---|---|---|---|
 | G-05 xóa tự động | **Đã làm** (23/11, commit `bc172ce` trên nhánh `fix/a28-auth-log-purge`, chờ merge) | A-28 | 1,5 | Q35 khách hàng chốt; FR-45 Must; bảo vệ dữ liệu (CN4) |
-| G-08 Staff tra cứu xe, đặt chỗ | **Làm** | A-65 (cùng KB-15) | 3 | Q34 khách hàng chốt; A-65 đã có trong baseline nên chỉ thêm phần đọc cho Staff |
-| G-07 chỉ mục | **Làm** | A-65 (một migration mới) | 0,5 | Rất nhỏ; có chỉ mục phục vụ Q31 |
+| G-08 Staff tra cứu xe, đặt chỗ | **Đã làm** (23/11, `49299ac`, PR #11) | A-65 (cùng KB-15) | 3 | Q34 khách hàng chốt; A-65 đã có trong baseline nên chỉ thêm phần đọc cho Staff |
+| G-07 chỉ mục | **Đã làm** (23/11, `d64e95f`, PR #11) | A-65 (một migration mới) | 0,5 | Rất nhỏ; có chỉ mục phục vụ Q31 |
 | G-06 ghi đăng nhập thất bại, từ chối quyền | **Hoãn** | — | 0 | Chỉ đến từ SRS v0.2. Nhật ký đã ghi đủ các hành động của D-23 (Baseline V1.0). Nếu còn giờ sau A-87 thì làm, vì phần lớn nằm trong file của A-28 |
 | G-01 giờ hoạt động | **Hoãn** | — | 0 | Chỉ đến từ SRS v0.2; Q14 khách hàng liệt kê thông tin bãi nhưng không có giờ hoạt động |
 | G-02 bảng giá theo bãi, theo giờ | **Hoãn** | — | 0 | 8h, rủi ro hồi quy cao ở phí và luồng xe ra (đường găng). Q16 chỉ yêu cầu giá cấu hình được theo loại xe hoặc nhóm, và hệ thống đã đáp ứng. Thí điểm một bãi (Q03) |
