@@ -45,7 +45,8 @@ const groupSchema = z.enum(['STUDENT', 'LECTURER_STAFF'])
  * A customer asks to move to another fee group (Q38, FR-08). Customers do not
  * change their own group; the request waits for a Manager (`setUserGroup`). A
  * new request replaces an older one; asking for the current group is a
- * VALIDATION error. Logs `ACCOUNT_CHANGE`.
+ * VALIDATION error. The request and its `ACCOUNT_CHANGE` row are one nested
+ * write, so neither is kept without the other.
  */
 export async function requestGroupChange(db: Db, customerId: string, group: UserGroup): Promise<AccountView> {
   const parsed = groupSchema.safeParse(group)
@@ -54,9 +55,20 @@ export async function requestGroupChange(db: Db, customerId: string, group: User
   if (!user || user.roleCode !== 'CUSTOMER') throw new DomainError('NOT_FOUND', 'Customer not found')
   if (user.userGroup === parsed.data) throw new DomainError('VALIDATION', 'Already in this group')
 
-  const updated = await db.user.update({ where: { id: customerId }, data: { requestedUserGroup: parsed.data } })
-  await logAccess(db, { userId: customerId, action: 'ACCOUNT_CHANGE', target: `group-request:${parsed.data}` })
+  const updated = await db.user.update({
+    where: { id: customerId },
+    data: {
+      requestedUserGroup: parsed.data,
+      accessLogs: { create: { action: 'ACCOUNT_CHANGE', target: `group-request:${parsed.data}` } },
+    },
+  })
   return toView(updated)
+}
+
+/** A customer's pending fee-group request, or null (Q38, FR-08). */
+export async function getGroupRequest(db: Db, customerId: string): Promise<UserGroup | null> {
+  const user = await db.user.findUnique({ where: { id: customerId }, select: { requestedUserGroup: true } })
+  return (user?.requestedUserGroup as UserGroup | null) ?? null
 }
 
 /**
