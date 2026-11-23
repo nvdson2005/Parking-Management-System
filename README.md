@@ -29,16 +29,43 @@ The app runs at http://localhost:3000.
 (`prisma/seed.ts`), creating the pilot lot (zones A, B, C), tariffs, and all
 demo accounts. Re-run it any time to return to a clean demo state.
 
+After pulling changes that add a migration (for example
+`prisma/migrations/20261123100000_a65_indexes`), apply it without losing your
+data:
+
+```bash
+npx prisma migrate deploy   # applies new migrations only, keeps existing rows
+npx prisma generate         # refresh the Prisma client
+```
+
+Plates on parking sessions that ended more than 12 months ago are masked
+automatically (client answer Q35): once about 60 s after the server starts,
+then every 24 h. The run appears in the access log as `PURGE` with no user.
+The Manager button on `/manager/access-log` still runs it on demand.
+
 ## Tests
 
 ```bash
-npm test        # vitest run — full suite (137 tests)
+npm test        # vitest run — full suite
+npm run lint
 npm run build   # production build / type-check
+npx vitest run tests/lookup.test.ts            # one file
+```
+
+The suite uses a separate `prisma/test.db` that `tests/global-setup.ts`
+recreates on every run (`prisma db push --force-reset`).
+
+Some simulator tests (`tests/simulator.test.ts`, large `simulateLive` runs) can
+exceed vitest's default 5 s timeout on slower machines. If only those fail,
+check them with a longer timeout:
+
+```bash
+npx vitest run tests/simulator.test.ts --testTimeout=60000
 ```
 
 ## Verification
 
-The automated suite (137 tests) covers the API, services, RBAC, i18n key
+The automated suite covers the API, services, RBAC, i18n key
 parity, fee/exception logic and the live-availability stream. In addition, the
 demo flows were walked through in a real Chromium browser (Playwright) using
 separate browser contexts per role. That pass confirmed, at a **375px** viewport
@@ -64,7 +91,7 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 ## Pages
 
 - **Customer:** `/customer`, `/customer/vehicles`, `/customer/reservations`, `/customer/history`
-- **Staff:** `/staff`, `/staff/entry`, `/staff/exit`, `/staff/sessions`, `/staff/sessions/[id]`
+- **Staff:** `/staff`, `/staff/entry`, `/staff/exit`, `/staff/sessions`, `/staff/sessions/[id]`, `/staff/lookup` (vehicle, session and reservation lookup by plate / QR / RFID)
 - **Manager:** `/manager`, `/manager/lots`, `/manager/tariffs`, `/manager/accounts`, `/manager/reports`, `/manager/simulator`, `/manager/access-log`, `/manager/payments`
 - **Auth:** `/login`, `/register`
 
@@ -93,7 +120,12 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | GET | `/api/notifications` | any auth | Own notifications (newest first) and unread count |
 | POST | `/api/notifications/read` | any auth | Mark own notifications read (`{ ids? }`, all when omitted) |
 | POST | `/api/simulator` | Manager | `live` / `history` / `exception` triggers |
-| POST | `/api/purge` | Manager | Mask old plate data |
+| POST | `/api/purge` | Manager | Mask old plate data now (it also runs automatically every 24 h) |
+| GET | `/api/staff/lookup?method=PLATE\|QR\|RFID&identifier=` | Staff/Manager | Vehicle, open session and active reservation; logs `VIEW_FULL_PLATE`; 404 when no vehicle matches |
+| GET | `/api/staff/reservations?zoneId=` | Staff/Manager | Active (pending, not expired) reservations, earliest arrival first |
+| GET | `/api/sessions?status=OPEN\|CLOSED` | Staff/Manager | Parking sessions, newest entry first (default `OPEN`) |
+| GET | `/api/access-logs?limit=` | Manager | Access log, newest first (`limit` 1-500, default 200) |
+| GET | `/api/payments?from=&to=` | Manager / Customer | Manager: all confirmed payments in the range; Customer: own parking history |
 
 ## Demo script (spec §9)
 
