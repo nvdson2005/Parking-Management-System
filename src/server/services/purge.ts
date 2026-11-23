@@ -2,8 +2,9 @@ import type { PrismaClient } from '@prisma/client'
 import type { Db } from '@/server/db'
 import { logAccess } from '@/server/services/accessLog'
 import { subMonths } from '@/lib/time'
+import { OBSERVED_PLATE_PREFIX, PURGED_PLATE, observedPlateNote } from '@/lib/plate'
 
-const PURGED = '[purged]'
+const PURGED = PURGED_PLATE
 const RETENTION_MONTHS = 12
 
 /**
@@ -12,6 +13,8 @@ const RETENTION_MONTHS = 12
  *   - Every CLOSED session with `exitTime < cutoff` whose plate is not yet
  *     masked gets `plateSnapshot = '[purged]'`. The 12 months run from the
  *     exit, when the session closes (Q44); an OPEN session is still in use.
+ *     The plate seen at the exit in their EX-02 notes is purged too; a staff
+ *     note after it is kept.
  *   - Every ownerless vehicle with no session that exited at/after the cutoff, no
  *     OPEN session and no reservation is deleted; its old sessions are detached (`vehicleId =
  *     null`) first so the historical/masked rows survive the delete.
@@ -34,6 +37,18 @@ export async function purgeOldData(
       where: { status: 'CLOSED', exitTime: { lt: cutoff }, plateSnapshot: { not: PURGED } },
       data: { plateSnapshot: PURGED },
     })
+
+    const notes = await tx.sessionEvent.findMany({
+      where: {
+        note: { startsWith: OBSERVED_PLATE_PREFIX, not: { startsWith: `${OBSERVED_PLATE_PREFIX}${PURGED}` } },
+        session: { status: 'CLOSED', exitTime: { lt: cutoff } },
+      },
+      select: { id: true, note: true },
+    })
+    for (const event of notes) {
+      const tail = event.note!.slice(OBSERVED_PLATE_PREFIX.length).split(' — ').slice(1).join(' — ')
+      await tx.sessionEvent.update({ where: { id: event.id }, data: { note: observedPlateNote(PURGED, tail || null) } })
+    }
 
     const candidates = await tx.vehicle.findMany({
       where: {

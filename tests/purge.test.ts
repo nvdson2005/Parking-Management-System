@@ -179,6 +179,26 @@ describe('purge service', () => {
     expect(later).toEqual({ sessionsMasked: 1, vehiclesDeleted: 1 })
   })
 
+  it('purges the plate seen at the exit in EX-02 notes, keeping the staff note (Q44, Q46)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-10055', f.student.id)
+    const old = await makeSession(v.id, '51F-10055', f.zoneA.id, f.staff.id, OLD)
+    const recent = await makeSession(v.id, '51F-10055', f.zoneA.id, f.staff.id, RECENT)
+    for (const s of [old, recent]) {
+      await db.sessionEvent.create({
+        data: { sessionId: s.id, type: 'PLATE_MISMATCH_CONFIRMED', staffId: f.staff.id, note: 'Observed plate: 51F-10056 — worn' },
+      })
+    }
+
+    await purgeOldData(db, null, NOW)
+    await purgeOldData(db, null, NOW) // idempotent
+
+    const note = async (sessionId: string) => (await db.sessionEvent.findFirst({ where: { sessionId } }))?.note
+    expect(await note(old.id)).toBe('Observed plate: [purged] — worn')
+    expect(await note(recent.id)).toBe('Observed plate: 51F-10056 — worn')
+  })
+
   it('second purge reports 0 sessionsMasked', async () => {
     await resetDb()
     const f = await makeFixture()

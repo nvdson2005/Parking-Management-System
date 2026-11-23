@@ -48,6 +48,13 @@ async function session(status: 'OPEN' | 'CLOSED') {
   })
 }
 
+async function mismatchNote(sessionId: string) {
+  // What confirmExit writes for a confirmed EX-02 mismatch.
+  await db.sessionEvent.create({
+    data: { sessionId, type: 'PLATE_MISMATCH_CONFIRMED', staffId: f.staff.id, note: 'Observed plate: 59X1-111.22 — dirty plate' },
+  })
+}
+
 async function detail(id: string): Promise<string> {
   return renderToStaticMarkup(await SessionDetailPage({ params: Promise.resolve({ id }) }))
 }
@@ -82,6 +89,22 @@ describe('session detail page', () => {
     expect(html).toContain(MASKED)
     expect(html).not.toContain(PLATE)
     expect(await views()).toBe(0)
+  })
+
+  it('Staff on a closed session: the plate seen at the exit in the EX-02 note is masked too', async () => {
+    currentUser = staff
+    const s = await session('CLOSED')
+    await mismatchNote(s.id)
+    const html = await detail(s.id)
+    expect(html).toContain('Observed plate: 59X1-***.22 — dirty plate')
+    expect(html).not.toContain('59X1-111.22')
+  })
+
+  it('Manager on a closed session sees the EX-02 note in full', async () => {
+    currentUser = manager
+    const s = await session('CLOSED')
+    await mismatchNote(s.id)
+    expect(await detail(s.id)).toContain('Observed plate: 59X1-111.22 — dirty plate')
   })
 
   it('Staff on an open session: full plate, one VIEW_FULL_PLATE row', async () => {

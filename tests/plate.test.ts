@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { normalizePlate, plateCompareKey, maskPlate, presentPlate } from '@/lib/plate'
+import { normalizePlate, plateCompareKey, maskPlate, presentPlate, presentEventNote, observedPlateNote } from '@/lib/plate'
 import { Role } from '@/lib/types'
 
 describe('plate helpers', () => {
@@ -70,6 +70,17 @@ describe('plate helpers', () => {
       expect(presentPlate('51F-123.45', manager, null, true)).toBe('51F-123.45')
       expect(presentPlate('51F-123.45', { id: 'c', role: 'CUSTOMER' }, 'c', true)).toBe('51F-123.45')
       expect(presentPlate('51F-123.45', staff, null, false)).toBe('51F-123.45')
+    })
+
+    it('presentEventNote masks only the observed plate of an EX-02 note', () => {
+      const note = observedPlateNote('51F-123.45', 'worn plate')
+      expect(note).toBe('Observed plate: 51F-123.45 — worn plate')
+      expect(presentEventNote(note, false)).toBe('Observed plate: 51F-***.45 — worn plate')
+      expect(presentEventNote(note, true)).toBe(note)
+      expect(presentEventNote('Observed plate: [purged]', false)).toBe('Observed plate: [purged]')
+      expect(presentEventNote('Reserved arrival: 2026-11-23T08:00:00.000Z', false)).toBe(
+        'Reserved arrival: 2026-11-23T08:00:00.000Z',
+      )
     })
 
     it('should mask plate to null viewer', () => {

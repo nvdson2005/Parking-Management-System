@@ -3,7 +3,7 @@ import { db } from '@/server/db'
 import { getDict, getLang, t } from '@/i18n'
 import { requireRole } from '@/server/auth/rbac'
 import { logAccess } from '@/server/services/accessLog'
-import { canViewFullPlate, presentPlate } from '@/lib/plate'
+import { canViewFullPlate, presentEventNote, presentPlate } from '@/lib/plate'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default async function StaffSessionDetailPage({
@@ -107,7 +107,9 @@ export default async function StaffSessionDetailPage({
                 <li key={event.id} className="flex flex-col gap-0.5">
                   <span className="font-medium">{t(dict, `sessions.eventTypes.${event.type}`)}</span>
                   <span className="text-xs text-muted-foreground">{event.createdAt.toLocaleString()}</span>
-                  {event.note ? <span className="text-muted-foreground">{event.note}</span> : null}
+                  {event.note ? (
+                    <span className="text-muted-foreground">{presentEventNote(event.note, fullPlate)}</span>
+                  ) : null}
                 </li>
               ))}
             </ul>

@@ -66,6 +66,32 @@ export function canViewFullPlate(
   return viewer.role === 'STAFF' && !closedSession
 }
 
+/** What a plate is replaced with by the 12-month purge (P03 §3.9). */
+export const PURGED_PLATE = '[purged]'
+
+/** Prefix of the EX-02 event note that records the plate seen at the exit. */
+export const OBSERVED_PLATE_PREFIX = 'Observed plate: '
+const NOTE_SEPARATOR = ' — '
+
+/** The EX-02 note `Observed plate: <plate>[ — <staff note>]`. */
+export function observedPlateNote(plate: string, staffNote?: string | null): string {
+  const base = `${OBSERVED_PLATE_PREFIX}${plate}`
+  return staffNote ? `${base}${NOTE_SEPARATOR}${staffNote}` : base
+}
+
+/**
+ * An event note as the viewer may see it: the observed plate in an EX-02 note
+ * is masked unless the viewer may see the session's full plate (Q46).
+ */
+export function presentEventNote(note: string, showFullPlate: boolean): string {
+  if (showFullPlate || !note.startsWith(OBSERVED_PLATE_PREFIX)) return note
+  const rest = note.slice(OBSERVED_PLATE_PREFIX.length)
+  const cut = rest.indexOf(NOTE_SEPARATOR)
+  const plate = cut === -1 ? rest : rest.slice(0, cut)
+  const tail = cut === -1 ? '' : rest.slice(cut)
+  return `${OBSERVED_PLATE_PREFIX}${plate === PURGED_PLATE ? plate : maskPlate(plate)}${tail}`
+}
+
 export function presentPlate(
   plate: string,
   viewer: { id: string; role: Role } | null,

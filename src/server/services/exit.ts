@@ -7,7 +7,7 @@ import { findVehicleByIdentifier } from '@/server/services/vehicles'
 import { computeFee } from '@/server/services/fees'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
-import { normalizePlate, plateCompareKey } from '@/lib/plate'
+import { normalizePlate, observedPlateNote, plateCompareKey } from '@/lib/plate'
 import { DEFAULT_GATE, DEFAULT_SOURCE, GATES, SOURCES } from '@/lib/types'
 import type { FeeGroup, GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
@@ -138,13 +138,12 @@ export async function confirmExit(
 
       let wroteEvent = false
       if (mismatch) {
-        const base = `Observed plate: ${observedPlate}`
         await tx.sessionEvent.create({
           data: {
             sessionId: session.id,
             type: 'PLATE_MISMATCH_CONFIRMED',
             staffId: data.staffId,
-            note: data.note ? `${base} — ${data.note}` : base,
+            note: observedPlateNote(observedPlate, data.note),
           },
         })
         wroteEvent = true

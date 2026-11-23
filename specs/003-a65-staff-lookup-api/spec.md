@@ -120,6 +120,6 @@ Filtering sessions by entry time, the access log by time or user, and checking o
 ## Assumptions
 
 - "Lot status" for staff is already covered by the availability view (all roles), so no new lot endpoint is added (P03 §6.1).
-- Staff and managers see full plates today in the sessions list; the new lists follow the same rule. Only the lookup detail logs VIEW_FULL_PLATE, matching the session-detail behaviour (D-31).
+- In the sessions list Staff see full plates on open sessions and masked plates on ended ones (Q46); managers see full plates. The new lists follow the same rule. Only the lookup detail logs VIEW_FULL_PLATE, matching the session-detail behaviour (D-31).
 - The access-log endpoint keeps the screen's default of 200 entries and adds a maximum of 500 to bound the response.
 - Constitution delivery-workflow rule 4 (CP-02 minutes) is handled as for A-28: a recorded deviation, see the plan's complexity section.
