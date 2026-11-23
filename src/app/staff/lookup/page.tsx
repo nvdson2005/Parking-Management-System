@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { parseLookupQuery } from '@/lib/lookupQuery'
 import type { IdMethod } from '@/lib/types'
 
 const METHODS: IdMethod[] = ['PLATE', 'QR', 'RFID']
@@ -28,17 +29,17 @@ const METHOD_LABEL: Record<IdMethod, string> = { PLATE: 'entry.methodPlate', QR:
 export default async function StaffLookupPage({
   searchParams,
 }: {
-  searchParams: Promise<{ method?: string; identifier?: string }>
+  searchParams: Promise<Record<string, string | string[] | undefined>>
 }) {
   const user = await requireRole('STAFF', 'MANAGER')
   const lang = await getLang()
   const dict = getDict(lang)
-  const { method: rawMethod, identifier } = await searchParams
-  const method: IdMethod = METHODS.includes(rawMethod as IdMethod) ? (rawMethod as IdMethod) : 'PLATE'
+  const query = parseLookupQuery(await searchParams)
+  const { method, identifier } = query
 
   let result: LookupResult | null = null
   let notFound = false
-  if (identifier?.trim()) {
+  if (query.kind === 'search') {
     try {
       result = await staffLookup(db, { method, identifier, viewerId: user.id })
     } catch (err) {
@@ -71,11 +72,12 @@ export default async function StaffLookupPage({
         </div>
         <div className="flex min-w-56 flex-1 flex-col gap-1.5">
           <Label htmlFor="identifier">{t(dict, 'lookup.identifier')}</Label>
-          <Input id="identifier" name="identifier" defaultValue={identifier ?? ''} required />
+          <Input id="identifier" name="identifier" defaultValue={identifier} required />
         </div>
         <Button type="submit">{t(dict, 'lookup.search')}</Button>
       </form>
 
+      {query.kind === 'invalid' && <p className="text-sm text-destructive">{t(dict, 'lookup.invalidQuery')}</p>}
       {notFound && <p className="text-sm text-destructive">{t(dict, 'lookup.notFound')}</p>}
 
       {result && (

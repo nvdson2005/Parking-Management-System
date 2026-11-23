@@ -189,6 +189,7 @@ export const vi = {
     identifier: 'Biển số, mã QR hoặc mã RFID',
     search: 'Tìm',
     notFound: 'Không có xe nào khớp với thông tin này.',
+    invalidQuery: 'Tìm kiếm không hợp lệ. Chọn một cách tìm và nhập một mã.',
     vehicle: 'Xe',
     guest: 'Khách vãng lai (không có tài khoản)',
     registered: 'Đã gắn với tài khoản',

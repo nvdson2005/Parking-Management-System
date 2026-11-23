@@ -190,6 +190,7 @@ export const en: Dict = {
     identifier: 'Plate, QR code or RFID code',
     search: 'Search',
     notFound: 'No vehicle matches this identifier.',
+    invalidQuery: 'Invalid search. Choose one method and enter one identifier.',
     vehicle: 'Vehicle',
     guest: 'Guest (no account)',
     registered: 'Registered to an account',
