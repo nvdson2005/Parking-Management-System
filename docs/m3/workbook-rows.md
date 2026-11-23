@@ -33,6 +33,10 @@ A-28 / G-05 (Q35) | Automatic 12-month plate purge, daily, logged as a system ac
 A-28 / KB-07 | Registration logs one LOGIN; failed registration logs none | tests/auth.test.ts "logs exactly one LOGIN ..." and "logs no LOGIN when registration fails" | RES-03 | 23/11 | Verified (commit 38c7e20)
 A-28 / KB-14 | Malformed bodies return 400 VALIDATION on login, register, lang, POST /api/vehicles | tests/malformed-body.test.ts (19 tests: 4 routes x non-JSON, array, number, empty; no rows written; role check first) | RES-03 | 23/11 | Verified (commit 2992cb0)
 A-28 | Full gate | npm test 234/235 (1 pre-existing timeout in tests/simulator.test.ts "live events use QR and RFID", also failing on main 4c8fde2); lint 0 errors; build passes | RES-03 | 23/11 | Verified with known pre-existing failure
+A-65 / G-08 (Q34) | Staff lookup by plate/QR/RFID (vehicle, open session, active reservation), active-reservation list, /staff/lookup page | tests/lookup.test.ts (8 tests incl. VIEW_FULL_PLATE once, NOT_FOUND logs nothing, expired hold not active); tests/read-apis.test.ts lookup and reservations (STAFF/MANAGER 200, CUSTOMER 403, signed-out 401, 404, 400) | RES-03 | 23/11 | Verified (commit 49299ac)
+A-65 / KB-15 | Read endpoints GET /api/access-logs, /api/sessions, /api/payments with role and query validation | tests/read-apis.test.ts (6 tests: ordering, limit 1-500, status OPEN/CLOSED, from/to, customer own history, 403 for wrong roles) | RES-03 | 23/11 | Verified (commit 5882e49)
+A-65 / G-07 | Indexes reservations(customer_id,status), parking_sessions(entry_time), access_logs(created_at), access_logs(user_id) | tests/indexes.test.ts (4 tests); prisma migrate diff from migrations to schema: no difference | RES-03 | 23/11 | Verified (commit d64e95f)
+A-65 | Full gate | npm test 253/257: 4 failures all in tests/simulator.test.ts, caused by the pre-existing 5 s timeout (minSessions 8.2 s and QR/RFID 15.0 s on main as well; with --testTimeout=60000 all 17 simulator tests pass on both main and this branch, similar times); lint 0 errors; build passes | RES-03 | 23/11 | Verified with known pre-existing timeout
 ```
 
 ## Planned vs Actual sheet
