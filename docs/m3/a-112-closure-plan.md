@@ -25,7 +25,7 @@
 | P13 Hướng dẫn cài đặt và demo | `docs/P13-huong-dan-cai-dat-va-demo.md`, README | v1.0; chờ người không phải tác giả chạy thử |
 | P14 Kết quả nghiệm thu | Báo cáo A-92, mục A-89 | Chờ A-87, A-88 |
 | P12 Hướng dẫn sử dụng | — | **Hoãn** theo baseline; P13 thay thế phần thao tác |
-| P02 SRS, P03 CSDL, P18 kiến trúc và API | `docs/m2-report/products/`, `docs/m2-report/v2.0/products/` | P03 v0.4 (chờ CP-03); P18 v1.0/v1.1 (CP-02 đạt có điều kiện, RES-03); SRS v2.0 (RES-04) |
+| P02 SRS, P03 CSDL, P18 kiến trúc và API | `docs/m2-report/products/`, `docs/m2-report/v2.0/products/` | P03 v0.6 (chờ CP-03 và PR #11, PR #17 merge); P18 v1.0/v1.1 (CP-02 đạt có điều kiện, RES-03); SRS v2.0, v2.1 theo vòng 5 (RES-04, PR #16) |
 | Baseline V1.0, V2.0 | Tag `baseline-v1.0`; `docs/m2-report/generated/`, `generated-v2/` | V2.0 chờ RES-01 duyệt (PR #10) |
 | Sổ rủi ro, Change Log, Quality Evidence, Task Log | `docs/m3/`; workbook trên Drive (bản chính) | Cần đối chiếu repo với Drive trước khi nộp (R-M3-05) |
 
