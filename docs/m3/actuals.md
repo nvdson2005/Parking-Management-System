@@ -93,14 +93,28 @@ Năng lực: W12 8 giờ, W13 10 giờ, W14 12 giờ. "Có bằng chứng" là t
 |---|---:|---:|---:|---|
 | RES-01 Nguyễn Võ Đức Sơn | 8,0 | 10,0 | `TODO` | Theo bảng tự ước tính của RES-01 |
 | RES-02 Đào Xuân Sơn | 0 | 0 | 0 | Không có commit hay tài liệu trong repo. **Cần RES-02 tự ghi** (A-96, A-80, A-82, A-23, A-27) |
-| RES-03 Nguyễn Phạm Mạnh Dũng | 0 | 8,25 (A-24 4,0; A-102 2,0; đóng băng V1.0 0,75; CR-03 1,5) | 15,25 (A-106 2,0; A-28 3,5; A-65 7,0; A-101+A-103 2,5; CodeGraph 0,25) | W12 không có bằng chứng: `TODO(RES-03)`. W14 đã **vượt** năng lực tuần (R-G4-02, R-G5-04) |
+| RES-03 Nguyễn Phạm Mạnh Dũng | 8,0 **(giả định, xem dưới)** | 8,25 (A-24 4,0; A-102 2,0; đóng băng V1.0 0,75; CR-03 1,5) | 15,25 (A-106 2,0; A-28 3,5; A-65 7,0; A-101+A-103 2,5; CodeGraph 0,25) | W12 không có commit hay tài liệu; ghi bằng năng lực như weekly log. W14 đã **vượt** năng lực tuần (R-G4-02, R-G5-04) |
 | RES-04 Phạm Duy Quý | ≈ 2,0 (A-01 một phần) | ≈ 5,0 (A-01, A-70) | 0 | Phân bổ A-01 theo tuần là ước tính |
 | RES-05 Nguyễn Tuấn Thành | 3,5 (A-43) + 3,0 (A-77) = 6,5 | 2,5 (A-79) + 2,5 (A-45) = 5,0 | — | A-67 chưa có giờ |
+
+**RES-03, W12 (09-15/11), 8 giờ giả định.** Repo không có bằng chứng cho tuần này. Tổng lấy bằng năng lực theo quy ước của nhóm (mục 1.2). Phân bổ theo các việc Baseline V1.0 giao cho RES-03 trong W12:
+
+| Việc (giả định) | Giờ | Liên quan |
+|---|---:|---|
+| Đọc SRS và lược đồ MVP, chuẩn bị A-24 | 3,0 | A-24 (12-13/11) |
+| Đọc P18 v0.2 để chuẩn bị review CP-02 | 2,0 | A-23 (13-16/11) |
+| Đọc Baseline V1.0 và phân công M3/M4 | 1,5 | A-102, A-103 |
+| Chuẩn bị sổ rủi ro từ bảng rủi ro V1.0 | 1,0 | A-102 |
+| Họp tuần | 0,5 | A-97 |
+| **Tổng** | **8,0** | |
+
+Các giờ này **không** được cộng vào dòng hoạt động ở mục 3, vì không có bằng chứng.
 
 ## 5. Việc cần làm
 
 - [ ] Từng thành viên sửa dòng của mình và thay số ước tính bằng số thật (A-100). Hạn 25/11, để RES-01 làm A-90.
 - [ ] RES-01 xác nhận cách ghi "giờ người tương đương" cho MVP (mục 2) trước khi đưa vào báo cáo.
 - [ ] RES-02 ghi giờ W12-W13; hiện không có bằng chứng nào trong repo.
+- [ ] RES-03 xác nhận hoặc sửa phân bổ W12 giả định ở trên.
 - [ ] Chép bảng mục 3 vào sheet **Planned vs Actual** và tổng mục 4 vào **Task Log** của workbook trên Drive.
 - [ ] Cập nhật lại sau M-03 (24/11) và sau A-87, A-88 (26-27/11).
