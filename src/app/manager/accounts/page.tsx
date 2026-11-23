@@ -16,12 +16,16 @@ import {
 } from '@/components/ui/table'
 import { useT } from '@/components/I18nProvider'
 
+// Customer fee groups a Manager can set (Q38, FR-07).
+const GROUPS = ['STUDENT', 'LECTURER_STAFF'] as const
+
 type User = {
   id: string
   email: string
   name: string
   roleCode: string
   userGroup: string | null
+  requestedUserGroup: string | null
   locked: boolean
 }
 
@@ -163,7 +167,34 @@ export default function ManagerAccountsPage() {
                 <TableCell className="font-mono text-sm">{user.email}</TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{t(`accounts.roles.${user.roleCode}`)}</TableCell>
-                <TableCell>{user.userGroup ? t(`accounts.groups.${user.userGroup}`) : '—'}</TableCell>
+                <TableCell>
+                  {user.roleCode === 'CUSTOMER' ? (
+                    <div className="flex flex-col gap-1">
+                      <select
+                        aria-label={t('accounts.changeGroup')}
+                        className="h-8 rounded-md border border-input bg-transparent px-2 text-sm"
+                        value={user.userGroup ?? ''}
+                        disabled={busy === `group-${user.id}`}
+                        onChange={(e) =>
+                          send(`/api/accounts/${user.id}`, 'PATCH', { userGroup: e.target.value }, `group-${user.id}`)
+                        }
+                      >
+                        {GROUPS.map((g) => (
+                          <option key={g} value={g}>
+                            {t(`accounts.groups.${g}`)}
+                          </option>
+                        ))}
+                      </select>
+                      {user.requestedUserGroup ? (
+                        <span className="text-xs text-muted-foreground">
+                          {t('accounts.requested', { group: t(`accounts.groups.${user.requestedUserGroup}`) })}
+                        </span>
+                      ) : null}
+                    </div>
+                  ) : (
+                    '—'
+                  )}
+                </TableCell>
                 <TableCell>{user.locked ? t('accounts.yes') : t('accounts.no')}</TableCell>
                 <TableCell>
                   <Button

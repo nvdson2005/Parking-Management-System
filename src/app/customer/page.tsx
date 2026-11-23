@@ -8,6 +8,8 @@ import { listLotInfo } from '@/server/services/lots'
 import { MyTariffCard } from '@/components/MyTariffCard'
 import { tariffsForGroup } from '@/server/services/tariffs'
 import { getCurrentUser } from '@/server/auth/session'
+import { GroupRequestForm } from '@/components/GroupRequestForm'
+import type { UserGroup } from '@/lib/types'
 import { ROLE_LINKS } from '@/lib/nav'
 
 export default async function CustomerPage() {
@@ -19,6 +21,10 @@ export default async function CustomerPage() {
   const user = await getCurrentUser()
   const group = user?.userGroup ?? null
   const tariffs = group ? await tariffsForGroup(db, group) : []
+  const requested = user
+    ? ((await db.user.findUnique({ where: { id: user.id }, select: { requestedUserGroup: true } }))
+        ?.requestedUserGroup as UserGroup | null)
+    : null
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,6 +40,7 @@ export default async function CustomerPage() {
         <LotInfoCard key={lot.id} lot={lot} lang={lang} />
       ))}
       {group ? <MyTariffCard group={group} tariffs={tariffs} lang={lang} /> : null}
+      {group ? <GroupRequestForm current={group} requested={requested ?? null} /> : null}
       <LiveAvailability initial={initial} />
     </div>
   )
