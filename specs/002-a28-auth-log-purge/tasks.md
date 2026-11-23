@@ -92,4 +92,4 @@ None. The three stories touch different files and share no new code.
 
 MVP = US1 (G-05), because it is the only client-mandated item. Then US2 and US3, which are small and low-risk. Estimated effort: 3,75h (Baseline V2.0, A-28).
 
-**Completion note (23/11)**: `codegraph` CLI is not installed on this machine, so `codegraph sync` was not run (T001, T017). No PR is opened yet; the user asked to hold pushing.
+**Completion note (23/11)**: the `codegraph` CLI was not installed when the tasks ran. It was installed afterwards (`@colbymchenry/codegraph` 1.6.4, telemetry off). `codegraph init` indexed the repo (149 files) and `codegraph sync` reports the index up to date, which covers T001 and T017. No PR is opened yet; the user asked to hold pushing.
