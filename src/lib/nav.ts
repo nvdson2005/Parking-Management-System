@@ -18,6 +18,7 @@ export const ROLE_LINKS: Record<Role, RoleLink[]> = {
     { href: '/staff/entry', labelKey: 'entry.title' },
     { href: '/staff/exit', labelKey: 'exit.title' },
     { href: '/staff/sessions', labelKey: 'sessions.title' },
+    { href: '/staff/lookup', labelKey: 'lookup.title' },
   ],
   MANAGER: [
     { href: '/staff', labelKey: 'nav.staff' },

@@ -170,3 +170,41 @@ export async function listReservations(db: Db, customerId: string): Promise<Rese
   })
   return rows.map(({ cancelZone, ...r }) => ({ ...r, cancelZoneName: cancelZone?.name ?? null }))
 }
+
+export type ActiveReservationItem = {
+  id: string
+  plate: string
+  zoneId: string
+  zoneName: string
+  vehicleTypeCode: VehicleTypeCode
+  arrivalTime: Date
+  holdUntil: Date
+}
+
+/**
+ * Staff view of active reservations (A-65, G-08, Q34): PENDING holds that have
+ * not expired, earliest arrival first, optionally for one zone. Stale holds are
+ * expired first so the list matches the availability formula. A read plus the
+ * expiry update, so no lock is taken (same as the expiry timer).
+ */
+export async function listActiveReservations(
+  db: Db,
+  opts: { zoneId?: string; now?: Date } = {},
+): Promise<ActiveReservationItem[]> {
+  const now = opts.now ?? new Date()
+  await expireReservations(db, now)
+  const rows = await db.reservation.findMany({
+    where: { status: 'PENDING', holdUntil: { gt: now }, ...(opts.zoneId ? { zoneId: opts.zoneId } : {}) },
+    include: { zone: { select: { name: true } }, vehicle: { select: { plate: true } } },
+    orderBy: { arrivalTime: 'asc' },
+  })
+  return rows.map((r) => ({
+    id: r.id,
+    plate: r.vehicle.plate,
+    zoneId: r.zoneId,
+    zoneName: r.zone.name,
+    vehicleTypeCode: r.vehicleTypeCode as VehicleTypeCode,
+    arrivalTime: r.arrivalTime,
+    holdUntil: r.holdUntil,
+  }))
+}
