@@ -109,9 +109,9 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | POST | `/api/reservations/[id]/cancel` | Customer | Cancel a reservation |
 | GET | `/api/availability` | any auth | Current free/open/reserved counts |
 | GET | `/api/availability/stream` | any auth | Live availability (SSE) |
-| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time; optional `gate` (`GATE-1` default, `GATE-2`) |
+| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time; optional `gate` (`GATE-1` default, `GATE-2`) and `source` (`DEVICE` default, `MANUAL`; the Staff form sends `MANUAL`) |
 | POST | `/api/events/exit/preview` | Staff/Manager | Preview exit fee |
-| POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment; optional `gate` (`GATE-1` default, `GATE-2`) |
+| POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment; optional `gate` (`GATE-1` default, `GATE-2`) and `source` (`DEVICE` default, `MANUAL`) |
 | GET/POST | `/api/lots`, PATCH `/api/lots/[id]` | Manager | Lot info and status (active/suspended) |
 | POST `/api/zones`, PATCH `/api/zones/[id]` | Manager | Zone and capacity management |
 | GET/PUT | `/api/tariffs` | Manager | View / edit tariffs |

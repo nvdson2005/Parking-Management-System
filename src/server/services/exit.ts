@@ -8,8 +8,8 @@ import { computeFee } from '@/server/services/fees'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
 import { normalizePlate, plateCompareKey } from '@/lib/plate'
-import { DEFAULT_GATE, GATES } from '@/lib/types'
-import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, DEFAULT_SOURCE, GATES, SOURCES } from '@/lib/types'
+import type { FeeGroup, GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
 export type ExitPreview = {
   sessionId: string
@@ -76,6 +76,7 @@ const confirmExitSchema = z.object({
   note: z.string().optional(),
   staffId: z.string().min(1),
   gate: z.enum(GATES).optional(),
+  source: z.enum(SOURCES).optional(),
   now: z.date().optional(),
 })
 
@@ -105,6 +106,7 @@ export async function confirmExit(
     note?: string
     staffId: string
     gate?: GateCode
+    source?: SessionSource
     now?: Date
   },
 ): Promise<{ session: ParkingSession; payment: Payment }> {
@@ -176,7 +178,7 @@ export async function confirmExit(
 
       const closed = await tx.parkingSession.update({
         where: { id: session.id },
-        data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED', exitGate: data.gate ?? DEFAULT_GATE },
+        data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED', exitGate: data.gate ?? DEFAULT_GATE, exitSource: data.source ?? DEFAULT_SOURCE },
       })
 
       return { session: closed, payment, wroteEvent }

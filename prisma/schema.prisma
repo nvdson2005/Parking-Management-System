@@ -134,6 +134,9 @@ model ParkingSession {
   /// Simulated gate of the entry and exit (G-09, FR-09); see GATES in src/lib/types.ts.
   entryGate       String       @default("GATE-1") @map("entry_gate")
   exitGate        String?      @map("exit_gate")
+  /// DEVICE (simulator) or MANUAL (Staff form) (G-04, FR-10); exit_source is null while open.
+  entrySource     String       @default("DEVICE") @map("entry_source")
+  exitSource      String?      @map("exit_source")
 
   events  SessionEvent[]
   payment Payment?

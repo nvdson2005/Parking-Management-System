@@ -15,6 +15,11 @@
 - [X] T006 [US2] Schema and migration `20261123180000_g09_session_gate`; `GATES`/`GateCode` in `src/lib/types.ts`; `gate` in `recordEntry`, `confirmExit` and both routes
 - [X] T007 [US2] Gate select in the Staff entry and exit forms; gates on the session detail page; i18n keys
 
+## Phase 2b: User Story 3 - G-04 (P1)
+
+- [X] T010 [US3] Failing tests in `tests/source.test.ts`: US3 scenarios 1-4
+- [X] T011 [US3] `SOURCES`/`SessionSource` in `src/lib/types.ts`; schema and migration `20261123190000_g04_session_source`; `source` in `recordEntry`, `confirmExit` and both routes; Staff forms send `MANUAL`; session detail shows both sources; i18n keys
+
 ## Phase 3: Polish
 
 - [X] T008 Full `npm test`, `npm run lint`, `npm run build`; `codegraph sync`

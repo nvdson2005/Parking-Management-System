@@ -48,6 +48,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
           identifier,
           zoneId,
           gate,
+          source: 'MANUAL',
           vehicleType: method === 'PLATE' ? vehicleType : undefined,
           confirmEarly: confirmEarly || undefined,
         }),

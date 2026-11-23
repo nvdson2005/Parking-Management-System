@@ -1,4 +1,4 @@
-# Feature Specification: G-06 failed-login and access-denied logging, G-09 gate on parking sessions
+# Feature Specification: G-06 failed-login and access-denied logging, G-09 gate and G-04 source on parking sessions
 
 **Feature Directory**: `specs/004-g06-g09-auth-log-gate`
 **Created**: 23/11/2026
@@ -37,6 +37,18 @@ Staff record which gate a vehicle came in and went out through; the session deta
 4. **Given** an unknown gate value, **Then** the request is rejected with 400 VALIDATION.
 5. The Staff entry and exit forms offer a gate choice; the session detail page shows entry and exit gate.
 
+### User Story 3 - Each parking session records whether it came from a device or from Staff (P1)
+
+Added 23/11 after the second CP-03 review round (RES-02): FR-10 (Must) and AT-01 step 5 need a manual-entry label.
+
+**Acceptance Scenarios**:
+
+1. **Given** an entry recorded from the Staff form, **Then** `entry_source = MANUAL` and `exit_source` is empty while the session is open.
+2. **Given** an entry without a source (simulator, device events), **Then** `entry_source = DEVICE`.
+3. **Given** an exit confirmed from the Staff form, **Then** `exit_source = MANUAL`; without a source, `DEVICE`.
+4. **Given** an unknown source value, **Then** 400 VALIDATION.
+5. The session detail page shows who recorded the entry and the exit.
+
 ### Edge Cases
 
 - A rejected sign-in must still write its log row even though the request fails.
@@ -51,6 +63,8 @@ Staff record which gate a vehicle came in and went out through; the session deta
 - **FR-C (G-06)**: the middleware sends a wrong-role page request to `/denied?from=<prefix>`; that page logs `ACCESS_DENIED` and shows a translated message (vi/en).
 - **FR-D (G-09)**: `parking_sessions.entry_gate TEXT NOT NULL DEFAULT 'GATE-1'` and `exit_gate TEXT NULL`, added by a new migration. Allowed gates: `GATE-1`, `GATE-2`.
 - **FR-E (G-09)**: `recordEntry` and `confirmExit` accept an optional `gate`; the API routes pass it through; the Staff forms send it; the session detail shows both gates.
+
+- **FR-F (G-04)**: `parking_sessions.entry_source TEXT NOT NULL DEFAULT 'DEVICE'` and `exit_source TEXT NULL` (new migration); optional `source` on entry and exit; the Staff forms send `MANUAL`.
 
 ## Success Criteria
 

@@ -175,6 +175,8 @@ export const en: Dict = {
     paidAt: 'Paid at',
     entryGate: 'Entry gate',
     exitGate: 'Exit gate',
+    entrySource: 'Entry recorded by',
+    exitSource: 'Exit recorded by',
     notFound: 'Session not found.',
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Plate mismatch confirmed',
@@ -371,6 +373,10 @@ export const en: Dict = {
       SESSION_OPEN: 'Session opened — resolve it live on the staff exit page.',
       UNEXPECTED: 'Unexpected result.',
     },
+  },
+  sources: {
+    DEVICE: 'Device',
+    MANUAL: 'Staff (manual)',
   },
   gates: {
     'GATE-1': 'Gate 1',

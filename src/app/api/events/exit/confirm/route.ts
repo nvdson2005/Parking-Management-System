@@ -1,7 +1,7 @@
 import { db } from '@/server/db'
 import { handle, readJsonObject } from '@/server/api'
 import { requireRole } from '@/server/auth/rbac'
-import type { GateCode, IdMethod } from '@/lib/types'
+import type { GateCode, IdMethod, SessionSource } from '@/lib/types'
 import { confirmExit } from '@/server/services/exit'
 
 export const POST = handle(async (req) => {
@@ -16,6 +16,7 @@ export const POST = handle(async (req) => {
     method: body.method as IdMethod | undefined,
     note: body.note as string | undefined,
     gate: body.gate as GateCode | undefined,
+    source: body.source as SessionSource | undefined,
     staffId: user.id,
   })
 })

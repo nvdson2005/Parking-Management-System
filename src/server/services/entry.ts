@@ -9,8 +9,8 @@ import { findVehicleByIdentifier, generateCode } from '@/server/services/vehicle
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
 import { normalizePlate } from '@/lib/plate'
-import { DEFAULT_GATE, GATES } from '@/lib/types'
-import type { GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, DEFAULT_SOURCE, GATES, SOURCES } from '@/lib/types'
+import type { GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
 const MAX_CODE_ATTEMPTS = 10
 
@@ -22,6 +22,7 @@ const recordEntrySchema = z.object({
   staffId: z.string().min(1),
   confirmEarly: z.boolean().optional(),
   gate: z.enum(GATES).optional(),
+  source: z.enum(SOURCES).optional(),
   now: z.date().optional(),
 })
 
@@ -71,6 +72,7 @@ export async function recordEntry(
     vehicleType?: VehicleTypeCode
     staffId: string
     gate?: GateCode
+    source?: SessionSource
     confirmEarly?: boolean
     now?: Date
   },
@@ -161,6 +163,7 @@ export async function recordEntry(
             reservationId: ownReservationId,
             ownerId: vehicle.ownerId,
             entryGate: data.gate ?? DEFAULT_GATE,
+            entrySource: data.source ?? DEFAULT_SOURCE,
           },
         })
 

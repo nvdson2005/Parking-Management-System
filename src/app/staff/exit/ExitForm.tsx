@@ -95,6 +95,7 @@ export function ExitForm() {
           lostCard,
           method: effectiveMethod,
           gate,
+          source: 'MANUAL',
           note: note.trim() ? note.trim() : undefined,
         }),
       })

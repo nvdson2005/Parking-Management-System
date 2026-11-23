@@ -174,6 +174,8 @@ export const vi = {
     paidAt: 'Thời điểm thanh toán',
     entryGate: 'Cổng vào',
     exitGate: 'Cổng ra',
+    entrySource: 'Nguồn ghi nhận vào',
+    exitSource: 'Nguồn ghi nhận ra',
     notFound: 'Không tìm thấy phiên đỗ xe.',
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Xác nhận lệch biển số',
@@ -370,6 +372,10 @@ export const vi = {
       SESSION_OPEN: 'Đã mở phiên — xử lý trực tiếp tại trang xe ra của nhân viên.',
       UNEXPECTED: 'Kết quả không mong đợi.',
     },
+  },
+  sources: {
+    DEVICE: 'Thiết bị',
+    MANUAL: 'Staff nhập tay',
   },
   gates: {
     'GATE-1': 'Cổng 1',
