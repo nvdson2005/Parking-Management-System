@@ -40,6 +40,8 @@ model User {
   roleCode     String   @map("role_code")
   role         Role     @relation(fields: [roleCode], references: [code])
   userGroup    String?  @map("user_group")
+  /// Fee group a customer asked to move to; a Manager applies it (Q38, FR-07, FR-08).
+  requestedUserGroup String? @map("requested_user_group")
   locked       Boolean  @default(false)
   createdAt    DateTime @default(now()) @map("created_at")
 
