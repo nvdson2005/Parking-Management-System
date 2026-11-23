@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { logAccess } from '@/server/services/accessLog'
+import { publishAvailabilityChanged } from '@/server/bus'
 import { expireReservations } from '@/server/services/reservations'
 import { findVehicleByIdentifier } from '@/server/services/vehicles'
 import type { IdMethod, VehicleTypeCode } from '@/lib/types'
@@ -22,7 +23,8 @@ export type LookupResult = {
  * Staff lookup (A-65, G-08, Q34): finds a vehicle by plate (separator- and
  * case-insensitive), QR or RFID, and returns its open session and its active
  * reservation, so staff can decide early arrivals and lost cards. Stale holds
- * are expired first. The full plate is shown, so a successful lookup logs
+ * are expired first, and live viewers are told when any were (the timer then
+ * finds none to expire). The full plate is shown, so a successful lookup logs
  * VIEW_FULL_PLATE (D-31); an unknown identifier throws NOT_FOUND and logs
  * nothing. Read-only apart from the expiry update and the log row, so no lock.
  */
@@ -32,7 +34,8 @@ export async function staffLookup(
 ): Promise<LookupResult> {
   const { method, identifier, viewerId } = lookupSchema.parse(input)
   const now = new Date()
-  await expireReservations(db, now)
+  // Before the NOT_FOUND check: the expiry is committed either way.
+  if ((await expireReservations(db, now)) > 0) publishAvailabilityChanged()
 
   const vehicle = await findVehicleByIdentifier(db, method, identifier)
   if (!vehicle) throw new DomainError('NOT_FOUND', 'Vehicle not found')

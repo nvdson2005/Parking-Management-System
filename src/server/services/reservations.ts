@@ -184,7 +184,8 @@ export type ActiveReservationItem = {
 /**
  * Staff view of active reservations (A-65, G-08, Q34): PENDING holds that have
  * not expired, earliest arrival first, optionally for one zone. Stale holds are
- * expired first so the list matches the availability formula. A read plus the
+ * expired first so the list matches the availability formula, and live viewers
+ * are told when any were (the timer then finds none to expire). A read plus the
  * expiry update, so no lock is taken (same as the expiry timer).
  */
 export async function listActiveReservations(
@@ -192,7 +193,7 @@ export async function listActiveReservations(
   opts: { zoneId?: string; now?: Date } = {},
 ): Promise<ActiveReservationItem[]> {
   const now = opts.now ?? new Date()
-  await expireReservations(db, now)
+  if ((await expireReservations(db, now)) > 0) publishAvailabilityChanged()
   const rows = await db.reservation.findMany({
     where: { status: 'PENDING', holdUntil: { gt: now }, ...(opts.zoneId ? { zoneId: opts.zoneId } : {}) },
     include: { zone: { select: { name: true } }, vehicle: { select: { plate: true } } },
