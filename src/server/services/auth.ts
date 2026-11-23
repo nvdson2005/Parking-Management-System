@@ -25,7 +25,7 @@ export async function registerCustomer(
 
   const passwordHash = await hashPassword(parsed.password)
 
-  return db.user.create({
+  const user = await db.user.create({
     data: {
       email,
       passwordHash,
@@ -34,6 +34,12 @@ export async function registerCustomer(
       userGroup: parsed.userGroup,
     },
   })
+
+  // The register route signs the new user in straight away, so registration
+  // is also a login and belongs in the access log (KB-07, D-23).
+  await logAccess(db, { userId: user.id, action: 'LOGIN' })
+
+  return user
 }
 
 export async function authenticate(db: Db, email: string, password: string): Promise<User> {
