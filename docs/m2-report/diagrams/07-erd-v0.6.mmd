@@ -1,6 +1,6 @@
 erDiagram
     roles ||--o{ users : "role_code"
-    users ||--o{ vehicles : "owner_id"
+    users |o--o{ vehicles : "owner_id (NULL = xe vãng lai)"
     vehicle_types ||--o{ vehicles : "vehicle_type_code"
     parking_lots ||--o{ zones : "lot_id"
     zones ||--o{ zone_capacities : "zone_id"
@@ -9,13 +9,16 @@ erDiagram
     vehicles |o--o{ parking_sessions : "vehicle_id"
     zones ||--o{ parking_sessions : "zone_id"
     vehicle_types ||--o{ parking_sessions : "vehicle_type_code"
-    users ||--o{ parking_sessions : "entry_staff_id / exit_staff_id"
+    users ||--o{ parking_sessions : "entry_staff_id"
+    users |o--o{ parking_sessions : "exit_staff_id (NULL khi lượt còn mở)"
     parking_sessions ||--o{ session_events : "session_id"
     users ||--o{ session_events : "staff_id"
     users |o--o{ access_logs : "user_id"
     users ||--o{ reservations : "customer_id"
     vehicles ||--o{ reservations : "vehicle_id"
     zones ||--o{ reservations : "zone_id"
+    zones |o--o{ reservations : "cancel_zone_id"
+    vehicle_types ||--o{ reservations : "vehicle_type_code"
     reservations |o--o| parking_sessions : "reservation_id"
     parking_sessions ||--o| payments : "session_id"
     users ||--o{ payments : "confirmed_by_id"
@@ -31,6 +34,7 @@ erDiagram
         string name
         string role_code FK
         string user_group
+        string requested_user_group "Q38"
         boolean locked
         datetime created_at
     }
@@ -44,6 +48,8 @@ erDiagram
         string name
         string address
         string status
+        string open_time "G-01"
+        string close_time "G-01"
     }
     zones {
         string id PK
