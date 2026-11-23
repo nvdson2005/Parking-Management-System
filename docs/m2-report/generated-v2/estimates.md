@@ -4,8 +4,8 @@
 | A-13 | Lập tài liệu thiết kế giao diện từ màn hình đã có | 18 màn hình × 0,2h = 3,6h (chụp, mô tả trường và thao tác); sơ đồ điều hướng theo 3 vai trò 1h | 3,5 | 4,5 | 7 | 4,75 | 0,58 |
 | A-22 | Hoàn thiện P18 v1.0 và chốt hướng xử lý các khác biệt KB-01 đến KB-19 | 19 khác biệt × 0,15h = 2,9h (sửa mã, sửa spec hoặc chấp nhận); cập nhật đặc tả endpoint 1h | 3 | 4 | 7 | 4,33 | 0,67 |
 | A-24 | Hoàn thiện thiết kế CSDL v1.0 | Cập nhật tiêu chí PD-P03 theo khác biệt đã chốt 1h; ERD và từ điển dữ liệu 1h | 1,5 | 2 | 4 | 2,25 | 0,42 |
-| A-28 | Sửa xác thực và nhật ký truy cập theo review; xóa dữ liệu quá hạn tự động | V2.0 (CR-03): ghi LOGIN khi đăng ký (KB-07) 0,5h; trả 400 cho JSON lỗi (KB-14) 1h; KB-16 chấp nhận, bỏ 1h; xóa biển số tự động hằng ngày (Q35, G-05) 1,5h; test 0,5h | 2,5 | 3,5 | 6 | 3,75 | 0,58 |
-| A-65 | Bổ sung API; Staff tra cứu xe và đặt chỗ | V2.0 (CR-03): 3 endpoint × 1h (KB-15); Staff đọc xe và đặt chỗ, màn hình tra cứu (Q34, G-08) 2,5h; chỉ mục (G-07) 0,5h; kiểm tra quyền và test 1h. Bỏ phụ thuộc A-27 vì chỉ thêm chỉ mục | 5 | 7 | 11 | 7,33 | 1 |
+| A-28 | Sửa xác thực và nhật ký truy cập theo review; xóa dữ liệu quá hạn tự động | V2.0 (CR-03): ghi LOGIN khi đăng ký (KB-07) 0,5h; trả 400 cho JSON lỗi (KB-14) 1h; KB-16 chấp nhận, bỏ 1h; xóa biển số tự động hằng ngày (Q35, G-05) 1,5h; test 0,5h. CR-03 sau review CP-03 (23/11): nhật ký đăng nhập thất bại, từ chối quyền (G-06) 1,5h. Vòng 5 khách hàng (Q38, Q44): đổi nhóm người dùng 2h; mốc xóa tính từ giờ ra 0,5h | 5,5 | 7,5 | 11 | 7,75 | 0,92 |
+| A-65 | Bổ sung API; Staff tra cứu xe và đặt chỗ | V2.0 (CR-03): 3 endpoint × 1h (KB-15); Staff đọc xe và đặt chỗ, màn hình tra cứu (Q34, G-08) 2,5h; chỉ mục (G-07) 0,5h; kiểm tra quyền và test 1h. Bỏ phụ thuộc A-27 vì chỉ thêm chỉ mục. CR-03 sau review CP-03 (23/11): cổng vào/ra (G-09) 2h; nguồn ghi nhận (G-04) 1,5h. Vòng 5 khách hàng (Q37, Q45, Q46): giờ hoạt động (G-01) 1,5h; Customer xem bảng giá nhóm mình 1h; che biển số lượt đã đóng với Staff 1h | 11 | 14 | 19 | 14,33 | 1,33 |
 | A-43 | Rà soát bộ mô phỏng theo PD-P04 và lập danh mục kịch bản SC-01 đến SC-07 | Đối chiếu 10 tiêu chí PD-P04 1,5h; mô tả 7 kịch bản × 0,2h = 1,4h | 2 | 3 | 5 | 3,17 | 0,5 |
 | A-44 | Sửa bộ mô phỏng theo review | Gửi sự kiện qua API vào/ra (KB-01) 2h; ghi nhật ký và phát SSE khi kích hoạt EX-05 (KB-08) 1h; kiểm tra đủ ≥ 100 lượt được tạo (FR-34) 1h; test 1h | 3 | 5 | 9 | 5,33 | 1 |
 | A-79 | Xây dựng bộ kiểm thử hợp đồng API vào/ra | Ca kiểm thử cho từng endpoint theo hợp đồng 1,5h; chạy với bộ mô phỏng 0,5h | 1,5 | 2 | 3 | 2,08 | 0,25 |
@@ -23,4 +23,4 @@
 | A-89 | Viết báo cáo kết quả nghiệm thu (mục của A-92) | Tổng hợp 12 AT và kịch bản 100 lượt 1h; số đo O3, O4 0,5h; lỗi còn mở 0,5h; viết 1h | 2 | 3 | 5 | 3,17 | 0,5 |
 | A-90 | Tổng hợp số liệu thực tế và so sánh với baseline | Thu Task Log 5 × 0,25h = 1,25h; so sánh effort và tiến độ 1,5h; đối chiếu rủi ro 0,5h | 2,5 | 3,25 | 5 | 3,42 | 0,42 |
 | A-92 | Viết và rà soát báo cáo quản lý dự án cuối kỳ (gồm nội dung M3) | Phân tích kết quả theo O1-O5 1,5h; viết và định dạng 3h; review 2 người × 0,5h | 4 | 5,5 | 9 | 5,83 | 0,83 |
-|  | **Tổng** |  |  |  |  | **89,47** |  |
+|  | **Tổng** |  |  |  |  | **100,47** |  |

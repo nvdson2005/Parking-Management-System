@@ -41,3 +41,17 @@ Review the [V2.0 draft](baseline-v2-draft.md) for the revised milestones, depend
 - [ ] Check the revised activities, regenerated Gantt and critical path, and risk register against CR-01 and the work-division plan. Check the CR-02 reply date is 15/11/2026.
 - [ ] Verify that any extra W14 capacity counted in the baseline has documented owner commitments. Use the assumed workshop outcome as a planning scenario while confirmations are open.
 - [ ] Record the V2.0 file locations or commit, any required corrections, and the dated approval. Share the approved version with RES-03 for A-92.
+
+## V2.0 as generated (RES-03, 24/11)
+
+The figures in the table above are the planning estimates of 19/11. The generated V2.0 (`docs/m3/baseline-v2.0.md`, `docs/m2-report/generated-v2/totals.md`) gives:
+
+| Item | Value |
+|---|---|
+| Capacity | 150 h (W12–W14, W14 at 12 h per person under option C) |
+| Base effort | 169.82 h, including CR-03 in A-28 (7.75 h) and A-65 (14.33 h) |
+| Rework reserve | 15.58 h |
+| Total baseline effort | 185.39 h (123.59 % of capacity) |
+| Cost at 50,000 VND/h | 8,490,833 VND base + 778,750 VND reserve = 9,269,583 VND |
+| Levelled finish (model forecast) | working day 23.63 of 15; target dates for A-87, A-88 and the submission are fixed, see "Mục tiêu và dự báo" in `baseline-v2.0.md` |
+
