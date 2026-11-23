@@ -10,6 +10,8 @@
 
 ## What changes in V2.0
 
+The table below is the planning estimate of 19/11. For the figures of the generated V2.0, use the section "V2.0 as generated" at the end.
+
 | Area | V1.0 | V2.0 |
 |---|---|---|
 | End date | M-05 07/12; work ends before 04/12 | M-05 **29/11**; A-92 finishes 28/11 |

@@ -85,7 +85,7 @@ So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 thêm 14,5
 | 1 | Viết A-89, A-110, A-112 song song trước buổi nghiệm thu (bỏ phụ thuộc A-88 → A-89), chỉ điền kết quả sau 27/11 | Rút chuỗi sau nghiệm thu còn A-92 hoàn thiện + A-116 | Không tốn thêm giờ |
 | 2 | Chấp nhận làm thứ Bảy 28/11 và Chủ nhật 29/11 cho A-92, A-116 | Đúng kế hoạch CR-01 | Ghi rõ trong V2.0 là làm cuối tuần |
 | 3 | Kích hoạt thứ tự Q22 tại M-03 (bỏ kiểm tra A-72, A-76) | −2,6h | Đã là dự phòng của R-G5-04 |
-| 4 | Giao lại việc cho RES-02, RES-04 (còn 6,4h và 4,1h ở W14) | Giảm tải RES-01, RES-03 | Không đủ một mình (xem trên) |
+| 4 | Giao lại việc cho RES-02, RES-04 | Giảm tải RES-01, RES-03 | Không đủ một mình (xem trên). **Không dùng cột "Dư" của `generated-v2/resource-load.md` làm giờ trống:** khi lịch vượt cửa sổ (ngày 23,63/15), bộ lập lịch chỉ tính phần việc nằm trong 15 ngày (116,9h), nên "Dư" của cả nhóm (≈ 33h) không phải năng lực thật; effort cơ sở là 169,82h trên 150h. Giờ trống thật ở W14 phải do từng người xác nhận tại M-03 |
 
 Đề xuất của RES-03: áp dụng 1 và 2 ngay, giữ 3 làm dự phòng tại M-03, dùng 4 cho A-33.
 
