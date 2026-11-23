@@ -270,7 +270,7 @@ Mọi dữ liệu theo bãi gắn với bãi qua `zones.lot_id`: sức chứa (q
 | Biển số đầy đủ | Lưu ở `vehicles.plate` và ảnh chụp `parking_sessions.plate_snapshot` (cần cho đối chiếu EX-02 và lịch sử khi xe đổi chủ); che khi hiển thị cho người không có quyền | FR-42, D-29 |
 | Nhật ký truy cập | `access_logs` ghi các hành động ở D-23 | FR-43, FR-44 |
 | Lưu giữ 12 tháng: thao tác xóa | Một giao dịch: đặt `plate_snapshot = '[purged]'` cho lượt đã đóng có giờ vào trước mốc 12 tháng; xóa xe vãng lai không có lượt mới hơn mốc, không có lượt đang mở và không có đặt chỗ (gỡ `vehicle_id` khỏi lượt cũ trước khi xóa); ghi nhật ký PURGE. Số lượt, thời gian gửi và giao dịch không bị xóa, nên báo cáo FR-38 đến FR-40 không đổi. Cách xóa này khớp câu trả lời Q35 ("xóa hoặc ẩn biển số khỏi các lượt gửi đã kết thúc, giữ số lượt, thời gian gửi và doanh thu") [main] | FR-45, Q18, Q35 |
-| Lưu giữ 12 tháng: kích hoạt | **Hiện tại:** Manager bấm nút (`/api/purge`). **Q35 đã chốt là hệ thống tự động xóa** (đúng giả định nhóm gửi, nhưng code MVP vẫn làm thủ công); SRS v0.2 FR-45 cũng yêu cầu như vậy. Đề xuất: bộ hẹn giờ trong `src/instrumentation.ts` (cùng cơ chế với bộ hết hạn đặt chỗ 30 giây), chạy mỗi ngày một lần; ghi PURGE với `user_id` trống (thao tác hệ thống); giữ nút của Manager để chạy ngay khi cần. [đề xuất] G-05, **đã chốt làm trong A-28** (mục 11.1) | FR-45, AS23 |
+| Lưu giữ 12 tháng: kích hoạt | **Hiện tại:** Manager bấm nút (`/api/purge`). **Q35 đã chốt là hệ thống tự động xóa** (đúng giả định nhóm gửi, nhưng code MVP vẫn làm thủ công); SRS v0.2 FR-45 cũng yêu cầu như vậy. Đề xuất: bộ hẹn giờ trong `src/instrumentation.ts` (cùng cơ chế với bộ hết hạn đặt chỗ 30 giây), chạy mỗi ngày một lần; ghi PURGE với `user_id` trống (thao tác hệ thống); giữ nút của Manager để chạy ngay khi cần. **Đã làm trong A-28** (`src/server/purgeSchedule.ts`: chạy 60 giây sau khi khởi động, sau đó mỗi 24 giờ; commit `bc172ce`, chờ merge, sau đó đổi nhãn thành [main]) G-05 | FR-45, AS23 |
 | Dữ liệu kiểm thử | Chỉ dữ liệu từ seed và bộ mô phỏng | NFR-03 |
 
 ### 6.1 Quyền đọc dữ liệu theo vai trò (Q34)
@@ -386,7 +386,7 @@ Nguyên tắc: hạn nộp 29/11 (CR-01) còn ≈ 11,5h chưa có nguồn bù, n
 
 | Mục | Quyết định | Làm trong | Giờ | Lý do |
 |---|---|---|---|---|
-| G-05 xóa tự động | **Làm** | A-28 | 1,5 | Q35 khách hàng chốt; FR-45 Must; bảo vệ dữ liệu (CN4) |
+| G-05 xóa tự động | **Đã làm** (23/11, commit `bc172ce` trên nhánh `fix/a28-auth-log-purge`, chờ merge) | A-28 | 1,5 | Q35 khách hàng chốt; FR-45 Must; bảo vệ dữ liệu (CN4) |
 | G-08 Staff tra cứu xe, đặt chỗ | **Làm** | A-65 (cùng KB-15) | 3 | Q34 khách hàng chốt; A-65 đã có trong baseline nên chỉ thêm phần đọc cho Staff |
 | G-07 chỉ mục | **Làm** | A-65 (một migration mới) | 0,5 | Rất nhỏ; có chỉ mục phục vụ Q31 |
 | G-06 ghi đăng nhập thất bại, từ chối quyền | **Hoãn** | — | 0 | Chỉ đến từ SRS v0.2. Nhật ký đã ghi đủ các hành động của D-23 (Baseline V1.0). Nếu còn giờ sau A-87 thì làm, vì phần lớn nằm trong file của A-28 |
