@@ -28,7 +28,7 @@ A-74 / KB-03 | Close and payment are one transaction | tests/exit.test.ts "KB-03
 A-74 / FR-28 | Customer and Manager payment history | tests/history.test.ts (existing); review in P18 section 10.3 | RES-01 | 19/11 | Verified, no gap
 A-22 | P18 v1.0, KB-01..KB-19 decisions | P18 section 10 and 10.2 | RES-01 | 19/11 | Done; CP-02 review by RES-02 and RES-03 planned 20/11, outcome pending
 A-61 | Lot management | docs/m3/quality-evidence-A-61.md | RES-01 | 20/11 | Verified (seven Staff requests returned HTTP 403)
-A-67 | Simulator integration | docs/m3/a-67-integration-check.md | RES-01 / RES-05 | 20/11 (RES-05 confirm 23/11) | Done (25 HTTP checks, 120 events 0 rejected; RES-05: 209/209 tests, SC-01..SC-07 in UI, seed reproducible, A-44 closed)
+A-67 | Simulator integration | docs/m3/a-67-integration-check.md | RES-01 / RES-05 | 23/11 (actual finish) | Done, integration only. Initial HTTP verification 20/11 (RES-01): 25 HTTP checks, 120 events 0 rejected. RES-05 23/11: 209/209 tests, simulator setup for SC-01..SC-07 in UI, seed reproducible, A-44 closed. Pending in A-68: SC-03/SC-04 staff exit outcomes; SC-07 record completeness, independent count, ≤ 2 s per operation
 ```
 
 ## Planned vs Actual sheet
