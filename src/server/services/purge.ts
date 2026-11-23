@@ -15,10 +15,14 @@ const RETENTION_MONTHS = 12
  *     OPEN session and no reservation is deleted; its old sessions are detached (`vehicleId =
  *     null`) first so the historical/masked rows survive the delete.
  * Logs `PURGE` with target `"<n> sessions, <m> vehicles"` and returns counts.
+ *
+ * `actorId` is the Manager who pressed the purge button, or `null` for the
+ * automatic daily run (Q35, G-05): the log row then has no user, which marks it
+ * as a system action (P03 §10 #3).
  */
 export async function purgeOldData(
   db: Db,
-  actorId: string,
+  actorId: string | null,
   now: Date = new Date(),
 ): Promise<{ sessionsMasked: number; vehiclesDeleted: number }> {
   const cutoff = subMonths(now, RETENTION_MONTHS)

@@ -120,6 +120,40 @@ describe('purge service', () => {
     expect(log?.target).toBe(`${result.sessionsMasked} sessions, ${result.vehiclesDeleted} vehicles`)
   })
 
+  it('system run (null actor) masks the same sessions, logs PURGE without a user and keeps statistics (A-28, G-05, Q35)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-60001', f.student.id)
+    const old = await makeSession(v.id, '51F-60001', f.zoneA.id, f.staff.id, OLD)
+    await makeSession(v.id, '51F-60001', f.zoneA.id, f.staff.id, RECENT)
+    await db.payment.create({
+      data: { sessionId: old.id, amount: 2000, paidAt: OLD, confirmedById: f.staff.id },
+    })
+
+    const before = {
+      sessions: await db.parkingSession.count(),
+      revenue: (await db.payment.aggregate({ _sum: { amount: true } }))._sum.amount,
+      old: await db.parkingSession.findUnique({ where: { id: old.id } }),
+    }
+
+    const result = await purgeOldData(db, null, NOW)
+    expect(result).toEqual({ sessionsMasked: 1, vehiclesDeleted: 0 })
+
+    const logs = await db.accessLog.findMany({ where: { action: 'PURGE' } })
+    expect(logs).toHaveLength(1)
+    expect(logs[0].userId).toBeNull()
+    expect(logs[0].target).toBe('1 sessions, 0 vehicles')
+
+    // SC-003: counts, times and revenue are unchanged; only the plate is masked.
+    const after = await db.parkingSession.findUnique({ where: { id: old.id } })
+    expect(after?.plateSnapshot).toBe('[purged]')
+    expect(after?.entryTime).toEqual(before.old?.entryTime)
+    expect(after?.exitTime).toEqual(before.old?.exitTime)
+    expect(after?.zoneId).toBe(before.old?.zoneId)
+    expect(await db.parkingSession.count()).toBe(before.sessions)
+    expect((await db.payment.aggregate({ _sum: { amount: true } }))._sum.amount).toBe(before.revenue)
+  })
+
   it('second purge reports 0 sessionsMasked', async () => {
     await resetDb()
     const f = await makeFixture()
