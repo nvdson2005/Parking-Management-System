@@ -5,6 +5,9 @@ import { getAvailability } from '@/server/services/availability'
 import { LiveAvailability } from '@/components/LiveAvailability'
 import { LotInfoCard } from '@/components/LotInfoCard'
 import { listLotInfo } from '@/server/services/lots'
+import { MyTariffCard } from '@/components/MyTariffCard'
+import { tariffsForGroup } from '@/server/services/tariffs'
+import { getCurrentUser } from '@/server/auth/session'
 import { ROLE_LINKS } from '@/lib/nav'
 
 export default async function CustomerPage() {
@@ -12,6 +15,10 @@ export default async function CustomerPage() {
   const dict = getDict(lang)
   const initial = await getAvailability(db)
   const lots = await listLotInfo(db)
+  // Fees for the customer's own group (Q45); the section layout guarantees a customer.
+  const user = await getCurrentUser()
+  const group = user?.userGroup ?? null
+  const tariffs = group ? await tariffsForGroup(db, group) : []
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,6 +33,7 @@ export default async function CustomerPage() {
       {lots.map((lot) => (
         <LotInfoCard key={lot.id} lot={lot} lang={lang} />
       ))}
+      {group ? <MyTariffCard group={group} tariffs={tariffs} lang={lang} /> : null}
       <LiveAvailability initial={initial} />
     </div>
   )

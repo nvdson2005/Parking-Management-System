@@ -280,6 +280,9 @@ export const en: Dict = {
     status: 'Status',
     hours: 'Opening hours',
     hoursUnset: 'Not set',
+    myFees: 'Your fees',
+    perEntry: 'per entry',
+    feeUnset: 'Not set yet',
   },
   tariffs: {
     title: 'Tariffs',

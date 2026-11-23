@@ -279,6 +279,9 @@ export const vi = {
     status: 'Trạng thái',
     hours: 'Giờ hoạt động',
     hoursUnset: 'Chưa cập nhật',
+    myFees: 'Mức phí của bạn',
+    perEntry: 'mỗi lượt',
+    feeUnset: 'Chưa có giá',
   },
   tariffs: {
     title: 'Quản lý biểu phí',
