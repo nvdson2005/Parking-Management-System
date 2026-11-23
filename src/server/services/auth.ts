@@ -43,13 +43,24 @@ export async function registerCustomer(
 }
 
 export async function authenticate(db: Db, email: string, password: string): Promise<User> {
+  // Failed attempts are logged before throwing (G-06, FR-43). An unknown email
+  // is logged without an account and without the email itself (privacy).
   const user = await db.user.findUnique({ where: { email: email.toLowerCase() } })
-  if (!user) throw new DomainError('INVALID_CREDENTIALS', 'Invalid email or password')
+  if (!user) {
+    await logAccess(db, { userId: null, action: 'LOGIN_FAILED', target: 'reason:UNKNOWN_EMAIL' })
+    throw new DomainError('INVALID_CREDENTIALS', 'Invalid email or password')
+  }
 
   const valid = await verifyPassword(password, user.passwordHash)
-  if (!valid) throw new DomainError('INVALID_CREDENTIALS', 'Invalid email or password')
+  if (!valid) {
+    await logAccess(db, { userId: user.id, action: 'LOGIN_FAILED', target: 'reason:BAD_PASSWORD' })
+    throw new DomainError('INVALID_CREDENTIALS', 'Invalid email or password')
+  }
 
-  if (user.locked) throw new DomainError('ACCOUNT_LOCKED', 'Account is locked')
+  if (user.locked) {
+    await logAccess(db, { userId: user.id, action: 'LOGIN_FAILED', target: 'reason:LOCKED' })
+    throw new DomainError('ACCOUNT_LOCKED', 'Account is locked')
+  }
 
   await logAccess(db, { userId: user.id, action: 'LOGIN' })
 

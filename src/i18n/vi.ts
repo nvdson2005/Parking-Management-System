@@ -119,6 +119,7 @@ export const vi = {
     earlyWarning: 'Xe này có đặt chỗ vào giờ muộn hơn. Kiểm tra chỗ rồi xác nhận để cho xe vào ngay.',
     earlyConfirm: 'Xác nhận và ghi nhận xe vào',
     earlyCancel: 'Hủy',
+    gate: 'Cổng',
   },
   exit: {
     title: 'Ghi nhận xe ra',
@@ -145,6 +146,7 @@ export const vi = {
     confirm: 'Xác nhận thanh toán mô phỏng & đóng phiên',
     confirming: 'Đang xử lý...',
     success: 'Đã ghi nhận xe ra và thu phí',
+    gate: 'Cổng',
     feeGroups: {
       STUDENT: 'Sinh viên',
       LECTURER_STAFF: 'Giảng viên / Nhân viên',
@@ -170,6 +172,8 @@ export const vi = {
     noPayment: 'Chưa có thanh toán.',
     amount: 'Số tiền',
     paidAt: 'Thời điểm thanh toán',
+    entryGate: 'Cổng vào',
+    exitGate: 'Cổng ra',
     notFound: 'Không tìm thấy phiên đỗ xe.',
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Xác nhận lệch biển số',
@@ -324,6 +328,8 @@ export const vi = {
       TARIFF_CHANGE: 'Thay đổi biểu phí',
       ACCOUNT_CHANGE: 'Thay đổi tài khoản',
       PURGE: 'Xóa dữ liệu',
+      LOGIN_FAILED: 'Đăng nhập thất bại',
+      ACCESS_DENIED: 'Bị từ chối quyền',
     },
   },
   simulator: {
@@ -364,6 +370,15 @@ export const vi = {
       SESSION_OPEN: 'Đã mở phiên — xử lý trực tiếp tại trang xe ra của nhân viên.',
       UNEXPECTED: 'Kết quả không mong đợi.',
     },
+  },
+  gates: {
+    'GATE-1': 'Cổng 1',
+    'GATE-2': 'Cổng 2',
+  },
+  denied: {
+    title: 'Không có quyền truy cập',
+    body: 'Tài khoản của bạn không có quyền mở trang này. Lần truy cập này đã được ghi nhật ký.',
+    back: 'Về trang chính của tôi',
   },
   notifications: {
     title: 'Thông báo',

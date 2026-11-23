@@ -17,7 +17,8 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Toaster } from '@/components/ui/sonner'
 import { useT } from '@/components/I18nProvider'
-import type { IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, GATES } from '@/lib/types'
+import type { GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
 export type ZoneOption = { id: string; label: string }
 
@@ -27,6 +28,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
   const [identifier, setIdentifier] = useState('')
   const [zoneId, setZoneId] = useState(zones[0]?.id ?? '')
   const [vehicleType, setVehicleType] = useState<VehicleTypeCode>('MOTORBIKE')
+  const [gate, setGate] = useState<GateCode>(DEFAULT_GATE)
   const [submitting, setSubmitting] = useState(false)
   const [earlyPrompt, setEarlyPrompt] = useState(false)
 
@@ -45,6 +47,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
           method,
           identifier,
           zoneId,
+          gate,
           vehicleType: method === 'PLATE' ? vehicleType : undefined,
           confirmEarly: confirmEarly || undefined,
         }),
@@ -117,6 +120,22 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
                 {zones.map((zone) => (
                   <SelectItem key={zone.id} value={zone.id}>
                     {zone.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="gate">{t('entry.gate')}</Label>
+            <Select value={gate} onValueChange={(value) => setGate((value as GateCode) ?? DEFAULT_GATE)}>
+              <SelectTrigger id="gate">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {GATES.map((g) => (
+                  <SelectItem key={g} value={g}>
+                    {t(`gates.${g}`)}
                   </SelectItem>
                 ))}
               </SelectContent>

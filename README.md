@@ -109,9 +109,9 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | POST | `/api/reservations/[id]/cancel` | Customer | Cancel a reservation |
 | GET | `/api/availability` | any auth | Current free/open/reserved counts |
 | GET | `/api/availability/stream` | any auth | Live availability (SSE) |
-| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time |
+| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time; optional `gate` (`GATE-1` default, `GATE-2`) |
 | POST | `/api/events/exit/preview` | Staff/Manager | Preview exit fee |
-| POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment |
+| POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment; optional `gate` (`GATE-1` default, `GATE-2`) |
 | GET/POST | `/api/lots`, PATCH `/api/lots/[id]` | Manager | Lot info and status (active/suspended) |
 | POST `/api/zones`, PATCH `/api/zones/[id]` | Manager | Zone and capacity management |
 | GET/PUT | `/api/tariffs` | Manager | View / edit tariffs |
@@ -149,7 +149,8 @@ Use separate browsers/profiles per role so you can watch live updates.
 8. **Manager runs the simulator** (≥100 live events + several days of history)
    and opens `/manager/reports` with a date range.
 9. **Manager views the access log** (`/manager/access-log`, showing LOGIN /
-   VIEW_FULL_PLATE / PURGE entries) and runs a purge, which masks old plate rows.
+   LOGIN_FAILED / ACCESS_DENIED / VIEW_FULL_PLATE / PURGE entries; a wrong-role
+   page visit lands on `/denied` and is logged) and runs a purge, which masks old plate rows.
 10. **Language toggle VI ↔ EN** works on every page (verified in-browser across
     all customer, staff, manager and auth pages); the layout fits a 375px-wide
     viewport with no horizontal overflow.

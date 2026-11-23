@@ -18,8 +18,15 @@ export type SessionEventType = 'PLATE_MISMATCH_CONFIRMED' | 'LOST_CARD' | 'EARLY
 
 export type NotificationType = 'LOT_SUSPENDED'
 
+/** Simulated gates of the pilot lot (G-09, FR-09). */
+export const GATES = ['GATE-1', 'GATE-2'] as const
+export type GateCode = (typeof GATES)[number]
+export const DEFAULT_GATE: GateCode = 'GATE-1'
+
 export type AccessAction =
   | 'LOGIN'
+  | 'LOGIN_FAILED'
+  | 'ACCESS_DENIED'
   | 'LOGOUT'
   | 'VIEW_FULL_PLATE'
   | 'ENTRY'

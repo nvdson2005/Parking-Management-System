@@ -33,7 +33,11 @@ export async function middleware(req: NextRequest) {
     const { payload } = await jwtVerify(token, getSecretKey())
     const role = payload.role
     if (typeof role !== 'string' || !ALLOWED_ROLES[prefix].includes(role)) {
-      return NextResponse.redirect(new URL('/', req.url))
+      // The Edge runtime cannot write to the database, so the Node page
+      // /denied logs ACCESS_DENIED (G-06, FR-43) and explains the refusal.
+      const denied = new URL('/denied', req.url)
+      denied.searchParams.set('from', prefix)
+      return NextResponse.redirect(denied)
     }
     return NextResponse.next()
   } catch {

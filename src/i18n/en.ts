@@ -120,6 +120,7 @@ export const en: Dict = {
     earlyWarning: 'This vehicle has a reservation for a later time. Check the spot, then confirm to admit it now.',
     earlyConfirm: 'Confirm and record entry',
     earlyCancel: 'Cancel',
+    gate: 'Gate',
   },
   exit: {
     title: 'Vehicle exit',
@@ -146,6 +147,7 @@ export const en: Dict = {
     confirm: 'Confirm simulated payment & close',
     confirming: 'Processing...',
     success: 'Vehicle exit recorded and fee collected',
+    gate: 'Gate',
     feeGroups: {
       STUDENT: 'Student',
       LECTURER_STAFF: 'Lecturer / Staff',
@@ -171,6 +173,8 @@ export const en: Dict = {
     noPayment: 'No payment yet.',
     amount: 'Amount',
     paidAt: 'Paid at',
+    entryGate: 'Entry gate',
+    exitGate: 'Exit gate',
     notFound: 'Session not found.',
     eventTypes: {
       PLATE_MISMATCH_CONFIRMED: 'Plate mismatch confirmed',
@@ -325,6 +329,8 @@ export const en: Dict = {
       TARIFF_CHANGE: 'Tariff change',
       ACCOUNT_CHANGE: 'Account change',
       PURGE: 'Purge',
+      LOGIN_FAILED: 'Failed login',
+      ACCESS_DENIED: 'Access denied',
     },
   },
   simulator: {
@@ -365,6 +371,15 @@ export const en: Dict = {
       SESSION_OPEN: 'Session opened — resolve it live on the staff exit page.',
       UNEXPECTED: 'Unexpected result.',
     },
+  },
+  gates: {
+    'GATE-1': 'Gate 1',
+    'GATE-2': 'Gate 2',
+  },
+  denied: {
+    title: 'Access denied',
+    body: 'Your account does not have permission to open this page. This attempt has been recorded.',
+    back: 'Back to my home page',
   },
   notifications: {
     title: 'Notifications',

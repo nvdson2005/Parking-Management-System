@@ -8,7 +8,8 @@ import { computeFee } from '@/server/services/fees'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
 import { normalizePlate, plateCompareKey } from '@/lib/plate'
-import type { FeeGroup, IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, GATES } from '@/lib/types'
+import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
 export type ExitPreview = {
   sessionId: string
@@ -74,6 +75,7 @@ const confirmExitSchema = z.object({
   method: z.enum(['PLATE', 'QR', 'RFID']).optional(),
   note: z.string().optional(),
   staffId: z.string().min(1),
+  gate: z.enum(GATES).optional(),
   now: z.date().optional(),
 })
 
@@ -102,6 +104,7 @@ export async function confirmExit(
     method?: IdMethod
     note?: string
     staffId: string
+    gate?: GateCode
     now?: Date
   },
 ): Promise<{ session: ParkingSession; payment: Payment }> {
@@ -173,7 +176,7 @@ export async function confirmExit(
 
       const closed = await tx.parkingSession.update({
         where: { id: session.id },
-        data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED' },
+        data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED', exitGate: data.gate ?? DEFAULT_GATE },
       })
 
       return { session: closed, payment, wroteEvent }

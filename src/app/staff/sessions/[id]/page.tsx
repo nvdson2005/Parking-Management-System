@@ -67,6 +67,14 @@ export default async function StaffSessionDetailPage({
             <dd>{t(dict, `exit.feeGroups.${session.feeGroup}`)}</dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.entryTime')}</dt>
             <dd>{session.entryTime.toLocaleString()}</dd>
+            <dt className="text-muted-foreground">{t(dict, 'sessions.entryGate')}</dt>
+            <dd>{t(dict, `gates.${session.entryGate}`)}</dd>
+            {session.exitGate ? (
+              <>
+                <dt className="text-muted-foreground">{t(dict, 'sessions.exitGate')}</dt>
+                <dd>{t(dict, `gates.${session.exitGate}`)}</dd>
+              </>
+            ) : null}
             <dt className="text-muted-foreground">{t(dict, 'sessions.status')}</dt>
             <dd>{session.status}</dd>
           </dl>
