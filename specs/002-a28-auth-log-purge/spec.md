@@ -18,11 +18,11 @@ The client (Q35) requires that, 12 months after a parking session has ended, the
 
 **Why this priority**: It is a client-confirmed requirement (Q35), a Must requirement (FR-45) and part of personal-data protection (CN4). It is the only item in A-28 that the client explicitly asked for.
 
-**Independent Test**: Seed a closed session that entered more than 12 months ago, run the scheduled job once, and check that its plate is masked, that the job is recorded in the access log as a system action, and that report totals are unchanged.
+**Independent Test**: Seed a closed session that exited more than 12 months ago, run the scheduled job once, and check that its plate is masked, that the job is recorded in the access log as a system action, and that report totals are unchanged.
 
 **Acceptance Scenarios**:
 
-1. **Given** a closed session that entered more than 12 months ago with its plate still visible, **When** the daily automatic purge runs, **Then** the session's plate is masked and its time, zone, fee group and payment remain.
+1. **Given** a closed session that exited more than 12 months ago with its plate still visible, **When** the daily automatic purge runs, **Then** the session's plate is masked and its time, zone, fee group and payment remain.
 2. **Given** an open session (vehicle still parked) that entered more than 12 months ago, **When** the automatic purge runs, **Then** its plate is not masked.
 3. **Given** the automatic purge runs, **When** it finishes, **Then** one access-log entry with action PURGE is recorded with no user attached (a system action) and a target describing how many sessions and vehicles were affected.
 4. **Given** a Manager, **When** they press the existing purge button, **Then** it still works as before and the log entry names that Manager.
@@ -67,7 +67,7 @@ When a client sends a body that is not valid JSON (or not a JSON object) to the 
 - The automatic purge runs while nothing is older than 12 months: it still records a PURGE entry with zero counts (FR-006).
 - The automatic purge fails (for example the database is busy): the failure must not crash the server, and the next scheduled run tries again.
 - The Manager presses the button on the same day the automatic purge already ran: the second run finds nothing new and changes nothing.
-- A session that entered 12 months ago but exited recently: the rule is based on the entry time, as today (P03 §6); it is masked once it is closed.
+- A session that entered more than 12 months ago but exited recently: kept until 12 months after its exit. Q44 (23/11) set the start of the period to the exit, when the session closes; the first version counted from the entry, which was the team's assumption.
 - Plates already masked are not counted again.
 
 ## Requirements *(mandatory)*
@@ -89,7 +89,7 @@ When a client sends a body that is not valid JSON (or not a JSON object) to the 
 - KB-16 (token revocation on logout, locked-account check in the Edge middleware): accepted without change (P03 §11.1).
 - FR-03 (30-minute inactivity timeout): deferred (P03 §11.1, CR-03).
 - G-06 (logging failed logins and access denials): deferred.
-- Changing the retention rule itself (12 months, entry-time based).
+- Changing the retention period itself (12 months from the exit, Q35 and Q44).
 
 ### Key Entities
 

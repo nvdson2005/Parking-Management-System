@@ -20,7 +20,14 @@ async function makeVehicle(plate: string, ownerId: string | null) {
   })
 }
 
-async function makeSession(vehicleId: string, plate: string, zoneId: string, staffId: string, entryTime: Date) {
+async function makeSession(
+  vehicleId: string,
+  plate: string,
+  zoneId: string,
+  staffId: string,
+  entryTime: Date,
+  exitTime: Date = entryTime,
+) {
   return db.parkingSession.create({
     data: {
       vehicleId,
@@ -30,7 +37,7 @@ async function makeSession(vehicleId: string, plate: string, zoneId: string, sta
       feeGroup: 'GUEST',
       idMethod: 'PLATE',
       entryTime,
-      exitTime: entryTime,
+      exitTime,
       entryStaffId: staffId,
       status: 'CLOSED',
     },
@@ -152,6 +159,24 @@ describe('purge service', () => {
     expect(after?.zoneId).toBe(before.old?.zoneId)
     expect(await db.parkingSession.count()).toBe(before.sessions)
     expect((await db.payment.aggregate({ _sum: { amount: true } }))._sum.amount).toBe(before.revenue)
+  })
+
+  it('counts the 12 months from the exit, not the entry (Q44)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-10044', null)
+    // Entered 13 months ago but left only 11 months ago (a long stay).
+    const longStay = await makeSession(v.id, '51F-10044', f.zoneA.id, f.staff.id, OLD, RECENT)
+
+    const result = await purgeOldData(db, null, NOW)
+
+    expect(result).toEqual({ sessionsMasked: 0, vehiclesDeleted: 0 })
+    expect((await db.parkingSession.findUnique({ where: { id: longStay.id } }))?.plateSnapshot).toBe('51F-10044')
+    expect(await db.vehicle.findUnique({ where: { id: v.id } })).not.toBeNull()
+
+    // Thirteen months after that exit, both go.
+    const later = await purgeOldData(db, null, subMonths(NOW, -2))
+    expect(later).toEqual({ sessionsMasked: 1, vehiclesDeleted: 1 })
   })
 
   it('second purge reports 0 sessionsMasked', async () => {
