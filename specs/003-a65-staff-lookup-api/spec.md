@@ -88,7 +88,7 @@ Filtering sessions by entry time, the access log by time or user, and checking o
 - **FR-008**: Staff and managers MUST be able to read parking sessions through the API, filtered by status (open by default, or closed), newest entry first (KB-15).
 - **FR-009**: Managers MUST be able to read all confirmed payments through the API with an optional time range. Customers MUST be able to read only their own history (KB-15, FR-28 of SRS v0.1 / FR-37 of v0.2).
 - **FR-010**: Invalid query values MUST return a validation error, never an internal error.
-- **FR-011**: Plates in all new responses MUST follow the existing plate display rule: staff and managers see the full plate, owners see their own, others see a masked plate, and purged plates stay purged.
+- **FR-011**: Plates in all new responses MUST follow the existing plate display rule: staff and managers see the full plate, owners see their own, others see a masked plate, and purged plates stay purged. Since Q46 (23/11), Staff see a masked plate on sessions that have ended; the lookup returns only the open session, so it is unchanged.
 - **FR-012**: The database MUST have indexes on reservations (customer, status), sessions (entry time), and access log (time) and (user), added by a new migration without changing data (G-07).
 - **FR-013**: Existing screens (staff sessions, manager access log, manager payments, customer history) MUST keep showing the same data.
 

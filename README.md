@@ -38,10 +38,14 @@ npx prisma migrate deploy   # applies new migrations only, keeps existing rows
 npx prisma generate         # refresh the Prisma client
 ```
 
-Plates on parking sessions that ended more than 12 months ago are masked
-automatically (client answer Q35): once about 60 s after the server starts,
+Plates on parking sessions that ended (vehicle exited) more than 12 months ago
+are masked automatically (client answers Q35, Q44): once about 60 s after the server starts,
 then every 24 h. The run appears in the access log as `PURGE` with no user.
 The Manager button on `/manager/access-log` still runs it on demand.
+
+Who sees a full plate (Q46): a Manager always; the owner on their own
+vehicles and history; Staff only while the session is open. Staff see a
+masked plate (`51F-***.45`) on sessions that have ended.
 
 ## Tests
 

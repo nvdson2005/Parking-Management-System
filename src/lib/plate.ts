@@ -49,18 +49,31 @@ export function maskPlate(plate: string): string {
   return prefix + masked + lastTwo
 }
 
+/**
+ * Who sees a full plate (FR-42, P03 §2.3): a Manager always; the vehicle's
+ * owner; Staff, except on a session that has ended (Q46, 23/11: Staff need the
+ * full plate only while the vehicle is in the lot). `closedSession` is true
+ * only when the plate belongs to a CLOSED parking session.
+ */
+export function canViewFullPlate(
+  viewer: { id: string; role: Role } | null,
+  ownerId: string | null,
+  closedSession = false,
+): boolean {
+  if (!viewer) return false
+  if (viewer.role === 'MANAGER') return true
+  if (ownerId !== null && viewer.id === ownerId) return true
+  return viewer.role === 'STAFF' && !closedSession
+}
+
 export function presentPlate(
   plate: string,
   viewer: { id: string; role: Role } | null,
-  ownerId: string | null
+  ownerId: string | null,
+  closedSession = false,
 ): string {
   if (plate === '[purged]') {
     return '[purged]'
   }
-
-  const canViewFull =
-    (viewer?.role === 'STAFF' || viewer?.role === 'MANAGER') ||
-    (viewer?.id === ownerId)
-
-  return canViewFull ? plate : maskPlate(plate)
+  return canViewFullPlate(viewer, ownerId, closedSession) ? plate : maskPlate(plate)
 }

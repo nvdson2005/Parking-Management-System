@@ -65,6 +65,13 @@ describe('plate helpers', () => {
       expect(presentPlate('[purged]', cust, null)).toBe('[purged]')
     })
 
+    it('Q46: masks a closed session for STAFF, but not for MANAGER or the owner', () => {
+      expect(presentPlate('51F-123.45', staff, null, true)).toBe('51F-***.45')
+      expect(presentPlate('51F-123.45', manager, null, true)).toBe('51F-123.45')
+      expect(presentPlate('51F-123.45', { id: 'c', role: 'CUSTOMER' }, 'c', true)).toBe('51F-123.45')
+      expect(presentPlate('51F-123.45', staff, null, false)).toBe('51F-123.45')
+    })
+
     it('should mask plate to null viewer', () => {
       expect(presentPlate('51F-123.45', null, 'other')).toBe('51F-***.45')
     })

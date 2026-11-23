@@ -193,8 +193,12 @@ describe('GET /api/sessions (A-65, KB-15)', () => {
     expect(res.body).toHaveLength(1)
     expect(res.body[0]).toMatchObject({ id: open.id, plate: '51F-800.02', zoneName: 'B', status: 'OPEN' })
 
+    // Q46: Staff see an ended session's plate masked; a Manager sees it in full.
     const closed = await get(sessionsGET as Handler, '?status=CLOSED')
-    expect(closed.body.map((s: { plate: string }) => s.plate)).toEqual(['51F-800.01'])
+    expect(closed.body.map((s: { plate: string }) => s.plate)).toEqual(['51F-***.01'])
+    as('MANAGER')
+    const closedForManager = await get(sessionsGET as Handler, '?status=CLOSED')
+    expect(closedForManager.body.map((s: { plate: string }) => s.plate)).toEqual(['51F-800.01'])
     expect((await get(sessionsGET as Handler, '?status=X')).status).toBe(400)
   })
 

@@ -20,7 +20,7 @@ export type SessionListItem = {
 /**
  * Parking sessions by status, newest entry first (A-65, KB-15; FR-13 view).
  * The plate goes through `presentPlate` for the viewer, so the same rule
- * applies as on every screen. Used by GET /api/sessions and the staff
+ * applies as on every screen: Staff see closed sessions masked (Q46). Used by GET /api/sessions and the staff
  * sessions page.
  */
 export async function listSessions(
@@ -36,7 +36,7 @@ export async function listSessions(
   })
   return rows.map((s) => ({
     id: s.id,
-    plate: presentPlate(s.plateSnapshot, viewer, s.ownerId),
+    plate: presentPlate(s.plateSnapshot, viewer, s.ownerId, s.status === 'CLOSED'),
     zoneName: s.zone.name,
     vehicleTypeCode: s.vehicleTypeCode as VehicleTypeCode,
     entryTime: s.entryTime,
