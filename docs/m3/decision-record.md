@@ -4,7 +4,7 @@
 |---|---|
 | Date | 2026-11-19 (W13) |
 | Owner | Nguyễn Võ Đức Sơn (RES-01) |
-| Analysis | `docs/m3/change-impact-analysis.md` (CR-01, CR-02) |
+| Analysis | `docs/m3/change-impact-analysis.md` (CR-01, CR-02, CR-03) |
 | Approved | RES-01 (PM), 19/11/2026 |
 | Decision | **Option C**: keep scope, merge paperwork, trim verification depth, Q22 fallback. The residual gap of about 11.5 h is open and needs the team's decision. |
 
@@ -71,6 +71,26 @@ The Q22 fallback fires if, at M-03, any Must product is not verified or the sche
 - The final report is written once and carries the M3 and M4 content. A-92 finishes by 28/11; 29/11 is the submission day.
 - Baseline V2.0 is required (Task 3.7). See `docs/m3/baseline-v2-handoff.md`.
 
+## Options for CR-03 (lecturer replies of 23/11 and A-49 findings)
+
+The analysis and the full item list are in `docs/m3/change-impact-analysis.md`, section CR-03. Hours are owner estimates.
+
+| Group | Covers | Estimate |
+|---|---|---|
+| A | Availability screen gaps G1–G3 and the A-49 retest | 1.5 h |
+| B | Defects on the demo path | 0.6 h |
+| C | Reservation UI | 3.25 h |
+| D | Five lecturer-confirmed requirements, carried by `specs/002-lecturer-acceptance-alignment` | 4.75 h |
+
+| Option | Description | Effort | Effect |
+|---|---|---|---|
+| 1 | Do all groups A–D before the A-92 freeze (28/11) | about 10.1 h | Closes every item in SRS v2.1 section 9. Does not fit the open CR-01 gap without new hours, and carries a high regression risk two days before the demo. |
+| **2** | **A + B before the demo (27/11). C and D in priority order, only if hours are found by 28/11. Anything left is recorded in A-110 as partial or deferred.** | **about 2.1 h, up to 10.1 h** | **Proposed.** A-49 reaches "Verified", the demo path has no known defect, and the rest is reported openly. Order for D: purge from exit and masked plates first (privacy, P1 in spec 002), then tariff, hours and group change. |
+| 3 | A only. B, C and D are recorded as known limitations. | about 1.5 h | Lowest risk, but the demo shows a reservation form that fails on its own default value. |
+| 4 | No change. All items are reported as gaps. | 0 h | A-49 stays "Partly verified", and three Must requirements (FR-19..21) are unmet at handover. Not recommended. |
+
+Proposed by RES-04: option 2. `TODO(RES-01): record the decision, the owners for groups C and D, and the approval date.`
+
 ## Change Log rows
 
 For pasting into the workbook's Change Log sheet. Columns: CR ID | Date raised | Raised by | Description | Affected products / activities | Effort impact (h) | Schedule impact (days) | Cost impact | Scope impact | Risk impact | Options considered | Decision | Justification | Approved by | Date approved | New baseline required?
@@ -78,6 +98,7 @@ For pasting into the workbook's Change Log sheet. Columns: CR ID | Date raised |
 ```text
 CR-01 | week of 16/11 (per RES-01) | Lecturer | Final report and submission moved from 07/12 to 29/11 | P14, P17, A-88..A-92, A-95, A-105, A-106, A-108, A-110..A-116 | +32.5 demand (172.1 h), -8.0 net from cuts, about 12.6 covered by fallback and W14 hours, about 11.5 unresolved | -8 (M-05 07/12 to 29/11) | 172.1 h = 8,605,000 VND (+1,625,000 vs V1.0 6,980,000); after cuts about 164.1 h = 8,205,000 VND (+1,225,000); converted, not cash | None; verification depth reduced for Should/Could | R-G4-02 near-certain; new R-G5-04 | 1 absorb, 2 descope under Q22, 3 hybrid | Option 3 (C) | Protects O1, O2 and the 27/11 demo; Q22 is the pre-agreed fallback; residual gap open | Nguyễn Võ Đức Sơn (RES-01, PM) | 19/11/2026 | Yes, V2.0 minimal
 CR-02 | 15/11/2026 | Lecturer (round-3 replies) | Early arrival needs staff confirmation; one active reservation per account; utilisation per zone and vehicle type; suspension cancels reservations and notifies customers | P05, P06, P11, notifications | 0 additional (already built) | 0 | 0 | Four behaviours clarified | None | 1 build as clarified | Option 1 | Matches lecturer wording; already implemented and tested | Nguyễn Võ Đức Sơn (RES-01, PM) | 19/11/2026 | No; listed as a V2.0 change entry
+CR-03 | 24/11/2026 | Phạm Duy Quý (RES-04) | Lecturer replies of 23/11 (five requirements confirmed but not built: opening hours, Manager fee-group change, Customer tariff view, masked plates for Staff, purge from exit) and A-49 findings (availability screen misses FR-19/20/21; past default arrival time; font; raw IDs in Staff entry selects) | P01, P03, P05, P06, P09, P10, P13; A-49, A-110, spec 002 | A+B about 2.1; all groups about 10.1 (estimates) | 0 for A+B; C+D only if hours are found before 28/11 | A+B about 105,000 VND; all groups about 505,000 VND; converted, not cash | None added; existing and lecturer-confirmed requirements met or recorded as partial | R-G5-01 rises; unmet lecturer items weaken O3/O4 evidence | 1 all groups, 2 A+B now and C+D if hours allow, 3 A only, 4 no change | TODO(RES-01) | TODO(RES-01) | TODO(RES-01) | TODO(RES-01) | No; listed as a V2.0 change entry
 ```
 
 ## Workshop (A-105)
