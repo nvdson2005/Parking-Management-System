@@ -90,3 +90,12 @@ export async function listAccessLogs(
 
   return logs.map(({ user, ...log }) => ({ ...log, userName: user?.name ?? null }))
 }
+
+/**
+ * Query for GET /api/access-logs (A-65, KB-15): `limit` 1-500, default 200
+ * (the screen's default). A missing value means the default; anything else
+ * that is not an integer in range is a VALIDATION error.
+ */
+export const accessLogQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(500).default(200),
+})

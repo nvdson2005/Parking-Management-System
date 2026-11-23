@@ -17,6 +17,9 @@ import { resetDb, makeFixture, type Fixture } from './helpers/db'
 import { addMinutes } from '@/lib/time'
 import { GET as lookupGET } from '@/app/api/staff/lookup/route'
 import { GET as activeGET } from '@/app/api/staff/reservations/route'
+import { GET as accessLogsGET } from '@/app/api/access-logs/route'
+import { GET as sessionsGET } from '@/app/api/sessions/route'
+import { GET as paymentsGET } from '@/app/api/payments/route'
 
 type Handler = (r: Request, c: unknown) => Promise<Response>
 type Role = 'STAFF' | 'MANAGER' | 'CUSTOMER'
@@ -116,5 +119,116 @@ describe('GET /api/staff/reservations (A-65, G-08)', () => {
 
     as('CUSTOMER')
     expect((await get(activeGET as Handler)).status).toBe(403)
+  })
+})
+
+// ---- KB-15: read endpoints for the access log, sessions and payments ----
+
+async function closedSession(plate: string, ownerId: string | null, entryTime: Date, amount?: number, paidAt?: Date) {
+  const s = await db.parkingSession.create({
+    data: {
+      plateSnapshot: plate,
+      zoneId: f.zoneA.id,
+      vehicleTypeCode: 'MOTORBIKE',
+      feeGroup: ownerId ? 'STUDENT' : 'GUEST',
+      idMethod: 'PLATE',
+      entryTime,
+      exitTime: entryTime,
+      entryStaffId: f.staff.id,
+      status: 'CLOSED',
+      ownerId,
+    },
+  })
+  if (amount !== undefined) {
+    await db.payment.create({ data: { sessionId: s.id, amount, paidAt: paidAt ?? entryTime, confirmedById: f.staff.id } })
+  }
+  return s
+}
+
+describe('GET /api/access-logs (A-65, KB-15)', () => {
+  it('returns the newest entries first to MANAGER, honours limit, validates it', async () => {
+    await db.accessLog.create({ data: { userId: f.staff.id, action: 'LOGIN', createdAt: new Date('2026-11-20T08:00:00Z') } })
+    await db.accessLog.create({ data: { userId: null, action: 'PURGE', target: '0 sessions, 0 vehicles', createdAt: new Date('2026-11-21T08:00:00Z') } })
+
+    as('MANAGER')
+    const all = await get(accessLogsGET as Handler)
+    expect(all.status).toBe(200)
+    expect(all.body.map((l: { action: string }) => l.action)).toEqual(['PURGE', 'LOGIN'])
+    expect(all.body[0].userName).toBeNull()
+    expect(all.body[1].userName).toBe(f.staff.name)
+
+    expect((await get(accessLogsGET as Handler, '?limit=1')).body).toHaveLength(1)
+    expect((await get(accessLogsGET as Handler, '?limit=0')).status).toBe(400)
+    expect((await get(accessLogsGET as Handler, '?limit=501')).status).toBe(400)
+    expect((await get(accessLogsGET as Handler, '?limit=abc')).status).toBe(400)
+  })
+
+  it('refuses STAFF and CUSTOMER', async () => {
+    as('STAFF')
+    expect((await get(accessLogsGET as Handler)).status).toBe(403)
+    as('CUSTOMER')
+    expect((await get(accessLogsGET as Handler)).status).toBe(403)
+  })
+})
+
+describe('GET /api/sessions (A-65, KB-15)', () => {
+  it('returns OPEN sessions by default and CLOSED on request, newest first', async () => {
+    await closedSession('51F-800.01', null, new Date('2026-11-20T08:00:00Z'))
+    const open = await db.parkingSession.create({
+      data: {
+        plateSnapshot: '51F-800.02',
+        zoneId: f.zoneB.id,
+        vehicleTypeCode: 'MOTORBIKE',
+        feeGroup: 'GUEST',
+        idMethod: 'QR',
+        entryTime: new Date('2026-11-23T08:00:00Z'),
+        entryStaffId: f.staff.id,
+        status: 'OPEN',
+      },
+    })
+
+    as('STAFF')
+    const res = await get(sessionsGET as Handler)
+    expect(res.status).toBe(200)
+    expect(res.body).toHaveLength(1)
+    expect(res.body[0]).toMatchObject({ id: open.id, plate: '51F-800.02', zoneName: 'B', status: 'OPEN' })
+
+    const closed = await get(sessionsGET as Handler, '?status=CLOSED')
+    expect(closed.body.map((s: { plate: string }) => s.plate)).toEqual(['51F-800.01'])
+    expect((await get(sessionsGET as Handler, '?status=X')).status).toBe(400)
+  })
+
+  it('refuses CUSTOMER', async () => {
+    as('CUSTOMER')
+    expect((await get(sessionsGET as Handler)).status).toBe(403)
+  })
+})
+
+describe('GET /api/payments (A-65, KB-15)', () => {
+  it('MANAGER sees all confirmed payments and can filter by time', async () => {
+    await closedSession('51F-900.01', f.student.id, new Date('2026-11-10T08:00:00Z'), 2000)
+    await closedSession('51F-900.02', null, new Date('2026-11-20T08:00:00Z'), 5000)
+
+    as('MANAGER')
+    const all = await get(paymentsGET as Handler)
+    expect(all.status).toBe(200)
+    expect(all.body.map((p: { amount: number }) => p.amount)).toEqual([5000, 2000])
+
+    const ranged = await get(paymentsGET as Handler, '?from=2026-11-15T00:00:00Z&to=2026-11-25T00:00:00Z')
+    expect(ranged.body.map((p: { amount: number }) => p.amount)).toEqual([5000])
+    expect((await get(paymentsGET as Handler, '?from=notadate')).status).toBe(400)
+  })
+
+  it('CUSTOMER sees only their own history; STAFF is refused', async () => {
+    await closedSession('51F-910.01', f.student.id, new Date('2026-11-10T08:00:00Z'), 2000)
+    await closedSession('51F-910.02', f.lecturer.id, new Date('2026-11-11T08:00:00Z'), 2000)
+
+    as('CUSTOMER')
+    const mine = await get(paymentsGET as Handler)
+    expect(mine.status).toBe(200)
+    expect(mine.body.map((h: { plate: string }) => h.plate)).toEqual(['51F-910.01'])
+
+    as('STAFF')
+    expect((await get(paymentsGET as Handler)).status).toBe(403)
   })
 })
