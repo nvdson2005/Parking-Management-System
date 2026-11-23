@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { cookies } from 'next/headers'
-import { handle } from '@/server/api'
+import { handle, readJsonObject } from '@/server/api'
 import { LANG_COOKIE } from '@/i18n'
 
 const LANG_MAX_AGE = 60 * 60 * 24 * 365
@@ -10,7 +10,7 @@ const bodySchema = z.object({
 })
 
 export const POST = handle(async (req) => {
-  const body = await req.json()
+  const body = await readJsonObject(req)
   const { lang } = bodySchema.parse(body)
 
   const store = await cookies()
