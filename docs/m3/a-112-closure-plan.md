@@ -33,7 +33,7 @@
 
 | # | Vấn đề | Ảnh hưởng | Xử lý đề xuất | Nguồn |
 |---|---|---|---|---|
-| 1 | Yêu cầu chỉ có trong SRS v0.2 bị hoãn: giờ hoạt động bãi (G-01), bảng giá theo bãi và theo giờ (G-02), mục giá trên giao dịch (G-03), cờ lượt thủ công (G-04), ghi đăng nhập thất bại và từ chối quyền (G-06), hết phiên sau 30 phút (FR-03) | Không có trong demo | Ghi "Hoãn" trong bảng phạm vi A-110; là đầu vào cho giai đoạn sau | CR-03, P03 v0.4 §11.1 |
+| 1 | Yêu cầu chỉ có trong SRS v0.2 bị hoãn: giờ hoạt động bãi (G-01), bảng giá theo bãi và theo giờ (G-02), mục giá trên giao dịch (G-03), hết phiên sau 30 phút (FR-03). G-04 và G-06 ban đầu hoãn, đã làm ngày 23/11 sau review CP-03 (PR #11) | Không có trong demo | Ghi "Hoãn" trong bảng phạm vi A-110; là đầu vào cho giai đoạn sau | CR-03, P03 v0.4 §11.1 |
 | 2 | KB-16: đăng xuất không thu hồi token; middleware không kiểm tra tài khoản bị khóa | Token cũ qua được middleware nhưng không lấy được dữ liệu (`requireRole` chặn) | Chấp nhận; giai đoạn sau dùng phiên ngắn hơn và danh sách thu hồi | P18 §10, CR-03 |
 | 3 | Chỉ chạy đúng trong một tiến trình: khóa, event bus, bộ hẹn giờ xóa tự động (VM-04) | Không mở rộng sang nhiều tiến trình hoặc nhiều máy | Ghi là ràng buộc triển khai; khi mở rộng thì chuyển sang khóa và lịch chạy ở CSDL | P18 VM-04, P03 §4 |
 | 4 | 4 test bộ mô phỏng vượt giới hạn 5 giây mặc định của vitest (cả trên `main`) | `npm test` báo lỗi trên máy chậm | RES-05 tăng timeout cho các test này (A-44) | PR #11 |
