@@ -32,12 +32,13 @@ export async function registerCustomer(
       name: parsed.name,
       roleCode: 'CUSTOMER',
       userGroup: parsed.userGroup,
+      // The register route signs the new user in straight away, so registration
+      // is also a login and belongs in the access log (KB-07, D-23). A nested
+      // write keeps the account and its LOGIN row in one statement: if the log
+      // insert fails, no account is left behind and the request can be retried.
+      accessLogs: { create: { action: 'LOGIN' } },
     },
   })
-
-  // The register route signs the new user in straight away, so registration
-  // is also a login and belongs in the access log (KB-07, D-23).
-  await logAccess(db, { userId: user.id, action: 'LOGIN' })
 
   return user
 }
