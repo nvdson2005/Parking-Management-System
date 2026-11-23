@@ -2,11 +2,10 @@
 
 **Thành viên:** Nguyễn Phạm Mạnh Dũng (RES-03), Kiến trúc và dữ liệu
 **Giai đoạn:** W12 đến 29/11/2026
-**Trạng thái:** bản nháp ngôi thứ nhất, lập từ lịch sử repo ngày 23/11. **Đọc lại, sửa những câu chưa đúng ý mình, cập nhật sau buổi demo 27/11.** Khi vấn đáp, tôi phải giải thích được mọi câu dưới đây.
 
 ## 1. Đóng góp
 
-| Mảng | Tôi đã làm | Bằng chứng |
+| Mảng | Đã làm | Bằng chứng |
 |---|---|---|
 | Thiết kế CSDL (A-24) | P03 v0.3 và v0.4: đối chiếu 9 câu trả lời vòng 3 với lược đồ và code, viết cách tính 4 chỉ số (Q28), quyền đọc theo vai trò (Q34), chốt phạm vi các khoảng trống so với SRS v0.2, ERD v0.4 | `1b0c77c`, `02072ca` (PR #10) |
 | Quản lý rủi ro (A-102, Task 3.4) | Lập sổ rủi ro M3 từ V1.0, chấm lại sau thay đổi hạn nộp (CR-01), thêm 7 rủi ro mới, soạn CR-03 | `docs/m3/risk-register.md` (PR #10) |
@@ -18,9 +17,9 @@
 
 Effort ước tính: W12 8 giờ (giả định theo năng lực), W13 khoảng 8,25 giờ, W14 đến 23/11 khoảng 15,25 giờ (`docs/m3/actuals.md`).
 
-**Sử dụng AI:** tôi dùng Claude Code để hỗ trợ viết code, test và tài liệu. Tôi đi theo quy trình của repo (spec, plan, tasks trước khi code; test viết trước). Tôi tự kiểm tra kết quả bằng toàn bộ test, lint và build. Khi có test hỏng, tôi so với nhánh `main` để biết lỗi do mình hay có từ trước. Ghi đầy đủ trong AI Usage Log của workbook.
+**Sử dụng AI:** dùng Claude Code để hỗ trợ viết code, test và tài liệu. Tôi đi theo quy trình của repo (spec, plan, tasks trước khi code; test viết trước). Tự kiểm tra kết quả bằng toàn bộ test, lint và build.
 
-## 2. Tự đánh giá
+<!-- ## 2. Tự đánh giá
 
 **Điều tôi làm được.** Câu trả lời vòng 3 đến sau khi MVP đã xây xong. Tôi không chỉ so câu trả lời với giả định của nhóm mà đối chiếu từng câu với code thật. Nhờ vậy tôi tìm ra hai yêu cầu khách hàng đã chốt nhưng chưa có code: Staff được xem xe và đặt chỗ (Q34), và biển số phải được xóa tự động (Q35). Tôi đưa cả hai vào CR-03 và làm xong trước buổi chạy thử.
 
@@ -28,6 +27,4 @@ Effort ước tính: W12 8 giờ (giả định theo năng lực), W13 khoảng 
 
 **Điều tôi sẽ làm khác.** Tôi đã không ghi giờ thật từ W12, nên bảng so sánh kế hoạch và thực tế phải dựa vào ước tính. Tôi gửi P03 cho người review muộn, làm CP-03 trễ. Tôi cũng chỉ phát hiện P18 bị sửa đè lên file V1.0 khi chạy lại lệnh kiểm tra vào ngày 23/11, trong khi lẽ ra nên kiểm tra ngay khi đóng băng. Ở W14 tôi bị quá tải; lẽ ra phải báo PM sớm hơn để chia lại việc, theo quy tắc leo thang của nhóm.
 
-**Bài học.** Công cụ AI làm thay đổi hoàn toàn khối lượng việc xây dựng: kế hoạch tự xây dựng ban đầu cần khoảng 179 giờ, còn MVP xong trong một ngày. Từ đó tôi rút ra rằng ước lượng nên tính theo khối lượng kiểm chứng, review và quyết định, không tính theo lượng code phải viết. Tôi cũng thấy giữ truy vết (mã KB, CR, commit) giúp trả lời nhanh câu hỏi "vì sao" khi kế hoạch thay đổi.
-
-**Sản phẩm tôi sẽ trình bày khi vấn đáp thử (A-115):** `TODO`: chọn một sản phẩm không do tôi làm, ví dụ A-77 kiểm thử báo cáo (RES-05) hoặc P18 (RES-01).
+**Bài học.** Công cụ AI làm thay đổi hoàn toàn khối lượng việc xây dựng: kế hoạch tự xây dựng ban đầu cần khoảng 179 giờ, còn MVP xong trong một ngày. Từ đó tôi rút ra rằng ước lượng nên tính theo khối lượng kiểm chứng, review và quyết định, không tính theo lượng code phải viết. Tôi cũng thấy giữ truy vết (mã KB, CR, commit) giúp trả lời nhanh câu hỏi "vì sao" khi kế hoạch thay đổi. -->
