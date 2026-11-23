@@ -5,7 +5,7 @@ action="ENTRY"
 ## parking_lots (1)
 name="Bãi xe thí điểm" | address="Cơ sở chính" | status="ACTIVE"
 ## parking_sessions (1)
-plate_snapshot="86L-152.68" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
+zone="B" | plate_snapshot="86L-152.68" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
 ## payments (0)
 ## reservations (0)
 ## roles (3)
@@ -44,27 +44,33 @@ email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user
 code="MOTORBIKE" | name_vi="Xe máy" | name_en="Motorbike"
 code="CAR" | name_vi="Ô tô" | name_en="Car"
 ## vehicles (16)
-plate="29A-01001" | qr_code="QR-6FX2Y46REL" | rfid_code="RF-4OQNBM4BNN" | vehicle_type_code="MOTORBIKE"
-plate="29A-02001" | qr_code="QR-JSPVOFXQPW" | rfid_code="RF-DU4O4NP5ZA" | vehicle_type_code="MOTORBIKE"
-plate="29A-03001" | qr_code="QR-DUJGWE4JBZ" | rfid_code="RF-5OBLK4JTYE" | vehicle_type_code="MOTORBIKE"
-plate="29A-04001" | qr_code="QR-UQS2KTIWLJ" | rfid_code="RF-I7UDW6E5EE" | vehicle_type_code="MOTORBIKE"
-plate="29A-05001" | qr_code="QR-ZWEW7PNKPZ" | rfid_code="RF-U7RDSC5EJU" | vehicle_type_code="MOTORBIKE"
-plate="29A-06001" | qr_code="QR-LYZ76HIHKG" | rfid_code="RF-JMJBXYGH5Y" | vehicle_type_code="MOTORBIKE"
-plate="29A-07001" | qr_code="QR-NOXU4IQ6BV" | rfid_code="RF-OVZFKCE3WN" | vehicle_type_code="MOTORBIKE"
-plate="29A-08001" | qr_code="QR-6VAI2UEAV6" | rfid_code="RF-FVIUKG5IIR" | vehicle_type_code="MOTORBIKE"
-plate="29A-09001" | qr_code="QR-6GXIQA2X4T" | rfid_code="RF-6AMXC7A2TW" | vehicle_type_code="MOTORBIKE"
-plate="29A-10001" | qr_code="QR-KIG25SKJSI" | rfid_code="RF-GCPLV3DF2Q" | vehicle_type_code="MOTORBIKE"
-plate="29A-11001" | qr_code="QR-TZY4WDQE7M" | rfid_code="RF-GMXE27H46H" | vehicle_type_code="MOTORBIKE"
-plate="29A-12001" | qr_code="QR-TCPZPJHIZV" | rfid_code="RF-IBFIGVQJLN" | vehicle_type_code="MOTORBIKE"
-plate="29A-13001" | qr_code="QR-HDQ43HHNW4" | rfid_code="RF-KVM6AZ7RIL" | vehicle_type_code="MOTORBIKE"
-plate="29A-14001" | qr_code="QR-AHHLYERX67" | rfid_code="RF-QIYSPHVFYN" | vehicle_type_code="MOTORBIKE"
-plate="29A-15001" | qr_code="QR-72CL4M3Y36" | rfid_code="RF-DG3RQJMDN3" | vehicle_type_code="MOTORBIKE"
-plate="86L-152.68" | qr_code="QR-KAMIF23YD3" | rfid_code="RF-LAZGVEB64G" | vehicle_type_code="MOTORBIKE"
+plate="29A-01001" | vehicle_type_code="MOTORBIKE"
+plate="29A-02001" | vehicle_type_code="MOTORBIKE"
+plate="29A-03001" | vehicle_type_code="MOTORBIKE"
+plate="29A-04001" | vehicle_type_code="MOTORBIKE"
+plate="29A-05001" | vehicle_type_code="MOTORBIKE"
+plate="29A-06001" | vehicle_type_code="MOTORBIKE"
+plate="29A-07001" | vehicle_type_code="MOTORBIKE"
+plate="29A-08001" | vehicle_type_code="MOTORBIKE"
+plate="29A-09001" | vehicle_type_code="MOTORBIKE"
+plate="29A-10001" | vehicle_type_code="MOTORBIKE"
+plate="29A-11001" | vehicle_type_code="MOTORBIKE"
+plate="29A-12001" | vehicle_type_code="MOTORBIKE"
+plate="29A-13001" | vehicle_type_code="MOTORBIKE"
+plate="29A-14001" | vehicle_type_code="MOTORBIKE"
+plate="29A-15001" | vehicle_type_code="MOTORBIKE"
+plate="86L-152.68" | vehicle_type_code="MOTORBIKE"
 ## zone_capacities (3)
-vehicle_type_code="MOTORBIKE" | capacity=150
-vehicle_type_code="MOTORBIKE" | capacity=150
-vehicle_type_code="CAR" | capacity=30
+zone="A" | vehicle_type_code="MOTORBIKE" | capacity=150
+zone="B" | vehicle_type_code="MOTORBIKE" | capacity=150
+zone="C" | vehicle_type_code="CAR" | capacity=30
 ## zones (3)
 name="A"
 name="B"
 name="C"
+## zone_availability (3)
+zone="A" | vehicle_type_code="MOTORBIKE" | capacity=150 | open=0 | free=150
+zone="B" | vehicle_type_code="MOTORBIKE" | capacity=150 | open=1 | free=149
+zone="C" | vehicle_type_code="CAR" | capacity=30 | open=0 | free=30
+total | vehicle_type_code="CAR" | free=30
+total | vehicle_type_code="MOTORBIKE" | free=299

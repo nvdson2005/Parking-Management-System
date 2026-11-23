@@ -1,27 +1,35 @@
-$ErrorActionPreference = "Continue"
-$dir = "docs/evidence/A-45/params"
-New-Item -ItemType Directory -Force $dir | Out-Null
-'{"email":"manager1@demo.local","password":"password123"}' | Out-File -Encoding ascii "$dir/login.json"
+# A-45 / PD-P04 tieu chi 5: doi tham so khong sua ma
+. "$PSScriptRoot/a45-lib.ps1"
+$dest = 'docs/evidence/A-45/params'
 
+# status: ma HTTP mong doi; check: dieu kien tren response
 $cases = [ordered]@{
-  "P1-n50"          = '{"action":"live","seed":42,"n":50}'
-  "P2-min150"       = '{"action":"live","seed":42,"minSessions":150}'
-  "P3-exit0.2"      = '{"action":"live","seed":42,"minSessions":100,"exitRatio":0.2}'
-  "P4-exit0.8"      = '{"action":"live","seed":42,"minSessions":100,"exitRatio":0.8}'
-  "P5-history3"     = '{"action":"history","seed":42,"days":3}'
-  "P6-bad-exit"     = '{"action":"live","seed":42,"n":10,"exitRatio":"abc"}'
+  'P1-n50'      = @{ body = '{"action":"live","seed":42,"n":50}'; status = 200
+                     check = { param($r) ($r.entries + $r.exits + $r.rejected) -eq 50 } }
+  'P2-min150'   = @{ body = '{"action":"live","seed":42,"minSessions":150}'; status = 200
+                     check = { param($r) $r.sessions -ge 150 } }
+  'P3-exit0.2'  = @{ body = '{"action":"live","seed":42,"minSessions":100,"exitRatio":0.2}'; status = 200
+                     check = { param($r) $r.sessions -ge 100 } }
+  'P4-exit0.8'  = @{ body = '{"action":"live","seed":42,"minSessions":100,"exitRatio":0.8}'; status = 200
+                     check = { param($r) $r.sessions -ge 100 } }
+  'P5-history3' = @{ body = '{"action":"history","seed":42,"days":3}'; status = 200
+                     check = { param($r) $r.sessions -gt 0 } }
+  'P6-bad-exit' = @{ body = '{"action":"live","seed":42,"n":10,"exitRatio":"abc"}'; status = 400
+                     check = { param($r) $r.error -eq 'VALIDATION' } }
 }
-foreach ($k in $cases.Keys) {
-  cmd /c "npm run db:reset >nul 2>&1"
-  Start-Sleep -Seconds 3
-  $cases[$k] | Out-File -Encoding ascii "$dir/b.json"
-  for ($try = 1; $try -le 3; $try++) {
-    curl.exe -s -c "$dir/c.txt" -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" --data "@$dir/login.json" | Out-Null
-    $res = curl.exe -s -b "$dir/c.txt" -X POST http://localhost:3000/api/simulator -H "Content-Type: application/json" --data "@$dir/b.json"
-    if ($res -and $res.StartsWith("{") -and $res -notmatch "UNAUTHENTICATED") { break }
-    Start-Sleep -Seconds 3
+
+Invoke-A45 'params' {
+  param($stage)
+  $jar = Join-Path $stage '_cookies.txt'
+  $files = @()
+  foreach ($k in $cases.Keys) {
+    $c = $cases[$k]
+    Reset-ReplayDb
+    Connect-Manager $jar $stage
+    $res = Invoke-Api $k '/api/simulator' $c.body (Join-Path $stage "$k.json") $jar -expectStatus $c.status
+    Assert-That (& $c.check $res) "${k}: response khong dat - $($res | ConvertTo-Json -Compress)"
+    Write-Host "$k  ->  $($res | ConvertTo-Json -Compress)"
+    $files += "$k.json"
   }
-  "$k  ->  $res"
-  $res | Out-File "$dir/$k.json"
+  Publish-Evidence $stage $dest $files
 }
-Remove-Item "$dir/c.txt","$dir/b.json","$dir/login.json"
