@@ -268,6 +268,17 @@ export const vi = {
     reactivate: 'Kích hoạt lại',
     empty: 'Chưa có bãi đỗ xe nào.',
     vehicleType: 'Loại xe',
+    openTime: 'Giờ mở cửa',
+    closeTime: 'Giờ đóng cửa',
+    saveHours: 'Lưu giờ hoạt động',
+    hoursHint: 'Giờ hoạt động chỉ để thông báo cho người gửi xe, không chặn xe vào hay đặt chỗ. Để trống cả hai ô để xóa.',
+  },
+  lotInfo: {
+    title: 'Thông tin bãi đỗ',
+    address: 'Địa chỉ',
+    status: 'Trạng thái',
+    hours: 'Giờ hoạt động',
+    hoursUnset: 'Chưa cập nhật',
   },
   tariffs: {
     title: 'Quản lý biểu phí',

@@ -60,6 +60,10 @@ model ParkingLot {
   name    String
   address String
   status  String @default("ACTIVE")
+  /// Opening hours, HH:mm, for information only (G-01, FR-22, Q37): they do
+  /// not block entries or reservations. Both set or both null.
+  openTime  String? @map("open_time")
+  closeTime String? @map("close_time")
 
   zones Zone[]
 

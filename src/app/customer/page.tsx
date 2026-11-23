@@ -3,12 +3,15 @@ import { db } from '@/server/db'
 import { getDict, getLang, t } from '@/i18n'
 import { getAvailability } from '@/server/services/availability'
 import { LiveAvailability } from '@/components/LiveAvailability'
+import { LotInfoCard } from '@/components/LotInfoCard'
+import { listLotInfo } from '@/server/services/lots'
 import { ROLE_LINKS } from '@/lib/nav'
 
 export default async function CustomerPage() {
   const lang = await getLang()
   const dict = getDict(lang)
   const initial = await getAvailability(db)
+  const lots = await listLotInfo(db)
 
   return (
     <div className="flex flex-col gap-4">
@@ -20,6 +23,9 @@ export default async function CustomerPage() {
           </Link>
         ))}
       </nav>
+      {lots.map((lot) => (
+        <LotInfoCard key={lot.id} lot={lot} lang={lang} />
+      ))}
       <LiveAvailability initial={initial} />
     </div>
   )

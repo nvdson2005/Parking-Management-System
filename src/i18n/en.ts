@@ -269,6 +269,17 @@ export const en: Dict = {
     reactivate: 'Reactivate',
     empty: 'No parking lots yet.',
     vehicleType: 'Vehicle type',
+    openTime: 'Opens at',
+    closeTime: 'Closes at',
+    saveHours: 'Save hours',
+    hoursHint: 'Opening hours are shown to customers for information only; entries and reservations are not blocked. Leave both empty to clear them.',
+  },
+  lotInfo: {
+    title: 'Parking lot information',
+    address: 'Address',
+    status: 'Status',
+    hours: 'Opening hours',
+    hoursUnset: 'Not set',
   },
   tariffs: {
     title: 'Tariffs',

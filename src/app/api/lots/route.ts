@@ -15,5 +15,7 @@ export const POST = handle(async (req) => {
   return createLot(db, user.id, {
     name: body.name as string,
     address: body.address as string,
+    openTime: body.openTime as string | null | undefined,
+    closeTime: body.closeTime as string | null | undefined,
   })
 })
