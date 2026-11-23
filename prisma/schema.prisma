@@ -137,6 +137,7 @@ model ParkingSession {
 
   @@index([status, zoneId])
   @@index([ownerId])
+  @@index([entryTime])
   @@map("parking_sessions")
 }
 
@@ -176,6 +177,7 @@ model Reservation {
   session ParkingSession?
 
   @@index([status, zoneId])
+  @@index([customerId, status])
   @@map("reservations")
 }
 
@@ -225,5 +227,7 @@ model AccessLog {
   target    String?
   createdAt DateTime @default(now()) @map("created_at")
 
+  @@index([createdAt])
+  @@index([userId])
   @@map("access_logs")
 }
