@@ -38,23 +38,23 @@
 | Chỉ số | V1.0 | V2.0 | Chênh lệch |
 |---|---|---|---|
 | Effort cơ sở | 131,15h | 169,82h | +38,67h |
-| Dự phòng làm lại | 8,45h | 15,58h | +7,13h (rủi ro mới R-M3-01, R-M3-02, R-M3-07) |
-| Tổng effort baseline | 139,6h | **185,39h** | +45,79h |
+| Dự phòng làm lại | 8,45h | 12,58h | +4,13h (rủi ro mới R-M3-01, R-M3-02, R-M3-07; R-M3-01 hạ còn 10% × 12h ngày 24/11 sau khi khách hàng xác nhận Q36, Q39, Q40) |
+| Tổng effort baseline | 139,6h | **182,39h** | +42,79h |
 | Năng lực | 190h | **150h** | −40h |
-| Mức sử dụng năng lực | 73,47% | **123,59%** | |
-| Chi phí quy đổi (50.000 VNĐ/h) | 6.980.000 VNĐ | 9.269.583 VNĐ (cơ sở 8.490.833 + dự phòng 778.750) | +2.289.583 VNĐ |
+| Mức sử dụng năng lực | 73,47% | **121,59%** | |
+| Chi phí quy đổi (50.000 VNĐ/h) | 6.980.000 VNĐ | 9.119.583 VNĐ (cơ sở 8.490.833 + dự phòng 628.750) | +2.139.583 VNĐ |
 | Đường găng (mạng lý tưởng) | A-22 → A-23 → A-44 → A-45 → A-67 → A-68 → A-90 → A-92 = 10,63 ngày | A-22 → A-23 → A-65 → A-87 → A-88 → A-89 → A-92 → A-116 = 15,43 ngày | A-65 (14,33h, một người) thành đường găng; nghiệm thu và nộp bài vẫn nằm trên đường găng |
 | Lịch đã cân bằng nguồn lực (dự báo theo mô hình) | xong 01/12 (ngày 16,69 / 20) | **ngày 23,63 / 15: vượt khoảng 8,6 ngày làm việc** | |
 
 Bộ lập lịch báo lỗi `Levelled schedule ends on working day 23.63 > 15`. Nhãn "27/11" trong `generated-v2/totals.md` và `schedule.md` là ngày cuối của cửa sổ (bộ lập lịch chặn nhãn ở đó), không phải ngày xong thực tế.
 
-So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 thêm 14,58h vào A-28, A-65 (7,5h → 22,08h theo PERT): Q34, Q35 ban đầu, review CP-03 (G-06, G-09, G-04) và vòng 5 của khách hàng (Q37, Q38, Q44, Q45, Q46); (2) dự phòng được tính lại theo 14 rủi ro hiện tại (15,58h thay vì 8,45h). Nếu chỉ so effort cơ sở với năng lực: 169,82h so với 150h, **thiếu khoảng 19,8h**; tính cả dự phòng thì thiếu khoảng 35,4h.
+So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 thêm 14,58h vào A-28, A-65 (7,5h → 22,08h theo PERT): Q34, Q35 ban đầu, review CP-03 (G-06, G-09, G-04) và vòng 5 của khách hàng (Q37, Q38, Q44, Q45, Q46); (2) dự phòng được tính lại theo 14 rủi ro hiện tại (12,58h thay vì 8,45h). Nếu chỉ so effort cơ sở với năng lực: 169,82h so với 150h, **thiếu khoảng 19,8h**; tính cả dự phòng thì thiếu khoảng 32,4h.
 
 **Lưu ý về A-28, A-65:** cả hai đã làm xong ngày 23-24/11 (PR #11, PR #17, chờ merge). Baseline giữ effort kế hoạch như mọi hoạt động đã xong (mục Cách làm); giờ thực tế ghi ở A-103 và A-90. Vì vậy dự báo theo mô hình ở trên bi quan hơn tình hình thực tế đối với RES-03.
 
 ## Vì sao vẫn vượt
 
-1. **Thiếu năng lực:** 124% tải. Đây là R-G5-04 đã ghi trong sổ rủi ro, đúng như dự báo của decision record.
+1. **Thiếu năng lực:** 122% tải. Đây là R-G5-04 đã ghi trong sổ rủi ro, đúng như dự báo của decision record.
 2. **Chuỗi sau buổi nghiệm thu:** A-88 cố định 27/11 (thứ Sáu), nhưng A-89 → A-92 → A-116 phải làm sau đó. Lịch thứ Hai đến thứ Sáu không còn ngày nào, trong khi kế hoạch CR-01 tính A-92 xong thứ Bảy 28/11 và nộp Chủ nhật 29/11.
 3. Đã thử chuyển A-33 và một nửa A-65 từ RES-03 sang RES-05: lịch chỉ giảm từ 18,99 xuống 18,63 ngày (đo trên bản ngày 23/11, trước khi cộng phần CR-03 sau review). Vì vậy tắc nghẽn không nằm ở một người mà ở tổng giờ và chuỗi phụ thuộc. Phương án này **không** đưa vào V2.0 vì việc giao lại là quyết định của RES-01.
 
