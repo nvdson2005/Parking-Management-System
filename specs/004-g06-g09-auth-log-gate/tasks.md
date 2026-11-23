@@ -23,4 +23,13 @@
 ## Phase 3: Polish
 
 - [X] T008 Full `npm test`, `npm run lint`, `npm run build`; `codegraph sync`
-- [ ] T009 Update P03 (v0.5), README, `docs/m3/workbook-rows.md`, CR-03 row in the risk register
+- [X] T009 Update P03 (v0.5), README, `docs/m3/workbook-rows.md`, CR-03 row in the risk register (P03 v0.5 and the risk register are on branch `docs/a24-a102-round3-update`, PR #10, commits `2187bd1`, `0ea25e4`)
+
+## Phase 4: Review of PR #11 (RES-01, 23/11)
+
+- [X] T012 [US1] ACCESS_DENIED at the decision point: `requireSection` in section layouts, one row per render, `/denied` read-only, middleware checks the session only; tests in `tests/auth-log.test.ts`, `tests/auth-guard-render.test.ts` (`a239fec`)
+- [X] T013 Publish availability when `staffLookup` or `listActiveReservations` expires a hold, also before NOT_FOUND; tests in `tests/read-expiry-publish.test.ts` (`69c9931`)
+- [X] T014 [US2] [US3] `generateHistory` sets entry and exit gate and source (`GATE-1`, `DEVICE`); test in `tests/simulator.test.ts` (`178289c`)
+- [X] T015 Parse the lookup page query as untrusted (`src/lib/lookupQuery.ts`): repeated or unknown values show a validation message; tests in `tests/lookup-query.test.ts` (`57d5d33`)
+- [X] T016 Registration creates the account and its LOGIN row in one nested write; test in `tests/register-atomic.test.ts` forces the log insert to fail (`64d0a0d`)
+- [X] T017 Full gate, and a run of the production build against a scratch database: one row per refused request, none for `/denied` refreshes or a forged `from`; evidence in `docs/m3/evidence/pr11-review-e2e.md`
