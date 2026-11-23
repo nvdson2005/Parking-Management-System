@@ -22,7 +22,7 @@
 | v0.2 | 09/11/2026 | Nguyễn Phạm Mạnh Dũng | Đưa reservations, payments vào phạm vi V1.0 (bản thuộc tag `baseline-v1.0`, file `CO3011_M2_ThietKeCSDL_v0.1.md`) |
 | v0.3 | 17/11/2026 | Nguyễn Phạm Mạnh Dũng | Đổi mã FR theo SRS v0.2. Thêm bảng `notifications` và giá trị `LOT_SUSPENDED`. Ghi các quy tắc mới từ vòng 3 (Q31, Q32, Q35). Thêm mục 11 về các khoảng trống so với SRS v0.2 (cần CR). Cập nhật mục 10 và phần tự kiểm |
 | v0.4 | 22/11/2026 | Nguyễn Phạm Mạnh Dũng | Đối chiếu lại toàn bộ câu trả lời vòng 3 (Q27-Q35). Nhánh round3 đã merge vào `main` (PR #4, `8fd4926`, 19/11) và có CR-02, nên lược đồ `main` có 14 bảng. Thêm mục 4.1 cách tính 4 chỉ số báo cáo (Q28), mục 6.1 quyền đọc dữ liệu theo vai trò (Q34), G-08 (Staff tra cứu xe và đặt chỗ). Ghi rõ Q35: xóa tự động là yêu cầu đã chốt (G-05). Thêm `EARLY_ARRIVAL_CONFIRMED`, chỉ mục `reservations(customer_id, status)`. Sơ đồ ERD bản mới `07-erd-v0.4.mmd` có `notifications`. Chốt phạm vi khoảng trống (mục 11.1), FR-03, KB-16 và các tiêu chí PD-P03 (mục 10 #2-#4, #11) |
-| v0.5 | 23/11/2026 | Nguyễn Phạm Mạnh Dũng | Xử lý review CP-03 của RES-02 (5 comment trên Drive). Thêm G-09: cột cổng `entry_gate`, `exit_gate` (FR-09, AT-01 bước 3), đã làm. G-06 chuyển từ Hoãn sang **Đã làm** (AT-03 bước 7, AT-04 bước 2). Ghi rõ `[purged]` là giá trị thay thế, cột `plate_snapshot` không bao giờ trống. Ghi rõ cách xác định mục giá đã áp dụng (G-03 vẫn hoãn). Ghi lý do không dùng chỉ mục duy nhất có điều kiện. AT-03 bước 1 (giờ hoạt động) ngoài phạm vi theo CR-03 |
+| v0.5 | 23/11/2026 | Nguyễn Phạm Mạnh Dũng | Xử lý review CP-03 của RES-02 (5 comment trên Drive). Thêm G-09: cột cổng `entry_gate`, `exit_gate` (FR-09, AT-01 bước 3), đã làm. G-06 chuyển từ Hoãn sang **Đã làm** (AT-03 bước 7, AT-04 bước 2). Ghi rõ `[purged]` là giá trị thay thế, cột `plate_snapshot` không bao giờ trống. Ghi rõ cách xác định mục giá đã áp dụng (G-03 vẫn hoãn). Ghi lý do không dùng chỉ mục duy nhất có điều kiện. AT-03 bước 1 (giờ hoạt động) ngoài phạm vi theo CR-03. Vòng review thứ hai của RES-02 (4 comment, 23/11): `exit_source` được phép NULL; quy tắc G-02 ghi tại mục 3.7; mục 3.4 chỉ nêu phạm vi; bảng 11.1 dựng lại 9 dòng có CR, commit, người quyết, ngày; vị trí G-05 ghi thống nhất |
 
 **Trạng thái mã nguồn của các thay đổi.** Mỗi thay đổi trong tài liệu này được gắn một trong ba nhãn:
 - **[main]**: đã có trên nhánh `main` từ trước vòng 3.
@@ -100,7 +100,7 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | status | TEXT | NOT NULL, mặc định ACTIVE | ACTIVE hoặc SUSPENDED | FR-25, FR-50 (EX-05) |
 | *open_time, close_time* | *TEXT* | *NULL, dạng HH:mm* | *Giờ hoạt động. [đề xuất] G-01* | *FR-22, FR-26* |
 
-**Trạng thái G-01 (review CP-03, 23/11):** **chưa có trong v1.0**, hoãn qua CR-03 (mục 11.1). Hai cột trên chỉ là thiết kế để làm sau. Bước 1 của AT-03 (sửa giờ hoạt động 06:00-22:00) nằm ngoài phạm vi đã thống nhất, nên đề nghị bỏ bước này khỏi AT-03 và ghi "ngoài phạm vi theo CR-03" thay vì đánh Blocked: hoãn có CR không phải lỗi, và một bước Blocked sẽ làm AT-03 không đạt ở A-87.
+**G-01:** Ngoài phạm vi v1.0 theo CR-03. Hai cột trên giữ nhãn đề xuất và được phép NULL (bãi hiện có không có giá trị).
 
 ### 3.5 zones (ENT-04)
 
@@ -127,6 +127,8 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | price | INTEGER | NOT NULL | Đơn giá (VNĐ). Hiện chỉ dùng làm giá mỗi lượt | FR-24, FR-34 |
 | *lot_id* | *TEXT* | *PK (ghép), FK → parking_lots.id* | *Bảng giá theo bãi. [đề xuất] G-02* | *FR-24* |
 | *pricing_method* | *TEXT* | *NOT NULL, mặc định PER_ENTRY* | *PER_ENTRY hoặc PER_HOUR. [đề xuất] G-02* | *FR-24, FR-34, AS26* |
+
+**Quy tắc của thiết kế G-02 (đề xuất, chưa có hiệu lực).** Khóa chính đổi thành (`lot_id`, `vehicle_type_code`, `fee_group`). Số tiền: `amount = price` nếu PER_ENTRY; `amount = price × ceil(số giờ gửi)` nếu PER_HOUR (AS26, ví dụ 60 phút tính 1 giờ, 61 phút tính 2 giờ). **Hoãn theo CR-03.** Nếu CR-03 được duyệt thì các ca 60 và 61 phút của AT-06 không thuộc nghiệm thu v1.0. Trong v1.0 mọi giá là giá theo lượt.
 
 ### 3.8 vehicles (ENT-07)
 
@@ -160,7 +162,8 @@ Quy ước: tên bảng và cột tiếng Anh dạng snake_case; khóa chính `i
 | owner_id | TEXT | NULL | Chủ xe tại thời điểm vào (trống = khách); không đổi về sau | FR-37 |
 | entry_gate | TEXT | NOT NULL, mặc định `GATE-1` | Cổng vào: `GATE-1` hoặc `GATE-2` (cổng mô phỏng của bãi thí điểm, danh sách `GATES` trong `src/lib/types.ts`). Bộ mô phỏng dùng mặc định. [G-09, A-65] | FR-09 |
 | exit_gate | TEXT | NULL | Cổng ra; trống khi lượt còn mở. [G-09, A-65] | FR-09, FR-13 |
-| *entry_source, exit_source* | *TEXT* | *NOT NULL, mặc định DEVICE* | *DEVICE hoặc MANUAL. [đề xuất] G-04* | *FR-10* |
+| *entry_source* | *TEXT* | *NOT NULL, mặc định DEVICE* | *Nguồn ghi nhận vào: DEVICE (bộ mô phỏng thiết bị) hoặc MANUAL (Staff nhập tay). [đề xuất] G-04* | *FR-10* |
+| *exit_source* | *TEXT* | *NULL* | *Nguồn ghi nhận ra, cùng tập giá trị; trống khi lượt còn mở (giống `exit_gate`). [đề xuất] G-04* | *FR-10* |
 
 ### 3.10 session_events (ENT-09)
 
@@ -283,7 +286,7 @@ Mọi dữ liệu theo bãi gắn với bãi qua `zones.lot_id`: sức chứa (q
 | Biển số đầy đủ | Lưu ở `vehicles.plate` và ảnh chụp `parking_sessions.plate_snapshot` (cần cho đối chiếu EX-02 và lịch sử khi xe đổi chủ); che khi hiển thị cho người không có quyền | FR-42, D-29 |
 | Nhật ký truy cập | `access_logs` ghi các hành động ở D-23 | FR-43, FR-44 |
 | Lưu giữ 12 tháng: thao tác xóa | Một giao dịch: đặt `plate_snapshot = '[purged]'` cho lượt đã đóng có giờ vào trước mốc 12 tháng; xóa xe vãng lai không có lượt mới hơn mốc, không có lượt đang mở và không có đặt chỗ (gỡ `vehicle_id` khỏi lượt cũ trước khi xóa); ghi nhật ký PURGE. Số lượt, thời gian gửi và giao dịch không bị xóa, nên báo cáo FR-38 đến FR-40 không đổi. Cách xóa này khớp câu trả lời Q35 ("xóa hoặc ẩn biển số khỏi các lượt gửi đã kết thúc, giữ số lượt, thời gian gửi và doanh thu") [main] | FR-45, Q18, Q35 |
-| Lưu giữ 12 tháng: kích hoạt | **Hiện tại:** Manager bấm nút (`/api/purge`). **Q35 đã chốt là hệ thống tự động xóa** (đúng giả định nhóm gửi, nhưng code MVP vẫn làm thủ công); SRS v0.2 FR-45 cũng yêu cầu như vậy. Đề xuất: bộ hẹn giờ trong `src/instrumentation.ts` (cùng cơ chế với bộ hết hạn đặt chỗ 30 giây), chạy mỗi ngày một lần; ghi PURGE với `user_id` trống (thao tác hệ thống); giữ nút của Manager để chạy ngay khi cần. **Đã làm trong A-28** (`src/server/purgeSchedule.ts`: chạy 60 giây sau khi khởi động, sau đó mỗi 24 giờ; commit `bc172ce`, chờ merge, sau đó đổi nhãn thành [main]) G-05 | FR-45, AS23 |
+| Lưu giữ 12 tháng: kích hoạt | **Hiện tại:** Manager bấm nút (`/api/purge`). **Q35 đã chốt là hệ thống tự động xóa** (đúng giả định nhóm gửi, nhưng code MVP vẫn làm thủ công); SRS v0.2 FR-45 cũng yêu cầu như vậy. Đề xuất: bộ hẹn giờ trong `src/instrumentation.ts` (cùng cơ chế với bộ hết hạn đặt chỗ 30 giây), chạy mỗi ngày một lần; ghi PURGE với `user_id` trống (thao tác hệ thống); giữ nút của Manager để chạy ngay khi cần. **Đã làm trong A-28** (`src/server/purgeSchedule.ts`: chạy 60 giây sau khi khởi động, sau đó mỗi 24 giờ; `bc172ce`, PR #11, chờ merge; sau khi merge đổi nhãn thành [main]) G-05 | FR-45, AS23 |
 | Dữ liệu kiểm thử | Chỉ dữ liệu từ seed và bộ mô phỏng | NFR-03 |
 
 ### 6.1 Quyền đọc dữ liệu theo vai trò (Q34)
@@ -383,7 +386,7 @@ Các mục dưới là yêu cầu dữ liệu của SRS v0.2 và vòng 3 mà lư
 | G-01 | FR-22, FR-26 (Must) | Bãi không có giờ hoạt động | `parking_lots.open_time`, `close_time` TEXT NULL (HH:mm) | Form bãi của Manager; trang xem bãi; i18n | 2h |
 | G-02 | FR-24 (Must), FR-34 (Should) | Bảng giá dùng chung mọi bãi, chỉ có giá theo lượt | `tariffs` thêm `lot_id` (FK) và `pricing_method` (PER_ENTRY, PER_HOUR); khóa chính thành `(lot_id, vehicle_type_code, fee_group)`; migration chép bảng giá hiện tại cho bãi thí điểm với PER_ENTRY | `computeFee` nhận thêm bãi và thời gian gửi (theo giờ: đơn giá × số giờ làm tròn lên, AS26); `exit.ts`, bộ mô phỏng, màn hình bảng giá, test phí | 8h |
 | G-03 | FR-36 (Should) | Giao dịch không lưu mục giá đã áp dụng | `payments.pricing_method`, `unit_price`: ảnh chụp lúc xác nhận, không dùng FK vì bảng giá có thể bị sửa sau đó | `confirmExit`; lịch sử giao dịch | 1,5h |
-| G-04 | FR-10 (Must) | Không phân biệt lượt từ thiết bị và lượt ghi thủ công | `parking_sessions.entry_source`, `exit_source` TEXT NOT NULL mặc định DEVICE (DEVICE, MANUAL) | Form Staff gửi MANUAL; bộ mô phỏng gửi DEVICE; danh sách lượt | 1,5h |
+| G-04 | FR-10 (Must) | Không phân biệt lượt từ thiết bị và lượt ghi thủ công | `parking_sessions.entry_source` TEXT NOT NULL mặc định DEVICE, `exit_source` TEXT NULL (DEVICE, MANUAL) | Form Staff gửi MANUAL; bộ mô phỏng gửi DEVICE; danh sách lượt | 1,5h |
 | G-05 | FR-45 (Must), **Q35** | Xóa dữ liệu quá hạn chỉ chạy khi Manager bấm; Q35 chốt là tự động | Không đổi lược đồ | Bộ hẹn giờ hằng ngày trong `instrumentation.ts` gọi `purgeOldData` với người thực hiện là hệ thống (`user_id` trống) | 1,5h |
 | G-06 | FR-43 (Must) | Nhật ký chưa ghi đăng nhập thất bại và lần bị từ chối quyền | Không đổi lược đồ; thêm giá trị `action` LOGIN_FAILED, ACCESS_DENIED (`user_id` có thể trống) | `auth/login`, `requireRole`; màn hình lọc nhật ký | 1,5h |
 | G-07 | FR-16, FR-38, FR-39, FR-44, Q31 | Chưa có chỉ mục cho lọc theo thời gian và kiểm tra đặt chỗ theo tài khoản | `parking_sessions(entry_time)`, `access_logs(created_at)`, `access_logs(user_id)`, `reservations(customer_id, status)` | Không | 0,5h |
@@ -398,19 +401,24 @@ Tổng ước lượng G-01 đến G-09: 21,5h (G-09 thêm 2h ở v0.5). R-M3-01
 
 Nguyên tắc: hạn nộp 29/11 (CR-01) còn ≈ 11,5h chưa có nguồn bù, nên chỉ làm (1) yêu cầu đến từ **câu trả lời của khách hàng** và (2) việc rất nhỏ. Yêu cầu chỉ đến từ SRS v0.2 mà khách hàng chưa đặt ra và không có trong Baseline V1.0 thì hoãn, ghi là khác biệt đã biết trong P14. Cách chọn này theo Q22: ưu tiên chức năng cốt lõi đã thống nhất. Các mục hoãn cần CR (CR-03, dòng soạn sẵn trong `docs/m3/risk-register.md` mục 6). Kết quả được xác nhận lại tại CP-03.
 
-| Mục | Quyết định | Làm trong | Giờ | Lý do |
+| Gap | FR | Trạng thái | CR-ID / commit | Người quyết | Ngày | Làm trong, giờ | Lý do |
+|---|---|---|---|---|---|---|---|
+| G-01 giờ hoạt động bãi | FR-22, FR-26 (Must) | **Hoãn** | CR-03 | RES-03 đề xuất; chờ RES-01 duyệt CR-03 và khách hàng xác nhận | 22/11 | — | Chỉ đến từ SRS v0.2; Q14 khách hàng liệt kê thông tin bãi nhưng không có giờ hoạt động |
+| G-02 bảng giá theo bãi, theo giờ | FR-24 (Must), FR-34 (Should) | **Hoãn** | CR-03 | RES-03 đề xuất; chờ RES-01 duyệt CR-03 và khách hàng xác nhận | 22/11 | — | 8h, rủi ro hồi quy cao ở phí và luồng xe ra (đường găng). Q16 chỉ yêu cầu giá cấu hình được theo loại xe hoặc nhóm, đã đáp ứng. Thí điểm một bãi (Q03) |
+| G-03 mục giá trên giao dịch | FR-36 (Should) | **Hoãn** | CR-03 | RES-03 đề xuất; chờ RES-01 duyệt CR-03 và khách hàng xác nhận | 22/11 | — | Phụ thuộc G-02. Trong v1.0 mục giá xác định được qua loại xe, nhóm phí của lượt và `amount` (mục 3.13) |
+| G-04 cờ lượt thủ công | FR-10 (Must) | **Hoãn** | CR-03 | RES-03 đề xuất; chờ RES-01 duyệt CR-03 và khách hàng xác nhận | 22/11 | — | Lượt thủ công đã nhận ra được qua `entry_staff_id` và `access_logs` (MANUAL_CONFIRM). Thiết kế sửa ở v0.5: `exit_source` được phép NULL |
+| G-05 xóa tự động | FR-45 (Must), Q35 | **Đã làm**, chờ merge | CR-03; `bc172ce`, PR #11 | RES-03 (theo Q35 của khách hàng) | 22/11 quyết, 23/11 làm | A-28, 1,5h | Q35 khách hàng chốt; bảo vệ dữ liệu (CN4) |
+| G-06 nhật ký đăng nhập thất bại, từ chối quyền | FR-43 (Must) | **Đã làm**, chờ merge | CR-03; `6ef8862`, PR #11 | RES-03, sau review CP-03 của RES-02 | 23/11 | A-28, 1,5h | Đổi từ Hoãn: AT-03 bước 7 và AT-04 bước 2 kiểm tra đúng các dòng nhật ký này |
+| G-07 chỉ mục | FR-16, FR-38, FR-39, FR-44, Q31 | **Đã làm**, chờ merge | CR-03; `d64e95f`, PR #11 | RES-03 | 22/11 quyết, 23/11 làm | A-65, 0,5h | Rất nhỏ; phục vụ kiểm tra Q31 |
+| G-08 Staff tra cứu xe, đặt chỗ | Q34 | **Đã làm**, chờ merge | CR-03; `49299ac`, PR #11 | RES-03 (theo Q34 của khách hàng) | 22/11 quyết, 23/11 làm | A-65, 3h | Q34 khách hàng chốt; A-65 đã có trong baseline |
+| G-09 cổng vào/ra | FR-09 (Must) | **Đã làm**, chờ merge | CR-03; `6ef8862`, PR #11 | RES-03, sau review CP-03 của RES-02 | 23/11 | A-65, 2h | Thiếu cổng thì AT-01 bước 3 không đạt |
+
+Hai mục ngoài G-ID, cũng thuộc CR-03:
+
+| Mục | Trạng thái | Người quyết | Ngày | Lý do |
 |---|---|---|---|---|
-| G-05 xóa tự động | **Đã làm** (23/11, commit `bc172ce` trên nhánh `fix/a28-auth-log-purge`, chờ merge) | A-28 | 1,5 | Q35 khách hàng chốt; FR-45 Must; bảo vệ dữ liệu (CN4) |
-| G-08 Staff tra cứu xe, đặt chỗ | **Đã làm** (23/11, `49299ac`, PR #11) | A-65 (cùng KB-15) | 3 | Q34 khách hàng chốt; A-65 đã có trong baseline nên chỉ thêm phần đọc cho Staff |
-| G-07 chỉ mục | **Đã làm** (23/11, `d64e95f`, PR #11) | A-65 (một migration mới) | 0,5 | Rất nhỏ; có chỉ mục phục vụ Q31 |
-| G-06 ghi đăng nhập thất bại, từ chối quyền | **Đã làm** (23/11, `6ef8862`, PR #11). Đổi từ Hoãn sau review CP-03: AT-03 bước 7 và AT-04 bước 2 kiểm tra đúng các dòng nhật ký này | A-28 | 1,5 | FR-43 Must; nằm trong file của A-28 |
-| G-09 cổng vào/ra | **Đã làm** (23/11, `6ef8862`, PR #11) | A-65 | 2 | FR-09 Must; thiếu cổng thì AT-01 (kịch bản đầu tiên) không đạt |
-| G-01 giờ hoạt động | **Hoãn** | — | 0 | Chỉ đến từ SRS v0.2; Q14 khách hàng liệt kê thông tin bãi nhưng không có giờ hoạt động |
-| G-02 bảng giá theo bãi, theo giờ | **Hoãn** | — | 0 | 8h, rủi ro hồi quy cao ở phí và luồng xe ra (đường găng). Q16 chỉ yêu cầu giá cấu hình được theo loại xe hoặc nhóm, và hệ thống đã đáp ứng. Thí điểm một bãi (Q03) |
-| G-03 mục giá trên giao dịch | **Hoãn** | — | 0 | Should; phụ thuộc G-02 |
-| G-04 cờ lượt thủ công | **Hoãn** | — | 0 | Lượt thủ công đã nhận ra được qua `entry_staff_id` và `access_logs` (MANUAL_CONFIRM) |
-| FR-03 hết phiên 30 phút | **Hoãn** | — | 0 | Chỉ đến từ SRS v0.2. Làm đúng nghĩa "không thao tác" phải cấp lại JWT ở middleware Edge (2,5h) và đụng mọi trang. Ghi là khác biệt đã biết |
-| KB-16 thu hồi token, tài khoản bị khóa | **Chấp nhận, không sửa** | A-28 (chỉ ghi quyết định) | 0 | Mọi API và trang có `requireRole` đã đọc CSDL và từ chối tài khoản bị khóa (FR-07 đạt). Middleware Edge không đọc được CSDL (kiến trúc P18). Rủi ro còn lại là token cũ qua được middleware nhưng không lấy được dữ liệu; ghi trong P14 |
+| FR-03 hết phiên 30 phút | **Hoãn** | RES-03 đề xuất; chờ RES-01 duyệt CR-03 và khách hàng xác nhận | 22/11 | Chỉ đến từ SRS v0.2. Làm đúng nghĩa "không thao tác" phải cấp lại JWT ở middleware Edge (2,5h) và đụng mọi trang |
+| KB-16 thu hồi token, tài khoản bị khóa | **Chấp nhận, không sửa** | RES-03; chờ RES-01 duyệt CR-03 | 22/11 | Mọi API và trang có `requireRole` đã đọc CSDL và từ chối tài khoản bị khóa (FR-07 đạt). Middleware Edge không đọc được CSDL (kiến trúc P18). Rủi ro còn lại: token cũ qua được middleware nhưng không lấy được dữ liệu; ghi trong P14 |
 
 Tổng giờ thêm vào A-28 và A-65: **8,5h** (5h ở v0.4, cộng G-06 1,5h và G-09 2h ở v0.5), thay vì 21,5h + 2,5h. Các mục hoãn đưa vào bảng phạm vi P14 (A-110) với trạng thái "Hoãn", kèm lý do ở bảng trên.
 
@@ -426,7 +434,7 @@ Tổng giờ thêm vào A-28 và A-65: **8,5h** (5h ở v0.4, cộng G-06 1,5h v
 | T-DB6 | Truy vấn chỗ trống khớp số đếm tay, dùng chỉ mục | Đạt về thiết kế (chỉ mục `status, zone_id`); kiểm thử ở P20 |
 | T-DB7 | Thêm bãi thứ hai không sửa lược đồ | Một phần: thêm bãi không sửa lược đồ, nhưng bãi thứ hai không có bảng giá riêng (mục 5, G-02) |
 | T-DB8 | Mật khẩu băm; biển số đầy đủ một bảng; nhật ký đủ cột | Một phần (mục 10 #2, #3) |
-| T-DB9 | Xóa dữ liệu quá hạn đúng bản ghi | Đạt: tự động hằng ngày (G-05, PR #11); có test `tests/purge.test.ts`, `tests/purge-schedule.test.ts` |
+| T-DB9 | Xóa dữ liệu quá hạn đúng bản ghi | Đạt: tự động hằng ngày (G-05, `bc172ce`, PR #11, chờ merge); có test `tests/purge.test.ts`, `tests/purge-schedule.test.ts` |
 | T-DB10 | Tên, kiểu khớp P02, P05; cờ mô phỏng | Một phần: đã khớp mã FR của P02 v0.2; cờ mô phỏng (mục 10 #4) |
 | — | Ít nhất 2 thành viên review | RES-02 đã review (5 comment, 23/11), đã xử lý ở v0.5; chờ RES-02 xác nhận và thành viên thứ hai (CP-03, A-27) |
 
