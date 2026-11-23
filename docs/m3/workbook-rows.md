@@ -29,6 +29,10 @@ A-74 / FR-28 | Customer and Manager payment history | tests/history.test.ts (exi
 A-22 | P18 v1.0, KB-01..KB-19 decisions | P18 section 10 and 10.2 | RES-01 | 19/11 | Done; CP-02 review by RES-02 and RES-03 planned 20/11, outcome pending
 A-61 | Lot management | docs/m3/quality-evidence-A-61.md | RES-01 | 20/11 | Verified (seven Staff requests returned HTTP 403)
 A-67 | Simulator integration | docs/m3/a-67-integration-check.md | RES-01 / RES-05 | 20/11 | Verified (25 HTTP checks passed and 120 simulator events ran with zero rejections)
+A-28 / G-05 (Q35) | Automatic 12-month plate purge, daily, logged as a system action | tests/purge.test.ts "system run (null actor) ..."; tests/purge-schedule.test.ts (4 tests: 60 s first run then every 24 h, single registration, failure does not stop the timer, stop/reset) | RES-03 | 23/11 | Verified (commit bc172ce)
+A-28 / KB-07 | Registration logs one LOGIN; failed registration logs none | tests/auth.test.ts "logs exactly one LOGIN ..." and "logs no LOGIN when registration fails" | RES-03 | 23/11 | Verified (commit 38c7e20)
+A-28 / KB-14 | Malformed bodies return 400 VALIDATION on login, register, lang, POST /api/vehicles | tests/malformed-body.test.ts (19 tests: 4 routes x non-JSON, array, number, empty; no rows written; role check first) | RES-03 | 23/11 | Verified (commit 2992cb0)
+A-28 | Full gate | npm test 234/235 (1 pre-existing timeout in tests/simulator.test.ts "live events use QR and RFID", also failing on main 4c8fde2); lint 0 errors; build passes | RES-03 | 23/11 | Verified with known pre-existing failure
 ```
 
 ## Planned vs Actual sheet
