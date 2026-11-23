@@ -11,7 +11,7 @@
 
 ## Requirement Completeness
 
-- [ ] Every numbered reply is mapped to a requirement or an acceptance decision.
+- [x] Every numbered reply is mapped to a requirement or an acceptance decision.
 - [x] Mapped decisions have testable requirements and trace links.
 - [x] Edge cases cover full capacity, informational hours, and the retention cutoff.
 - [x] Handover scope and dependencies on earlier decisions are explicit.
@@ -20,8 +20,8 @@
 
 - [x] Acceptance scenarios cover the primary flows.
 - [x] The normal-load and full-lot tests have distinct pass criteria.
-- [ ] The full spec is ready for planning.
+- [x] The full spec is ready for planning.
 
 ## Notes
 
-Email answer 10 is recorded verbatim as “Có.” Its source question is absent from the supplied image. Recover the original wording before closing validation. Answer 8 uses the question from the preceding clarification list.
+The original questions confirm the browser and width matrix in answer 8, the Customer’s in-app tariff view in answer 10, and the Staff and Manager permissions for closed sessions in answer 11.

@@ -6,7 +6,7 @@
 
 **Status** Draft
 
-**Input** Lecturer Minh Tâm’s numbered email reply supplied on 23 November 2026, the team’s preceding clarification list, and SRS v0.2. The answer numbers below refer to that email.
+**Input** The team’s 11-question email, lecturer Minh Tâm’s numbered reply of 23 November 2026, and SRS v0.2. The answer numbers below refer to that reply.
 
 ## User Scenarios & Testing
 
@@ -24,19 +24,20 @@ Staff completes entry and exit for the pilot lot, rejects arrivals when the appr
 2. **Given** a lot has no suitable parking space for an arriving vehicle, **when** Staff attempts admission, **then** the system rejects it, creates no parking session, and leaves availability unchanged.
 3. **Given** the normal 100-visit simulation, **when** the team compares outcomes with the expected counts, **then** the time, record completeness, and availability criteria in SC-001 and SC-002 pass.
 
-### User Story 2 - Display operating hours and manage fee-group changes (Priority P2)
+### User Story 2 - View lot information and manage fee-group changes (Priority P2)
 
-A Manager maintains the lot’s published hours. A Customer can see those hours and request a change to the fee group on their account. The Manager applies any approved change.
+A Manager maintains the lot’s published hours. A Customer can see those hours and the per-visit tariff for their current fee group before parking. The Customer can request a fee-group change, and the Manager applies any approved change.
 
 **Why this priority** — Customers need accurate lot information, and fee-group changes affect what they pay.
 
-**Independent Test** — Change the pilot lot’s hours as Manager, check the Customer view, and verify that a Customer cannot apply their own fee-group change.
+**Independent Test** — Change the pilot lot’s hours as Manager and check the Customer view. Use accounts in two fee groups with different rates to verify the displayed tariff. Verify that a Customer cannot apply their own fee-group change.
 
 **Acceptance Scenarios**
 
 1. **Given** the Manager has saved new operating hours, **when** a Customer opens the lot information, **then** it shows the new hours.
 2. **Given** the lot is active and all other requirements are met, **when** a vehicle arrives or a Customer books outside the displayed hours, **then** the published hours alone do not cause a rejection.
 3. **Given** a Customer requests a different fee group, **when** the Manager makes the approved update, **then** the account reflects the new group. An attempted direct Customer update cannot change it.
+4. **Given** different per-visit tariffs for two fee groups, **when** a signed-in Customer opens the pilot lot’s information before parking, **then** the application shows the configured per-visit price for each supported vehicle type in that Customer’s current fee group.
 
 ### User Story 3 - Protect plates in completed parking sessions (Priority P1)
 
@@ -73,6 +74,7 @@ Staff can use completed session records without seeing full plates. Managers can
 | FR-007 | The user survey and its proposed score MUST be excluded from mandatory acceptance criteria. | 7 | O5, AT-08 |
 | FR-008 | A closed session’s plate MUST be removed automatically once more than 12 months have elapsed from its closing timestamp. Non-plate statistics MUST be retained. | 9 and prior Q35 | FR-45, AT-04 |
 | FR-009 | Staff MUST see a partially masked plate for closed sessions. Managers MUST be able to view the full plate while it is retained. | 11 | SRS §2.3, FR-42, AT-04 |
+| FR-010 | The application MUST let signed-in Customers view the configured per-visit tariff for their current fee group for each supported vehicle type in the pilot lot. The tariff MUST be available before parking. | 10 | FR-26, AT-03 |
 
 ### Key Entities
 
@@ -91,13 +93,9 @@ Staff can use completed session records without seeing full plates. Managers can
 | SC-002 | In the same scenario, every closed session contains entry time, exit time, vehicle type, and area. Availability by area and vehicle type matches the manual count. All five agreed exception cases pass, including the separate full-lot refusal test. | 6 | NFR-06, NFR-07, AT-100, AT-EX01–05 |
 | SC-003 | Core workflows pass on Chrome, Edge, and Firefox at 360, 768, and 1920 px. At each combination the relevant controls remain visible and usable. | 8 | NFR-08, AS27 |
 | SC-004 | Against the retention cutoff, Staff sees no full plates for closed sessions, Managers can view still-retained plates, and historical counts, parking durations, and revenue remain unchanged after expired plates are removed. | 9, 11 | FR-42, FR-45, AT-04 |
+| SC-005 | Two Customer accounts in different fee groups each see the correct per-visit rates for motorcycles and cars in the pilot lot before parking. | 10 | FR-26, AT-03 |
 
 ## Assumptions
 
-- Answer 8 is mapped to the browser and width question in the preceding clarification list. The screenshot shows a bare “Có.” The exact sent wording should be kept with the client interaction record.
 - The email confirms who updates the fee group. The Customer’s request channel was unspecified, so an in-app request workflow is outside this specification.
 - The decisions in this spec supersede conflicting handover criteria in SRS v0.2. Prior decisions continue to supply the exact masking and audit rules, the five exception definitions, and automatic plate removal.
-
-## Unmapped Email Answer
-
-- **Answer 10** reads “Có.” [NEEDS CLARIFICATION: Recover the exact wording of sent question 10 before mapping its answer to a requirement or acceptance test.]
