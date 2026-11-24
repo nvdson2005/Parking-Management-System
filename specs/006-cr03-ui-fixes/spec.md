@@ -105,7 +105,7 @@ Every page uses the intended sans-serif font instead of the browser's default se
 - A suspended lot keeps its "Tạm ngưng" badge; "full" marks are still shown per zone.
 - Reservation form opened at 23:59 or later: no valid time remains, so the closed message is shown.
 - Reservation form left open until the default time has passed: submitting returns the existing window error, which tells the Customer to choose a later time.
-- Early arrival where the reservation is for a different zone than the one Staff selected: the confirmation shows the reserved zone so Staff can notice the difference.
+- Early arrival into a different zone than the reserved one: no confirmation is shown. The existing rule (D-34) cancels the reservation and admits the vehicle as a walk-in, so the early-arrival prompt only ever shows the zone Staff selected. The zone is still shown so Staff can check it against the booking.
 
 ## Requirements *(mandatory)*
 

@@ -45,6 +45,7 @@ Every fix ships with a vitest test (render tests use `renderToStaticMarkup`, the
 | III. Edge and access boundaries | Middleware untouched. The details sent to Staff (arrival time, zone name) contain no plate. The used column is shown only to STAFF and MANAGER. Each role page passes its own role; the section layout (`requireSection`) already blocks any other role from that page. | Pass |
 | IV. Test-backed changes | Each change has a test that fails without it (see quickstart). New strings are added to both `en.ts` and `vi.ts`. `npm test`, `npm run lint` and `npm run build` are run before closing. | Pass |
 | V. Traceable delivery | Commits reference A-49 and CR-03 (and FR IDs). Nothing under `docs/m2-report/` is edited. Work happens on the main checkout. | Pass |
+| VI. Shared service layer for entry/exit (constitution v1.1.0, added 24/11) | The FR-51 details are produced inside `recordEntry`, the shared entry service, so the route and the simulator get the same error. No caller-only rule is added; the simulator does not change. | Pass |
 
 Delivery workflow: brainstorming is skipped because the design was agreed and approved in the CR (as in specs 002 and 003). CP-02 has passed. The `codegraph` CLI was not installed during T001–T019, so navigation used grep and Read. It was installed and indexed on 24/11 (`codegraph init`, 194 files) and the blast radius of US4 was checked with `codegraph_explore` (analysis finding D1).
 
@@ -99,4 +100,11 @@ tests/
 
 ## Complexity Tracking
 
-No constitution violations to justify.
+No principle is violated. Deviations from the delivery workflow, justified:
+
+| Deviation | Reason |
+|---|---|
+| `superpowers:brainstorming` not run | The design was agreed and approved in CR-03 (#20) by RES-01 |
+| `speckit-clarify` not run | The CR decision left no open question on scope, owners or acceptance |
+| `speckit-analyze` run after implementation, not before | Added when the workflow gap was noticed (24/11); its findings were fixed before the PR |
+| `codegraph` not used during T001–T019 | Not installed on this machine until 24/11; installed and indexed before the review |

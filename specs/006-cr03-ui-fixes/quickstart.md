@@ -15,6 +15,7 @@ npm run build
 | `tests/entry.test.ts` (added case) | `recordEntry` early arrival throws `EARLY_ARRIVAL` with `arrivalTime` and `zoneName` |
 | `tests/errors.test.ts` (added case) | `handle()` returns `{ error, details }` when details are present and `{ error }` otherwise |
 | `tests/entry-form.test.ts` | Entry form selects render labels (zone name, "Xe máy", gate name), not raw values |
+| `tests/reservation-form.test.ts` | Reservation form selects show "29A-01001 · Xe máy" and the zone label, not ids; when today is closed the message shows, the arrival input is disabled and submit is blocked |
 | `tests/globals-css.test.ts` | `--font-sans` does not refer to itself |
 | `tests/early-arrival-prompt.test.ts` | The early-arrival prompt shows "Giờ hẹn: HH:mm · Khu: …" (vi) / "Booked: … · Zone: …" (en); without details it keeps the generic warning |
 

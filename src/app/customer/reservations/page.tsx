@@ -4,24 +4,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { useT } from '@/components/I18nProvider'
 import { defaultArrival, minArrivalInput, toLocalDateTimeInput } from '@/lib/arrival'
+import { ReservationForm } from './ReservationForm'
+import type { VehicleOption, ZoneChoice } from './ReservationForm'
 import type { ReservationStatus, VehicleTypeCode } from '@/lib/types'
 
-type Vehicle = {
-  id: string
-  plate: string
-  vehicleTypeCode: VehicleTypeCode
-}
+type Vehicle = VehicleOption
 
 type TypeAvailability = {
   vehicleType: VehicleTypeCode
@@ -106,9 +95,9 @@ export default function ReservationsPage() {
 
   // Zones that currently have a free spot for the selected vehicle's type.
   const availableZones = useMemo(() => {
-    if (!selectedVehicle) return [] as { zoneId: string; label: string }[]
+    if (!selectedVehicle) return [] as ZoneChoice[]
     const type = selectedVehicle.vehicleTypeCode
-    const zones: { zoneId: string; label: string }[] = []
+    const zones: ZoneChoice[] = []
     for (const lot of lots) {
       for (const zone of lot.zones) {
         const typeInfo = zone.byType.find((bt) => bt.vehicleType === type)
@@ -177,8 +166,6 @@ export default function ReservationsPage() {
     }
   }
 
-  const canSubmit = vehicleId !== '' && zoneId !== '' && arrivalTime !== '' && !closedToday && !submitting
-
   return (
     <div className="flex flex-col gap-4">
       <h1 className="font-heading text-xl font-semibold">{t('reservations.title')}</h1>
@@ -191,77 +178,21 @@ export default function ReservationsPage() {
           {vehicles.length === 0 ? (
             <p className="text-sm text-muted-foreground">{t('reservations.noVehicles')}</p>
           ) : (
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="vehicle">{t('reservations.vehicle')}</Label>
-                <Select value={vehicleId} onValueChange={(value) => setVehicleId(value ?? '')}>
-                  <SelectTrigger id="vehicle" className="w-full">
-                    <SelectValue placeholder={t('reservations.selectVehicle')}>
-                      {(value: string | null) => {
-                        const v = vehicles.find((x) => x.id === value)
-                        return v
-                          ? `${v.plate} · ${t(`availability.vehicleTypes.${v.vehicleTypeCode}`)}`
-                          : t('reservations.selectVehicle')
-                      }}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {vehicles.map((v) => (
-                      <SelectItem key={v.id} value={v.id}>
-                        {v.plate} · {t(`availability.vehicleTypes.${v.vehicleTypeCode}`)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="zone">{t('reservations.zone')}</Label>
-                {selectedVehicle && availableZones.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">{t('reservations.noZones')}</p>
-                ) : (
-                  <Select value={zoneId} onValueChange={(value) => setZoneId(value ?? '')} disabled={!selectedVehicle}>
-                    <SelectTrigger id="zone" className="w-full">
-                      <SelectValue placeholder={t('reservations.selectZone')}>
-                        {(value: string | null) =>
-                          availableZones.find((z) => z.zoneId === value)?.label ?? t('reservations.selectZone')
-                        }
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableZones.map((z) => (
-                        <SelectItem key={z.zoneId} value={z.zoneId}>
-                          {z.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="arrivalTime">{t('reservations.arrivalTime')}</Label>
-                <Input
-                  id="arrivalTime"
-                  type="datetime-local"
-                  required
-                  value={arrivalTime}
-                  min={minArrival}
-                  max={maxArrival}
-                  disabled={closedToday}
-                  onChange={(e) => setArrivalTime(e.target.value)}
-                />
-                {closedToday ? (
-                  <p role="status" className="text-sm text-muted-foreground">
-                    {t('reservations.closedToday')}
-                  </p>
-                ) : null}
-              </div>
-
-              <Button type="submit" disabled={!canSubmit} className="self-start">
-                {submitting ? t('reservations.submitting') : t('reservations.submit')}
-              </Button>
-            </form>
+            <ReservationForm
+              vehicles={vehicles}
+              vehicleId={vehicleId}
+              onVehicleChange={setVehicleId}
+              zones={availableZones}
+              zoneId={zoneId}
+              onZoneChange={setZoneId}
+              arrivalTime={arrivalTime}
+              minArrival={minArrival}
+              maxArrival={maxArrival}
+              onArrivalChange={setArrivalTime}
+              closedToday={closedToday}
+              submitting={submitting}
+              onSubmit={handleSubmit}
+            />
           )}
           {error ? (
             <p role="alert" className="mt-2 text-sm text-destructive">

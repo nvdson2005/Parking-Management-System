@@ -188,7 +188,7 @@ Observed outside A-49 scope (recorded for CR-03, not part of this verdict):
 
 ## 6. Retest after CR-03 (24/11)
 
-The fixes for G1–G3 (branch `fix/cr-03-ui`, spec 006) were retested on 24/11: TC-AV-01 5/5 with the update time changing at each step, free + used = capacity on the Staff screen, and "Hết chỗ" / "Full" shown on a full zone and cleared 1.1–2.1 s after a spot was freed. Details, timings and screenshots are in [docs/final/res04/a49-retest.md](../final/res04/a49-retest.md) (F4-05).
+The fixes for G1–G3 (branch `fix/cr-03-ui`, spec 006) were retested on 24/11: TC-AV-01 5/5 with the update time changing at each step, free + used = capacity on the Staff screen, and "Hết chỗ" / "Full" shown on a full zone (Staff screen observed; every role covered by `tests/live-availability.test.ts`) and cleared 1.1–2.1 s after a spot was freed. Details, timings and screenshots are in [docs/final/res04/a49-retest.md](../final/res04/a49-retest.md) (F4-05).
 
 ## Verdict
 

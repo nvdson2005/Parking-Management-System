@@ -89,7 +89,7 @@ Display update after the exit: between 1.1 s and 2.1 s. The screen shows whole s
 |---|---|
 | SC-001 TC-AV-01: 5/5 steps, update time changes at each step, no reload | Pass |
 | SC-002 Free + used = capacity on Staff and Manager | Pass (5/5 steps, both full-zone runs) |
-| SC-003 Full mark on Customer and Staff, gone within 5 s of a freed spot | Pass (label in both runs; removal measured in run 2: 1.1–2.1 s) |
+| SC-003 Full mark on Customer and Staff, gone within 5 s of a freed spot | Pass. Manually: label seen on the Staff screen in both runs (vi and en); removal seen on the Customer screen (run 1) and the Staff screen (run 2, measured 1.1–2.1 s). The label on the Customer screen was not captured in a screenshot; it is covered by `tests/live-availability.test.ts`, which renders the full mark for every role from the same component |
 | SC-004 Default reservation time succeeds on the first attempt | Pass (C1) |
 | SC-005 Entry form selects show labels in both languages | Pass (B step 1, C5, C6) |
 | SC-006 Early-arrival prompt shows booked time and zone | Pass (E2, E5) |
