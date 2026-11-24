@@ -1,0 +1,128 @@
+{
+  "baseUrl": "http://localhost:3000",
+  "seed": 1686,
+  "startedAt": "2026-11-24T05:20:01.689Z",
+  "runSeconds": 10.1,
+  "visits": 100,
+  "events": 200,
+  "entries": 100,
+  "exits": 100,
+  "record": {
+    "all": {
+      "n": 200,
+      "min": 21.804099999999835,
+      "mean": 43.776236500000024,
+      "p95": 68.20740000000023,
+      "max": 152.538
+    },
+    "entry": {
+      "n": 100,
+      "min": 21.804099999999835,
+      "mean": 32.40485100000006,
+      "p95": 43.4283000000014,
+      "max": 152.538
+    },
+    "exit": {
+      "n": 100,
+      "min": 35.71129999999994,
+      "mean": 55.147621999999956,
+      "p95": 75.76209999999992,
+      "max": 92.50390000000016
+    },
+    "overLimit": 0,
+    "limitMs": 3000
+  },
+  "display": {
+    "fromRequest": {
+      "n": 200,
+      "min": 22.26679999999942,
+      "mean": 35.15260549999999,
+      "p95": 47.25540000000001,
+      "max": 155.22820000000002
+    },
+    "fromResponse": {
+      "n": 200,
+      "min": 1.4899000000000342,
+      "mean": 3.2016080000000033,
+      "p95": 4.7775000000001455,
+      "max": 104.39579999999978
+    },
+    "missingUpdates": 0,
+    "overLimit": 0,
+    "limitMs": 5000
+  },
+  "completeness": {
+    "closedSessions": 100,
+    "complete": 100
+  },
+  "availabilityMatch": [
+    {
+      "check": "after event 100",
+      "zone": "A",
+      "type": "MOTORBIKE",
+      "capacity": 150,
+      "open": 1,
+      "reserved": 0,
+      "hand": 149,
+      "api": 149,
+      "match": true
+    },
+    {
+      "check": "after event 100",
+      "zone": "B",
+      "type": "MOTORBIKE",
+      "capacity": 150,
+      "open": 4,
+      "reserved": 0,
+      "hand": 146,
+      "api": 146,
+      "match": true
+    },
+    {
+      "check": "after event 100",
+      "zone": "C",
+      "type": "CAR",
+      "capacity": 30,
+      "open": 3,
+      "reserved": 0,
+      "hand": 27,
+      "api": 27,
+      "match": true
+    },
+    {
+      "check": "end of run",
+      "zone": "A",
+      "type": "MOTORBIKE",
+      "capacity": 150,
+      "open": 0,
+      "reserved": 0,
+      "hand": 150,
+      "api": 150,
+      "match": true
+    },
+    {
+      "check": "end of run",
+      "zone": "B",
+      "type": "MOTORBIKE",
+      "capacity": 150,
+      "open": 0,
+      "reserved": 0,
+      "hand": 150,
+      "api": 150,
+      "match": true
+    },
+    {
+      "check": "end of run",
+      "zone": "C",
+      "type": "CAR",
+      "capacity": 30,
+      "open": 0,
+      "reserved": 0,
+      "hand": 30,
+      "api": 30,
+      "match": true
+    }
+  ],
+  "sc001": "PASS",
+  "sc002": "PASS"
+}
