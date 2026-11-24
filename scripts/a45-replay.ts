@@ -230,7 +230,7 @@ async function withCase<T>(name: string, fn: (ctx: Ctx) => Promise<T>): Promise<
 /** Evidence se ghi, duong dan tuong doi so voi docs/evidence/A-45. */
 const outputs = new Map<string, string>()
 const put = (rel: string, content: string) => outputs.set(rel.replace(/\\/g, '/'), content)
-const jsonLine = (r: ApiResult) => JSON.stringify(r.json) + '\n'
+const jsonLine = (r: ApiResult) => r.text.trim() + '\n'
 const sha256 = (s: string) => createHash('sha256').update(s, 'utf8').digest('hex').toUpperCase()
 
 const CLOSED = "SELECT COUNT(*) AS n FROM parking_sessions WHERE status = 'CLOSED'"
