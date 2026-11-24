@@ -22,7 +22,7 @@
 **Independent test:** An identified integrated build passes the normal 100-visit timings, complete records, exact counts, and a separate full-lot refusal, with five exception outcomes.
 
 - [X] T006 [US1] Document the one-lot, per-visit, explicit-logout, 100-visit, refusal, and exception checks; exclude the survey score from mandatory acceptance in `docs/m3/a-88-a-115-demo-rehearsal.md` (FR-001, FR-004–FR-007, SC-001, SC-002).
-- [ ] T007 [US1] Pin the integrated #11/#17 candidate, migrations, environment, and exclusions in `docs/m3/a-88-a-115-demo-rehearsal.md` (DR-004).
+- [X] T007 [US1] Pin the integrated #11/#17 candidate, migrations, environment, and exclusions in `docs/m3/a-88-a-115-demo-rehearsal.md` (DR-004).
 - [ ] T008 [US1] Carry QA's measured A-87/CP-05 outcome and A-88 client verdict into `docs/m3/a-88-a-115-demo-rehearsal.md` (DR-004, DR-005).
 
 ## Phase 4: User Story 3 — Closed-session privacy (P1)

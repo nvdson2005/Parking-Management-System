@@ -59,3 +59,9 @@ The 20 November A-61 verdict covers the earlier lot CRUD, tariff and permission 
 | Migration and regression | Candidate applies migrations without data loss; existing seven Staff 403 checks and lot management tests remain valid. | Migration command/result, suite/lint/build, SHA |
 
 **Status:** Phase 5 extension not yet verified on an integrated candidate. The existing A-61 permission evidence remains valid for the tested `a55f6a8` revision only. Keep these results distinct in the Quality Evidence log.
+
+### Current PR #17 head review (24 November)
+
+PR #17 is at `bcbbac3d9531cf05d876cbab9ce6e1476c8b923e`, stacked on PR #11 at `36b1c9158034761bd094a62a8c6485d8281eb3c4`. Its owner recorded a production-build scratch-database exercise at the earlier `e732938` commit in [PR #17's round-5 evidence](https://github.com/nvdson2005/Parking-Management-System/blob/bcbbac3d9531cf05d876cbab9ce6e1476c8b923e/docs/m3/evidence/round5-e2e.md): Manager saved 06:00–22:00 hours, an unpaired value returned 400, Staff update returned 403, Customer saw the new hours and per-visit prices, and a Customer request was applied by Manager with a notification. The owner also records 323 passing tests, lint with zero errors and a passing build in [PR #17's workbook rows](https://github.com/nvdson2005/Parking-Management-System/blob/bcbbac3d9531cf05d876cbab9ce6e1476c8b923e/docs/m3/workbook-rows.md). The seed used equal prices across groups; `tests/my-tariff.test.ts` covers different group prices in service tests.
+
+This is **owner-reported head-level evidence**, not RES-01's final integrated A-61 result. PR #11 remains under requested changes and conflicts with `main`, so the final SHA, migration application, two-group Customer display, outside-hours admission, full regression and inherited Staff permission checks must be rerun after integration. Keep T011 open until those results are recorded against that final build.
