@@ -15,7 +15,7 @@
 
 - [X] T003 Record the 11 lecturer answers and SRS trace in `docs/m3/client-interaction-log-phase-5.md` (DR-001).
 - [X] T004 Record CP-01 review status separately from the lecturer answers in `docs/m3/client-interaction-log-phase-5.md` (DR-001).
-- [ ] T005 Reconcile CR-03 full and selected estimates, candidate identity, and M-03 gate inputs with PR #10 in `docs/m3/change-impact-analysis.md` and `docs/m3/decision-record.md` (DR-002).
+- [X] T005 Reconcile CR-03 full and selected estimates, candidate identity, and M-03 gate inputs with PR #10 in `docs/m3/change-impact-analysis.md` and `docs/m3/decision-record.md` (DR-002).
 
 ## Phase 3: User Story 1 — Single-lot acceptance (P1)
 
