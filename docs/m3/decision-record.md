@@ -59,7 +59,7 @@ The Q22 fallback fires if, at M-03, any Must product is not verified or the sche
 
 | Input or decision | Evidence to record |
 |---|---|
-| Must verification | [A-67 integration](a-67-integration-check.md) and [A-61 lot management](quality-evidence-A-61.md) evidence are available. The formal A-68/CP-05 verdict and remaining Must checks are pending. RES-02 records any unverified product and its owner. |
+| Must verification | [A-67 integration](a-67-integration-check.md) and [A-61 lot management](quality-evidence-A-61.md) evidence are available. RES-02 later recorded CP-05 pass with conditions C1–C6 on PR #18; the conditions and remaining Must checks are open. RES-02 records any unverified product and its owner. |
 | Schedule variance | The [V2.0 draft](baseline-v2-draft.md) records target dates. The live forecast and measured variance are pending from RES-03. Record the reference baseline and variance in days. |
 | Q22 decision and effect | RES-01 records trigger status, rationale, verification omitted if triggered, and any recovery actions. Copy the result to R-G5-04 and the weekly log. |
 | Status | Pending gate evidence and RES-01 decision. |
@@ -133,7 +133,7 @@ Have RES-03 recalculate remaining effort from completed activities and owner est
 | --- | --- | --- |
 | CR-03 options | Compare **28 h full scope** with **16 h selected scope** on identical line items, assumptions and affected checks in [PR #10](https://github.com/nvdson2005/Parking-Management-System/pull/10). Record the accepted option, approver and date there. | RES-03 prepares; RES-01 approves |
 | A-87 candidate | [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) subsequently integrated #11/#17 into `main` at `26a623c15df6686ee329c496a3788fed3850d9a2`. Build and migration evidence exists, but the A-87 operator must pin the actual tested SHA and environment. | RES-02/RES-04 verify |
-| Must and CP-05 | PR #18 later reported T12 passed on its A-31 branch; QA has not recorded the formal CP-05 verdict. A-49 Must screen gaps still lack a fix and retest. | RES-02 QA; RES-04 A-49 |
+| Must and CP-05 | On 24/11 RES-02 recorded CP-05 pass with conditions C1–C6 on PR #18 head `840ba76`. ISS allocation, PM approval and closure evidence are pending; A-49 Must screen gaps still lack a fix and retest. | RES-02 QA; RES-01 conditions approval; RES-04 A-49 |
 | Schedule variance | A-68 completed 24/11, one day after its 23/11 plan. Regenerated V2.0 models a finish around working day 24.63 of 15. This is a plan forecast, not a live remaining-work estimate; owner actuals and a recovery choice remain pending. | RES-03 tracker; RES-01 gate |
 | Q22 fallback | At the late 24/11 review RES-01 chose to **retain A-72/A-76 manual checks**, even though Must verification was incomplete. Do not count the 2.6 h fallback saving or list those checks as omitted in P14. Reforecast and assign recovery work. | RES-01; RES-03 reforecasts |
 

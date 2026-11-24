@@ -45,4 +45,4 @@ These are **partial** SC-003 observations: the full entry/exit and Customer work
 
 ## Remaining acceptance work
 
-RES-02 must record the formal CP-05 and A-87 outcome with the exact tested SHA, EX-02/EX-03 Staff resolutions, exclusions and any retests. Run Edge and Firefox at 360/768/1920 px and complete core UI workflows at each cell. A-88 requires the actual lecturer verdict and accepted exceptions. This technical run cannot close those gates.
+RES-02 recorded CP-05 as **pass with conditions** on 24/11 in PR #18. Its C1–C6 issue allocation, PM approval and closure evidence remain open; its original A-68 run used an older build. RES-02 must record the A-87 outcome with the exact tested SHA, EX-02/EX-03 Staff resolutions, exclusions and any retests. Run Edge and Firefox at 360/768/1920 px and complete core UI workflows at each cell. A-88 requires the actual lecturer verdict and accepted exceptions. This technical run cannot close those gates.
