@@ -40,6 +40,8 @@ model User {
   roleCode     String   @map("role_code")
   role         Role     @relation(fields: [roleCode], references: [code])
   userGroup    String?  @map("user_group")
+  /// Fee group a customer asked to move to; a Manager applies it (Q38, FR-07, FR-08).
+  requestedUserGroup String? @map("requested_user_group")
   locked       Boolean  @default(false)
   createdAt    DateTime @default(now()) @map("created_at")
 
@@ -60,6 +62,10 @@ model ParkingLot {
   name    String
   address String
   status  String @default("ACTIVE")
+  /// Opening hours, HH:mm, for information only (G-01, FR-22, Q37): they do
+  /// not block entries or reservations. Both set or both null.
+  openTime  String? @map("open_time")
+  closeTime String? @map("close_time")
 
   zones Zone[]
 

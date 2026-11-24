@@ -4,7 +4,9 @@ import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { hashPassword } from '@/server/auth/password'
 import { logAccess } from '@/server/services/accessLog'
+import { createNotification } from '@/server/services/notifications'
 import { inTransaction } from '@/server/tx'
+import type { UserGroup } from '@/lib/types'
 
 const createStaffSchema = z.object({
   email: z.string().email(),
@@ -13,11 +15,109 @@ const createStaffSchema = z.object({
   role: z.enum(['STAFF', 'MANAGER']),
 })
 
+export type AccountView = Pick<
+  User,
+  'id' | 'email' | 'name' | 'roleCode' | 'userGroup' | 'requestedUserGroup' | 'locked' | 'createdAt'
+>
+
 /**
- * All accounts for the manager account page, newest first.
+ * All accounts for the manager account page, newest first. Only the fields the
+ * page needs: the password hash never leaves the server.
  */
-export async function listUsers(db: Db): Promise<User[]> {
-  return db.user.findMany({ orderBy: { createdAt: 'desc' } })
+export async function listUsers(db: Db): Promise<AccountView[]> {
+  return db.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      roleCode: true,
+      userGroup: true,
+      requestedUserGroup: true,
+      locked: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  })
+}
+
+const groupSchema = z.enum(['STUDENT', 'LECTURER_STAFF'])
+
+/**
+ * A customer asks to move to another fee group (Q38, FR-08). Customers do not
+ * change their own group; the request waits for a Manager (`setUserGroup`). A
+ * new request replaces an older one; asking for the current group is a
+ * VALIDATION error. The request and its `ACCOUNT_CHANGE` row are one nested
+ * write, so neither is kept without the other.
+ */
+export async function requestGroupChange(db: Db, customerId: string, group: UserGroup): Promise<AccountView> {
+  const parsed = groupSchema.safeParse(group)
+  if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid group')
+  const user = await db.user.findUnique({ where: { id: customerId } })
+  if (!user || user.roleCode !== 'CUSTOMER') throw new DomainError('NOT_FOUND', 'Customer not found')
+  if (user.userGroup === parsed.data) throw new DomainError('VALIDATION', 'Already in this group')
+
+  const updated = await db.user.update({
+    where: { id: customerId },
+    data: {
+      requestedUserGroup: parsed.data,
+      accessLogs: { create: { action: 'ACCOUNT_CHANGE', target: `group-request:${parsed.data}` } },
+    },
+  })
+  return toView(updated)
+}
+
+/** A customer's pending fee-group request, or null (Q38, FR-08). */
+export async function getGroupRequest(db: Db, customerId: string): Promise<UserGroup | null> {
+  const user = await db.user.findUnique({ where: { id: customerId }, select: { requestedUserGroup: true } })
+  return (user?.requestedUserGroup as UserGroup | null) ?? null
+}
+
+/**
+ * A Manager approves a customer's exact pending fee-group request (Q38,
+ * FR-07). Only customers have a group. An absent or different request is
+ * rejected without changing the account or writing approval evidence.
+ * Sessions already open keep the fee group they started with. The change, its
+ * `ACCOUNT_CHANGE` row and the customer's GROUP_CHANGED notification commit
+ * together.
+ */
+export async function setUserGroup(
+  db: Db,
+  actorId: string,
+  userId: string,
+  group: UserGroup,
+): Promise<AccountView> {
+  const parsed = groupSchema.safeParse(group)
+  if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid group')
+
+  return inTransaction(db, async (tx) => {
+    const user = await tx.user.findUnique({ where: { id: userId } })
+    if (!user) throw new DomainError('NOT_FOUND', 'User not found')
+    if (user.roleCode !== 'CUSTOMER') throw new DomainError('VALIDATION', 'Only customers have a fee group')
+    if (user.requestedUserGroup !== parsed.data) {
+      throw new DomainError('VALIDATION', 'No matching fee-group request')
+    }
+
+    const change = await tx.user.updateMany({
+      where: { id: userId, requestedUserGroup: parsed.data },
+      data: { userGroup: parsed.data, requestedUserGroup: null },
+    })
+    if (change.count !== 1) throw new DomainError('VALIDATION', 'Fee-group request changed')
+    const updated = await tx.user.findUniqueOrThrow({ where: { id: userId } })
+    await logAccess(tx, {
+      userId: actorId,
+      action: 'ACCOUNT_CHANGE',
+      target: `${userId};group:${user.userGroup ?? '-'}->${parsed.data}`,
+    })
+    if (user.userGroup !== parsed.data) {
+      await createNotification(tx, { userId, type: 'GROUP_CHANGED' })
+    }
+    return toView(updated)
+  })
+}
+
+function toView(u: User): AccountView {
+  const { id, email, name, roleCode, userGroup, requestedUserGroup, locked, createdAt } = u
+  return { id, email, name, roleCode, userGroup, requestedUserGroup, locked, createdAt }
 }
 
 /**
@@ -29,7 +129,7 @@ export async function createStaffAccount(
   db: Db,
   actorId: string,
   input: { email: string; password: string; name: string; role: 'STAFF' | 'MANAGER' },
-): Promise<User> {
+): Promise<AccountView> {
   const parsed = createStaffSchema.safeParse(input)
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid account input')
 
@@ -51,7 +151,7 @@ export async function createStaffAccount(
     await logAccess(tx, { userId: actorId, action: 'ACCOUNT_CHANGE', target: created.id })
     return created
   })
-  return user
+  return toView(user)
 }
 
 /**
@@ -64,7 +164,7 @@ export async function setLocked(
   actorId: string,
   userId: string,
   locked: boolean,
-): Promise<User> {
+): Promise<AccountView> {
   if (locked && userId === actorId) {
     throw new DomainError('VALIDATION', 'A manager cannot lock their own account')
   }
@@ -76,7 +176,7 @@ export async function setLocked(
     await logAccess(tx, { userId: actorId, action: 'ACCOUNT_CHANGE', target: updated.id })
     return updated
   })
-  return user
+  return toView(user)
 }
 
 /**
