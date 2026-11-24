@@ -268,6 +268,26 @@ export const vi = {
     reactivate: 'Kích hoạt lại',
     empty: 'Chưa có bãi đỗ xe nào.',
     vehicleType: 'Loại xe',
+    openTime: 'Giờ mở cửa',
+    closeTime: 'Giờ đóng cửa',
+    saveHours: 'Lưu giờ hoạt động',
+    hoursHint: 'Giờ hoạt động chỉ để thông báo cho người gửi xe, không chặn xe vào hay đặt chỗ. Để trống cả hai ô để xóa.',
+  },
+  groupRequest: {
+    title: 'Nhóm tính phí',
+    current: 'Nhóm của bạn',
+    pending: 'Đang chờ quản lý chuyển bạn sang: {group}',
+    ask: 'Yêu cầu đổi sang {group}',
+  },
+  lotInfo: {
+    title: 'Thông tin bãi đỗ',
+    address: 'Địa chỉ',
+    status: 'Trạng thái',
+    hours: 'Giờ hoạt động',
+    hoursUnset: 'Chưa cập nhật',
+    myFees: 'Mức phí của bạn',
+    perEntry: 'mỗi lượt',
+    feeUnset: 'Chưa có giá',
   },
   tariffs: {
     title: 'Quản lý biểu phí',
@@ -297,6 +317,8 @@ export const vi = {
     create: 'Tạo',
     creating: 'Đang tạo...',
     empty: 'Chưa có tài khoản nào.',
+    changeGroup: 'Đổi nhóm tính phí',
+    requested: 'Khách hàng yêu cầu: {group}',
     roles: {
       CUSTOMER: 'Khách hàng',
       STAFF: 'Nhân viên',
@@ -393,6 +415,7 @@ export const vi = {
     markAllRead: 'Đánh dấu đã đọc',
     types: {
       LOT_SUSPENDED: '{lot} đã tạm ngưng hoạt động; đặt chỗ lúc {arrival} của bạn đã bị hủy.',
+      GROUP_CHANGED: 'Quản lý đã đổi nhóm tính phí của bạn. Các lượt gửi mới áp dụng mức phí mới.',
     },
   },
   errors: {

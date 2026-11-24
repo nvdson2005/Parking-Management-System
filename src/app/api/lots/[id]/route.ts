@@ -9,6 +9,9 @@ const bodySchema = z
     name: z.string().min(1).optional(),
     address: z.string().min(1).optional(),
     status: z.enum(['ACTIVE', 'SUSPENDED']).optional(),
+    // Validated as HH:mm pairs by updateLot (G-01, Q37).
+    openTime: z.string().nullable().optional(),
+    closeTime: z.string().nullable().optional(),
   })
   .strict()
 

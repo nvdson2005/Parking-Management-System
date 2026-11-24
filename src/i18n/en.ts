@@ -269,6 +269,26 @@ export const en: Dict = {
     reactivate: 'Reactivate',
     empty: 'No parking lots yet.',
     vehicleType: 'Vehicle type',
+    openTime: 'Opens at',
+    closeTime: 'Closes at',
+    saveHours: 'Save hours',
+    hoursHint: 'Opening hours are shown to customers for information only; entries and reservations are not blocked. Leave both empty to clear them.',
+  },
+  groupRequest: {
+    title: 'Fee group',
+    current: 'Your group',
+    pending: 'Waiting for a manager to move you to: {group}',
+    ask: 'Ask to change to {group}',
+  },
+  lotInfo: {
+    title: 'Parking lot information',
+    address: 'Address',
+    status: 'Status',
+    hours: 'Opening hours',
+    hoursUnset: 'Not set',
+    myFees: 'Your fees',
+    perEntry: 'per entry',
+    feeUnset: 'Not set yet',
   },
   tariffs: {
     title: 'Tariffs',
@@ -298,6 +318,8 @@ export const en: Dict = {
     create: 'Create',
     creating: 'Creating...',
     empty: 'No accounts yet.',
+    changeGroup: 'Change fee group',
+    requested: 'Customer asks for: {group}',
     roles: {
       CUSTOMER: 'Customer',
       STAFF: 'Staff',
@@ -394,6 +416,7 @@ export const en: Dict = {
     markAllRead: 'Mark all read',
     types: {
       LOT_SUSPENDED: 'Lot {lot} was suspended; your reservation for {arrival} was cancelled.',
+      GROUP_CHANGED: 'A manager changed your fee group. New entries use the new fees.',
     },
   },
   errors: {
