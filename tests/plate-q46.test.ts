@@ -24,7 +24,7 @@ import SessionDetailPage from '@/app/staff/sessions/[id]/page'
 vi.stubGlobal('React', await import('react'))
 
 const PLATE = '59X1-678.90'
-const MASKED = '59X1-***.90'
+const MASKED = '****-**8.90'
 
 let f: Fixture
 let staff: CurrentUser
@@ -96,7 +96,7 @@ describe('session detail page', () => {
     const s = await session('CLOSED')
     await mismatchNote(s.id)
     const html = await detail(s.id)
-    expect(html).toContain('Observed plate: 59X1-***.22 — dirty plate')
+    expect(html).toContain('Observed plate: ****-**1.22 — dirty plate')
     expect(html).not.toContain('59X1-111.22')
   })
 

@@ -107,7 +107,7 @@ describe('CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05)', () => {
     expect(yes.status).toBe(200)
     expect(yes.body.session).toMatchObject({ id: s.id, status: 'CLOSED', exitTime: expect.stringMatching(ISO) })
     // Q46, review of PR #11: the session is closed, so Staff get the plate masked.
-    expect(yes.body.session.plateSnapshot).toBe('59X1-***45')
+    expect(yes.body.session.plateSnapshot).toBe('****-**345')
     expect(JSON.stringify(yes.body)).not.toContain('59X1-12345')
   })
 

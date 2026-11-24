@@ -335,7 +335,7 @@ Each exception can be tested **manually** (preferred, because it shows the staff
 |---|---|---|---|---|
 | TC-DP-01 | FR-30 / D-39 | `customer01` views **My vehicles**, **My reservations** and **Parking history**. | Their own plates are shown **in full**. | |
 | TC-DP-02 | FR-30 | Staff / Manager views sessions and payments. | Full plates (Staff and Manager may see full plates, §4). | |
-| TC-DP-03 | FR-30 | (Masking format) See E-1. Format: `51F-123.45` → `51F-***.45`. | Covered by automated tests (`tests/plate.test.ts`). | |
+| TC-DP-03 | FR-30 | (Masking format) See E-1. Format (SRS FR-42, only the last 3 letters or digits): `51F-123.45` → `***-**3.45`. | Covered by automated tests (`tests/plate.test.ts`). | |
 | TC-DP-04 | FR-31 | Manager → **Access log** after the tests above. | Entries for **Login**, **Entry**, **Exit**, **View full plate** (only from opening a single Session details page, not from lists), **Lot change**, **Tariff change**, **Account change**, **Manual confirm**, **Purge**. Logout is **not** logged (D-23 covers login plus sensitive actions). Each entry has time, user, action and target. | |
 | TC-DP-05 | FR-31 | Open the **Open parking sessions** list only (do not open details). | **No** new *View full plate* entry. | |
 | TC-DP-06 | FR-32 | After TC-SIM-02 → **Access log** → **Purge data older than 12 months** → **Confirm purge**. | "Masked N sessions and deleted M vehicles." A **Purge** entry is logged with the counts. | |

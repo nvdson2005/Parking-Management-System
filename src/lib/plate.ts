@@ -14,51 +14,37 @@ export function plateCompareKey(raw: string): string {
   return normalizePlate(raw).replace(/[^A-Z0-9]/g, '')
 }
 
-const ALNUM = /[a-zA-Z0-9]/g
+const IS_ALNUM = /[a-zA-Z0-9]/
+
+/** Replaces every letter or digit with `*`, except the ones at `keep` positions. */
+function starAlnum(text: string, keep: (alnumIndex: number, alnumCount: number) => boolean): string {
+  const count = [...text].filter((c) => IS_ALNUM.test(c)).length
+  let seen = 0
+  let out = ''
+  for (const c of text) {
+    if (!IS_ALNUM.test(c)) {
+      out += c
+      continue
+    }
+    out += keep(seen, count) ? c : '*'
+    seen++
+  }
+  return out
+}
 
 /**
- * Masks a plate for viewers who may not see it in full (FR-42): keeps the
- * prefix up to the hyphen (or the first 3 characters) and the last 2, and
- * replaces the letters and digits in between with `*`. A short plate is still
- * masked: if 2 or fewer characters follow the prefix they are all hidden, and
- * a plate that is only a prefix keeps just its first character. Every plate
- * with a letter or digit therefore shows at least one `*` (review of PR #11).
+ * Masks a plate for viewers who may not see it in full (FR-42, SRS v2.0/v2.1:
+ * "chỉ hiện 3 ký tự cuối"; RES-01's spec 002 applies the SRS mask format):
+ * only the last 3 letters or digits stay, every other letter or digit becomes
+ * `*`, and separators stay (`51F-123.45` → `***-**3.45`). Positions are
+ * counted in letters and digits, so separators cannot hide the masking. A
+ * plate with 3 or fewer letters or digits keeps one fewer, so every plate
+ * with a letter or digit contains at least one `*`.
  */
 export function maskPlate(plate: string): string {
-  const hyphenIndex = plate.indexOf('-')
-  let prefix: string
-  let rest: string
-
-  if (hyphenIndex !== -1) {
-    prefix = plate.substring(0, hyphenIndex + 1)
-    rest = plate.substring(hyphenIndex + 1)
-  } else {
-    prefix = plate.substring(0, 3)
-    rest = plate.substring(3)
-  }
-
-  if (rest.length <= 2) {
-    if (/[a-zA-Z0-9]/.test(rest)) return prefix + rest.replace(ALNUM, '*')
-    if (plate.length <= 1) return plate.replace(ALNUM, '*')
-    return plate.charAt(0) + plate.slice(1).replace(ALNUM, '*')
-  }
-
-  // Keep last 2 characters
-  const lastTwo = rest.substring(rest.length - 2)
-  const middle = rest.substring(0, rest.length - 2)
-
-  // Mask all letters/digits, keep separators
-  let masked = ''
-  for (let i = 0; i < middle.length; i++) {
-    const char = middle[i]
-    if (/[a-zA-Z0-9]/.test(char)) {
-      masked += '*'
-    } else {
-      masked += char
-    }
-  }
-
-  return prefix + masked + lastTwo
+  const count = [...plate].filter((c) => IS_ALNUM.test(c)).length
+  const visible = Math.min(3, Math.max(0, count - 1))
+  return starAlnum(plate, (i, n) => i >= n - visible)
 }
 
 /**
