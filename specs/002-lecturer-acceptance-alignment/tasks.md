@@ -29,14 +29,14 @@
 
 **Independent test:** Staff sees masked retained plates, Manager sees full retained plates, and exit-based 12-month purge preserves non-plate statistics.
 
-- [ ] T009 [US3] Review PR #11's final-head masking, exit cutoff, short-plate, response, and unrelated-note results; record the review and remaining gaps in `docs/m3/a-88-a-115-demo-rehearsal.md` (FR-008, FR-009, SC-004).
+- [X] T009 [US3] Review PR #11's final-head masking, exit cutoff, short-plate, response, and unrelated-note results; record the review and remaining gaps in `docs/m3/a-88-a-115-demo-rehearsal.md` (FR-008, FR-009, SC-004).
 
 ## Phase 5: User Story 2 — Lot information and fee groups (P2)
 
 **Independent test:** Customers see current hours and group-specific motorcycle/car prices before parking; only Manager applies a requested group change; hours do not reject admission.
 
 - [X] T010 [US2] Extend the existing A-61 permission evidence and list Phase 5 hours, tariff, and fee-group acceptance checks in `docs/m3/quality-evidence-A-61.md` (FR-002, FR-003, FR-010, SC-005).
-- [ ] T011 [US2] Review PR #17's final-head authorization, display, and migration checks; record tested SHA and outcome in `docs/m3/quality-evidence-A-61.md` (DR-004).
+- [X] T011 [US2] Review PR #17's final-head authorization, display, and migration checks; record tested SHA and outcome in `docs/m3/quality-evidence-A-61.md` (DR-004).
 - [ ] T012 [US2] Record the nine browser/width results in `docs/m3/a-88-a-115-demo-rehearsal.md` (SC-003).
 
 ## Phase 6: RES-01 delivery and closeout

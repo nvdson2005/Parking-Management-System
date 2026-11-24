@@ -28,7 +28,9 @@ Playwright also signed in with the seeded Staff account on a fresh disposable da
 
 ## Phase 5 acceptance run sheet (A-87, A-88, A-115)
 
-The earlier 21 November rehearsal predates the Phase 5 product stack. **Provisional integrated candidate (24 November):** PR #17 head `bcbbac3d9531cf05d876cbab9ce6e1476c8b923e` contains PR #11 head `36b1c9158034761bd094a62a8c6485d8281eb3c4` as an ancestor, followed by seven PR #17 commits. This is an identified review build, **not an A-87 pass or release approval**: #11 still has requested changes and conflicts with `main`; #17 is approved against #11's current head. Re-pin the SHA after #11 is fixed and the stack is integrated.
+The earlier 21 November rehearsal predates the Phase 5 product stack. **Superseded provisional candidate (earlier 24 November review):** PR #17 head `bcbbac3d9531cf05d876cbab9ce6e1476c8b923e` contained PR #11 head `36b1c9158034761bd094a62a8c6485d8281eb3c4` as an ancestor, followed by seven PR #17 commits. At that time #11 had requested changes and conflicted with `main`; the candidate was not an A-87 pass or release approval.
+
+**Merged-stack review later on 24 November:** PR #11 merged into `main` as `755caf6dfa66ffd29c5e985722f74a25cca41bbb`. Reviewed `main` at `8102711` (after PRs #10 and #13): PR #11's final privacy code is present. PR #17 merged as `505b06cfeec3d0d56e04e0a3123e6c92f321d1fa` **into the already-merged `fix/res03-a28-a65` branch**, not into `main`; its final feature head was `2c101638323c005d8976f15d3cbd8b0e421cc787`. The merge commit is not an ancestor of `main`, and `main` lacks the #17 lot-hours and group-request migrations and product changes. The branch build is a verified review build, but there is still **no single `main` build containing both PRs** for A-87/A-88. RES-03 must land the #17 delta on `main` and re-pin the integrated SHA before acceptance.
 
 The provisional tree contains the #11 index, session-gate and session-source migrations (`20261123100000`, `20261123180000`, `20261123190000`), then the #17 lot-hours and group-request migrations (`20261124090000`, `20261124100000`). Their presence and order were inspected in Git; **migration application and data preservation on this candidate are not yet independently verified**. Record the disposable database path, migration output, seed, production-build result, browser versions, operator and exclusions in the A-87 run. The 21 November development-server rehearsal and PR #17's owner-reported scratch-database run do not establish the integrated acceptance verdict.
 
@@ -41,12 +43,12 @@ The provisional tree contains the #11 index, session-gate and session-source mig
 | Separate full-lot refusal | Fill suitable capacity, attempt another arrival, confirm rejection with no session and no availability change. No second timing run at full capacity is mandatory. | Pending |
 | Five exceptions | Record EX-01 through EX-05 individually, including the full-lot case, with expected and observed result. | Pending integrated run |
 | Hours, tariffs and group request | Execute the [A-61 Phase 5 checks](quality-evidence-A-61.md#phase-5-extension-lot-information-and-fee-groups). | Pending |
-| Plate visibility and retention | Staff sees a partial mask in list, detail and response; Manager sees the full retained plate; include a short plate. After exit-based purge, old plate is gone while count, duration, revenue and unrelated notes remain; old entry with recent exit remains retained. | Pending #11 final-head review |
+| Plate visibility and retention | Staff sees a partial mask in list, detail and response; Manager sees the full retained plate; include a short plate. After exit-based purge, old plate is gone while count, duration, revenue and unrelated notes remain; old entry with recent exit remains retained. | PR #11 final-head review passed on `main` `8102711`; A-87 integrated run pending |
 | Session access and scope | Explicit logout works. No 30-minute idle timeout, second-lot UI or survey score is required for handover. | Pending logout; scope recorded |
 
 The [A-68/CP-05 PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18) reports a 100-entry simulator run and complete records on `8472986`, but explicitly excludes the production build, A-87 client run and T12. QA's CP-05 decision is pending. Its D-01 overlapping-run report is a demo risk: use one operator, click once, and wait for completion at rehearsal; reproduce on the candidate before deciding whether a product fix is required. RES-01 must assign D-03–D-05 or record a deferral. Do not count PR #18 as the Phase 5 integrated verdict.
 
-### Current-head privacy review (24 November; not final A-87 evidence)
+### Superseded PR #11 review findings (early 24 November)
 
 At PR #11 head `36b1c9158034761bd094a62a8c6485d8281eb3c4`, the purge selects `CLOSED` sessions by `exitTime < cutoff`, so an old entry with a recent exit is retained. The session detail uses `presentPlate` for Staff display. The following reviewed gaps prevent a privacy pass on this head; they are also recorded in [PR #11's requested-changes review](https://github.com/nvdson2005/Parking-Management-System/pull/11):
 
@@ -57,7 +59,11 @@ At PR #11 head `36b1c9158034761bd094a62a8c6485d8281eb3c4`, the purge selects `CL
 | Unrelated notes | The purge rewrites any event note beginning `Observed plate: `, without limiting the event type to `PLATE_MISMATCH_CONFIRMED`; a `LOST_CARD` note with that text can be changed. Detail formatting needs the same type guard. RES-03 must preserve unrelated notes and test both paths. |
 | Retention specification | PR #11's own FR-002 still says entry-based retention while code and lecturer Q44 require exit-based retention. RES-03 must align the requirement before final review. |
 
-Reinspect the changed #11 head and rerun the masking, response, note and cutoff checks after the owner fixes these findings. Non-plate statistics and Manager full-plate access remain pending integrated verification.
+These findings describe the earlier head only. The final-head review and its evidence follow below; the integrated A-87 run remains separate.
+
+### Final PR #11 privacy review (24 November; A-87 still pending)
+
+At `main` SHA `8102711`, the final #11 implementation addresses all four findings above: `maskPlate` hides at least one alphanumeric character even on a short accepted plate; list, detail and exit-confirmation response use role-aware presentation; EX-02 note masking and purge limit their rewrite to `PLATE_MISMATCH_CONFIRMED`; and its FR-002 now specifies the exit timestamp. `purgeOldData` selects closed sessions by `exitTime < cutoff`, keeps an old entry with a recent exit, and retains the session/payment rows when masking an expired plate. Tests cover Staff and Manager display, the short plate, response, unrelated `LOST_CARD` note, exit cutoff, and retained count/revenue/time. `npm test -- --testTimeout=60000` passed 316/316 (38 files), `npm run lint` passed, and a clean `npm run build` passed after allowing Next.js to fetch its fonts. The test setup reset only `prisma/test.db` with the user's explicit consent. This closes the **code review** in T009, not the timed or browser acceptance checks.
 
 ### Browser and width matrix (SC-003)
 
