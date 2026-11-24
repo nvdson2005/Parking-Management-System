@@ -4,13 +4,13 @@
 
 **Created**: 2026-11-24
 
-**Status**: Draft
+**Status**: Implemented (T001–T019); manual retest T020 pending
 
 **Owner**: Phạm Duy Quý (RES-04)
 
 **Input**: User description: "CR-03 UI fixes owned by RES-04 (approved by RES-01 as option 2). Group A: availability screen shows last update time (FR-19), used spots for Staff and Manager (FR-20), 'Hết chỗ' when free is 0 (FR-21); rerun A-49 TC-AV-01 and the full-zone case. Group B: reservation form default arrival time is in the past; global font falls back to serif; Staff entry selects show raw values. Group C: early-arrival confirmation shows the booked time and zone (FR-51). Each fix lands with a test."
 
-**Sources**: CR-03 change-impact analysis and decision record (branch `docs/cr-03-v2.1-gaps`, approved by RES-01 on 24/11/2026 as option 2); SRS v2.1 section 9; `docs/m3/quality-evidence-A-49.md` (gaps G1–G3 and the observations outside A-49 scope). The design was agreed in the CR, so no separate brainstorming round was run.
+**Sources**: CR-03 change-impact analysis and decision record (branch `docs/cr-03-v2.1-gaps`, approved by RES-01 on 24/11/2026 as option 2); SRS v2.1 section 9; `docs/m3/quality-evidence-A-49.md` (gaps G1–G3 and the observations outside A-49 scope). The design was agreed in the CR, so no separate brainstorming round was run. `speckit-clarify` was not run for the same reason: the scope, owners and acceptance points were settled in the CR decision, and no question was left open. `speckit-analyze` was run after implementation (25/11); its findings are recorded in tasks.md.
 
 ## User Scenarios & Testing *(mandatory)*
 

@@ -78,12 +78,14 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 - Before/after check for T008: before the fix, the entry form rendered `zone-id-123`, `GATE-1` and `MOTORBIKE` in the selects.
 - US4 (T014–T018) was taken as F4-02 of `docs/m3-m4-final-work-division.md` (the SRS section 9 reservation gap; FR-52 is already on `main` as `/staff/lookup`). T018's render test is a separate file, `tests/early-arrival-prompt.test.ts`. The 7 new US4 tests failed before the change. `zoneName` comes from the zone already loaded in the transaction, which is the reserved zone in that branch, so no extra query.
 - T019 (25/11, after rebasing on `main` `f6cd0cc`): `npm test` 47 files, 366 tests passing; `eslint src tests` and `tsc --noEmit` clean; `npm run build` passes.
+- `speckit-analyze` (25/11) fixes: D1 codegraph installed and indexed; D2 clarify skip recorded in the spec; I1 role source corrected in plan, data-model and research; I2/I3 T020 output file and T021 split (T022); C1 the picker's `min` is the next whole minute (`minArrivalInput` in `src/lib/arrival.ts`, test in `tests/arrival.test.ts`), because the current minute is already past and fails `RESERVATION_WINDOW`; L1/L2 plan file list and spec status.
 
 ## Phase 8: Polish and verification
 
 - [X] T019 Run `npm test`, `npm run lint` and `npm run build`; all pass (Constitution IV). Record the test count
-- [ ] T020 [Manual, RES-04] Follow [quickstart.md](quickstart.md) "Manual" steps 1–6 on a freshly reset `dev.db`; append the TC-AV-01 rerun and the full-zone case to `docs/m3/quality-evidence-A-49.md` and change the A-49 verdict to Verified
-- [ ] T021 Update SRS v2.1 section 9 rows FR-19/20/21 and FR-51 as resolved (on the SRS branch or as a follow-up note in the PR), and open the PR for `fix/cr-03-ui` with reviewer RES-02
+- [ ] T020 [Manual, RES-04] Follow [quickstart.md](quickstart.md) "Manual" steps 1–6 on a freshly reset `dev.db`. Record the results in `docs/final/res04/a49-retest.md` (F4-05 of `docs/m3-m4-final-work-division.md`); in `docs/m3/quality-evidence-A-49.md` change the verdict to Verified and link to that file
+- [ ] T021 Open the PR for `fix/cr-03-ui` with reviewer RES-02, after T020 and `review-implementation`
+- [ ] T022 After #22 or #23 merges: mark SRS v2.1 section 9 rows FR-19/20/21 and FR-51 as resolved, in a follow-up PR (the SRS file is not edited in this PR, rule 1 of the final work division)
 
 ## Dependencies
 
@@ -91,7 +93,7 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 - US5 (T002–T003), US2 (T004–T007), US3 (T008–T009), US1 (T010–T013), US4 (T014–T018) are independent of each other.
 - Shared files: `src/i18n/{vi,en}.ts` (T007, T012, T018) and `EntryForm.tsx` (T009, T018). Run those tasks in sequence, not in parallel.
 - Within each story: test task → implementation → the test passes.
-- T019 after all stories; T020 after T019 (needs US1 for SC-001..SC-003); T021 last.
+- T019 after all stories; T020 after T019 (needs US1 for SC-001..SC-003); T021 after T020; T022 after #22/#23.
 
 ## Parallel examples
 

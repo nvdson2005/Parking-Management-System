@@ -11,7 +11,7 @@ npm run build
 | Test | Proves |
 |---|---|
 | `tests/live-availability.test.ts` | Customer render has no used column; Staff and Manager renders show used = open + reserved; a row with free 0 shows "Hết chỗ" (vi) / "Full" (en); the update time is shown |
-| `tests/arrival.test.ts` | `defaultArrival` returns a future time within today; returns `null` at 23:59; rounds to 5 minutes |
+| `tests/arrival.test.ts` | `defaultArrival` returns a future time within today; returns `null` at 23:59; rounds to 5 minutes; `minArrivalInput` is the next whole minute |
 | `tests/entry.test.ts` (added case) | `recordEntry` early arrival throws `EARLY_ARRIVAL` with `arrivalTime` and `zoneName` |
 | `tests/errors.test.ts` (added case) | `handle()` returns `{ error, details }` when details are present and `{ error }` otherwise |
 | `tests/entry-form.test.ts` | Entry form selects render labels (zone name, "Xe máy", gate name), not raw values |

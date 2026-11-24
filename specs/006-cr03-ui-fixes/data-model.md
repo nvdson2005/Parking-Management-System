@@ -7,7 +7,7 @@ No database change. Shapes that change in memory or on the wire:
 | Field | Type | Notes |
 |---|---|---|
 | `initial` | `LotAvailability[]` | unchanged |
-| `role` | `'CUSTOMER' \| 'STAFF' \| 'MANAGER'` | new; from the server session on the role page |
+| `role` | `'CUSTOMER' \| 'STAFF' \| 'MANAGER'` | new; each role page passes its own role (the section layout restricts the page to that role) |
 | `renderedAt` | `string` (ISO) | new; the server render time, used as the first `updatedAt` |
 
 Derived per row (zone × vehicle type): `used = open + reserved` (Staff and Manager only); `full = free === 0`.

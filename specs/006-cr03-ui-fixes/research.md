@@ -8,7 +8,7 @@
 
 ## R2. Used column only for Staff and Manager (FR-002, FR-003)
 
-- **Decision**: `LiveAvailability` takes `role` as a prop. The three role pages already know the user from the server session and pass it. "Used" = `open + reserved`.
+- **Decision**: `LiveAvailability` takes `role` as a prop. Each of the three role pages passes its own role; the section layout (`requireSection`) already restricts each page to that role. "Used" = `open + reserved`.
 - **Rationale**: The role comes from the server; the client cannot unlock the column by itself. The counts are already in the payload, so this is a display-only choice. Hiding the column is not a privacy control, because no plate is involved.
 - **Alternatives**: Read the role on the client from a cookie. Rejected: the session cookie is httpOnly.
 

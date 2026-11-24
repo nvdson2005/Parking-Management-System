@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useT } from '@/components/I18nProvider'
-import { defaultArrival, toLocalDateTimeInput } from '@/lib/arrival'
+import { defaultArrival, minArrivalInput, toLocalDateTimeInput } from '@/lib/arrival'
 import type { ReservationStatus, VehicleTypeCode } from '@/lib/types'
 
 type Vehicle = {
@@ -92,7 +92,7 @@ export default function ReservationsPage() {
   useEffect(() => {
     if (arrivalTime) return
     const now = new Date()
-    setMinArrival(toLocalDateTimeInput(now))
+    setMinArrival(minArrivalInput(now))
     const next = defaultArrival(now)
     if (next) {
       setClosedToday(false)

@@ -34,7 +34,7 @@ Every fix ships with a vitest test (render tests use `renderToStaticMarkup`, the
 
 **Constraints**: i18n key parity between vi and en; middleware stays Edge-safe (not touched); no new lock-taking calls.
 
-**Scale/Scope**: about 8 source files, 4 test files; about 2.6 h
+**Scale/Scope**: about 8 source files, 7 test files; about 2.6 h
 
 ## Constitution Check
 
@@ -42,11 +42,11 @@ Every fix ships with a vitest test (render tests use `renderToStaticMarkup`, the
 |---|---|---|
 | I. Layered architecture | The early-arrival details are produced by the `recordEntry` service and passed through `handle()`. No business logic goes into the route or the component. `DomainError` gains an optional `details` field; no new error code. | Pass |
 | II. Concurrency safety | `recordEntry` already runs inside `withLock`. Reading the reservation's zone name happens in the same transaction. No new lock and no nested lock. Availability broadcasts are unchanged. | Pass |
-| III. Edge and access boundaries | Middleware untouched. The details sent to Staff (arrival time, zone name) contain no plate. The used column is shown only to STAFF and MANAGER, with the role taken from the server session. | Pass |
+| III. Edge and access boundaries | Middleware untouched. The details sent to Staff (arrival time, zone name) contain no plate. The used column is shown only to STAFF and MANAGER. Each role page passes its own role; the section layout (`requireSection`) already blocks any other role from that page. | Pass |
 | IV. Test-backed changes | Each change has a test that fails without it (see quickstart). New strings are added to both `en.ts` and `vi.ts`. `npm test`, `npm run lint` and `npm run build` are run before closing. | Pass |
 | V. Traceable delivery | Commits reference A-49 and CR-03 (and FR IDs). Nothing under `docs/m2-report/` is edited. Work happens on the main checkout. | Pass |
 
-Delivery workflow: brainstorming is skipped because the design was agreed and approved in the CR (as in specs 002 and 003). CP-02 has passed. The `codegraph` CLI is not installed on this machine; navigation used grep and Read, as noted in earlier sessions.
+Delivery workflow: brainstorming is skipped because the design was agreed and approved in the CR (as in specs 002 and 003). CP-02 has passed. The `codegraph` CLI was not installed during T001–T019, so navigation used grep and Read. It was installed and indexed on 25/11 (`codegraph init`, 194 files) and the blast radius of US4 was checked with `codegraph_explore` (analysis finding D1).
 
 Post-design re-check: still Pass. The only API change adds a field to one error response (see [contracts](contracts/early-arrival-error.md)).
 
@@ -64,7 +64,7 @@ specs/006-cr03-ui-fixes/
 │   ├── early-arrival-error.md
 │   └── availability-view.md
 ├── checklists/requirements.md
-└── tasks.md            # next step (speckit-tasks)
+└── tasks.md
 ```
 
 ### Source Code (repository root)
@@ -89,8 +89,10 @@ tests/
 ├── live-availability.test.ts            # render: role, used, full, updated-at
 ├── arrival.test.ts                      # helper
 ├── entry.test.ts                        # + EARLY_ARRIVAL details
-├── api-errors.test.ts or errors.test.ts # handle() passes details
-└── entry-form.test.ts                   # render: select labels
+├── errors.test.ts                       # DomainError details; handle() passes them
+├── entry-form.test.ts                   # render: select labels
+├── early-arrival-prompt.test.ts         # render: booked time and zone (FR-51)
+└── globals-css.test.ts                  # --font-sans not self-referencing
 ```
 
 **Structure Decision**: existing single Next.js project; files are changed in place, plus one new helper and new test files.

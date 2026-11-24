@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { defaultArrival, toLocalDateTimeInput } from '@/lib/arrival'
+import { defaultArrival, minArrivalInput, toLocalDateTimeInput } from '@/lib/arrival'
 
 // Local-time dates: the rule is "within the current local day" (FR-27, spec 006 FR-006..FR-008).
 const at = (h: number, m: number, s = 0) => new Date(2026, 10, 24, h, m, s, 0)
@@ -37,5 +37,17 @@ describe('defaultArrival (spec 006, US2)', () => {
 describe('toLocalDateTimeInput', () => {
   it('formats local time for a datetime-local input', () => {
     expect(toLocalDateTimeInput(new Date(2026, 0, 5, 7, 9, 30))).toBe('2026-01-05T07:09')
+  })
+})
+
+// FR-007 (analysis C1): the picker's `min` must not offer the current minute,
+// which is already past by some seconds and fails RESERVATION_WINDOW.
+describe('minArrivalInput', () => {
+  it.each([
+    [at(10, 3, 40), '2026-11-24T10:04'],
+    [at(10, 3, 0), '2026-11-24T10:04'],
+    [at(23, 58, 10), '2026-11-24T23:59'],
+  ])('at %s the earliest selectable time is %s', (now, expected) => {
+    expect(minArrivalInput(now)).toBe(expected)
   })
 })

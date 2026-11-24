@@ -8,6 +8,14 @@ export function toLocalDateTimeInput(d: Date): string {
 }
 
 /**
+ * `min` for the arrival picker (FR-007): the next whole minute. The current
+ * minute is already past by some seconds, so the server would reject it.
+ */
+export function minArrivalInput(now: Date): string {
+  return toLocalDateTimeInput(new Date(now.getTime() + MINUTE_MS))
+}
+
+/**
  * Default arrival time for a new reservation (FR-27: from now until the end of
  * the local day). Returns the first 5-minute mark at least one minute after
  * `now`. Near midnight it falls back to 23:59 while that is still at least one
