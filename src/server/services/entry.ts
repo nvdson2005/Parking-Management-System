@@ -124,7 +124,12 @@ export async function recordEntry(
               // Lecturer R3: staff must check and explicitly confirm an early
               // arrival before the reservation is fulfilled.
               if (!data.confirmEarly) {
-                throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time')
+                // FR-51: Staff see the booked time and zone before deciding.
+                // `zone` is the reserved zone here (same id); no plate in details.
+                throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time', {
+                  arrivalTime: reservation.arrivalTime.toISOString(),
+                  zoneName: zone.name,
+                })
               }
               earlyArrivalAt = reservation.arrivalTime
             }

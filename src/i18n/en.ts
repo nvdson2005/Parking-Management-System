@@ -122,6 +122,7 @@ export const en: Dict = {
     success: 'Vehicle entry recorded',
     earlyTitle: 'Early arrival',
     earlyWarning: 'This vehicle has a reservation for a later time. Check the spot, then confirm to admit it now.',
+    earlyBooked: 'Booked: {time} · Zone: {zone}',
     earlyConfirm: 'Confirm and record entry',
     earlyCancel: 'Cancel',
     gate: 'Gate',

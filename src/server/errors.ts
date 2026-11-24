@@ -48,11 +48,14 @@ const STATUS_MAP: Record<ErrorCode, number> = {
 export class DomainError extends Error {
   code: ErrorCode
   status: number
+  /** Extra data for the client, sent next to `error` (spec 006, FR-51). Never personal data. */
+  details?: Record<string, unknown>
 
-  constructor(code: ErrorCode, message: string) {
+  constructor(code: ErrorCode, message: string, details?: Record<string, unknown>) {
     super(message)
     this.name = 'DomainError'
     this.code = code
     this.status = STATUS_MAP[code]
+    if (details) this.details = details
   }
 }

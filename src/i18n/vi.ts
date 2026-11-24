@@ -121,6 +121,7 @@ export const vi = {
     success: 'Đã ghi nhận xe vào bãi',
     earlyTitle: 'Xe đến sớm',
     earlyWarning: 'Xe này có đặt chỗ vào giờ muộn hơn. Kiểm tra chỗ rồi xác nhận để cho xe vào ngay.',
+    earlyBooked: 'Giờ hẹn: {time} · Khu: {zone}',
     earlyConfirm: 'Xác nhận và ghi nhận xe vào',
     earlyCancel: 'Hủy',
     gate: 'Cổng',

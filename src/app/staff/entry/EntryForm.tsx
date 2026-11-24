@@ -22,6 +22,60 @@ import type { GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
 export type ZoneOption = { id: string; label: string }
 
+/** `details` of a 409 `EARLY_ARRIVAL` (contract: specs/006-cr03-ui-fixes/contracts/early-arrival-error.md). */
+export type EarlyDetails = { arrivalTime: string; zoneName: string }
+
+function hhmm(iso: string): string {
+  const d = new Date(iso)
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
+
+function readEarlyDetails(value: unknown): EarlyDetails | null {
+  if (typeof value !== 'object' || value === null) return null
+  const { arrivalTime, zoneName } = value as Record<string, unknown>
+  return typeof arrivalTime === 'string' && typeof zoneName === 'string' ? { arrivalTime, zoneName } : null
+}
+
+/**
+ * Early-arrival confirmation (FR-51): shows the booked time and zone so Staff
+ * can decide. Without `details` it keeps the generic warning only.
+ */
+export function EarlyArrivalPrompt({
+  details,
+  submitting,
+  onConfirm,
+  onCancel,
+}: {
+  details: EarlyDetails | null
+  submitting: boolean
+  onConfirm: () => void
+  onCancel: () => void
+}) {
+  const t = useT()
+  return (
+    <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">
+      <p role="alert" className="text-sm font-medium">
+        {t('entry.earlyTitle')}
+      </p>
+      <p className="text-sm">{t('entry.earlyWarning')}</p>
+      {details ? (
+        <p className="text-sm font-medium">
+          {t('entry.earlyBooked', { time: hhmm(details.arrivalTime), zone: details.zoneName })}
+        </p>
+      ) : null}
+      <div className="flex gap-2">
+        <Button type="button" disabled={submitting} onClick={onConfirm}>
+          {t('entry.earlyConfirm')}
+        </Button>
+        <Button type="button" variant="outline" disabled={submitting} onClick={onCancel}>
+          {t('entry.earlyCancel')}
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 export function EntryForm({ zones }: { zones: ZoneOption[] }) {
   const t = useT()
   const [method, setMethod] = useState<IdMethod>('PLATE')
@@ -31,6 +85,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
   const [gate, setGate] = useState<GateCode>(DEFAULT_GATE)
   const [submitting, setSubmitting] = useState(false)
   const [earlyPrompt, setEarlyPrompt] = useState(false)
+  const [earlyDetails, setEarlyDetails] = useState<EarlyDetails | null>(null)
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -56,6 +111,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
       const body = await res.json()
       if (!res.ok) {
         if (body.error === 'EARLY_ARRIVAL') {
+          setEarlyDetails(readEarlyDetails(body.details))
           setEarlyPrompt(true)
           return
         }
@@ -163,20 +219,12 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
           ) : null}
 
           {earlyPrompt ? (
-            <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">
-              <p role="alert" className="text-sm font-medium">
-                {t('entry.earlyTitle')}
-              </p>
-              <p className="text-sm">{t('entry.earlyWarning')}</p>
-              <div className="flex gap-2">
-                <Button type="button" disabled={submitting} onClick={() => void submit(true)}>
-                  {t('entry.earlyConfirm')}
-                </Button>
-                <Button type="button" variant="outline" disabled={submitting} onClick={() => setEarlyPrompt(false)}>
-                  {t('entry.earlyCancel')}
-                </Button>
-              </div>
-            </div>
+            <EarlyArrivalPrompt
+              details={earlyDetails}
+              submitting={submitting}
+              onConfirm={() => void submit(true)}
+              onCancel={() => setEarlyPrompt(false)}
+            />
           ) : null}
 
           <Button type="submit" disabled={submitting || !zoneId}>

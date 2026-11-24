@@ -64,11 +64,11 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 
 **Independent test**: service and `handle()` tests pass; the Staff prompt shows the booked time and zone.
 
-- [ ] T014 [P] [US4] In `tests/errors.test.ts` add: a `DomainError` constructed with details exposes them; `handle()` returns body `{ error, details }` with the mapped status when details are present, and exactly `{ error }` when not. Run it and see it fail
-- [ ] T015 [P] [US4] In `tests/entry.test.ts` add: an early arrival without `confirmEarly` rejects with code `EARLY_ARRIVAL` and `details` `{ arrivalTime: <reservation arrivalTime ISO>, zoneName: <reserved zone name> }`, and creates no session; then with `confirmEarly: true` the vehicle is admitted (existing behaviour). Run it and see it fail
-- [ ] T016 [US4] In `src/server/errors.ts` add optional `details?: Record<string, unknown>` to `DomainError` (third constructor argument); in `src/server/api.ts` `handle()` include `details` in the JSON body only when present; T014 passes
-- [ ] T017 [US4] In `src/server/services/entry.ts` load the matched reservation's zone name in the existing transaction and throw `new DomainError('EARLY_ARRIVAL', ..., { arrivalTime: reservation.arrivalTime.toISOString(), zoneName })`; no plate in details; T015 passes
-- [ ] T018 [US4] In `src/app/staff/entry/EntryForm.tsx` keep the `details` from the 409 body in state and show, under `entry.earlyWarning`, `t('entry.earlyBooked')` with the local time (`HH:mm`) and zone; add `entry.earlyBooked` ("Giờ hẹn: {time} · Khu: {zone}" / "Booked: {time} · Zone: {zone}") to both `src/i18n/vi.ts` and `src/i18n/en.ts`, using the existing interpolation style of `t()`; extend T008's render test or add a case asserting the prompt text once `earlyDetails` is set (via an exported presentational `EarlyArrivalPrompt` component)
+- [X] T014 [P] [US4] In `tests/errors.test.ts` add: a `DomainError` constructed with details exposes them; `handle()` returns body `{ error, details }` with the mapped status when details are present, and exactly `{ error }` when not. Run it and see it fail
+- [X] T015 [P] [US4] In `tests/entry.test.ts` add: an early arrival without `confirmEarly` rejects with code `EARLY_ARRIVAL` and `details` `{ arrivalTime: <reservation arrivalTime ISO>, zoneName: <reserved zone name> }`, and creates no session; then with `confirmEarly: true` the vehicle is admitted (existing behaviour). Run it and see it fail
+- [X] T016 [US4] In `src/server/errors.ts` add optional `details?: Record<string, unknown>` to `DomainError` (third constructor argument); in `src/server/api.ts` `handle()` include `details` in the JSON body only when present; T014 passes
+- [X] T017 [US4] In `src/server/services/entry.ts` load the matched reservation's zone name in the existing transaction and throw `new DomainError('EARLY_ARRIVAL', ..., { arrivalTime: reservation.arrivalTime.toISOString(), zoneName })`; no plate in details; T015 passes
+- [X] T018 [US4] In `src/app/staff/entry/EntryForm.tsx` keep the `details` from the 409 body in state and show, under `entry.earlyWarning`, `t('entry.earlyBooked')` with the local time (`HH:mm`) and zone; add `entry.earlyBooked` ("Giờ hẹn: {time} · Khu: {zone}" / "Booked: {time} · Zone: {zone}") to both `src/i18n/vi.ts` and `src/i18n/en.ts`, using the existing interpolation style of `t()`; extend T008's render test or add a case asserting the prompt text once `earlyDetails` is set (via an exported presentational `EarlyArrivalPrompt` component)
 
 ### Notes from implementation (24/11)
 
@@ -76,10 +76,12 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 - T009 also covered the **reservation form's** vehicle and zone selects (`src/app/customer/reservations/page.tsx`), which showed raw IDs for the same reason (FR-009 extended). These two selects have no automated test: the page loads its options in effects, so a static render has no options. They are covered by quickstart manual step 3. The entry-form test shows the pattern is correct.
 - T013: the role passed to `LiveAvailability` is the role of the page (`/customer`, `/staff`, `/manager`). The section layouts already restrict each page to its role, so no extra session read is needed.
 - Before/after check for T008: before the fix, the entry form rendered `zone-id-123`, `GATE-1` and `MOTORBIKE` in the selects.
+- US4 (T014–T018) was taken as F4-02 of `docs/m3-m4-final-work-division.md` (the SRS section 9 reservation gap; FR-52 is already on `main` as `/staff/lookup`). T018's render test is a separate file, `tests/early-arrival-prompt.test.ts`. The 7 new US4 tests failed before the change. `zoneName` comes from the zone already loaded in the transaction, which is the reserved zone in that branch, so no extra query.
+- T019 (25/11, after rebasing on `main` `f6cd0cc`): `npm test` 47 files, 366 tests passing; `eslint src tests` and `tsc --noEmit` clean; `npm run build` passes.
 
 ## Phase 8: Polish and verification
 
-- [ ] T019 Run `npm test`, `npm run lint` and `npm run build`; all pass (Constitution IV). Record the test count
+- [X] T019 Run `npm test`, `npm run lint` and `npm run build`; all pass (Constitution IV). Record the test count
 - [ ] T020 [Manual, RES-04] Follow [quickstart.md](quickstart.md) "Manual" steps 1–6 on a freshly reset `dev.db`; append the TC-AV-01 rerun and the full-zone case to `docs/m3/quality-evidence-A-49.md` and change the A-49 verdict to Verified
 - [ ] T021 Update SRS v2.1 section 9 rows FR-19/20/21 and FR-51 as resolved (on the SRS branch or as a follow-up note in the PR), and open the PR for `fix/cr-03-ui` with reviewer RES-02
 

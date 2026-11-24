@@ -16,6 +16,7 @@ npm run build
 | `tests/errors.test.ts` (added case) | `handle()` returns `{ error, details }` when details are present and `{ error }` otherwise |
 | `tests/entry-form.test.ts` | Entry form selects render labels (zone name, "Xe máy", gate name), not raw values |
 | `tests/globals-css.test.ts` | `--font-sans` does not refer to itself |
+| `tests/early-arrival-prompt.test.ts` | The early-arrival prompt shows "Giờ hẹn: HH:mm · Khu: …" (vi) / "Booked: … · Zone: …" (en); without details it keeps the generic warning |
 
 ## Manual (A-49 rerun, RES-04)
 
