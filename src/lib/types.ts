@@ -16,7 +16,7 @@ export type LotStatus = 'ACTIVE' | 'SUSPENDED'
 
 export type SessionEventType = 'PLATE_MISMATCH_CONFIRMED' | 'LOST_CARD' | 'EARLY_ARRIVAL_CONFIRMED'
 
-export type NotificationType = 'LOT_SUSPENDED'
+export type NotificationType = 'LOT_SUSPENDED' | 'GROUP_CHANGED'
 
 /** Simulated gates of the pilot lot (G-09, FR-09). */
 export const GATES = ['GATE-1', 'GATE-2'] as const

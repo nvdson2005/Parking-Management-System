@@ -5,6 +5,9 @@ import { DomainError } from '@/server/errors'
 import { logAccess } from '@/server/services/accessLog'
 import { inTransaction } from '@/server/tx'
 import { publishAvailabilityChanged } from '@/server/bus'
+import type { FeeGroup, VehicleTypeCode } from '@/lib/types'
+
+const VEHICLE_TYPES: VehicleTypeCode[] = ['MOTORBIKE', 'CAR']
 
 const setTariffSchema = z.object({
   vehicleType: z.enum(['MOTORBIKE', 'CAR']),
@@ -18,6 +21,21 @@ const setTariffSchema = z.object({
  */
 export async function listTariffs(db: Db): Promise<Tariff[]> {
   return db.tariff.findMany({ orderBy: [{ vehicleTypeCode: 'asc' }, { feeGroup: 'asc' }] })
+}
+
+export type GroupTariff = { vehicleTypeCode: VehicleTypeCode; price: number | null }
+
+/**
+ * The per-entry price of each vehicle type for one fee group, so a customer
+ * sees the fees that apply to them (FR-26, Q45). A type with no tariff yet
+ * has `price: null`.
+ */
+export async function tariffsForGroup(db: Db, feeGroup: FeeGroup): Promise<GroupTariff[]> {
+  const rows = await db.tariff.findMany({ where: { feeGroup } })
+  return VEHICLE_TYPES.map((vehicleTypeCode) => ({
+    vehicleTypeCode,
+    price: rows.find((r) => r.vehicleTypeCode === vehicleTypeCode)?.price ?? null,
+  }))
 }
 
 /**
