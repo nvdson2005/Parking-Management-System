@@ -121,10 +121,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* font-sans on <body>: the Geist variable is defined by a class on <body>
+     (layout.tsx), so on <html> it would be undefined (spec 006, T020). */
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
+    @apply bg-background text-foreground font-sans;
   }
 }

@@ -79,6 +79,7 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 - US4 (T014–T018) was taken as F4-02 of `docs/m3-m4-final-work-division.md` (the SRS section 9 reservation gap; FR-52 is already on `main` as `/staff/lookup`). T018's render test is a separate file, `tests/early-arrival-prompt.test.ts`. The 7 new US4 tests failed before the change. `zoneName` comes from the zone already loaded in the transaction, which is the reserved zone in that branch, so no extra query.
 - T019 (25/11, after rebasing on `main` `f6cd0cc`): `npm test` 47 files, 366 tests passing; `eslint src tests` and `tsc --noEmit` clean; `npm run build` passes.
 - `speckit-analyze` (25/11) fixes: D1 codegraph installed and indexed; D2 clarify skip recorded in the spec; I1 role source corrected in plan, data-model and research; I2/I3 T020 output file and T021 split (T022); C1 the picker's `min` is the next whole minute (`minArrivalInput` in `src/lib/arrival.ts`, test in `tests/arrival.test.ts`), because the current minute is already past and fails `RESERVATION_WINDOW`; L1/L2 plan file list and spec status.
+- T020 run (24/11, RES-04) found body text still in serif: `font-sans` was applied on `<html>`, while the Geist variable is defined by a class on `<body>`, so it was undefined where it was used. Fixed by applying `font-sans` on `body`; `tests/globals-css.test.ts` has a case that failed before the fix (`html` vs `body`).
 
 ## Phase 8: Polish and verification
 
