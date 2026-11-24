@@ -1,0 +1,6 @@
+PASS  n: P1 entries+exits+rejected = 50 = 50
+PASS  minSessions: P0 = 100 (100), P2 = 150 (150)
+PASS  exitRatio giu nguyen so luot gui: P3 = 100, P4 = 100
+PASS  exitRatio: exits P3(0.2) = 20 < P0(0.4) = 53 < P4(0.8) = 98
+PASS  days: sessions P5(3) = 179 > P5(1) = 80
+PASS  days: so ngay co luot gui P5(3) = 6 > P5(1) = 3
