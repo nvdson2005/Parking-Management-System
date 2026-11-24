@@ -19,6 +19,10 @@ Route handlers thin, logic in services; i18n vi/en parity; tests first; one comm
 | US3 Q38 | `prisma/migrations/20261124100000_q38_group_request`, `src/server/services/accounts.ts` (`requestGroupChange`, `setUserGroup`, `AccountView`), `src/app/api/account/group-request/route.ts`, `src/app/api/accounts/[id]/route.ts`, `src/components/GroupRequestForm.tsx`, `src/app/manager/accounts/page.tsx`, `src/lib/types.ts` (`GROUP_CHANGED`) |
 | All | `src/i18n/{en,vi}.ts` |
 
+## Integration correction (24 November)
+
+The PR #17 merge targeted the already-merged PR #11 branch, leaving its changes absent from `main`. Merge the PR #17 feature branch onto current `main` in `codex/pr17-main-integration`, then enforce Phase 5 FR-003 at `setUserGroup`: the Manager-selected group must equal `requestedUserGroup`. Keep the check and the request consumption in the existing transaction. Replace the unrestricted Manager group selector with a pending-request approval button. Add service and API regression tests for approval, no request and mismatched target; check the Manager UI in the production build. No schema, migration or new error code is needed; use `VALIDATION` for an ineligible approval. Verify the combined migration chain and all existing gates on the integration tree.
+
 ## Effort
 
 About 4.5 h in total (G-01 1.5 h, Q45 1 h, Q38 2 h). Recorded in CR-03 (P03 §11.1, risk register).

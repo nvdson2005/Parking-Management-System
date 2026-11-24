@@ -24,6 +24,7 @@
 2. A Manager sees the request on the accounts page and sets the group; the request is cleared, `ACCOUNT_CHANGE` is logged and the customer gets a GROUP_CHANGED notification, in one transaction.
 3. Sessions already open keep the fee group they started with; the next entry uses the new group.
 4. Asking for the current group, a request from a non-customer, a group for staff or managers, or an unknown group is rejected.
+5. A Manager can approve only the Customer's exact pending group request. With no pending request or a different requested group, the Manager update is rejected and leaves the group, request, audit log and notifications unchanged.
 
 ### Edge Cases
 
@@ -34,7 +35,7 @@
 
 - **FR-A (G-01)**: `parking_lots.open_time`, `close_time` TEXT NULL (HH:mm), new migration; set as a pair through `POST /api/lots` and `PATCH /api/lots/[id]`.
 - **FR-B (Q45)**: `tariffsForGroup(db, group)`; customer home card.
-- **FR-C (Q38)**: `users.requested_user_group` TEXT NULL, new migration; `POST /api/account/group-request` (Customer); `PATCH /api/accounts/[id]` takes `{ locked }` or `{ userGroup }`.
+- **FR-C (Q38)**: `users.requested_user_group` TEXT NULL, new migration; `POST /api/account/group-request` (Customer); `PATCH /api/accounts/[id]` takes `{ locked }` or `{ userGroup }`. A `userGroup` change requires that Customer's matching pending request and atomically consumes it.
 
 ## Success Criteria
 

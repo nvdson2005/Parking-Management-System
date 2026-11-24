@@ -128,7 +128,7 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | GET/POST | `/api/lots`, PATCH `/api/lots/[id]` | Manager | Lot info, status (active/suspended) and opening hours `openTime`/`closeTime` (HH:mm, as a pair or both `null`; information only, Q37) |
 | POST `/api/zones`, PATCH `/api/zones/[id]` | Manager | Zone and capacity management |
 | GET/PUT | `/api/tariffs` | Manager | View / edit tariffs |
-| GET/POST | `/api/accounts`, PATCH `/api/accounts/[id]` | Manager | Staff/manager account management; PATCH takes `{ locked }` or a customer's `{ userGroup }` (Q38). Responses never include the password hash |
+| GET/POST | `/api/accounts`, PATCH `/api/accounts/[id]` | Manager | Staff/manager account management; PATCH takes `{ locked }` or a customer's `{ userGroup }` matching a pending request (Q38). Responses never include the password hash |
 | POST | `/api/account/group-request` | Customer | Ask a Manager to change one's fee group: `{ group }` (Q38) |
 | GET | `/api/reports?from=&to=` | Manager | Reports over a date range (includes `utilisationBySlice` per zone and vehicle type) |
 | GET | `/api/notifications` | any auth | Own notifications (newest first) and unread count |

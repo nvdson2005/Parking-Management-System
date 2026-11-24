@@ -73,8 +73,9 @@ export async function getGroupRequest(db: Db, customerId: string): Promise<UserG
 }
 
 /**
- * A Manager sets a customer's fee group (Q38, FR-07), usually to apply the
- * customer's request, which is then cleared. Only customers have a group.
+ * A Manager approves a customer's exact pending fee-group request (Q38,
+ * FR-07). Only customers have a group. An absent or different request is
+ * rejected without changing the account or writing approval evidence.
  * Sessions already open keep the fee group they started with. The change, its
  * `ACCOUNT_CHANGE` row and the customer's GROUP_CHANGED notification commit
  * together.
@@ -92,11 +93,16 @@ export async function setUserGroup(
     const user = await tx.user.findUnique({ where: { id: userId } })
     if (!user) throw new DomainError('NOT_FOUND', 'User not found')
     if (user.roleCode !== 'CUSTOMER') throw new DomainError('VALIDATION', 'Only customers have a fee group')
+    if (user.requestedUserGroup !== parsed.data) {
+      throw new DomainError('VALIDATION', 'No matching fee-group request')
+    }
 
-    const updated = await tx.user.update({
-      where: { id: userId },
+    const change = await tx.user.updateMany({
+      where: { id: userId, requestedUserGroup: parsed.data },
       data: { userGroup: parsed.data, requestedUserGroup: null },
     })
+    if (change.count !== 1) throw new DomainError('VALIDATION', 'Fee-group request changed')
+    const updated = await tx.user.findUniqueOrThrow({ where: { id: userId } })
     await logAccess(tx, {
       userId: actorId,
       action: 'ACCOUNT_CHANGE',

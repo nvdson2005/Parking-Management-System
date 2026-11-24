@@ -15,17 +15,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useT } from '@/components/I18nProvider'
-
-// Customer fee groups a Manager can set (Q38, FR-07).
-const GROUPS = ['STUDENT', 'LECTURER_STAFF'] as const
+import type { UserGroup } from '@/lib/types'
 
 type User = {
   id: string
   email: string
   name: string
   roleCode: string
-  userGroup: string | null
-  requestedUserGroup: string | null
+  userGroup: UserGroup | null
+  requestedUserGroup: UserGroup | null
   locked: boolean
 }
 
@@ -170,31 +168,21 @@ export default function ManagerAccountsPage() {
                 <TableCell>
                   {user.roleCode === 'CUSTOMER' ? (
                     <div className="flex flex-col gap-1">
-                      <select
-                        aria-label={t('accounts.changeGroup')}
-                        className="h-8 rounded-md border border-input bg-transparent px-2 text-sm"
-                        value={user.userGroup ?? ''}
-                        disabled={busy === `group-${user.id}`}
-                        onChange={(e) =>
-                          send(`/api/accounts/${user.id}`, 'PATCH', { userGroup: e.target.value }, `group-${user.id}`)
-                        }
-                      >
-                        {/* A customer without a group yet shows an empty choice, not a wrong one. */}
-                        {user.userGroup ? null : (
-                          <option value="" disabled>
-                            —
-                          </option>
-                        )}
-                        {GROUPS.map((g) => (
-                          <option key={g} value={g}>
-                            {t(`accounts.groups.${g}`)}
-                          </option>
-                        ))}
-                      </select>
+                      <span>{user.userGroup ? t(`accounts.groups.${user.userGroup}`) : '—'}</span>
                       {user.requestedUserGroup ? (
-                        <span className="text-xs text-muted-foreground">
-                          {t('accounts.requested', { group: t(`accounts.groups.${user.requestedUserGroup}`) })}
-                        </span>
+                        <>
+                          <span className="text-xs text-muted-foreground">
+                            {t('accounts.requested', { group: t(`accounts.groups.${user.requestedUserGroup}`) })}
+                          </span>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={busy === `group-${user.id}`}
+                            onClick={() => send(`/api/accounts/${user.id}`, 'PATCH', { userGroup: user.requestedUserGroup }, `group-${user.id}`)}
+                          >
+                            {t('accounts.approveGroup')}
+                          </Button>
+                        </>
                       ) : null}
                     </div>
                   ) : (

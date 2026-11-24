@@ -317,7 +317,7 @@ export const vi = {
     create: 'Tạo',
     creating: 'Đang tạo...',
     empty: 'Chưa có tài khoản nào.',
-    changeGroup: 'Đổi nhóm tính phí',
+    approveGroup: 'Duyệt đổi nhóm tính phí',
     requested: 'Khách hàng yêu cầu: {group}',
     roles: {
       CUSTOMER: 'Khách hàng',

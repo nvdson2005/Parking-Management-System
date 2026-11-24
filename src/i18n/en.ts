@@ -318,7 +318,7 @@ export const en: Dict = {
     create: 'Create',
     creating: 'Creating...',
     empty: 'No accounts yet.',
-    changeGroup: 'Change fee group',
+    approveGroup: 'Approve group change',
     requested: 'Customer asks for: {group}',
     roles: {
       CUSTOMER: 'Customer',

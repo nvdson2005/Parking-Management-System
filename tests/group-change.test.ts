@@ -69,6 +69,22 @@ describe('customer request (FR-08)', () => {
 })
 
 describe('manager change (FR-07)', () => {
+  it('rejects approval without a pending request and leaves account evidence unchanged', async () => {
+    await expect(setUserGroup(db, f.manager.id, f.student.id, 'LECTURER_STAFF')).rejects.toMatchObject({ code: 'VALIDATION' })
+    expect(await user(f.student.id)).toMatchObject({ userGroup: 'STUDENT', requestedUserGroup: null })
+    expect(await db.accessLog.count({ where: { userId: f.manager.id, action: 'ACCOUNT_CHANGE' } })).toBe(0)
+    expect(await db.notification.count({ where: { userId: f.student.id, type: 'GROUP_CHANGED' } })).toBe(0)
+  })
+
+  it('rejects a target different from the pending request without consuming it', async () => {
+    await requestGroupChange(db, f.student.id, 'LECTURER_STAFF')
+    const logsBefore = await db.accessLog.count({ where: { action: 'ACCOUNT_CHANGE' } })
+    await expect(setUserGroup(db, f.manager.id, f.student.id, 'STUDENT')).rejects.toMatchObject({ code: 'VALIDATION' })
+    expect(await user(f.student.id)).toMatchObject({ userGroup: 'STUDENT', requestedUserGroup: 'LECTURER_STAFF' })
+    expect(await db.accessLog.count({ where: { action: 'ACCOUNT_CHANGE' } })).toBe(logsBefore)
+    expect(await db.notification.count({ where: { userId: f.student.id, type: 'GROUP_CHANGED' } })).toBe(0)
+  })
+
   it('applies the group, clears the request, logs ACCOUNT_CHANGE and notifies the customer', async () => {
     await requestGroupChange(db, f.student.id, 'LECTURER_STAFF')
     await setUserGroup(db, f.manager.id, f.student.id, 'LECTURER_STAFF')
@@ -88,6 +104,7 @@ describe('manager change (FR-07)', () => {
       data: { plate: '59B-381.01', qrCode: 'QR-381', rfidCode: 'RF-381', vehicleTypeCode: 'MOTORBIKE', ownerId: f.student.id },
     })
     const first = await recordEntry(db, { method: 'PLATE', identifier: v.plate, zoneId: f.zoneA.id, staffId: f.staff.id })
+    await requestGroupChange(db, f.student.id, 'LECTURER_STAFF')
     await setUserGroup(db, f.manager.id, f.student.id, 'LECTURER_STAFF')
     expect((await db.parkingSession.findUniqueOrThrow({ where: { id: first.id } })).feeGroup).toBe('STUDENT')
 
@@ -99,9 +116,12 @@ describe('manager change (FR-07)', () => {
   it('PATCH /api/accounts/[id]: one change per request', async () => {
     asUser(f.manager, 'MANAGER')
     const ctx = { params: Promise.resolve({ id: f.student.id }) }
+    expect((await call(accountPATCH as Handler, 'PATCH', { userGroup: 'LECTURER_STAFF' }, ctx)).status).toBe(400)
+    await requestGroupChange(db, f.student.id, 'LECTURER_STAFF')
     expect((await call(accountPATCH as Handler, 'PATCH', { userGroup: 'LECTURER_STAFF' }, ctx)).body).toMatchObject({
       userGroup: 'LECTURER_STAFF',
     })
+    expect((await call(accountPATCH as Handler, 'PATCH', { userGroup: 'LECTURER_STAFF' }, ctx)).status).toBe(400)
     expect((await call(accountPATCH as Handler, 'PATCH', { locked: true, userGroup: 'STUDENT' }, ctx)).status).toBe(400)
     expect((await call(accountPATCH as Handler, 'PATCH', { userGroup: 'GUEST' }, ctx)).status).toBe(400)
   })

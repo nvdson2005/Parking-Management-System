@@ -8,3 +8,10 @@
 - [X] T004 [US3] Customer request card and Manager group select; render tests in `tests/round5-ui.test.ts` (no request: ask button; pending: text, no button; `getGroupRequest`; `LotInfoCard` with and without hours). The Manager accounts page is a client page that loads through `fetch` in an effect, so it is covered by the API tests and the production-build run, not by a render test
 - [X] T005 Full gate (`npm test`, lint, build, `prisma migrate diff`); production build run on a scratch DB (`docs/m3/evidence/round5-e2e.md`); `codegraph sync`
 - [X] T006 README, `docs/m3/workbook-rows.md`
+
+## Main integration and FR-003 correction
+
+- [X] T007 Merge the final PR #17 feature branch onto current `main` in the integration worktree; preserve the other merged PRs.
+- [X] T008 Add failing service and route regressions for exact pending-request approval, no request and mismatched target (FR-C, Phase 5 FR-003).
+- [X] T009 Enforce exact pending-request approval atomically in `setUserGroup` and show only the requested approval action on the Manager accounts page.
+- [ ] T010 Run focused tests, full suite, lint, build and disposable-database migration verification on the integration head; sync CodeGraph and record the result.
