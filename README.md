@@ -61,6 +61,12 @@ npx vitest run tests/lookup.test.ts            # one file
 The suite uses a separate `prisma/test.db` that `tests/global-setup.ts`
 recreates on every run (`prisma db push --force-reset`).
 
+`npm test` and `npm run build` first run `prisma generate` (`pretest`, `prebuild`),
+so the Prisma client matches the checked-out schema. After switching to a branch
+with new migrations, a direct `npx vitest run …` or `npx next build` uses the old
+client and fails with errors such as `Property 'entryGate' does not exist`: run
+`npx prisma generate` first.
+
 Some simulator tests (`tests/simulator.test.ts`, large `simulateLive` runs) can
 exceed vitest's default 5 s timeout on slower machines. If only those fail,
 check them with a longer timeout:
