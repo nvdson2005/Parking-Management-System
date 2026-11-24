@@ -10,3 +10,4 @@ out/
 coverage/
 .worktrees/
 *.tsbuildinfo
+docs/evidence/.A-45-*
