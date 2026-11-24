@@ -38,17 +38,21 @@ The earlier provisional tree contained the #11 index, session-gate and session-s
 
 **Earlier provisional review exclusions:** No database, server, browser or timed run was executed by RES-01 on `bcbbac3`. PR #21 later supplied integration build and migration evidence on its tested head. The 100-visit measurements, exception outcomes, nine browser/width cells and client verdict remain excluded from that evidence and mandatory for A-87/A-88.
 
+**RES-01 technical run, later on 24 November:** On the integrated `main` tree `26a623c`, a production server with a fresh nine-migration scratch database passed the [100-visit timing, completeness and count check](evidence/a87-res01-technical-2026-11-24.md): 200 events, maximum 15.9 ms recording and 11.8 ms availability update, zero missing updates, 100/100 complete closed records, and 6/6 independent count cells matched. EX-01 through EX-05 returned the expected generator outcomes; a separate full-lot attempt returned `ZONE_FULL` without changing the open count. EX-02/EX-03 Staff resolutions, the full browser matrix and QA/client verdicts remain open. This is technical evidence, not the formal A-87 or CP-05 gate.
+
 | Check | Pass evidence on the candidate | Current status |
 | --- | --- | --- |
 | Single pilot lot and per-visit charging | Staff entry and exit; configured vehicle type and Customer group rate charged once per visit regardless of duration. | Pending |
-| Normal 100-visit run | Event-to-record time ≤3 s; recorded-to-display update ≤5 s for each entry/exit; all closed records include entry, exit, vehicle type and area; independent free counts match by area/type. | Pending measured run |
-| Separate full-lot refusal | Fill suitable capacity, attempt another arrival, confirm rejection with no session and no availability change. No second timing run at full capacity is mandatory. | Pending |
-| Five exceptions | Record EX-01 through EX-05 individually, including the full-lot case, with expected and observed result. | Pending integrated run |
+| Normal 100-visit run | Event-to-record time ≤3 s; recorded-to-display update ≤5 s for each entry/exit; all closed records include entry, exit, vehicle type and area; independent free counts match by area/type. | RES-01 technical run passed on `26a623c`; QA A-87 verdict pending |
+| Separate full-lot refusal | Fill suitable capacity, attempt another arrival, confirm rejection with no session and no availability change. No second timing run at full capacity is mandatory. | API refusal and unchanged open count passed on `26a623c`; browser display check pending |
+| Five exceptions | Record EX-01 through EX-05 individually, including the full-lot case, with expected and observed result. | Generator outcomes observed on `26a623c`; EX-02/EX-03 Staff resolution pending |
 | Hours, tariffs and group request | Execute the [A-61 Phase 5 checks](quality-evidence-A-61.md#phase-5-extension-lot-information-and-fee-groups). | Pending |
 | Plate visibility and retention | Staff sees a partial mask in list, detail and response; Manager sees the full retained plate; include a short plate. After exit-based purge, old plate is gone while count, duration, revenue and unrelated notes remain; old entry with recent exit remains retained. | PR #11 final-head review passed on `main` `8102711`; A-87 integrated run pending |
 | Session access and scope | Explicit logout works. No 30-minute idle timeout, second-lot UI or survey score is required for handover. | Pending logout; scope recorded |
 
 The [A-68/CP-05 PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18) reports a 100-entry simulator run and complete records on `8472986`. Its later A-31 update reports T12 passed on PR #11's A-28 branch; QA's formal CP-05 decision is still pending. Neither run is the A-87 production-candidate run. Its D-01 overlapping-run report is a demo risk: use one operator, click once, and wait for completion at rehearsal; reproduce on the production candidate before deciding whether a product fix is required. D-03–D-05 need an owner decision or documented deferral. Do not count PR #18 as the Phase 5 integrated verdict.
+
+**RES-01 triage, 24/11:** For D-01, use the production server and a single operator; do not start another simulator run until the first finishes. The 200-event technical run completed without overlap, but did not recreate the original page-reload conditions, so the defect remains a demo watch item. D-03 (raw Staff entry zone/type labels) is assigned to RES-04 in the approved CR-03 group B. Defer D-04 (exit-preview observed-plate label) and D-05 (missing identification method on session detail) from the 27/11 demo fix list; RES-04 owns follow-up and P14 must disclose either unresolved defect if still present at handover. This triage is a PM scheduling decision, not a QA pass or client acceptance.
 
 ### Superseded PR #11 review findings (early 24 November)
 
@@ -69,11 +73,11 @@ At `main` SHA `8102711`, the final #11 implementation addresses all four finding
 
 ### Browser and width matrix (SC-003)
 
-For each cell record version, exact width, core entry/exit and Customer controls used, outcome, screenshot/link, operator and candidate SHA. All nine cells are pending.
+For each cell record version, exact width, core entry/exit and Customer controls used, outcome, screenshot/link, operator and candidate SHA. [RES-01's technical run](evidence/a87-res01-technical-2026-11-24.md) captured partial Chrome 158 observations on `26a623c` at all three widths: controls were visible with no page overflow, but the full workflow was not submitted in each cell and known UI defects were reproduced. Edge and Firefox were not available on the run machine. SC-003 remains pending.
 
 | Browser | 360 px | 768 px | 1920 px |
 | --- | --- | --- | --- |
-| Chrome | Pending | Pending | Pending |
+| Chrome 158 | [Partial](evidence/a87-chrome-360-entry.png) | [Partial](evidence/a87-chrome-768-entry.png) | [Partial](evidence/a87-chrome-1920-entry.png) |
 | Edge | Pending | Pending | Pending |
 | Firefox | Pending | Pending | Pending |
 
