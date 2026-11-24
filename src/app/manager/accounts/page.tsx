@@ -179,6 +179,12 @@ export default function ManagerAccountsPage() {
                           send(`/api/accounts/${user.id}`, 'PATCH', { userGroup: e.target.value }, `group-${user.id}`)
                         }
                       >
+                        {/* A customer without a group yet shows an empty choice, not a wrong one. */}
+                        {user.userGroup ? null : (
+                          <option value="" disabled>
+                            —
+                          </option>
+                        )}
                         {GROUPS.map((g) => (
                           <option key={g} value={g}>
                             {t(`accounts.groups.${g}`)}

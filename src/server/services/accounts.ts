@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { AccessLog, PrismaClient, User } from '@prisma/client'
+import type { AccessLog, User } from '@prisma/client'
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { hashPassword } from '@/server/auth/password'
@@ -88,7 +88,7 @@ export async function setUserGroup(
   const parsed = groupSchema.safeParse(group)
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid group')
 
-  return (db as PrismaClient).$transaction(async (tx) => {
+  return inTransaction(db, async (tx) => {
     const user = await tx.user.findUnique({ where: { id: userId } })
     if (!user) throw new DomainError('NOT_FOUND', 'User not found')
     if (user.roleCode !== 'CUSTOMER') throw new DomainError('VALIDATION', 'Only customers have a fee group')
