@@ -8,10 +8,10 @@ Hệ thống quản lý bãi đỗ xe thông minh (Smart Parking Management Syst
 |---|---|
 | Mã và tên | P18 - Thiết kế kiến trúc và API |
 | Loại | Sản phẩm trung gian |
-| Phiên bản | v0.2 (bản nháp, chờ review CP-02); v1.0 do hoạt động A-22 tạo ra |
+| Phiên bản | v1.1 (ghi nhận follow-up review CP-02 ngày 24/11/2026) |
 | Chủ sở hữu | Nguyễn Võ Đức Sơn (Trưởng nhóm kỹ thuật, RES-01) |
-| Người review | Đào Xuân Sơn (QA) |
-| Hoạt động tạo / review | A-22 (09–12/11/2026, W12, Nguyễn Võ Đức Sơn) tạo v1.0; A-23 (~13–16/11/2026, W12–W13) review tại CP-02 bởi Đào Xuân Sơn |
+| Người review | A-23 ban đầu giao cho Đào Xuân Sơn (RES-02) và Nguyễn Phạm Mạnh Dũng (RES-03); follow-up review do Nguyễn Võ Đức Sơn (RES-01) tiếp nhận ngày 24/11/2026 |
+| Hoạt động tạo / review | A-22 (09–12/11/2026, W12, Nguyễn Võ Đức Sơn) tạo v1.0; A-23 (~13–16/11/2026, W12–W13) được giao cho RES-02/RES-03; RES-01 tiếp nhận follow-up ngày 24/11/2026 khi kết quả A-23 còn chờ |
 | Checkpoint | CP-02 |
 | Mục tiêu liên quan | O1, O2, O4, O5 |
 | Nguồn | P02 SRS, M1 report, client log, mã nguồn MVP (hoàn thành 08/11/2026) |
@@ -23,6 +23,8 @@ Hệ thống quản lý bãi đỗ xe thông minh (Smart Parking Management Syst
 |---|---|---|---|
 | v0.1 | 08/11/2026 | Nguyễn Võ Đức Sơn | Bản nháp đầu tiên, đối chiếu đặc tả MVP với mã nguồn |
 | v0.2 | 09/11/2026 | Nguyễn Võ Đức Sơn | Đưa P06, P10, P11 vào phạm vi V1.0; ánh xạ KB-01..KB-19 sang hoạt động sửa của Baseline V1.0 |
+| v1.0 | 18/11/2026 | Nguyễn Võ Đức Sơn | A-22: quyết định cho KB-01..KB-19; chấp nhận KB-02, KB-03; sửa KB-04, KB-05; bổ sung `method` cho `/api/events/exit/confirm` và quy tắc loại xe cho `/api/events/entry` |
+| v1.1 | 24/11/2026 | Nguyễn Võ Đức Sơn (RES-01) | Ghi nhận follow-up review CP-02 sau khi RES-01 tiếp nhận quyền sở hữu review còn chờ từ A-23; kết quả đạt theo ba tiêu chí CP-02 |
 
 **Quy ước trong tài liệu.** Mã FR-xx, EX-xx, D-xx giữ nguyên theo đặc tả thiết kế MVP (`docs/superpowers/specs/2026-11-08-smart-parking-mvp-design.md`). Mọi mô tả hành vi lấy từ đặc tả và mã nguồn hiện tại; đường dẫn mã ghi bằng tiếng Anh.
 
@@ -308,6 +310,7 @@ Lỗi: `VALIDATION`, `UNAUTHENTICATED`, `FORBIDDEN`, `NO_OPEN_SESSION`, `NOT_FOU
 | `observedPlate` | string ≥ 1 | Có | So lại với `plateSnapshot` |
 | `confirmMismatch` | boolean | Có | `true` = Staff xác nhận thủ công EX-02 |
 | `lostCard` | boolean | Có | `true` = EX-03 |
+| `method` | `"PLATE" \| "QR" \| "RFID"` | Không; **bắt buộc là `PLATE` khi `lostCard = true`** | Máy chủ trả 400 `VALIDATION` và không ghi gì nếu `lostCard = true` mà `method` khác `PLATE` hoặc thiếu (KB-05). Bỏ qua khi `lostCard = false` |
 | `note` | string | Không | Ghi vào `session_events.note` |
 
 Response 200: `{ "session": ParkingSession (status CLOSED), "payment": Payment }`. Phần `payment` thuộc P10 (FR-27, Should); việc ghép đóng lượt gửi với tạo thanh toán được chốt tại CP-02 (KB-03).
@@ -333,6 +336,10 @@ Response 200: `{ "session": ParkingSession (status CLOSED), "payment": Payment }
 ```
 
 Lỗi: `VALIDATION`, `UNAUTHENTICATED`, `FORBIDDEN`, `NO_OPEN_SESSION`, `PLATE_MISMATCH`, `NOT_FOUND` (thiếu bảng giá).
+
+Lưu ý so khớp biển số (KB-04): `observedPlate` được so với biển lúc vào không phân biệt hoa/thường, khoảng trắng, dấu chấm và gạch ngang; biển khác thật sự vẫn trả `plateMismatch = true` (preview) hoặc `409 PLATE_MISMATCH` (confirm không có `confirmMismatch`).
+
+Lưu ý thời điểm tính phí và thanh toán (KB-02, KB-03): phí tính theo bảng giá tại thời điểm xe ra; đóng lượt và tạo thanh toán nằm trong một transaction.
 
 ### 7.4 Ví dụ lỗi
 
@@ -434,25 +441,25 @@ Mọi endpoint có `requireRole` đều có thể trả thêm `UNAUTHENTICATED` 
 
 | Mã | Mục spec | Spec nói | Mã nguồn làm | Mức / đề xuất | Hoạt động xử lý (Baseline V1.0) |
 |---|---|---|---|---|---|
-| KB-01 | FR-15, D-05 | Một API sự kiện vào/ra dùng chung cho màn hình Staff và bộ mô phỏng | Ba endpoint (`/api/events/entry`, `/exit/preview`, `/exit/confirm`). Bộ mô phỏng không gọi HTTP mà gọi trực tiếp cùng ba hàm service trong tiến trình | Đáp ứng ý định (cùng quy tắc). Ghi rõ "API dùng chung ở tầng service" khi đóng băng hợp đồng tại CP-02 | A-44 |
-| KB-02 | FR-14, FR-26 | Hiển thị phí rồi xác nhận thanh toán | Phí tính theo bảng giá **tại thời điểm xe ra** (cả preview và confirm), chỉ `feeGroup` được chụp lúc vào. Đổi bảng giá giữa preview và confirm làm số tiền khác số đã hiển thị. Chú thích trong `exit.ts` ghi "fee snapshotted at entry", không khớp với mã | Spec không quy định thời điểm áp giá; cần chốt và sửa chú thích (P10, Should) | A-63 |
-| KB-03 | FR-14, FR-27 | Đóng lượt gửi là Must; thanh toán mô phỏng (P10) là Should, cùng thuộc V1.0 | `confirmExit` luôn tạo bản ghi `payments` CONFIRMED trong cùng transaction với việc đóng lượt; không có đường đóng lượt mà không thanh toán | Thanh toán đã trong phạm vi, nhưng đóng lượt (Must) và tạo thanh toán (Should) bị ghép chặt; nếu kích hoạt thứ tự cắt giảm Q22 thì luồng Must không tách được. Cần quyết định tại CP-02: giữ ghép hoặc tách | A-63 |
-| KB-04 | EX-02, D-26 | Lệch biển số khi biển gõ khác biển lúc vào | Tìm xe dùng khóa so sánh bỏ dấu phân cách, nhưng so lệch dùng `normalizePlate` (chỉ bỏ khoảng trắng, viết hoa). Gõ `51F12345` cho xe `51F-123.45` vẫn tìm được lượt nhưng bị báo lệch | Không nhất quán nội bộ; đề xuất dùng cùng khóa so sánh | A-63 |
-| KB-05 | EX-03, D-09 | Staff tra lượt gửi **theo biển số** khi mất thẻ | Server không ép phương thức PLATE khi `lostCard = true`; chỉ UI (`ExitForm.tsx`) ép | Chấp nhận cho demo; ghi chú trong hợp đồng | A-63 |
-| KB-06 | D-31, FR-31 | Ghi `VIEW_FULL_PLATE` khi mở chi tiết lượt gửi **hoặc chi tiết xe** | Chỉ có trang chi tiết lượt gửi `/staff/sessions/[id]` ghi nhật ký; không có màn hình chi tiết xe cho Staff/Manager | Thiếu một điểm ghi (do thiếu màn hình); chốt lại phạm vi D-31 | A-22 quyết định tại CP-02 |
-| KB-07 | D-23 | Ghi nhật ký đăng nhập | `register` đặt cookie phiên (tự đăng nhập) nhưng không ghi `LOGIN` | Nhỏ; bổ sung nếu QA yêu cầu | A-28 |
-| KB-08 | FR-33, D-28 | EX-01, EX-04, EX-05: "bắn trực tiếp sự kiện vào bị từ chối" | EX-01 lấp đầy khu vực bằng các lượt vào vãng lai thật cho đến khi hết chỗ rồi mới bắn lượt bị từ chối (để lại nhiều lượt OPEN). EX-05 chuyển bãi sang SUSPENDED trực tiếp qua Prisma rồi khôi phục trạng thái cũ, không ghi `LOT_CHANGE`, không phát SSE | Ghi vào hướng dẫn demo P04 | A-44 |
-| KB-09 | FR-33 | Không giới hạn N | `live`: `n` 1–500; `history`: `days` 1–60; dữ liệu `history` không có đặt chỗ PENDING; lý do hủy sinh ra luôn là `CUSTOMER`. Sự kiện mô phỏng ghi nhật ký dưới tên Manager chạy mô phỏng | Lựa chọn [BUILDER]; đáp ứng FR-34 | A-44 |
-| KB-10 | FR-32, D-29 | Che biển trên lượt > 12 tháng; xóa xe Guest không có lượt mới hơn | Thêm điều kiện: bỏ qua lượt OPEN; không xóa xe còn đặt chỗ hoặc còn lượt OPEN; tách `vehicleId` của lượt cũ trước khi xóa xe | Làm chặt hơn spec; giữ nguyên | A-22 quyết định tại CP-02 |
-| KB-11 | FR-20, FR-21 | Điều kiện từ chối đặt chỗ: hết chỗ, bãi tạm ngưng | Thêm `VEHICLE_ALREADY_RESERVED` (xe đã có PENDING) và `VEHICLE_PARKED` (xe đang đỗ). Hủy không hợp lệ (kể cả không phải chủ) đều trả `NOT_CANCELLABLE` | Quy tắc bổ sung (P06, Should) | A-70 |
-| KB-12 | D-24 | Manager khóa/mở mọi tài khoản | Manager không được tự khóa mình (`VALIDATION`) | Quy tắc bổ sung hợp lý | A-22 quyết định tại CP-02 |
-| KB-13 | FR-11 | Staff chọn loại xe và khu vực | Với xe đã có trong hệ thống, `vehicleType` gửi lên bị bỏ qua; loại xe lấy từ bản ghi xe. Chỉ bắt buộc khi biển số mới | Chi tiết [BUILDER]; ghi trong hợp đồng mục 7.1 | A-63 |
-| KB-14 | Quy ước API (mục 6) | Lỗi đầu vào → 400 `VALIDATION` | `auth/login`, `auth/register`, `lang`, `POST /api/vehicles` đọc body bằng `req.json()` thay vì `readJsonObject`; body không phải JSON hợp lệ gây lỗi 500 thay vì 400 | Không nhất quán nội bộ; đề xuất dùng `readJsonObject` | A-28 |
-| KB-15 | Tiêu chí CP-02 "mỗi FR có endpoint hoặc thành phần" | — | FR-31 (xem nhật ký), FR-13 (xem lượt gửi) và FR-28 không có endpoint; dữ liệu được đọc trong trang server. FR-05, FR-16, FR-18, FR-19a, FR-30 đáp ứng bằng thành phần | Tiêu chí CP-02 đã chấp nhận "endpoint hoặc thành phần"; bổ sung endpoint nếu CP-02 yêu cầu | A-65 |
-| KB-16 | FR-02, FR-04 | Đăng xuất, khóa tài khoản | JWT 7 ngày, đăng xuất chỉ xóa cookie (không thu hồi token). Middleware chỉ kiểm chữ ký và vai trò (không đọc CSDL), nên người bị khóa vẫn qua middleware; nhưng mọi API và trang có `requireRole` đều từ chối | Đáp ứng FR-04; ghi nhận rủi ro nhỏ | A-28 |
-| KB-17 | §7 thực thể | Danh sách 12 thực thể | Thêm bảng `roles`; `parking_sessions` thêm `fee_group`, `owner_id` (chụp chủ xe lúc vào); `reservations` thêm `cancel_reason`, `cancel_zone_id` (D-41) | [BUILDER] cho phép; P03 cần cập nhật tương ứng | A-22 quyết định tại CP-02 |
-| KB-18 | `src/server/services/lots.ts` (chú thích) | D-27: bãi tạm ngưng hiển thị số đếm bình thường | Chú thích `updateLot` ghi "suspension immediately hides the lot's free spots", nhưng mã thực tế vẫn trả số đếm bình thường + `status` | Chỉ sai chú thích; hành vi đúng spec | A-22 quyết định tại CP-02 |
-| KB-19 | FR-16 | ≤ 2 giây mỗi sự kiện | Tìm xe theo biển số đọc **toàn bộ** bảng `vehicles` rồi lọc trong bộ nhớ (`findVehicleByCompareKey`) | Đạt ở quy mô thí điểm; rủi ro khi dữ liệu lớn | A-22 quyết định tại CP-02 |
+| KB-01 | FR-15, D-05 | Một API sự kiện vào/ra dùng chung cho màn hình Staff và bộ mô phỏng | Ba endpoint (`/api/events/entry`, `/exit/preview`, `/exit/confirm`). Bộ mô phỏng không gọi HTTP mà gọi trực tiếp cùng ba hàm service trong tiến trình | Đáp ứng ý định (cùng quy tắc). Ghi rõ "API dùng chung ở tầng service" khi đóng băng hợp đồng tại CP-02 | **Quyết định (A-22): chấp nhận.** "API dùng chung ở tầng service"; ghi trong hợp đồng. Xử lý tại A-44 (A-44) |
+| KB-02 | FR-14, FR-26 | Hiển thị phí rồi xác nhận thanh toán | Phí tính theo bảng giá **tại thời điểm xe ra** (cả preview và confirm), chỉ `feeGroup` được chụp lúc vào. Đổi bảng giá giữa preview và confirm làm số tiền khác số đã hiển thị. Chú thích trong `exit.ts` ghi "fee snapshotted at entry", không khớp với mã | Spec không quy định thời điểm áp giá; cần chốt và sửa chú thích (P10, Should) | **Quyết định (A-22): chấp nhận.** Phí tính theo bảng giá tại thời điểm xe ra; nhật ký tương tác khách hàng không nêu thời điểm áp giá nên dùng mặc định của nhóm. Không đổi mã; có test hồi quy (A-63, A-74) (A-63) |
+| KB-03 | FR-14, FR-27 | Đóng lượt gửi là Must; thanh toán mô phỏng (P10) là Should, cùng thuộc V1.0 | `confirmExit` luôn tạo bản ghi `payments` CONFIRMED trong cùng transaction với việc đóng lượt; không có đường đóng lượt mà không thanh toán | Thanh toán đã trong phạm vi, nhưng đóng lượt (Must) và tạo thanh toán (Should) bị ghép chặt; nếu kích hoạt thứ tự cắt giảm Q22 thì luồng Must không tách được. Cần quyết định tại CP-02: giữ ghép hoặc tách | **Quyết định (A-22): chấp nhận.** Giữ đóng lượt và thanh toán trong một transaction; test xác nhận lỗi thanh toán không đóng lượt (A-63, A-74) (A-63) |
+| KB-04 | EX-02, D-26 | Lệch biển số khi biển gõ khác biển lúc vào | Tìm xe dùng khóa so sánh bỏ dấu phân cách, nhưng so lệch dùng `normalizePlate` (chỉ bỏ khoảng trắng, viết hoa). Gõ `51F12345` cho xe `51F-123.45` vẫn tìm được lượt nhưng bị báo lệch | Không nhất quán nội bộ; đề xuất dùng cùng khóa so sánh | **Quyết định (A-22): sửa mã, đã làm.** So lệch dùng `plateCompareKey` giống tìm xe (A-63) (A-63) |
+| KB-05 | EX-03, D-09 | Staff tra lượt gửi **theo biển số** khi mất thẻ | Server không ép phương thức PLATE khi `lostCard = true`; chỉ UI (`ExitForm.tsx`) ép | Chấp nhận cho demo; ghi chú trong hợp đồng | **Quyết định (A-22): sửa mã, đã làm.** `confirmExit` nhận `method` và từ chối `lostCard` khi không phải PLATE (`VALIDATION`) (A-63) (A-63) |
+| KB-06 | D-31, FR-31 | Ghi `VIEW_FULL_PLATE` khi mở chi tiết lượt gửi **hoặc chi tiết xe** | Chỉ có trang chi tiết lượt gửi `/staff/sessions/[id]` ghi nhật ký; không có màn hình chi tiết xe cho Staff/Manager | Thiếu một điểm ghi (do thiếu màn hình); chốt lại phạm vi D-31 | **Quyết định (A-22): chấp nhận.** D-31 giới hạn ở trang chi tiết lượt gửi; chưa có màn hình chi tiết xe |
+| KB-07 | D-23 | Ghi nhật ký đăng nhập | `register` đặt cookie phiên (tự đăng nhập) nhưng không ghi `LOGIN` | Nhỏ; bổ sung nếu QA yêu cầu | **Quyết định (A-22): sửa mã** tại A-28 (RES-03) (A-28) |
+| KB-08 | FR-33, D-28 | EX-01, EX-04, EX-05: "bắn trực tiếp sự kiện vào bị từ chối" | EX-01 lấp đầy khu vực bằng các lượt vào vãng lai thật cho đến khi hết chỗ rồi mới bắn lượt bị từ chối (để lại nhiều lượt OPEN). EX-05 chuyển bãi sang SUSPENDED trực tiếp qua Prisma rồi khôi phục trạng thái cũ, không ghi `LOT_CHANGE`, không phát SSE | Ghi vào hướng dẫn demo P04 | **Quyết định (A-22): sửa mã** tại A-44 (RES-05) và ghi hướng dẫn demo (A-44) |
+| KB-09 | FR-33 | Không giới hạn N | `live`: `n` 1–500; `history`: `days` 1–60; dữ liệu `history` không có đặt chỗ PENDING; lý do hủy sinh ra luôn là `CUSTOMER`. Sự kiện mô phỏng ghi nhật ký dưới tên Manager chạy mô phỏng | Lựa chọn [BUILDER]; đáp ứng FR-34 | **Quyết định (A-22): chấp nhận.** A-44 kiểm tra đáp ứng FR-34 (A-44) |
+| KB-10 | FR-32, D-29 | Che biển trên lượt > 12 tháng; xóa xe Guest không có lượt mới hơn | Thêm điều kiện: bỏ qua lượt OPEN; không xóa xe còn đặt chỗ hoặc còn lượt OPEN; tách `vehicleId` của lượt cũ trước khi xóa xe | Làm chặt hơn spec; giữ nguyên | **Quyết định (A-22): chấp nhận.** Chặt hơn spec, giữ nguyên |
+| KB-11 | FR-20, FR-21 | Điều kiện từ chối đặt chỗ: hết chỗ, bãi tạm ngưng | Thêm `VEHICLE_ALREADY_RESERVED` (xe đã có PENDING) và `VEHICLE_PARKED` (xe đang đỗ). Hủy không hợp lệ (kể cả không phải chủ) đều trả `NOT_CANCELLABLE` | Quy tắc bổ sung (P06, Should) | **Quyết định (A-22): chấp nhận.** A-70 (RES-04) rà soát mã lỗi (A-70) |
+| KB-12 | D-24 | Manager khóa/mở mọi tài khoản | Manager không được tự khóa mình (`VALIDATION`) | Quy tắc bổ sung hợp lý | **Quyết định (A-22): chấp nhận.** Manager không tự khóa mình |
+| KB-13 | FR-11 | Staff chọn loại xe và khu vực | Với xe đã có trong hệ thống, `vehicleType` gửi lên bị bỏ qua; loại xe lấy từ bản ghi xe. Chỉ bắt buộc khi biển số mới | Chi tiết [BUILDER]; ghi trong hợp đồng mục 7.1 | **Quyết định (A-22): chấp nhận.** Ghi trong hợp đồng mục 7.1 và có test (A-63) (A-63) |
+| KB-14 | Quy ước API (mục 6) | Lỗi đầu vào → 400 `VALIDATION` | `auth/login`, `auth/register`, `lang`, `POST /api/vehicles` đọc body bằng `req.json()` thay vì `readJsonObject`; body không phải JSON hợp lệ gây lỗi 500 thay vì 400 | Không nhất quán nội bộ; đề xuất dùng `readJsonObject` | **Quyết định (A-22): sửa mã** tại A-28 (RES-03) (A-28) |
+| KB-15 | Tiêu chí CP-02 "mỗi FR có endpoint hoặc thành phần" | — | FR-31 (xem nhật ký), FR-13 (xem lượt gửi) và FR-28 không có endpoint; dữ liệu được đọc trong trang server. FR-05, FR-16, FR-18, FR-19a, FR-30 đáp ứng bằng thành phần | Tiêu chí CP-02 đã chấp nhận "endpoint hoặc thành phần"; bổ sung endpoint nếu CP-02 yêu cầu | **Quyết định (A-22): chấp nhận** tiêu chí "endpoint hoặc thành phần"; A-65 (RES-03) bổ sung endpoint (A-65) |
+| KB-16 | FR-02, FR-04 | Đăng xuất, khóa tài khoản | JWT 7 ngày, đăng xuất chỉ xóa cookie (không thu hồi token). Middleware chỉ kiểm chữ ký và vai trò (không đọc CSDL), nên người bị khóa vẫn qua middleware; nhưng mọi API và trang có `requireRole` đều từ chối | Đáp ứng FR-04; ghi nhận rủi ro nhỏ | **Quyết định (A-22): sửa mã** theo ánh xạ Baseline V1.0 tại A-28 (RES-03 xác nhận phạm vi) (A-28) |
+| KB-17 | §7 thực thể | Danh sách 12 thực thể | Thêm bảng `roles`; `parking_sessions` thêm `fee_group`, `owner_id` (chụp chủ xe lúc vào); `reservations` thêm `cancel_reason`, `cancel_zone_id` (D-41) | [BUILDER] cho phép; P03 cần cập nhật tương ứng | **Quyết định (A-22): sửa spec.** P03 đã có `roles`, `fee_group`, `owner_id`, `cancel_reason`, `cancel_zone_id`; không cần sửa thêm |
+| KB-18 | `src/server/services/lots.ts` (chú thích) | D-27: bãi tạm ngưng hiển thị số đếm bình thường | Chú thích `updateLot` ghi "suspension immediately hides the lot's free spots", nhưng mã thực tế vẫn trả số đếm bình thường + `status` | Chỉ sai chú thích; hành vi đúng spec | **Quyết định (A-22): sửa chú thích, đã làm.** Hành vi đúng spec |
+| KB-19 | FR-16 | ≤ 2 giây mỗi sự kiện | Tìm xe theo biển số đọc **toàn bộ** bảng `vehicles` rồi lọc trong bộ nhớ (`findVehicleByCompareKey`) | Đạt ở quy mô thí điểm; rủi ro khi dữ liệu lớn | **Quyết định (A-22): chấp nhận** ở quy mô thí điểm; rủi ro khi dữ liệu lớn |
 
 ### 10.1 Ánh xạ khác biệt sang hoạt động sửa
 
@@ -468,6 +475,25 @@ MVP đã hoàn thành ngày 08/11/2026; mục 10 là đầu vào cho các hoạt
 | A-22 (quyết định tại CP-02) | Sửa spec/tài liệu hoặc chấp nhận; không dự kiến sửa mã | Nguyễn Võ Đức Sơn | KB-06, KB-10, KB-12, KB-17, KB-18, KB-19 |
 
 Các lựa chọn [BUILDER] khác của spec §8 và mã đã chọn: thư viện xác thực `jose` + `bcryptjs`; i18n tự viết (`src/i18n`, cookie `lang`); test runner `vitest`; ảnh QR `qrcode`; biểu đồ `recharts`; hết hạn đặt chỗ kích hoạt bởi bộ hẹn giờ 30 s và đầu mỗi lần đọc chỗ trống, xe vào, tạo đặt chỗ, báo cáo; SSE gửi toàn bộ ảnh chụp, ping 25 s; mã QR/RFID dạng `QR-`/`RF-` + 10 ký tự base32.
+
+### 10.2 Ghi nhận review CP-02
+
+| Mục | Nội dung |
+|---|---|
+| Quyết định | KB-01..KB-19 đều có quyết định (cột cuối bảng mục 10); KB-02, KB-03 chấp nhận; KB-04, KB-05 sửa mã (A-63); KB-18 sửa chú thích |
+| Hợp đồng vào/ra | Đóng băng với hai thay đổi: `method` ở `/api/events/exit/confirm` (KB-05) và quy tắc so biển (KB-04) |
+| Người duyệt | Nguyễn Võ Đức Sơn (RES-01) |
+| Người review | Nguyễn Võ Đức Sơn (RES-01), tiếp nhận quyền sở hữu follow-up review còn chờ từ A-23 (ban đầu giao RES-02/RES-03) |
+| Ngày review | 24/11/2026 (follow-up review của RES-01; ngày dự kiến 20/11/2026 trước đó không phải ngày review thực tế) |
+| Kết quả | Đạt theo các tiêu chí CP-02 đã nêu: KB-01..KB-19 đều có quyết định tại mục 10; hợp đồng vào/ra được đóng băng tại mục 7; FR-01..FR-34 được ánh xạ tới endpoint hoặc thành phần tại mục 9. Đây là rà soát tài liệu P18 theo các tiêu chí trên. |
+
+### 10.3 Rà soát A-74 (thanh toán mô phỏng, FR-26..FR-28)
+
+| Yêu cầu | Kết quả | Bằng chứng |
+|---|---|---|
+| FR-26 phí theo loại xe và nhóm | Đúng; phí tại thời điểm xe ra (KB-02) | `tests/exit.test.ts` (KB-02), `tests/fees.test.ts` |
+| FR-27 xác nhận thanh toán, lưu payment | Đúng; một payment mỗi lượt, cùng transaction với đóng lượt (KB-03) | `tests/exit.test.ts` (KB-03, một payment mỗi lượt) |
+| FR-28 lịch sử Customer và Manager | Đạt; `customerHistory` chỉ trả lượt của xe thuộc chủ, trang `/customer/history` yêu cầu CUSTOMER; `allPayments` ở `/manager/payments` yêu cầu MANAGER. Không phát hiện lỗ hổng, không thêm test mới | `tests/history.test.ts` |
 
 ---
 
@@ -497,7 +523,7 @@ Các câu hỏi dự kiến cho vòng 3 (spec §10; chưa gửi khách hàng, đ
 
 | Mã | Vấn đề | Đề xuất |
 |---|---|---|
-| VM-01 | Hợp đồng vào/ra đóng băng cả trường `fee` (preview) và `payment` (confirm); đóng lượt gửi (Must) và tạo thanh toán (P10, Should) đang ghép trong một transaction (KB-03) | Đóng băng nguyên hình dạng hiện tại; chốt giữ ghép hay tách để vẫn đóng lượt được nếu áp dụng thứ tự cắt giảm Q22 |
-| VM-02 | Thời điểm áp giá (KB-02) | Chốt "giá tại thời điểm xe ra" hoặc chụp giá lúc vào |
+| VM-01 | Hợp đồng vào/ra đóng băng cả trường `fee` (preview) và `payment` (confirm); đóng lượt gửi (Must) và tạo thanh toán (P10, Should) đang ghép trong một transaction (KB-03) | Đóng băng nguyên hình dạng hiện tại; chốt giữ ghép hay tách để vẫn đóng lượt được nếu áp dụng thứ tự cắt giảm Q22 Đã chốt (A-22, 18/11/2026): giữ ghép trong một transaction; đóng băng nguyên hình dạng hiện tại. |
+| VM-02 | Thời điểm áp giá (KB-02) | Chốt "giá tại thời điểm xe ra" hoặc chụp giá lúc vào Đã chốt (A-22, 18/11/2026): giá tại thời điểm xe ra. |
 | VM-03 | Các FR đáp ứng bằng trang server/thành phần thay vì endpoint (KB-15) | Tiêu chí CP-02 đã là "mỗi FR có endpoint hoặc thành phần"; A-65 bổ sung endpoint nếu CP-02 yêu cầu |
 | VM-04 | Khóa và event bus chỉ đúng trong một tiến trình | Giữ nguyên cho demo cục bộ (D-16); ghi là ràng buộc triển khai |
