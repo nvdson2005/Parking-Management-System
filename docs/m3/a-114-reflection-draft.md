@@ -5,6 +5,8 @@ Draft from the repository history. Edit freely: the reflection must be in your o
 **Member:** Nguyễn Võ Đức Sơn (RES-01), PM and Tech lead
 **Period covered:** W12 through 21/11/2026 (update at the end of W14)
 
+**Phase 5 update to verify before submission:** The 23 November client reply was mapped to 11 decisions in [PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) and the [RES-01 interaction log](client-interaction-log-phase-5.md). I prepared the split delivery design and Spec Kit plan in [PR #19](https://github.com/nvdson2005/Parking-Management-System/pull/19). A-68 was reported one day late in PR #18, while the QA gate, integrated build and client verdict remained open at the 24 November review. I kept estimates separate from measured hours. Add the actual M-03, A-87, A-88 and retrospective outcomes after they occur; this draft is not a signed personal statement.
+
 ## Contribution (evidence)
 
 | Area | What I did | Evidence |

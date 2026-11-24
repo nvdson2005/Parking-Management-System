@@ -46,3 +46,16 @@ The targeted HTTP verification authenticated as the seeded Staff user. All seven
 - PUT /api/tariffs
 
 The targeted script exited 0. The A-61 permission gap is closed.
+
+## Phase 5 extension: lot information and fee groups
+
+The 20 November A-61 verdict covers the earlier lot CRUD, tariff and permission behavior. Phase 5 adds the following **pending integrated-build checks** from lecturer answers Q37, Q38 and Q45. Their results must cite the final SHA of [product PR #17](https://github.com/nvdson2005/Parking-Management-System/pull/17) after its base [#11](https://github.com/nvdson2005/Parking-Management-System/pull/11) is integrated.
+
+| Check | Expected result | Evidence to record |
+| --- | --- | --- |
+| Manager edits pilot-lot hours; Customer views them | Saved hours appear to the Customer; an otherwise valid entry and reservation outside the displayed hours remain governed by ordinary rules. | Account roles, lot, old/new hours, API/UI result, SHA |
+| Two Customer fee groups | Each account sees its own configured motorcycle and car per-visit rates before parking. | Account group, tariff values, observed view, SHA |
+| Customer requests group change | Customer can request but cannot directly apply the group update; Manager applies an approved request. | Request and authorization results, before/after group, SHA |
+| Migration and regression | Candidate applies migrations without data loss; existing seven Staff 403 checks and lot management tests remain valid. | Migration command/result, suite/lint/build, SHA |
+
+**Status:** Phase 5 extension not yet verified on an integrated candidate. The existing A-61 permission evidence remains valid for the tested `a55f6a8` revision only. Keep these results distinct in the Quality Evidence log.

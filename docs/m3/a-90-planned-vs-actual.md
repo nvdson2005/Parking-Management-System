@@ -1,5 +1,11 @@
 # A-90 Planned vs Actual · report draft
 
+## Phase 5 status note (24 November 2026)
+
+[PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) merged the 11 lecturer answers; [the interaction log](client-interaction-log-phase-5.md) maps Q36–Q46. A-68 finished on 24 November according to [PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18), one day after the 23 November plan; CP-05 is still a proposed result with T12 pending A-31. The product PR stack #11 → #17 remains open, so A-87 and A-88 lack a final integrated candidate. [PR #14](https://github.com/nvdson2005/Parking-Management-System/pull/14) merged the RES-05 confirmation of A-67; that does not close CP-05.
+
+No measured RES-01 or team hours for W14 were found in the repository. The estimates and capacity proxies below remain labelled as such. Obtain per-activity actual hours from each owner and the RES-03 tracker before calculating final effort, cost, or >20% variances. A-91, A-92 sign-off and the LMS submission receipt remain pending; the 28 and 29 November dates are targets.
+
 Planned values come from `docs/m2-report/generated/estimates.md` and the work-division plan. **Actual hours and start dates are unknown** (assumed equal to capacity at team level, 8 h in W12 and 10 h from W13; see the RES-01 effort estimates below); finish dates come from commits and documents. Deviations over 20% are explained once actual hours exist (A-103, Task 3.3). The detailed activity table covers RES-01. RES-03 owns the team tracker.
 
 | A-ID | Activity | Planned start–finish | Planned E (h) | Actual finish (evidence) | Estimated RES-01 effort (h) | Deviation | Explanation |

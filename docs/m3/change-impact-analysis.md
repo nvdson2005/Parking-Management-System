@@ -104,3 +104,18 @@ Totals: A 1.5 h, B 0.6 h, C 3.25 h, D 4.75 h. All groups together come to about 
 | Cost | Converted at 50,000 VND per person-hour (not cash): A + B about 105,000 VND; all groups about 505,000 VND. |
 | Quality | Group A moves A-49 from "Partly verified" to "Verified" and closes FR-19..21. Group B removes defects that anyone watching the demo would see first. Groups C and D raise O3 and O4 coverage; skipping them is recorded as a known gap, not hidden. |
 | Baseline | No new baseline. The CR is listed as a V2.0 change entry, as CR-02 was. |
+
+## CR-03 addendum: Phase 5 client decisions and acceptance impact (24 November review)
+
+The 11 answers in the [Phase 5 interaction log](client-interaction-log-phase-5.md) supersede conflicting handover wording. [PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) merged the interpretation. Product work is split across [#11](https://github.com/nvdson2005/Parking-Management-System/pull/11) (exit-based retention and Staff masking) and [#17](https://github.com/nvdson2005/Parking-Management-System/pull/17) (hours, rates, and fee-group changes). The latter is stacked on the former. Neither head alone is the full A-87 candidate.
+
+CR-03's **full scope is 28 h and selected scope is 16 h**. These are alternative totals, not additive increments. RES-03 owns the line-item comparison and V2.0 regeneration in [PR #10](https://github.com/nvdson2005/Parking-Management-System/pull/10); its current head requires that comparison and a named integrated build before approval. The 16 h selected estimate is a plan, not measured actual effort. V1.0 remains the archived reference. The Phase 5 client decisions change acceptance checks but do not authorize dropping Must evidence.
+
+| Impact | Required disposition |
+| --- | --- |
+| Product and migration | Integrate #11 then #17; verify exit cutoff, role masking, published hours, group-specific tariff and Manager-only group update on one SHA. |
+| Quality | Normal 100-visit run with ≤3 s recording and ≤5 s display; separate full-lot refusal; five exceptions; nine browser/width combinations; plate retention and statistics. |
+| Schedule and resources | A-68 finished 24/11 rather than 23/11 per [PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18). Recalculate remaining work from owner actuals and QA status; do not treat 140 h capacity or 16 h selected estimate as measured work. |
+| Risk | #11 has requested changes and conflicts with main; #17 depends on it. The A-87 build, migration state, CP-05 verdict, A-31/T12 and M-03 variance are still open as of this review. |
+
+No independent V2.0 approval is inferred here. M-03 must identify the build and compare the full and selected CR-03 options using the same scope boundary.

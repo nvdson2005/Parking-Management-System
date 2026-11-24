@@ -25,3 +25,33 @@ Playwright also signed in with the seeded Staff account on a fresh disposable da
 - At the client demo, capture the date, attendees, scenarios shown, customer verdict, and each accepted exception or open action with an owner and due date. Pass the record to RES-03 for A-89.
 - At the 30-minute retrospective, spend 5 minutes on the timeline, 10 on practices to keep or change, 10 on improvements and owners, and 5 confirming the notes for RES-04’s lessons section.
 - For report sign-off, record the final PDF version and open issues. After RES-04 uploads it, retain the LMS receipt with the submission record.
+
+## Phase 5 acceptance run sheet (A-87, A-88, A-115)
+
+The earlier 21 November rehearsal predates the Phase 5 product stack. **Integrated candidate: pending.** Record exact SHA, #11/#17 composition, migration state, seeded disposable database, browser versions and test operator before the 26 November dry run. A development-server simulator pass does not establish the production-build acceptance verdict.
+
+| Check | Pass evidence on the candidate | Current status |
+| --- | --- | --- |
+| Single pilot lot and per-visit charging | Staff entry and exit; configured vehicle type and Customer group rate charged once per visit regardless of duration. | Pending |
+| Normal 100-visit run | Event-to-record time ≤3 s; recorded-to-display update ≤5 s for each entry/exit; all closed records include entry, exit, vehicle type and area; independent free counts match by area/type. | Pending measured run |
+| Separate full-lot refusal | Fill suitable capacity, attempt another arrival, confirm rejection with no session and no availability change. No second timing run at full capacity is mandatory. | Pending |
+| Five exceptions | Record EX-01 through EX-05 individually, including the full-lot case, with expected and observed result. | Pending integrated run |
+| Hours, tariffs and group request | Execute the [A-61 Phase 5 checks](quality-evidence-A-61.md#phase-5-extension-lot-information-and-fee-groups). | Pending |
+| Plate visibility and retention | Staff sees a partial mask in list, detail and response; Manager sees the full retained plate; include a short plate. After exit-based purge, old plate is gone while count, duration, revenue and unrelated notes remain; old entry with recent exit remains retained. | Pending #11 final-head review |
+| Session access and scope | Explicit logout works. No 30-minute idle timeout, second-lot UI or survey score is required for handover. | Pending logout; scope recorded |
+
+The [A-68/CP-05 PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18) reports a 100-entry simulator run and complete records on `8472986`, but explicitly excludes the production build, A-87 client run and T12. QA's CP-05 decision is pending. Its D-01 overlapping-run report is a demo risk: use one operator, click once, and wait for completion at rehearsal; reproduce on the candidate before deciding whether a product fix is required. RES-01 must assign D-03–D-05 or record a deferral. Do not count PR #18 as the Phase 5 integrated verdict.
+
+### Browser and width matrix (SC-003)
+
+For each cell record version, exact width, core entry/exit and Customer controls used, outcome, screenshot/link, operator and candidate SHA. All nine cells are pending.
+
+| Browser | 360 px | 768 px | 1920 px |
+| --- | --- | --- | --- |
+| Chrome | Pending | Pending | Pending |
+| Edge | Pending | Pending | Pending |
+| Firefox | Pending | Pending | Pending |
+
+### Client verdict and handoff
+
+After the 27 November demo, record actual date, attendees, build SHA, tested scenarios, lecturer verdict, accepted exceptions, and each open action with owner and due date. Send those facts to RES-03 for A-89; QA supplies the A-87 measurements and exclusions. The 28 November report review and 29 November submission receipt remain future checkpoints.
