@@ -21,6 +21,7 @@ import * as net from 'node:net'
 import * as os from 'node:os'
 import * as path from 'node:path'
 import { PrismaClient } from '@prisma/client'
+import { z } from 'zod'
 import { exportDatabase } from './a45-export-lib'
 
 const ROOT = process.cwd()
@@ -148,7 +149,21 @@ async function stopServer() {
 
 // ---------------------------------------------------------------- HTTP
 
-type ApiResult = { status: number; text: string; json: any }
+type ApiResult = { status: number; text: string; json: ApiResponse }
+
+const apiResponseSchema = z.object({
+  entries: z.number().optional(),
+  exits: z.number().optional(),
+  rejected: z.number().optional(),
+  sessions: z.number().optional(),
+  seed: z.number().optional(),
+  exception: z.string().optional(),
+  outcome: z.string().optional(),
+  error: z.string().optional(),
+  reservations: z.number().optional(),
+  payments: z.number().optional(),
+}).passthrough()
+type ApiResponse = z.infer<typeof apiResponseSchema>
 
 class Client {
   private cookie = ''
@@ -164,8 +179,10 @@ class Client {
     })
     const text = await res.text()
     check(res.status === expectStatus, `POST ${p}: HTTP ${res.status} (mong doi ${expectStatus}) - ${text}`)
-    let json: any
-    try { json = JSON.parse(text) } catch { throw new ReplayError(`POST ${p}: response khong phai JSON - ${text}`) }
+    let json: ApiResponse
+    try { json = apiResponseSchema.parse(JSON.parse(text)) } catch (e) {
+      throw new ReplayError(`POST ${p}: response JSON khong hop le - ${text} (${String(e)})`)
+    }
     return { status: res.status, text, json }
   }
 
@@ -221,14 +238,22 @@ const OPEN = "SELECT COUNT(*) AS n FROM parking_sessions WHERE status = 'OPEN'"
 const SESSIONS = 'SELECT COUNT(*) AS n FROM parking_sessions'
 const PAYMENTS = 'SELECT COUNT(*) AS n FROM payments'
 
+function numberField(response: ApiResponse, key: 'entries' | 'exits' | 'rejected' | 'sessions' | 'seed') {
+  const value = response[key]
+  check(typeof value === 'number', `API response thiếu số ${key}`)
+  return value
+}
+
 /** exits = luot CLOSED = payments; luot OPEN = entries - exits (KB-A45-02). */
-async function checkLiveCounts(name: string, prisma: PrismaClient, r: any) {
+async function checkLiveCounts(name: string, prisma: PrismaClient, r: ApiResponse) {
+  const entries = numberField(r, 'entries')
+  const exits = numberField(r, 'exits')
   const closed = await count(prisma, CLOSED)
   const payments = await count(prisma, PAYMENTS)
   const open = await count(prisma, OPEN)
-  console.log(`  entries=${r.entries} exits=${r.exits} closed=${closed} payments=${payments} open=${open}`)
-  check(r.exits === closed && closed === payments, `${name}: exits/closed/payments lech (${r.exits}/${closed}/${payments})`)
-  check(open === r.entries - r.exits, `${name}: open ${open} != entries - exits`)
+  console.log(`  entries=${entries} exits=${exits} closed=${closed} payments=${payments} open=${open}`)
+  check(exits === closed && closed === payments, `${name}: exits/closed/payments lech (${exits}/${closed}/${payments})`)
+  check(open === entries - exits, `${name}: open ${open} != entries - exits`)
   return { closed, payments, open }
 }
 
@@ -294,7 +319,13 @@ async function params() {
     const r = await api.post('/api/simulator', { action: 'live', seed: 42, ...body })
     const c = await checkLiveCounts(name, prisma, r.json)
     put(`params/${name}.json`, jsonLine(r))
-    res[name] = { ...r.json, closed: c.closed }
+    res[name] = {
+      entries: numberField(r.json, 'entries'),
+      exits: numberField(r.json, 'exits'),
+      rejected: numberField(r.json, 'rejected'),
+      sessions: numberField(r.json, 'sessions'),
+      closed: c.closed,
+    }
   })
 
   const history: Record<string, { sessions: number; days: number }> = {}
@@ -372,7 +403,13 @@ function publishEvidence() {
     fs.rmSync(staging, { recursive: true, force: true })
     throw e
   }
-  if (hadOld) fs.rmSync(backup, { recursive: true, force: true })
+  if (hadOld) {
+    try {
+      fs.rmSync(backup, { recursive: true, force: true })
+    } catch (e) {
+      console.warn(`Da cap nhat evidence, nhung khong xoa duoc ban sao cu ${backup}: ${String(e)}`)
+    }
+  }
   console.log(`Da ghi ${outputs.size} file vao ${path.relative(ROOT, EVIDENCE)}`)
 }
 
@@ -391,7 +428,11 @@ async function main() {
   console.log(`Thu muc replay: ${WORK}`)
   await COMMANDS[cmd]()
   publishEvidence()
-  fs.rmSync(WORK, { recursive: true, force: true })
+  try {
+    fs.rmSync(WORK, { recursive: true, force: true })
+  } catch (e) {
+    console.warn(`Replay da thanh cong, nhung khong xoa duoc du lieu tam ${WORK}: ${String(e)}`)
+  }
 }
 
 for (const sig of ['SIGINT', 'SIGTERM'] as const) {
