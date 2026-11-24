@@ -1,6 +1,6 @@
 # A-114 Individual Contribution and Reflection: DRAFT (RES-04)
 
-Draft built from the repository history (F4-04 of `docs/m3-m4-final-work-division.md`, report ref M4 §4.6). The reflection must be in my own words and match what I can explain at the viva. Lines marked **TODO(RES-04)** need facts that the repository does not hold.
+Built from the repository history and my own account of work that is not in git (F4-04 of `docs/m3-m4-final-work-division.md`, report ref M4 §4.6). The reflection must match what I can explain at the viva. The one remaining **TODO(RES-04)** is the A-87/A-88 outcome, added after 27/11.
 
 **Member:** Phạm Duy Quý (RES-04), Requirements and UI
 **Period covered:** W12 through 24/11/2026 (update after A-87 on 26/11 and A-88 on 27/11)
@@ -15,10 +15,21 @@ Draft built from the repository history (F4-04 of `docs/m3-m4-final-work-divisio
 | UI implementation (F4-01, F4-02) | Spec 006 through Spec Kit. Availability screen: last update time, used spots for Staff and Manager, "Hết chỗ" label (FR-19/20/21). Reservation form: valid default time, earliest time, closed-for-today state. Readable select labels on the entry and reservation forms. Font fix. Early-arrival prompt with booked time and zone (FR-51) | `1b088cd`, `093b9f3`, `60fce57`, `9293038`, `da0ac5f` (PR #24); 376 tests passing |
 | Retest (F4-05) | Manual retest of A-49 after CR-03, timed from the database; A-49 moved from Partly verified to Verified | `4eb809d`, `docs/final/res04/a49-retest.md` |
 | Payment test (A-76) | Test that all 6 vehicle type × fee group prices are applied | `26677dc` on `test/A-76-payment` (no PR yet; manual TC-PAY-01..03 still TODO) |
-| Earlier milestones | **TODO(RES-04):** M1/M2 work that is not in git (SRS v0.1/v1.0 drafting, A-13 UI design document, A-09 review fixes), with where each is stored | — |
-| AI use | Claude Code (Claude Opus) helped draft the CR-03 analysis, the spec, plan and tasks, the code and tests, and the evidence files, and ran the independent `review-implementation` checks. I ran the manual tests, took the screenshots and made the scope decisions | **TODO(RES-04):** add the sessions to the workbook AI Usage Log |
+| Requirements before W12 (M1–M2, A-01) | Wrote the Product Description for the SRS (P02), then drafted the whole SRS | SRS files under `docs/m2-report/products/` (`CO3011_M2_SRS_v0.1`); drafts on the team Drive. Not committed under my name |
+| UI design (A-13) | Wrote the UI design document from the existing screens | Team shared Drive (not in git) |
+| SRS review fixes (A-09) | Revised the SRS after the review | Team shared Drive. No review record was found in the repository on 19/11 (`docs/m3/a-90-planned-vs-actual.md`), so the CP-01 outcome is for RES-02 to record (F2-01) |
+| AI use | Claude (chat) for M1–M2 drafting. Claude Code (Claude Opus) from 20/11: drafts of the SRS sync and v2.1, the CR-03 analysis, the spec, plan and tasks, the code and tests, the evidence files, and the independent `review-implementation` runs. I ran the manual tests, took the screenshots and made the scope decisions | Every commit of mine from 22/11 carries a `Co-Authored-By: Claude` trailer. Not yet in the workbook AI Usage Log: rows to paste are below |
 
-**Effort:** **TODO(RES-04):** actual hours per week for W12–W14. The planned figures to compare with: A-70 3 h, A-49 2 h, A-76 1 h, CR-03 groups A + B + C 2.6 h (decision record), F4-01..F4-05 8 h in the final work division.
+**Effort (estimate, not logged):** I did not keep a daily log, so these figures assume about 2 h per day. They are not measured and should be marked as estimated wherever they are used (A-90, workbook Planned vs Actual).
+
+| Week | Dates | Estimated hours | Main work |
+|---|---|---|---|
+| W12 | 09–15/11 | 14 | SRS revision after review (A-09); UI design document (A-13) |
+| W13 | 16–22/11 | 14 | SRS and P18 sync with the code (A-70) |
+| W14 (to 24/11) | 23–24/11 | 4 | SRS v2.1; A-49 tests, timing run and Quality Evidence; CR-03; spec 006 and its implementation; A-49 retest |
+| **Total** | | **32** | M1–M2 work before W12 is not counted |
+
+Planned figures to compare with: A-70 3 h, A-49 2 h, A-76 1 h, CR-03 groups A + B + C 2.6 h (decision record), F4-01..F4-05 8 h in the final work division. The baseline assumed 8 h per member per week (`docs/m3/weekly-log-draft.md`); my estimate of 14 h per week is above that, which is itself a deviation to explain in A-90.
 
 ## Reflection draft
 
@@ -32,6 +43,19 @@ Draft built from the repository history (F4-04 of `docs/m3-m4-final-work-divisio
 
 **Process.** I skipped `speckit-clarify` and ran `speckit-analyze` only after implementation, and CodeGraph was not installed until late. The analysis still found a real bug (the time picker allowed a minute that the server rejects) and a planning gap. I would run the full Spec Kit chain in order next time; analyze is cheap compared with fixing after review.
 
-**Mock viva:** **TODO(RES-04):** the artifact I will explain that I did not write (F5-02 assigns it). A natural choice is RES-03's staff reservation lookup (A-65, FR-52), which sits next to my FR-51 work.
+**Mock viva:** I propose to explain RES-03's staff reservation lookup (A-65, FR-52), which sits next to my FR-51 work: how Staff find active reservations and why the list is limited to Staff and Manager. Pending confirmation in RES-05's viva plan (F5-02).
 
 **After A-87/A-88:** **TODO(RES-04):** add the dry-run and acceptance outcome for the availability and reservation screens, and one lesson from the A-91 retrospective.
+
+## AI Usage Log rows (paste-ready, for RES-03 F3-05)
+
+Columns of the workbook sheet: Date | Member | Tool | Task it was used for | What it produced | How the team verified or changed it | Report section affected.
+
+```text
+M1–M2 (dates to confirm) | Phạm Duy Quý | Claude (chat) | Drafting the SRS Product Description and SRS sections | Draft text for the Product Description and SRS | I rewrote and restructured the drafts; the SRS went through review (A-09) | M1, M2 (SRS)
+20–23/11 | Phạm Duy Quý | Claude Code | SRS and P18 sync with the code (A-70); SRS v2.1 from the Q36–Q46 answers | Draft edits to the SRS and P18; section 9 gap table | I checked each changed rule against the code and the client answers before committing (07cea70, 493fec4) | M3 §3.5, §3.7
+23–24/11 | Phạm Duy Quý | Claude Code | A-49 availability tests, AT-100 timing script, Quality Evidence | 6 broadcast tests, timing script, evidence document | Mutation check per test; I ran the timing script and the manual steps; the reviewer's comments were addressed (PR #13) | M3 §3.5
+24/11 | Phạm Duy Quý | Claude Code | CR-03 impact analysis and decision record | CR text with options and estimates | Reviewed and approved by RES-01 (option 2, PR #20); wrong FR citations corrected | M3 §3.6
+24/11 | Phạm Duy Quý | Claude Code | Spec 006 (spec, plan, tasks), implementation of CR-03 A, B and FR-51, tests | Code, tests and Spec Kit artifacts (PR #24) | Tests written first and seen to fail; I ran the manual retest, which found a font defect the tests missed; an independent review subagent rejected the first version for missing tests, and the fixes were re-reviewed and approved | M3 §3.1, §3.5
+24/11 | Phạm Duy Quý | Claude Code | A-49 retest record and this reflection draft | `a49-retest.md`, reflection draft | Results are from my own manual run; timing checked against `dev.db`; reflection reviewed and edited by me | M3 §3.5, M4 §4.6
+```
