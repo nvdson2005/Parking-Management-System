@@ -42,6 +42,8 @@ The lecturer's round-3 answers confirmed most assumptions and changed four behav
 
 ## CR-03 Lecturer replies of 23/11 and gaps found in A-49 testing
 
+**Status update, 24/11/2026:** The five lecturer-confirmed product items below were gaps when CR-03 was raised. [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) subsequently integrated all five into `main` at `26a623c15df6686ee329c496a3788fed3850d9a2`. Their A-87 verification and A-88 client verdict remain pending. The A-49 screen gaps and other groups A–C retain their own fix and retest status; see the approved option 2 in the [decision record](decision-record.md).
+
 | Field | Value |
 |---|---|
 | Date raised | 2026-11-24 (W14, M-03) |
