@@ -6,7 +6,7 @@
 | Baseline effort | 2 h (matrix 1 h; masking and log 0.5 h; Quality Evidence 0.5 h) |
 | Tested by | Nguyễn Tuấn Thành (RES-05) |
 | Date | 2026-11-24 (planned 24/11) |
-| Predecessor | A-28 (RES-03). **Not yet merged:** tested on `fix/res03-a28-a65` at `36b1c91` (PR #11). Re-run the automated suite on `main` after the merge |
+| Predecessor | A-28 (RES-03). Tested on `fix/res03-a28-a65` at `36b1c91` (PR #11); PR #11 merged 24/11 (`755caf6`), suite re-run on `4f2089f`: 310/310 |
 | Environment | Windows. `next dev` for steps 1–6, production build (`npm run build` + `npm run start`) for steps 6h–8. DB `a31.db` (migrate deploy + seed); `a31-d02.db` for the D-02 retest |
 | Feeds | T12 of CP-05 ([A-68](a-68-cp05-test.md)); Quality Evidence |
 | Evidence | `docs/m3/evidence/a31/` |
@@ -53,6 +53,6 @@ No observation changes an A-31 outcome.
 
 ## 4. Verdict
 
-A-31 passes on the A-28 branch (`36b1c91`). T12 of CP-05 passes. A-68 D-02 is fixed by A-28. After PR #11 is merged, re-run `npm test` on `main` and record the result here.
+A-31 passes on the A-28 branch (`36b1c91`). T12 of CP-05 passes. A-68 D-02 is fixed by A-28. Re-run after PR #11 merge (24/11, `4f2089f`): `npm run db:reset` + `npm test -- --testTimeout=60000` → 310/310 (38 files).
 
 Effort RES-05: 1.5 h.
