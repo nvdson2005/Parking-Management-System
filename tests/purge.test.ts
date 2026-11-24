@@ -20,7 +20,14 @@ async function makeVehicle(plate: string, ownerId: string | null) {
   })
 }
 
-async function makeSession(vehicleId: string, plate: string, zoneId: string, staffId: string, entryTime: Date) {
+async function makeSession(
+  vehicleId: string,
+  plate: string,
+  zoneId: string,
+  staffId: string,
+  entryTime: Date,
+  exitTime: Date = entryTime,
+) {
   return db.parkingSession.create({
     data: {
       vehicleId,
@@ -30,7 +37,7 @@ async function makeSession(vehicleId: string, plate: string, zoneId: string, sta
       feeGroup: 'GUEST',
       idMethod: 'PLATE',
       entryTime,
-      exitTime: entryTime,
+      exitTime,
       entryStaffId: staffId,
       status: 'CLOSED',
     },
@@ -118,6 +125,94 @@ describe('purge service', () => {
     const log = await db.accessLog.findFirst({ where: { action: 'PURGE' }, orderBy: { createdAt: 'desc' } })
     expect(log).not.toBeNull()
     expect(log?.target).toBe(`${result.sessionsMasked} sessions, ${result.vehiclesDeleted} vehicles`)
+  })
+
+  it('system run (null actor) masks the same sessions, logs PURGE without a user and keeps statistics (A-28, G-05, Q35)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-60001', f.student.id)
+    const old = await makeSession(v.id, '51F-60001', f.zoneA.id, f.staff.id, OLD)
+    await makeSession(v.id, '51F-60001', f.zoneA.id, f.staff.id, RECENT)
+    await db.payment.create({
+      data: { sessionId: old.id, amount: 2000, paidAt: OLD, confirmedById: f.staff.id },
+    })
+
+    const before = {
+      sessions: await db.parkingSession.count(),
+      revenue: (await db.payment.aggregate({ _sum: { amount: true } }))._sum.amount,
+      old: await db.parkingSession.findUnique({ where: { id: old.id } }),
+    }
+
+    const result = await purgeOldData(db, null, NOW)
+    expect(result).toEqual({ sessionsMasked: 1, vehiclesDeleted: 0 })
+
+    const logs = await db.accessLog.findMany({ where: { action: 'PURGE' } })
+    expect(logs).toHaveLength(1)
+    expect(logs[0].userId).toBeNull()
+    expect(logs[0].target).toBe('1 sessions, 0 vehicles')
+
+    // SC-003: counts, times and revenue are unchanged; only the plate is masked.
+    const after = await db.parkingSession.findUnique({ where: { id: old.id } })
+    expect(after?.plateSnapshot).toBe('[purged]')
+    expect(after?.entryTime).toEqual(before.old?.entryTime)
+    expect(after?.exitTime).toEqual(before.old?.exitTime)
+    expect(after?.zoneId).toBe(before.old?.zoneId)
+    expect(await db.parkingSession.count()).toBe(before.sessions)
+    expect((await db.payment.aggregate({ _sum: { amount: true } }))._sum.amount).toBe(before.revenue)
+  })
+
+  it('counts the 12 months from the exit, not the entry (Q44)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-10044', null)
+    // Entered 13 months ago but left only 11 months ago (a long stay).
+    const longStay = await makeSession(v.id, '51F-10044', f.zoneA.id, f.staff.id, OLD, RECENT)
+
+    const result = await purgeOldData(db, null, NOW)
+
+    expect(result).toEqual({ sessionsMasked: 0, vehiclesDeleted: 0 })
+    expect((await db.parkingSession.findUnique({ where: { id: longStay.id } }))?.plateSnapshot).toBe('51F-10044')
+    expect(await db.vehicle.findUnique({ where: { id: v.id } })).not.toBeNull()
+
+    // Thirteen months after that exit, both go.
+    const later = await purgeOldData(db, null, subMonths(NOW, -2))
+    expect(later).toEqual({ sessionsMasked: 1, vehiclesDeleted: 1 })
+  })
+
+  it('purges the plate seen at the exit in EX-02 notes, keeping the staff note (Q44, Q46)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-10055', f.student.id)
+    const old = await makeSession(v.id, '51F-10055', f.zoneA.id, f.staff.id, OLD)
+    const recent = await makeSession(v.id, '51F-10055', f.zoneA.id, f.staff.id, RECENT)
+    for (const s of [old, recent]) {
+      await db.sessionEvent.create({
+        data: { sessionId: s.id, type: 'PLATE_MISMATCH_CONFIRMED', staffId: f.staff.id, note: 'Observed plate: 51F-10056 — worn' },
+      })
+    }
+
+    await purgeOldData(db, null, NOW)
+    await purgeOldData(db, null, NOW) // idempotent
+
+    const note = async (sessionId: string) => (await db.sessionEvent.findFirst({ where: { sessionId } }))?.note
+    expect(await note(old.id)).toBe('Observed plate: [purged] — worn')
+    expect(await note(recent.id)).toBe('Observed plate: 51F-10056 — worn')
+  })
+
+  it('leaves a LOST_CARD note alone even when it starts like an EX-02 note (review of PR #11)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-10077', f.student.id)
+    const old = await makeSession(v.id, '51F-10077', f.zoneA.id, f.staff.id, OLD)
+    await db.sessionEvent.create({
+      data: { sessionId: old.id, type: 'LOST_CARD', staffId: f.staff.id, note: 'Observed plate: hard to read — customer lost card' },
+    })
+
+    await purgeOldData(db, null, NOW)
+
+    expect((await db.sessionEvent.findFirst({ where: { sessionId: old.id } }))?.note).toBe(
+      'Observed plate: hard to read — customer lost card',
+    )
   })
 
   it('second purge reports 0 sessionsMasked', async () => {

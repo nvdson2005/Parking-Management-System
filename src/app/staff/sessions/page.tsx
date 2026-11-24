@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { db } from '@/server/db'
 import { getDict, getLang, t } from '@/i18n'
 import { requireRole } from '@/server/auth/rbac'
-import { presentPlate } from '@/lib/plate'
+import { listSessions } from '@/server/services/sessions'
 import {
   Table,
   TableBody,
@@ -17,11 +17,8 @@ export default async function StaffSessionsPage() {
   const lang = await getLang()
   const dict = getDict(lang)
 
-  const sessions = await db.parkingSession.findMany({
-    where: { status: 'OPEN' },
-    include: { zone: true, vehicle: true },
-    orderBy: { entryTime: 'desc' },
-  })
+  // Same data as GET /api/sessions (A-65, KB-15); plates already go through presentPlate.
+  const sessions = await listSessions(db, { status: 'OPEN' }, user)
 
   return (
     <div className="flex flex-col gap-4">
@@ -44,12 +41,12 @@ export default async function StaffSessionsPage() {
               <TableRow key={session.id} className="cursor-pointer">
                 <TableCell className="font-mono">
                   <Link href={`/staff/sessions/${session.id}`} className="block hover:underline">
-                    {presentPlate(session.plateSnapshot, user, session.ownerId)}
+                    {session.plate}
                   </Link>
                 </TableCell>
                 <TableCell>
                   <Link href={`/staff/sessions/${session.id}`} className="block">
-                    {session.zone.name}
+                    {session.zoneName}
                   </Link>
                 </TableCell>
                 <TableCell>

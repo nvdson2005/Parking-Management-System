@@ -20,7 +20,35 @@ describe('auth service', () => {
 
     const u = await authenticate(db, 'a@x.com', 'password123')
     expect(u.roleCode).toBe('CUSTOMER')
-    expect(await db.accessLog.count({ where: { action: 'LOGIN' } })).toBe(1)
+    // One LOGIN for the sign-in at registration (KB-07), one for authenticate.
+    expect(await db.accessLog.count({ where: { action: 'LOGIN' } })).toBe(2)
+  })
+
+  it('logs exactly one LOGIN for the new account on registration (A-28, KB-07)', async () => {
+    await resetDb()
+    await makeFixture()
+
+    const user = await registerCustomer(db, {
+      email: 'new@x.com',
+      password: 'password123',
+      name: 'New',
+      userGroup: 'STUDENT',
+    })
+
+    expect(await db.accessLog.count({ where: { userId: user.id, action: 'LOGIN' } })).toBe(1)
+  })
+
+  it('logs no LOGIN when registration fails (A-28, KB-07)', async () => {
+    await resetDb()
+    await makeFixture()
+    await registerCustomer(db, { email: 'taken@x.com', password: 'password123', name: 'T', userGroup: 'STUDENT' })
+    const before = await db.accessLog.count({ where: { action: 'LOGIN' } })
+
+    await expect(
+      registerCustomer(db, { email: 'TAKEN@x.com', password: 'password123', name: 'T2', userGroup: 'STUDENT' }),
+    ).rejects.toMatchObject({ code: 'EMAIL_TAKEN' })
+
+    expect(await db.accessLog.count({ where: { action: 'LOGIN' } })).toBe(before)
   })
 
   it('rejects duplicate email', async () => {

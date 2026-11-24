@@ -29,16 +29,56 @@ The app runs at http://localhost:3000.
 (`prisma/seed.ts`), creating the pilot lot (zones A, B, C), tariffs, and all
 demo accounts. Re-run it any time to return to a clean demo state.
 
+After pulling changes that add a migration (for example
+`prisma/migrations/20261123100000_a65_indexes`), apply it without losing your
+data:
+
+```bash
+npx prisma migrate deploy   # applies new migrations only, keeps existing rows
+npx prisma generate         # refresh the Prisma client
+```
+
+Plates on parking sessions that ended (vehicle exited) more than 12 months ago
+are masked automatically, together with the plate in their EX-02 exit notes
+(client answers Q35, Q44): once about 60 s after the server starts,
+then every 24 h. The run appears in the access log as `PURGE` with no user.
+The Manager button on `/manager/access-log` still runs it on demand.
+
+Who sees a full plate (Q46): a Manager always; the owner on their own
+vehicles and history; Staff only while the session is open. Staff see a
+masked plate showing only the last 3 letters or digits (`51F-123.45` →
+`***-**3.45`, SRS FR-42) on sessions that have ended, also inside the
+EX-02 note. A plate typed by hand into a free-text staff note is shown as written.
+
 ## Tests
 
 ```bash
-npm test        # vitest run — full suite (137 tests)
+npm test        # vitest run — full suite
+npm run lint
 npm run build   # production build / type-check
+npx vitest run tests/lookup.test.ts            # one file
+```
+
+The suite uses a separate `prisma/test.db` that `tests/global-setup.ts`
+recreates on every run (`prisma db push --force-reset`).
+
+`npm test` and `npm run build` first run `prisma generate` (`pretest`, `prebuild`),
+so the Prisma client matches the checked-out schema. After switching to a branch
+with new migrations, a direct `npx vitest run …` or `npx next build` uses the old
+client and fails with errors such as `Property 'entryGate' does not exist`: run
+`npx prisma generate` first.
+
+Some simulator tests (`tests/simulator.test.ts`, large `simulateLive` runs) can
+exceed vitest's default 5 s timeout on slower machines. If only those fail,
+check them with a longer timeout:
+
+```bash
+npx vitest run tests/simulator.test.ts --testTimeout=60000
 ```
 
 ## Verification
 
-The automated suite (137 tests) covers the API, services, RBAC, i18n key
+The automated suite covers the API, services, RBAC, i18n key
 parity, fee/exception logic and the live-availability stream. In addition, the
 demo flows were walked through in a real Chromium browser (Playwright) using
 separate browser contexts per role. That pass confirmed, at a **375px** viewport
@@ -64,7 +104,7 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 ## Pages
 
 - **Customer:** `/customer`, `/customer/vehicles`, `/customer/reservations`, `/customer/history`
-- **Staff:** `/staff`, `/staff/entry`, `/staff/exit`, `/staff/sessions`, `/staff/sessions/[id]`
+- **Staff:** `/staff`, `/staff/entry`, `/staff/exit`, `/staff/sessions`, `/staff/sessions/[id]`, `/staff/lookup` (vehicle, session and reservation lookup by plate / QR / RFID)
 - **Manager:** `/manager`, `/manager/lots`, `/manager/tariffs`, `/manager/accounts`, `/manager/reports`, `/manager/simulator`, `/manager/access-log`, `/manager/payments`
 - **Auth:** `/login`, `/register`
 
@@ -82,9 +122,9 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | POST | `/api/reservations/[id]/cancel` | Customer | Cancel a reservation |
 | GET | `/api/availability` | any auth | Current free/open/reserved counts |
 | GET | `/api/availability/stream` | any auth | Live availability (SSE) |
-| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time |
+| POST | `/api/events/entry` | Staff/Manager | Record an entry (QR / RFID / plate); `confirmEarly: true` admits a vehicle that arrives before its reservation time; optional `gate` (`GATE-1` default, `GATE-2`) and `source` (`DEVICE` default, `MANUAL`; the Staff form sends `MANUAL`) |
 | POST | `/api/events/exit/preview` | Staff/Manager | Preview exit fee |
-| POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment |
+| POST | `/api/events/exit/confirm` | Staff/Manager | Confirm exit + simulated payment; optional `gate` (`GATE-1` default, `GATE-2`) and `source` (`DEVICE` default, `MANUAL`) |
 | GET/POST | `/api/lots`, PATCH `/api/lots/[id]` | Manager | Lot info and status (active/suspended) |
 | POST `/api/zones`, PATCH `/api/zones/[id]` | Manager | Zone and capacity management |
 | GET/PUT | `/api/tariffs` | Manager | View / edit tariffs |
@@ -93,7 +133,12 @@ Each customer is seeded with one motorbike. Odd-numbered customers are in the
 | GET | `/api/notifications` | any auth | Own notifications (newest first) and unread count |
 | POST | `/api/notifications/read` | any auth | Mark own notifications read (`{ ids? }`, all when omitted) |
 | POST | `/api/simulator` | Manager | `live` / `history` / `exception` triggers |
-| POST | `/api/purge` | Manager | Mask old plate data |
+| POST | `/api/purge` | Manager | Mask old plate data now (it also runs automatically every 24 h) |
+| GET | `/api/staff/lookup?method=PLATE\|QR\|RFID&identifier=` | Staff/Manager | Vehicle, open session and active reservation; logs `VIEW_FULL_PLATE`; 404 when no vehicle matches |
+| GET | `/api/staff/reservations?zoneId=` | Staff/Manager | Active (pending, not expired) reservations, earliest arrival first |
+| GET | `/api/sessions?status=OPEN\|CLOSED` | Staff/Manager | Parking sessions, newest entry first (default `OPEN`) |
+| GET | `/api/access-logs?limit=` | Manager | Access log, newest first (`limit` 1-500, default 200) |
+| GET | `/api/payments?from=&to=` | Manager / Customer | Manager: all confirmed payments in the range; Customer: own parking history |
 
 ## Demo script (spec §9)
 
@@ -117,7 +162,8 @@ Use separate browsers/profiles per role so you can watch live updates.
 8. **Manager runs the simulator** (≥100 live events + several days of history)
    and opens `/manager/reports` with a date range.
 9. **Manager views the access log** (`/manager/access-log`, showing LOGIN /
-   VIEW_FULL_PLATE / PURGE entries) and runs a purge, which masks old plate rows.
+   LOGIN_FAILED / ACCESS_DENIED / VIEW_FULL_PLATE / PURGE entries; a wrong-role
+   page visit is logged once by the section layout, then lands on the read-only `/denied` page) and runs a purge, which masks old plate rows.
 10. **Language toggle VI ↔ EN** works on every page (verified in-browser across
     all customer, staff, manager and auth pages); the layout fits a 375px-wide
     viewport with no horizontal overflow.
