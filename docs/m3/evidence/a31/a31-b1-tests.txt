@@ -1,0 +1,209 @@
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> git fetch origin
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> git checkout -b test/a31-auth origin/fix/res03-a28-a65
+Switched to a new branch 'test/a31-auth'
+branch 'test/a31-auth' set up to track 'origin/fix/res03-a28-a65'.
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> git log -1 --oneline
+36b1c91 (HEAD -> test/a31-auth, origin/fix/res03-a28-a65) docs: purge and plate rules mention EX-02 notes (A-28, A-65)
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> npx prisma generate
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+✔ Generated Prisma Client (v6.19.3) to .\node_modules\@prisma\client in 194ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want to turn off tips and other hints? https://pris.ly/tip-4-nohints
+
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> $env:DATABASE_URL="file:./a31.db"
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> npx prisma migrate deploy
+>> 
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": SQLite database "a31.db" at "file:./a31.db"
+
+SQLite database a31.db created at file:./a31.db
+
+7 migrations found in prisma/migrations
+
+Applying migration `20261108042044_init`
+Applying migration `20261108120000_session_owner`
+Applying migration `20261108140000_reservation_cancel_reason`
+Applying migration `20261115160000_notifications`
+Applying migration `20261123100000_a65_indexes`
+Applying migration `20261123180000_g09_session_gate`
+Applying migration `20261123190000_g04_session_source`
+
+The following migration(s) have been applied:
+
+migrations/
+  └─ 20261108042044_init/
+    └─ migration.sql
+  └─ 20261108120000_session_owner/
+    └─ migration.sql
+  └─ 20261108140000_reservation_cancel_reason/
+    └─ migration.sql
+  └─ 20261115160000_notifications/
+    └─ migration.sql
+  └─ 20261123100000_a65_indexes/
+    └─ migration.sql
+  └─ 20261123180000_g09_session_gate/
+    └─ migration.sql
+  └─ 20261123190000_g04_session_source/
+    └─ migration.sql
+      
+All migrations have been successfully applied.
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> npx tsx prisma/seed.ts
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> npx vitest run tests/auth.test.ts tests/auth-log.test.ts tests/auth-guard-render.test.ts tests/register-atomic.test.ts tests/malformed-body.test.ts tests/nav.test.ts tests/api.test.ts tests/accounts.test.ts tests/plate.test.ts tests/plate-q46.test.ts tests/purge.test.ts tests/purge-schedule.test.ts --testTimeout=30000
+
+ RUN  v3.2.7 C:/Users/LENOVO/Desktop/HCMUT/261/QLDAPM/GITHUB/Parking-Management-System
+
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": SQLite database "test.db" at "file:./test.db"
+
+The SQLite database "test.db" at "file:./test.db" was successfully reset.
+
+Your database is now in sync with your Prisma schema. Done in 118ms
+
+ ✓ tests/auth-log.test.ts (12 tests) 3006ms
+   ✓ G-06 failed sign-in logging (FR-43) > logs LOGIN_FAILED for a wrong password, against the account, and no LOGIN  310ms
+ ✓ tests/auth-guard-render.test.ts (5 tests) 1047ms
+ ✓ tests/accounts.test.ts (6 tests) 1405ms
+   ✓ accounts service > creates a STAFF account that can then authenticate  355ms
+ ✓ tests/auth.test.ts (8 tests) 1941ms
+   ✓ auth service > registers and authenticates a customer  367ms
+ ✓ tests/purge.test.ts (8 tests) 1937ms
+ ✓ tests/plate-q46.test.ts (7 tests) 1452ms
+ ✓ tests/malformed-body.test.ts (19 tests) 3691ms
+   ✓ malformed request bodies return 400 VALIDATION (A-28, KB-14) > POST /api/auth/login with not JSON body  485ms
+ ✓ tests/purge-schedule.test.ts (4 tests) 8ms
+ ✓ tests/api.test.ts (5 tests) 8ms
+ ✓ tests/nav.test.ts (2 tests) 6ms
+ ✓ tests/plate.test.ts (15 tests) 6ms
+ ✓ tests/register-atomic.test.ts (1 test) 214ms
+
+ Test Files  12 passed (12)
+      Tests  92 passed (92)
+   Start at  09:32:25
+   Duration  26.13s (transform 389ms, setup 0ms, collect 4.71s, tests 14.72s, environment 2ms, prepare 2.05s)
+
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> npm test -- --testTimeout=30000
+
+> parking-scaffold@0.1.0 test
+> vitest run --testTimeout=30000
+
+
+ RUN  v3.2.7 C:/Users/LENOVO/Desktop/HCMUT/261/QLDAPM/GITHUB/Parking-Management-System
+
+warn The configuration property `package.json#prisma` is deprecated and will be removed in Prisma 7. Please migrate to a Prisma config file (e.g., `prisma.config.ts`).
+For more information, see: https://pris.ly/prisma-config
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": SQLite database "test.db" at "file:./test.db"
+
+The SQLite database "test.db" at "file:./test.db" was successfully reset.
+
+Your database is now in sync with your Prisma schema. Done in 119ms
+
+ ✓ tests/simulator.test.ts (18 tests) 41349ms
+   ✓ simulator > simulateLive(120) records entries+exits+rejected = 120; every session has plateSnapshot, zone, entryStaffId, idMethod  4271ms
+   ✓ simulator > availability free never negative after simulateLive  4588ms
+   ✓ simulator > FR-16: with seed-size capacities (A150/B150/C30) each recordEntry/confirmExit call takes < 2000 ms (measure max over simulateLive(100))  3521ms
+   ✓ simulator > EX01 -> ZONE_FULL, EX04 -> ALREADY_OPEN, EX05 -> LOT_SUSPENDED and lot ACTIVE afterwards  5163ms
+   ✓ simulator > EX05 leaves real pending reservations and notifications untouched  331ms
+   ✓ simulator > EX03 opens a session and returns lost-card instructions  508ms
+   ✓ simulator > EX03 opens a session even when one zone for the vehicle type is full (no ZONE_FULL crash)  391ms
+   ✓ simulator > generateHistory(3) creates payments and NO_SHOW reservations and >= 20 sessions older than 12 months  339ms
+   ✓ simulator > generateHistory sets gate and source on both ends of every closed session (G-09, G-04)  344ms
+   ✓ simulator > same seed on a fresh DB reproduces the same guest plates  3380ms
+   ✓ simulator > minSessions mode opens >= 100 sessions (SC-07)  6222ms
+   ✓ simulator > live events use QR and RFID as well as PLATE  10412ms
+   ✓ simulator > EX05 writes LOT_CHANGE audit entries; EX01 flags needsReset  941ms
+ ✓ tests/contract-inout.test.ts (22 tests) 7350ms
+   ✓ CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05) > CT-07 EX-04 vào trùng → 409 ALREADY_OPEN, chỉ 1 lượt mở  464ms
+   ✓ CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng) > CT-10 live: entries + exits + rejected = n; chỗ trống khớp lượt mở  897ms
+   ✓ CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng) > CT-11 mọi lượt bộ mô phỏng tạo đều qua đúng hợp đồng (đủ trường, có timestamp)  981ms
+   ✓ CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng) > CT-12 simulator EX01 → outcome ZONE_FULL (simulator dựng đúng tình huống)  360ms
+   ✓ CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng) > CT-12 simulator EX04 → outcome ALREADY_OPEN (simulator dựng đúng tình huống)  313ms
+   ✓ CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng) > CT-12c EX03: instructions của simulator qua preview/confirm → mất thẻ, phí thường, có LOST_CARD  315ms
+   ✓ CT-10..CT-12 P04 bộ mô phỏng ↔ P05 (cùng hợp đồng) > CT-13 simulator input sai → 400 VALIDATION; Staff gọi → 403  412ms
+ ✓ tests/entry.test.ts (23 tests) 5894ms
+   ✓ recordEntry > 20 concurrent entries into zone with cap 2 -> exactly 2 succeed  422ms
+   ✓ recordEntry: early arrival > wrong-zone entry ignores confirmEarly and still cancels the reservation  512ms
+   ✓ recordEntry vehicle type (A-63, KB-13) > requires a vehicle type for an unknown plate  304ms
+ ✓ tests/lots.test.ts (16 tests) 4913ms
+   ✓ lots/zones service > suspend then reactivate lot toggles status; entry allowed again after reactivation  391ms
+   ✓ suspending a lot cancels pending reservations (lecturer R3) > only PENDING reservations in that lot are touched  346ms
+   ✓ suspending a lot cancels pending reservations (lecturer R3) > suspending an already suspended lot is a no-op; reactivating restores nothing  313ms
+   ✓ suspending a lot cancels pending reservations (lecturer R3) > a lapsed hold becomes NO_SHOW on suspension: not cancelled, no notification  320ms
+   ✓ suspending a lot cancels pending reservations (lecturer R3) > open sessions are unaffected and can still exit  311ms
+   ✓ suspending a lot cancels pending reservations (lecturer R3) > cancelPendingReservations:false leaves reservations and notifications alone  643ms
+   ✓ suspending a lot cancels pending reservations (lecturer R3) > new reservation and entry on the suspended lot are still rejected with LOT_SUSPENDED  439ms
+ ✓ tests/reservations.test.ts (15 tests) 4312ms
+   ✓ createReservation > RESERVATION_WINDOW for arrival in the past or tomorrow  301ms
+   ✓ createReservation > cancelling frees the account to reserve again  316ms
+   ✓ createReservation > VEHICLE_PARKED when vehicle has open session  303ms
+   ✓ cancelReservation > NOT_CANCELLABLE when another customer attempts the cancel  338ms
+   ✓ walk-in vs reservation interplay > walk-in rejected when last free spot is reserved (ZONE_FULL)  461ms
+ ✓ tests/lookup.test.ts (8 tests) 2044ms
+ ✓ tests/malformed-body.test.ts (19 tests) 4581ms
+   ✓ malformed request bodies return 400 VALIDATION (A-28, KB-14) > POST /api/auth/register with a number body  354ms
+ ✓ tests/auth-log.test.ts (12 tests) 5482ms
+   ✓ G-06 access-denied logging (FR-43) > logs nothing for an unauthenticated request (401)  339ms
+   ✓ G-06 access-denied logging (FR-43) > logs nothing when the role is allowed  2755ms
+ ✓ tests/exit.test.ts (13 tests) 3282ms
+   ✓ exit > KB-05 non lost-card exit works without method (A-63)  402ms
+ ✓ tests/read-apis.test.ts (10 tests) 2064ms
+ ✓ tests/vehicles.test.ts (16 tests) 3189ms
+   ✓ vehicles service > rejects plate owned by another customer with PLATE_TAKEN  467ms
+ ✓ tests/reports.test.ts (11 tests) 3186ms
+   ✓ buildReport > from > to -> VALIDATION  674ms
+ ✓ tests/auth.test.ts (8 tests) 1806ms
+   ✓ auth service > registers and authenticates a customer  343ms
+ ✓ tests/purge.test.ts (8 tests) 2067ms
+   ✓ purge service > purges the plate seen at the exit in EX-02 notes, keeping the staff note (Q44, Q46)  357ms
+ ✓ tests/history.test.ts (5 tests) 1360ms
+   ✓ customerHistory > returns only the customer own-vehicle sessions, newest first, with amounts  334ms
+ ✓ tests/plate-q46.test.ts (7 tests) 1521ms
+ ✓ tests/accounts.test.ts (6 tests) 1708ms
+   ✓ accounts service > creates a STAFF account that can then authenticate  370ms
+   ✓ accounts service > locking an account makes authenticate throw ACCOUNT_LOCKED and logs ACCOUNT_CHANGE  543ms
+ ✓ tests/availability.test.ts (6 tests) 1331ms
+ ✓ tests/auth-guard-render.test.ts (5 tests) 1046ms
+ ✓ tests/notifications.test.ts (5 tests) 1337ms
+   ✓ notifications service > create then list returns newest first with parsed params and unreadCount  497ms
+ ✓ tests/reports-a77.test.ts (6 tests) 496ms
+ ✓ tests/read-expiry-publish.test.ts (4 tests) 1065ms
+   ✓ read paths that expire a hold tell live viewers > staffLookup publishes once when it expires a hold  420ms
+ ✓ tests/gate.test.ts (4 tests) 887ms
+ ✓ tests/schema.test.ts (2 tests) 494ms
+ ✓ tests/fees.test.ts (2 tests) 411ms
+ ✓ tests/register-atomic.test.ts (1 test) 217ms
+ ✓ tests/lock.test.ts (1 test) 120ms
+ ✓ tests/purge-schedule.test.ts (4 tests) 8ms
+ ✓ tests/api.test.ts (5 tests) 8ms
+ ✓ tests/nav.test.ts (2 tests) 7ms
+ ✓ tests/i18n.test.ts (4 tests) 6ms
+ ✓ tests/plate.test.ts (15 tests) 5ms
+ ✓ tests/source.test.ts (4 tests) 834ms
+ ✓ tests/errors.test.ts (7 tests) 4ms
+ ✓ tests/lookup-query.test.ts (3 tests) 3ms
+ ✓ tests/indexes.test.ts (4 tests) 12ms
+ ✓ tests/smoke.test.ts (1 test) 2ms
+
+ Test Files  37 passed (37)
+      Tests  302 passed (302)
+   Start at  09:33:00
+   Duration  125.05s (transform 1.00s, setup 0ms, collect 6.02s, tests 104.40s, environment 7ms, prepare 4.59s)
+
+PS C:\Users\LENOVO\Desktop\HCMUT\261\QLDAPM\GITHUB\Parking-Management-System> 
