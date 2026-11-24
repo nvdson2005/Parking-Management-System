@@ -46,7 +46,7 @@ Every fix ships with a vitest test (render tests use `renderToStaticMarkup`, the
 | IV. Test-backed changes | Each change has a test that fails without it (see quickstart). New strings are added to both `en.ts` and `vi.ts`. `npm test`, `npm run lint` and `npm run build` are run before closing. | Pass |
 | V. Traceable delivery | Commits reference A-49 and CR-03 (and FR IDs). Nothing under `docs/m2-report/` is edited. Work happens on the main checkout. | Pass |
 
-Delivery workflow: brainstorming is skipped because the design was agreed and approved in the CR (as in specs 002 and 003). CP-02 has passed. The `codegraph` CLI was not installed during T001–T019, so navigation used grep and Read. It was installed and indexed on 25/11 (`codegraph init`, 194 files) and the blast radius of US4 was checked with `codegraph_explore` (analysis finding D1).
+Delivery workflow: brainstorming is skipped because the design was agreed and approved in the CR (as in specs 002 and 003). CP-02 has passed. The `codegraph` CLI was not installed during T001–T019, so navigation used grep and Read. It was installed and indexed on 24/11 (`codegraph init`, 194 files) and the blast radius of US4 was checked with `codegraph_explore` (analysis finding D1).
 
 Post-design re-check: still Pass. The only API change adds a field to one error response (see [contracts](contracts/early-arrival-error.md)).
 

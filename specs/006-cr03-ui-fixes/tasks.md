@@ -77,14 +77,15 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 - T013: the role passed to `LiveAvailability` is the role of the page (`/customer`, `/staff`, `/manager`). The section layouts already restrict each page to its role, so no extra session read is needed.
 - Before/after check for T008: before the fix, the entry form rendered `zone-id-123`, `GATE-1` and `MOTORBIKE` in the selects.
 - US4 (T014–T018) was taken as F4-02 of `docs/m3-m4-final-work-division.md` (the SRS section 9 reservation gap; FR-52 is already on `main` as `/staff/lookup`). T018's render test is a separate file, `tests/early-arrival-prompt.test.ts`. The 7 new US4 tests failed before the change. `zoneName` comes from the zone already loaded in the transaction, which is the reserved zone in that branch, so no extra query.
-- T019 (25/11, after rebasing on `main` `f6cd0cc`): `npm test` 47 files, 366 tests passing; `eslint src tests` and `tsc --noEmit` clean; `npm run build` passes.
-- `speckit-analyze` (25/11) fixes: D1 codegraph installed and indexed; D2 clarify skip recorded in the spec; I1 role source corrected in plan, data-model and research; I2/I3 T020 output file and T021 split (T022); C1 the picker's `min` is the next whole minute (`minArrivalInput` in `src/lib/arrival.ts`, test in `tests/arrival.test.ts`), because the current minute is already past and fails `RESERVATION_WINDOW`; L1/L2 plan file list and spec status.
+- T019 (24/11, after rebasing on `main` `f6cd0cc`): `npm test` 47 files, 366 tests passing; `eslint src tests` and `tsc --noEmit` clean; `npm run build` passes.
+- `speckit-analyze` (24/11) fixes: D1 codegraph installed and indexed; D2 clarify skip recorded in the spec; I1 role source corrected in plan, data-model and research; I2/I3 T020 output file and T021 split (T022); C1 the picker's `min` is the next whole minute (`minArrivalInput` in `src/lib/arrival.ts`, test in `tests/arrival.test.ts`), because the current minute is already past and fails `RESERVATION_WINDOW`; L1/L2 plan file list and spec status.
 - T020 run (24/11, RES-04) found body text still in serif: `font-sans` was applied on `<html>`, while the Geist variable is defined by a class on `<body>`, so it was undefined where it was used. Fixed by applying `font-sans` on `body`; `tests/globals-css.test.ts` has a case that failed before the fix (`html` vs `body`).
+- T020 done 24/11 (RES-04): all checks pass; results in `docs/final/res04/a49-retest.md`; A-49 changed to Verified in `docs/m3/quality-evidence-A-49.md`. EX-01 filled zone A in run 1 and zone C in run 2; the full mark cleared 1.1–2.1 s after the freed spot (exit time from `dev.db`).
 
 ## Phase 8: Polish and verification
 
 - [X] T019 Run `npm test`, `npm run lint` and `npm run build`; all pass (Constitution IV). Record the test count
-- [ ] T020 [Manual, RES-04] Follow [quickstart.md](quickstart.md) "Manual" steps 1–6 on a freshly reset `dev.db`. Record the results in `docs/final/res04/a49-retest.md` (F4-05 of `docs/m3-m4-final-work-division.md`); in `docs/m3/quality-evidence-A-49.md` change the verdict to Verified and link to that file
+- [X] T020 [Manual, RES-04] Follow [quickstart.md](quickstart.md) "Manual" steps 1–6 on a freshly reset `dev.db`. Record the results in `docs/final/res04/a49-retest.md` (F4-05 of `docs/m3-m4-final-work-division.md`); in `docs/m3/quality-evidence-A-49.md` change the verdict to Verified and link to that file
 - [ ] T021 Open the PR for `fix/cr-03-ui` with reviewer RES-02, after T020 and `review-implementation`
 - [ ] T022 After #22 or #23 merges: mark SRS v2.1 section 9 rows FR-19/20/21 and FR-51 as resolved, in a follow-up PR (the SRS file is not edited in this PR, rule 1 of the final work division)
 
