@@ -25,3 +25,5 @@
 ## Notes
 
 The original questions confirm the browser and width matrix in answer 8, the Customer’s in-app tariff view in answer 10, and the Staff and Manager permissions for closed sessions in answer 11.
+
+The RES-01 delivery requirements cover client traceability, branch ownership, the baseline decision, integrated verification, and final reporting. The delivery path follows the agreed split between standalone and existing PR work.

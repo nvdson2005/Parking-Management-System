@@ -99,3 +99,13 @@ Staff can use completed session records without seeing full plates. Managers can
 
 - The email confirms who updates the fee group. The Customer’s request channel was unspecified, so an in-app request workflow is outside this specification.
 - The decisions in this spec supersede conflicting handover criteria in SRS v0.2. Prior decisions continue to supply the exact masking and audit rules, the five exception definitions, and automatic plate removal.
+
+## RES-01 Delivery and Review Requirements
+
+These requirements cover RES-01’s Phase 5 contribution. The product behavior, answer numbering, and acceptance outcomes above still apply.
+
+- **DR-001** — Record the 11 client answers in the interaction log, link the merged clarification spec, and record the dated SRS review and CP-01 outcome separately.
+- **DR-002** — Maintain an auditable M-03 and CR-03 decision that names owners, estimates, affected checks, and the outcome of Q22. V2.0 approval requires a reconciled scope comparison and a named A-87 build. Preserve V1.0 as the original reference.
+- **DR-003** — Keep independently reviewable RES-01 work in a separate PR. Deliver in-scope changes to an open PR directly on its head branch with owner coordination. Existing product, SRS/P18, baseline, and QA owners keep their responsibilities.
+- **DR-004** — Extend A-61, A-88, and A-115 evidence for the Phase 5 outcomes. Record the tested revision, migration state, results, and any exclusions. QA owns the CP-05 and dry-run outcomes. Pending checks remain visible through the client demo and final acceptance record.
+- **DR-005** — Bring measured actuals, weekly notes, the acceptance verdict, agreed exceptions, and the reflection into the final report and handoff. The 28 November report and 29 November submission targets remain distinct from measured progress or model forecasts.
