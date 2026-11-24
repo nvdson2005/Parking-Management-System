@@ -51,9 +51,9 @@ The figures in the table above are the planning estimates of 19/11. The generate
 | Item | Value |
 |---|---|
 | Capacity | 150 h (W12–W14, W14 at 12 h per person under option C) |
-| Base effort | 169.82 h, including CR-03 in A-28 (7.75 h) and A-65 (14.33 h) |
+| Base effort | 171.32 h, including CR-03 in A-28 (7.75 h) and A-65 (15.83 h) |
 | Rework reserve | 12.58 h (R-M3-01 lowered on 24/11 after client answers Q36, Q39, Q40) |
-| Total baseline effort | 182.39 h (121.59 % of capacity) |
-| Cost at 50,000 VND/h | 8,490,833 VND base + 628,750 VND reserve = 9,119,583 VND |
-| Levelled finish (model forecast) | working day 23.63 of 15; target dates for A-87, A-88 and the submission are fixed, see "Mục tiêu và dự báo" in `baseline-v2.0.md` |
+| Total baseline effort | 183.89 h (122.59 % of capacity) |
+| Cost at 50,000 VND/h | 8,565,833 VND base + 628,750 VND reserve = 9,194,583 VND |
+| Levelled finish (model forecast) | working day 24.63 of 15; target dates for A-87, A-88 and the submission are fixed, see "Mục tiêu và dự báo" in `baseline-v2.0.md` |
 

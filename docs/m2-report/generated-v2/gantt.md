@@ -47,12 +47,12 @@
 | A-90 Tổng hợp số liệu thực tế và so sánh với baseline |  |  |  |
 | A-108 Rà soát nội dung M3 (gộp vào A-92) |  |  |  |
 | A-31 Kiểm thử mô-đun xác thực và phân quyền |  |  |  |
-| A-33 Viết hướng dẫn cài đặt và chạy demo |  |  |  |
 | A-87 Chạy thử nghiệm thu nội bộ (gộp A-95) |  |  |  |
+| A-33 Viết hướng dẫn cài đặt và chạy demo |  |  |  |
 | A-88 Trình diễn nghiệm thu với khách hàng |  |  |  |
+| A-110 Bảng trạng thái phạm vi (mục của A-92) |  |  |  |
 | A-89 Viết báo cáo kết quả nghiệm thu (mục của A-92) |  |  |  |
 | A-112 Kế hoạch đóng dự án và bàn giao (mục của A-92) |  |  |  |
-| A-110 Bảng trạng thái phạm vi (mục của A-92) |  |  |  |
 | A-92 Viết và rà soát báo cáo quản lý dự án cuối kỳ (gồm nội dung M3) |  |  |  |
 | A-116 Đóng gói và nộp bài trên LMS |  |  |  |
 | M-01 Baseline V1.0 nộp và gửi khách hàng duyệt | ◆ 09/11 |  |  |

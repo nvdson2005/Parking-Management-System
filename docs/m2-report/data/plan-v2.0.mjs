@@ -3,7 +3,7 @@
 // Changes, see docs/m3/baseline-v2.0.md:
 //   CR-01 (lecturer): final submission moved 07/12 -> 29/11; W15 removed; W14 +2 h per person (decision record, option C).
 //   Work-division additions A-100..A-116 (Task 3.8 lower-level plan) added, with the option C cuts applied.
-//   CR-02 (round 3, Q28/Q31/Q32): already built, no effort change. CR-03 (pending RES-01): A-28 3.17 h -> 7.75 h and A-65 4.33 h -> 14.33 h (PERT E). Items: Q34, Q35 (first 5 h), CP-03 review G-06, G-09, G-04 (+5 h, 23/11), client round 5 Q37, Q38, Q44, Q45, Q46 (+6 h, 24/11); list in P03 §11.1.
+//   CR-02 (round 3, Q28/Q31/Q32): already built, no effort change. CR-03 (pending RES-01): A-28 3.17 h -> 7.75 h and A-65 4.33 h -> 15.83 h (PERT E). Items: Q34, Q35 (first 5 h), CP-03 review G-06, G-09, G-04 (+5 h, 23/11), client round 5 Q37, Q38, Q44, Q45, Q46 (+6 h, 24/11), FR-44 for AT-04 (+1.5 h, 24/11); list in P03 §11.1.
 //   Risk register as of 22/11 (docs/m3/risk-register.md).
 // Effort unit: person-hours. PERT: E = (O + 4M + P) / 6, sigma = (P - O) / 6.
 // Week ids follow the university academic calendar (week 1 starts 24/08/2026).
@@ -126,8 +126,8 @@ export const activities = [
     basis: '1 người đọc 1h + sửa 0,5h' },
   { id: 'A-28', name: 'Sửa xác thực và nhật ký truy cập theo review; xóa dữ liệu quá hạn tự động', product: 'P07', pred: ['A-23'], est: { o: 5.5, m: 7.5, p: 11 }, assign: { 'RES-03': 1 },
     basis: 'V2.0 (CR-03): ghi LOGIN khi đăng ký (KB-07) 0,5h; trả 400 cho JSON lỗi (KB-14) 1h; KB-16 chấp nhận, bỏ 1h; xóa biển số tự động hằng ngày (Q35, G-05) 1,5h; test 0,5h. CR-03 sau review CP-03 (23/11): nhật ký đăng nhập thất bại, từ chối quyền (G-06) 1,5h. Vòng 5 khách hàng (Q38, Q44): đổi nhóm người dùng 2h; mốc xóa tính từ giờ ra 0,5h' },
-  { id: 'A-65', name: 'Bổ sung API; Staff tra cứu xe và đặt chỗ', product: 'P05', pred: ['A-23'], est: { o: 11, m: 14, p: 19 }, assign: { 'RES-03': 1 },
-    basis: 'V2.0 (CR-03): 3 endpoint × 1h (KB-15); Staff đọc xe và đặt chỗ, màn hình tra cứu (Q34, G-08) 2,5h; chỉ mục (G-07) 0,5h; kiểm tra quyền và test 1h. Bỏ phụ thuộc A-27 vì chỉ thêm chỉ mục. CR-03 sau review CP-03 (23/11): cổng vào/ra (G-09) 2h; nguồn ghi nhận (G-04) 1,5h. Vòng 5 khách hàng (Q37, Q45, Q46): giờ hoạt động (G-01) 1,5h; Customer xem bảng giá nhóm mình 1h; che biển số lượt đã đóng với Staff 1h' },
+  { id: 'A-65', name: 'Bổ sung API; Staff tra cứu xe và đặt chỗ', product: 'P05', pred: ['A-23'], est: { o: 12.5, m: 15.5, p: 20.5 }, assign: { 'RES-03': 1 },
+    basis: 'V2.0 (CR-03): 3 endpoint × 1h (KB-15); Staff đọc xe và đặt chỗ, màn hình tra cứu (Q34, G-08) 2,5h; chỉ mục (G-07) 0,5h; kiểm tra quyền và test 1h. Bỏ phụ thuộc A-27 vì chỉ thêm chỉ mục. CR-03 sau review CP-03 (23/11): cổng vào/ra (G-09) 2h; nguồn ghi nhận (G-04) 1,5h. Vòng 5 khách hàng (Q37, Q45, Q46): giờ hoạt động (G-01) 1,5h; Customer xem bảng giá nhóm mình 1h; che biển số lượt đã đóng với Staff 1h. SRS v0.2 FR-44 (AT-04 bước 8): lọc nhật ký truy cập 1,5h' },
   { id: 'A-33', name: 'Viết hướng dẫn cài đặt và chạy demo', product: 'P13', pred: ['A-44'], allowance: 2, assign: { 'RES-03': 1 },
     basis: 'Cài đặt, migrate, seed 1h; chạy bộ mô phỏng và kịch bản demo 1h (cập nhật từ README)' },
 
