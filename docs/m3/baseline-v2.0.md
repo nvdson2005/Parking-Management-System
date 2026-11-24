@@ -48,7 +48,7 @@
 
 Bộ lập lịch báo lỗi `Levelled schedule ends on working day 24.63 > 15`. Nhãn "27/11" trong `generated-v2/totals.md` và `schedule.md` là ngày cuối của cửa sổ (bộ lập lịch chặn nhãn ở đó), không phải ngày xong thực tế.
 
-So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 thêm 16,08h vào A-28, A-65 (7,5h → 23,58h theo PERT): Q34, Q35 ban đầu, review CP-03 (G-06, G-09, G-04), vòng 5 của khách hàng (Q37, Q38, Q44, Q45, Q46) và FR-44 (AT-04 bước 8); (2) dự phòng được tính lại theo 14 rủi ro hiện tại (12,58h thay vì 8,45h). Nếu chỉ so effort cơ sở với năng lực: 171,32h so với 150h, **thiếu khoảng 21,3h**; tính cả dự phòng thì thiếu khoảng 33,9h.
+So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 làm A-28, A-65 tăng 16,08h theo PERT (7,5h → 23,58h; đây là mức tăng của giá trị kỳ vọng E của hai hoạt động so với V1.0, gồm cả KB-07, KB-14 và việc bỏ KB-16 −1h; khác với 17,5h là tổng giờ khả dĩ nhất M của riêng các mục CR-03 trong P03 §11.1): Q34, Q35 ban đầu, review CP-03 (G-06, G-09, G-04), vòng 5 của khách hàng (Q37, Q38, Q44, Q45, Q46) và FR-44 (AT-04 bước 8); (2) dự phòng được tính lại theo 14 rủi ro hiện tại (12,58h thay vì 8,45h). Nếu chỉ so effort cơ sở với năng lực: 171,32h so với 150h, **thiếu khoảng 21,3h**; tính cả dự phòng thì thiếu khoảng 33,9h.
 
 **Lưu ý về A-28, A-65:** cả hai đã làm xong ngày 23-24/11 (PR #11, PR #17, chờ merge). Baseline giữ effort kế hoạch như mọi hoạt động đã xong (mục Cách làm); giờ thực tế ghi ở A-103 và A-90. Vì vậy dự báo theo mô hình ở trên bi quan hơn tình hình thực tế đối với RES-03.
 
@@ -60,12 +60,12 @@ So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 thêm 16,0
 
 ## Mục tiêu và dự báo cho buổi chạy thử và buổi nghiệm thu
 
-**Mục tiêu** là ngày cố định, không phải kết quả của bộ lập lịch: A-87 chạy thử ngày **26/11** (ngày làm việc 13), A-88 trình diễn ngày **27/11** (ngày 14), nộp bài **29/11**. **Dự báo theo mô hình** (lịch đã cân bằng từ effort kế hoạch, không dùng số thực tế) đặt A-87 ở ngày 20-21,3 và A-88 ở ngày 21-21,7, tức sau mục tiêu khoảng 7 ngày làm việc. Mô hình không đạt được mục tiêu; mục tiêu chỉ đạt nếu các hoạt động trước A-87 xong trước 25/11 theo tình trạng thực tế dưới đây.
+**Mục tiêu** là ngày cố định, không phải kết quả của bộ lập lịch: A-87 chạy thử ngày **26/11** (ngày làm việc 13), A-88 trình diễn ngày **27/11** (ngày 14), nộp bài **29/11**. **Dự báo theo mô hình** (lịch đã cân bằng từ effort kế hoạch, không dùng số thực tế) đặt A-87 ở ngày 20-21,3 và A-88 ở ngày 21-21,6, tức sau mục tiêu khoảng 7 ngày làm việc. Mô hình không đạt được mục tiêu; mục tiêu chỉ đạt nếu các hoạt động trước A-87 xong trước 25/11 theo tình trạng thực tế dưới đây.
 
 | Hoạt động trước A-87 | Phụ trách | Effort kế hoạch | Dự báo theo mô hình (ngày) | Tình trạng thực tế 24/11 |
 |---|---|---|---|---|
 | A-28 Sửa xác thực, nhật ký, xóa tự động | RES-03 | 7,75h | 17-20,4 | **Xong** 23-24/11 (PR #11, chờ merge) |
-| A-65 Bổ sung API, Staff tra cứu | RES-03 | 15,83h | 5-15,9 | **Xong** 23-24/11 (PR #11, PR #17 và nhánh FR-44, chờ merge) |
+| A-65 Bổ sung API, Staff tra cứu | RES-03 | 15,83h | 5-15,8 | **Xong** 23-24/11 (PR #11, PR #17 và hai nhánh FR-44, chờ merge) |
 | A-85 Review bộ test nghiệm thu | RES-02, RES-03 | 2,5h | 8-20,8 | Chờ bộ AT; `TODO(RES-02)` |
 | A-67 Tích hợp bộ mô phỏng | RES-01, RES-05 | 2,17h | 17-18,4 | `TODO(RES-01)` |
 | A-68 Kiểm thử xe ra/vào | RES-05, RES-02 | 3,17h | 18-18,7 | `TODO(RES-05)` |
@@ -76,9 +76,9 @@ So với decision record (19/11, 164,1h): V2.0 cao hơn vì (1) CR-03 thêm 16,0
 | A-76 Kiểm thử thanh toán | RES-04 | 1h | 17-17,9 | `TODO(RES-04)`; bỏ được theo thứ tự Q22 |
 | A-77 Kiểm thử báo cáo | RES-05 | 2,58h | 2-4,5 | `TODO(RES-05)` |
 
-**Bản build dùng cho A-87 (sửa theo review PR #10 của RES-01).** Code của A-28, A-65 nằm ở ba thay đổi nối tiếp nhau: PR #11 (sửa xác thực, nhật ký, xóa tự động, Staff tra cứu, cổng, nguồn, Q44, Q46), PR #17 (giờ hoạt động Q37, bảng giá theo nhóm Q45, đổi nhóm Q38; base là nhánh của PR #11) và nhánh `feat/res03-fr44-access-log-filter` (lọc nhật ký FR-44; base là nhánh của PR #17, chưa mở PR). Mỗi nhánh sau đã chứa nhánh trước. **Bản build cho A-87 là `main` sau khi merge theo thứ tự PR #11 → PR #17 (đổi base sang `main`) → PR FR-44**, hạn 25/11; biên bản A-87 ghi mã commit của `main` đã chạy. Nếu tới 25/11 mới merge được một phần thì chạy trên `main` lúc đó và ghi vào P14 các bước AT bị loại: thiếu PR #17 thì AT-03 bước 1 và 6 (giờ hoạt động, bảng giá theo nhóm) và AT-04 bước 4 (đổi nhóm); thiếu FR-44 thì AT-04 bước 8 (lọc nhật ký). Không chạy A-87 trên một nhánh chưa merge, vì biên bản phải gắn với bản đã review.
+**Bản build dùng cho A-87 (sửa theo review PR #10 của RES-01).** Code của A-28, A-65 nằm ở ba thay đổi nối tiếp nhau: PR #11 (sửa xác thực, nhật ký, xóa tự động, Staff tra cứu, cổng, nguồn, Q44, Q46), PR #17 (giờ hoạt động Q37, bảng giá theo nhóm Q45, đổi nhóm Q38; base là nhánh của PR #11) và hai nhánh FR-44 (lọc nhật ký): `feat/res03-fr44-access-log-api` (service và API, base là nhánh của PR #17) rồi `feat/res03-fr44-access-log-page` (trang lọc), tách để mỗi PR dưới 300 dòng, chưa mở PR. Mỗi nhánh sau đã chứa nhánh trước. **Bản build cho A-87 là `main` sau khi merge theo thứ tự PR #11 → PR #17 (đổi base sang `main`) → PR FR-44 API → PR FR-44 trang**, hạn 25/11; biên bản A-87 ghi mã commit của `main` đã chạy. Nếu tới 25/11 mới merge được một phần thì chạy trên `main` lúc đó và ghi vào P14 các bước AT bị loại: thiếu PR #17 thì AT-03 bước 1 và 6 (giờ hoạt động, bảng giá theo nhóm) và AT-04 bước 4 (đổi nhóm); thiếu FR-44 thì AT-04 bước 8 (lọc nhật ký). Không chạy A-87 trên một nhánh chưa merge, vì biên bản phải gắn với bản đã review.
 
-**Cách A-87, A-88 vẫn vừa mục tiêu:** (1) PR #11, PR #17 và PR FR-44 merge trước 25/11 để A-31 và A-87 chạy trên mã đã sửa (xem đoạn trên); (2) mỗi người phụ trách ghi tình trạng vào bảng trên tại M-03 (24/11); (3) hoạt động nào chưa xong trước 25/11 thì A-87 chạy theo đợt và ghi AT chưa chạy vào P14 (dự phòng của R-G5-01), A-72, A-76 bỏ theo thứ tự Q22 (lựa chọn 3); (4) chuỗi sau nghiệm thu dùng lựa chọn 1 và 2. Nếu tại M-03 còn hơn 2 hoạt động chưa xong, RES-01 quyết định dời phạm vi chạy thử, không dời ngày A-88 (cố định với khách hàng).
+**Cách A-87, A-88 vẫn vừa mục tiêu:** (1) PR #11, PR #17 và hai PR FR-44 merge trước 25/11 để A-31 và A-87 chạy trên mã đã sửa (xem đoạn trên); (2) mỗi người phụ trách ghi tình trạng vào bảng trên tại M-03 (24/11); (3) hoạt động nào chưa xong trước 25/11 thì A-87 chạy theo đợt và ghi AT chưa chạy vào P14 (dự phòng của R-G5-01), A-72, A-76 bỏ theo thứ tự Q22 (lựa chọn 3); (4) chuỗi sau nghiệm thu dùng lựa chọn 1 và 2. Nếu tại M-03 còn hơn 2 hoạt động chưa xong, RES-01 quyết định dời phạm vi chạy thử, không dời ngày A-88 (cố định với khách hàng).
 
 ## Cần RES-01 quyết định trước hoặc tại M-03 (24/11)
 
