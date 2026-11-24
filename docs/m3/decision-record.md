@@ -64,6 +64,8 @@ The Q22 fallback fires if, at M-03, any Must product is not verified or the sche
 | Q22 decision and effect | RES-01 records trigger status, rationale, verification omitted if triggered, and any recovery actions. Copy the result to R-G5-04 and the weekly log. |
 | Status | Pending gate evidence and RES-01 decision. |
 
+**24 November update:** RES-01 confirmed that no dated M-03/Q22 decision or A-87 build-and-schedule decision was recorded at the gate. An integrated `main` candidate was later identified by [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) at `26a623c15df6686ee329c496a3788fed3850d9a2`; it is not a retroactive M-03 approval. The regenerated V2.0 forecast reports a finish around working day 24.63 of 15 and Must A-49/CP-05 verification remains open. **Late RES-01 decision, 24/11:** retain the A-72 and A-76 manual acceptance checks despite the documented Q22 trigger. No checks are omitted under Q22. This preserves coverage but saves none of the forecast 2.6 h; RES-03 must produce a revised remaining-work forecast and recovery assignment. The original M-03 gate remains unsigned.
+
 ## Consequences
 
 - M3 and the final report are submitted together on 29/11 (confirmed by RES-01: everything goes in on that date). There is no separate M3 submission date.
@@ -130,9 +132,11 @@ Have RES-03 recalculate remaining effort from completed activities and owner est
 | Decision input | Current evidence / required next record | Owner |
 | --- | --- | --- |
 | CR-03 options | Compare **28 h full scope** with **16 h selected scope** on identical line items, assumptions and affected checks in [PR #10](https://github.com/nvdson2005/Parking-Management-System/pull/10). Record the accepted option, approver and date there. | RES-03 prepares; RES-01 approves |
-| A-87 candidate | Name one integrated SHA containing #11 and #17, migration state, environment, and any exclusions. No such final build is identified yet. | RES-03 integrates; RES-02/RES-04 verify |
-| Must and CP-05 | [PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18) proposes CP-05 pass with T12 pending A-31. QA has not recorded the gate verdict. #11 remains under requested changes. | RES-02 QA; RES-03 resolves #11 |
-| Schedule variance | A-68 completed 24/11, one day after its 23/11 plan. Compare the remaining critical path with a dated V2.0 forecast; owner actuals and the live variance are pending. | RES-03 tracker; RES-01 gate |
-| Q22 fallback | Apply the existing trigger only after Must verification and schedule variance are recorded. If triggered, name every omitted A-72/A-76 check and carry it into P14. The outcome is pending. | RES-01 |
+| A-87 candidate | [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) subsequently integrated #11/#17 into `main` at `26a623c15df6686ee329c496a3788fed3850d9a2`. Build and migration evidence exists, but the A-87 operator must pin the actual tested SHA and environment. | RES-02/RES-04 verify |
+| Must and CP-05 | PR #18 later reported T12 passed on its A-31 branch; QA has not recorded the formal CP-05 verdict. A-49 Must screen gaps still lack a fix and retest. | RES-02 QA; RES-04 A-49 |
+| Schedule variance | A-68 completed 24/11, one day after its 23/11 plan. Regenerated V2.0 models a finish around working day 24.63 of 15. This is a plan forecast, not a live remaining-work estimate; owner actuals and a recovery choice remain pending. | RES-03 tracker; RES-01 gate |
+| Q22 fallback | At the late 24/11 review RES-01 chose to **retain A-72/A-76 manual checks**, even though Must verification was incomplete. Do not count the 2.6 h fallback saving or list those checks as omitted in P14. Reforecast and assign recovery work. | RES-01; RES-03 reforecasts |
 
 The gate record needs the decision time, participants, Q22 outcome, recovery owners and dates, and exceptions before it can be signed. The 26 November A-87 dry run, 27 November A-88 demo, 28 November report sign-off, and 29 November submission are targets, not completed events.
+
+On 24/11, RES-01 reported that all five members committed to 12 h in W14 and to weekend work on 28–29/11. No M-03 or build-and-schedule decision had been recorded at the original gate; the Q22 retention choice above was made later. The integrated build is available; the gate and V2.0 approval remain unsigned pending the recovery forecast and QA evidence.
