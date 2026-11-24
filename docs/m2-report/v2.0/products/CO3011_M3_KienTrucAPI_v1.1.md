@@ -86,7 +86,7 @@ Biến môi trường bắt buộc: `DATABASE_URL` (SQLite, `prisma/schema.prism
 | Trang chung | Đăng nhập, đăng ký, điều hướng theo vai trò, khung trang có nút đổi ngôn ngữ | `src/app/login`, `src/app/register`, `src/app/page.tsx`, `src/components/AppShell.tsx`, `src/components/LangToggle.tsx`, `src/lib/nav.ts` | P07, P19 |
 | Hiển thị chỗ trống trực tiếp | Mở `EventSource` tới `/api/availability/stream`, vẽ lại khi nhận dữ liệu; hiển thị huy hiệu "Suspended" | `src/components/LiveAvailability.tsx` | P09 |
 | Middleware | Chặn route UI `/customer`, `/staff`, `/manager` theo JWT và vai trò | `src/middleware.ts` | P07 |
-| API route handler | 28 endpoint REST + 1 luồng SSE; kiểm tra vai trò, đọc body, gọi service | `src/app/api/**/route.ts` | P05, P07, P08, P09, P04, P06, P10, P11 |
+| API route handler | 29 endpoint REST + 1 luồng SSE (tổng 30 endpoint, mục 8); kiểm tra vai trò, đọc body, gọi service | `src/app/api/**/route.ts` | P05, P07, P08, P09, P04, P06, P10, P11 |
 | Bộ bọc API | `handle()` tuần tự hóa kết quả JSON và ánh xạ lỗi; `readJsonObject()` kiểm tra body | `src/server/api.ts` | Tất cả |
 | Mô-đun lỗi | `DomainError` + bảng mã lỗi → HTTP status | `src/server/errors.ts` | Tất cả |
 | Xác thực, phân quyền | Băm mật khẩu; ký/xác minh JWT; lấy người dùng hiện tại; `requireRole` | `src/server/auth/password.ts`, `session.ts`, `rbac.ts` | P07 |
