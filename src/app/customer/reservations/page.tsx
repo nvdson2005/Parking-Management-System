@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useT } from '@/components/I18nProvider'
+import { defaultArrival, toLocalDateTimeInput } from '@/lib/arrival'
 import type { ReservationStatus, VehicleTypeCode } from '@/lib/types'
 
 type Vehicle = {
@@ -49,13 +50,6 @@ type Reservation = {
   cancelZoneName: string | null
 }
 
-function toLocalDateTimeInput(d: Date): string {
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(
-    d.getMinutes(),
-  )}`
-}
-
 export default function ReservationsPage() {
   const t = useT()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -65,6 +59,9 @@ export default function ReservationsPage() {
   const [vehicleId, setVehicleId] = useState('')
   const [zoneId, setZoneId] = useState('')
   const [arrivalTime, setArrivalTime] = useState('')
+  // Set on the client only, so the server render and hydration agree.
+  const [minArrival, setMinArrival] = useState<string | undefined>(undefined)
+  const [closedToday, setClosedToday] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [cancellingId, setCancellingId] = useState<string | null>(null)
@@ -90,8 +87,19 @@ export default function ReservationsPage() {
     loadAll().catch(() => setLoading(false))
   }, [loadAll])
 
+  // Pre-fill a valid arrival time (spec 006 US2): the current minute is already
+  // past and would fail with RESERVATION_WINDOW. No valid time left: say so.
   useEffect(() => {
-    if (!arrivalTime) setArrivalTime(toLocalDateTimeInput(new Date()))
+    if (arrivalTime) return
+    const now = new Date()
+    setMinArrival(toLocalDateTimeInput(now))
+    const next = defaultArrival(now)
+    if (next) {
+      setClosedToday(false)
+      setArrivalTime(toLocalDateTimeInput(next))
+    } else {
+      setClosedToday(true)
+    }
   }, [arrivalTime])
 
   const selectedVehicle = vehicles.find((v) => v.id === vehicleId) ?? null
@@ -169,7 +177,7 @@ export default function ReservationsPage() {
     }
   }
 
-  const canSubmit = vehicleId !== '' && zoneId !== '' && arrivalTime !== '' && !submitting
+  const canSubmit = vehicleId !== '' && zoneId !== '' && arrivalTime !== '' && !closedToday && !submitting
 
   return (
     <div className="flex flex-col gap-4">
@@ -188,7 +196,14 @@ export default function ReservationsPage() {
                 <Label htmlFor="vehicle">{t('reservations.vehicle')}</Label>
                 <Select value={vehicleId} onValueChange={(value) => setVehicleId(value ?? '')}>
                   <SelectTrigger id="vehicle" className="w-full">
-                    <SelectValue placeholder={t('reservations.selectVehicle')} />
+                    <SelectValue placeholder={t('reservations.selectVehicle')}>
+                      {(value: string | null) => {
+                        const v = vehicles.find((x) => x.id === value)
+                        return v
+                          ? `${v.plate} · ${t(`availability.vehicleTypes.${v.vehicleTypeCode}`)}`
+                          : t('reservations.selectVehicle')
+                      }}
+                    </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     {vehicles.map((v) => (
@@ -207,7 +222,11 @@ export default function ReservationsPage() {
                 ) : (
                   <Select value={zoneId} onValueChange={(value) => setZoneId(value ?? '')} disabled={!selectedVehicle}>
                     <SelectTrigger id="zone" className="w-full">
-                      <SelectValue placeholder={t('reservations.selectZone')} />
+                      <SelectValue placeholder={t('reservations.selectZone')}>
+                        {(value: string | null) =>
+                          availableZones.find((z) => z.zoneId === value)?.label ?? t('reservations.selectZone')
+                        }
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       {availableZones.map((z) => (
@@ -227,9 +246,16 @@ export default function ReservationsPage() {
                   type="datetime-local"
                   required
                   value={arrivalTime}
+                  min={minArrival}
                   max={maxArrival}
+                  disabled={closedToday}
                   onChange={(e) => setArrivalTime(e.target.value)}
                 />
+                {closedToday ? (
+                  <p role="status" className="text-sm text-muted-foreground">
+                    {t('reservations.closedToday')}
+                  </p>
+                ) : null}
               </div>
 
               <Button type="submit" disabled={!canSubmit} className="self-start">

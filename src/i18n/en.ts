@@ -49,6 +49,9 @@ export const en: Dict = {
     vehicleType: 'Vehicle type',
     free: 'Free',
     capacity: 'Capacity',
+    used: 'Used',
+    full: 'Full',
+    updatedAt: 'Updated at',
     vehicleTypes: {
       MOTORBIKE: 'Motorbike',
       CAR: 'Car',
@@ -86,6 +89,7 @@ export const en: Dict = {
     empty: 'You have no reservations.',
     noVehicles: 'Register a vehicle first to make a reservation.',
     noZones: 'No zone has capacity for this vehicle type right now.',
+    closedToday: 'Reservations for today are closed. You can only book for today, before 23:59.',
     status: 'Status',
     holdUntil: 'Hold until',
     selectVehicle: 'Select a vehicle',

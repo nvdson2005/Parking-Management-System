@@ -119,7 +119,7 @@ Every page uses the intended sans-serif font instead of the browser's default se
 - **FR-006** (SRS FR-27): The reservation form MUST pre-fill an arrival time that is in the future and within the current local day whenever such a time exists.
 - **FR-007** (SRS FR-27): The reservation form MUST NOT offer arrival times earlier than the current time.
 - **FR-008** (SRS FR-27, NFR-09): When no valid arrival time remains today, the reservation form MUST say that reservations for today are closed instead of letting the Customer submit an invalid time.
-- **FR-009** (P05): The Staff entry form's zone, vehicle type and gate selects MUST display the human-readable label of the current choice in the current language.
+- **FR-009** (P05, P06): The Staff entry form's zone, vehicle type and gate selects, and the reservation form's vehicle and zone selects, MUST display the human-readable label of the current choice in the current language.
 - **FR-010** (SRS FR-51): When a vehicle with an active reservation arrives before its booked time, the confirmation shown to Staff MUST include the booked arrival time and the reserved zone.
 - **FR-011**: Confirming or cancelling the early-arrival prompt MUST keep the current behaviour (admit with the early-arrival record, or admit nothing).
 - **FR-012** (UI design A-13): Pages MUST render with the application's sans-serif font.

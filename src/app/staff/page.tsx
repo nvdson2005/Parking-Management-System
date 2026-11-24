@@ -20,7 +20,7 @@ export default async function StaffPage() {
           </Link>
         ))}
       </nav>
-      <LiveAvailability initial={initial} />
+      <LiveAvailability initial={initial} role="STAFF" renderedAt={new Date().toISOString()} />
     </div>
   )
 }

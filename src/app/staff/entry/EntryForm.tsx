@@ -115,7 +115,8 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
                 setEarlyPrompt(false)
               }}>
               <SelectTrigger id="zone">
-                <SelectValue />
+                {/* base-ui shows the raw value unless given a label (spec 006, US3). */}
+                <SelectValue>{(value: string) => zones.find((z) => z.id === value)?.label ?? ''}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {zones.map((zone) => (
@@ -131,7 +132,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
             <Label htmlFor="gate">{t('entry.gate')}</Label>
             <Select value={gate} onValueChange={(value) => setGate((value as GateCode) ?? DEFAULT_GATE)}>
               <SelectTrigger id="gate">
-                <SelectValue />
+                <SelectValue>{(value: GateCode) => t(`gates.${value}`)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {GATES.map((g) => (
@@ -151,7 +152,7 @@ export function EntryForm({ zones }: { zones: ZoneOption[] }) {
                 setEarlyPrompt(false)
               }}>
                 <SelectTrigger id="vehicleType" className="w-full sm:w-40">
-                  <SelectValue />
+                  <SelectValue>{(value: VehicleTypeCode) => t(`availability.vehicleTypes.${value}`)}</SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="MOTORBIKE">{t('availability.vehicleTypes.MOTORBIKE')}</SelectItem>
