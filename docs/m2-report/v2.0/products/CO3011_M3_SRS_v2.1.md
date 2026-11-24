@@ -1,4 +1,4 @@
-# CO3011_M3_SRS_v2.0
+# CO3011_M3_SRS_v2.1
 
 **CO3011 - QUẢN LÝ DỰ ÁN PHẦN MỀM**
 
@@ -8,13 +8,13 @@ _Hệ thống Quản lý Bãi đỗ xe Thông minh (Smart Parking Management Sys
 
 | **Thông tin** | **Chi tiết** |
 | --- | --- |
-| Tên file | CO3011\_M3\_SRS\_v2.0 |
+| Tên file | CO3011\_M3\_SRS\_v2.1 |
 | Nhóm | 11 |
 | Chủ sở hữu | Phạm Duy Quý |
 | Người review | Tech lead (Nguyễn Võ Đức Sơn), QA (Đào Xuân Sơn) |
-| Phiên bản | v2.0 (đồng bộ với mã nguồn theo A-70, KB-11) |
+| Phiên bản | v2.1 (cập nhật theo phản hồi khách hàng Q36 đến Q46) |
 | Mục tiêu liên quan | O1, O2, O3, O4, O5 |
-| Căn cứ | Báo cáo M1 v0.2 (P23), Client Interaction Log Q01 đến Q35 và Phase 4 (P15), PD-P02, Đặc tả API P18 mục 10 (KB-11, D-41) |
+| Căn cứ | Báo cáo M1 v0.2 (P23), Client Interaction Log Q01 đến Q46, Phase 4 và Phase 5 (P15), PD-P02, Đặc tả API P18 mục 10 (KB-11, D-41) |
 
 ## Kiểm soát tài liệu
 
@@ -23,6 +23,7 @@ _Hệ thống Quản lý Bãi đỗ xe Thông minh (Smart Parking Management Sys
 | v0.1 | 13/11/2026 | Phạm Duy Quý | Toàn bộ | Tạo bản nháp đầu tiên theo PD-P02 |
 | v0.2 | 15/11/2026 | Phạm Duy Quý | 2.1, 2.2, 3.5, 3.6, 3.7, 3.8, 3.9, 4.2, 5, 7 | Cập nhật theo phản hồi Phase 4 (Q27 đến Q35): sửa FR-31, FR-32, FR-38, FR-39, FR-41, FR-46 đến FR-48, EX-01 đến EX-03; thêm FR-51, FR-52; thêm AS28; cập nhật trạng thái giả định và vấn đề mở |
 | v2.0 | 22/11/2026 | Phạm Duy Quý | 1.2, 3, 3.5, 7, 8, 9 | Đồng bộ phần đặt chỗ với mã nguồn theo A-70 (KB-11): làm rõ khung giờ đặt và quyền sở hữu xe (FR-27); thêm điều kiện từ chối khi xe đã có đặt chỗ đang hiệu lực (FR-28); làm rõ điều kiện hủy, quyền hủy và lý do hủy (FR-29, FR-32, FR-33); thêm FR-53 (từ chối đặt chỗ cho xe đang gửi); thêm AS29; thêm mã lỗi `RESERVATION_LIMIT` (FR-28) và `EARLY_ARRIVAL` (FR-51); thêm mục 9 ghi các điểm mã nguồn chưa đáp ứng yêu cầu đã được khách hàng xác nhận (FR-52, phần hiển thị của FR-51) và các điểm đã xử lý trong mã |
+| v2.1 | 23/11/2026 | Phạm Duy Quý | 1.5, 2.3, 3.1, 3.4, 3.6, 3.8, 4.2, 4.3, 4.4, 6, 7, 9 | Cập nhật theo phản hồi Phase 5 (Q36 đến Q46): chỉ tính phí theo lượt (FR-24, FR-34, FR-36; AS26 không áp dụng); giờ hoạt động chỉ để thông báo (FR-22); Customer không tự đổi nhóm, Manager cập nhật theo yêu cầu (FR-01, FR-07, FR-08); bỏ tiêu chí tự kết thúc phiên sau 30 phút (FR-03; AS25 không áp dụng); thời hạn 12 tháng tính từ khi xe ra (FR-45); Staff chỉ xem biển số đã che với lượt đã đóng (2.3, FR-42); nghiệm thu một bãi thí điểm (NFR-11); kiểm riêng quy tắc hết chỗ thay cho đo lại ngưỡng khi bãi đầy (NFR-12); xác nhận AS24, AS27, AS28; khảo sát người dùng ngoài phạm vi nghiệm thu; mục 9 bổ sung các điểm mã nguồn chưa đáp ứng (FR-07, FR-19 đến FR-22, FR-26, FR-42, FR-45) |
 
 **Mục lục**
 
@@ -77,7 +78,7 @@ Hệ thống là ứng dụng web responsive phục vụ ba vai trò Customer, S
 - Ưu tiên theo MoSCoW như M1: Must, Should, Could.
 - Nguồn: mã câu hỏi khách hàng (Q), giả định (AS), ràng buộc (CN), mục của M1 hoặc khác biệt spec ↔ mã (KB, theo P18 mục 10). Mục tiêu: O1 đến O5.
 - Mỗi yêu cầu là một câu bắt đầu bằng "Hệ thống phải..." và có tiêu chí chấp nhận kiểm tra được. Mã lỗi API trong ngoặc (ví dụ `ZONE_FULL`) lấy theo P18 mục 6.1, dùng để đối chiếu với bộ test.
-- Câu hỏi Q01 đến Q13 dùng mã theo M1 Phụ lục A; Q14 trở đi theo Client Interaction Log; Q27 đến Q35 ứng với câu 1 đến 9 của Client Interaction Log - Phase 4.
+- Câu hỏi Q01 đến Q13 dùng mã theo M1 Phụ lục A; Q14 trở đi theo Client Interaction Log; Q27 đến Q35 ứng với câu 1 đến 9 của Client Interaction Log - Phase 4; Q36 đến Q46 ứng với câu 1 đến 11 của Client Interaction Log - Phase 5.
 
 # 2\. Vai trò người dùng
 
@@ -112,8 +113,8 @@ Khách vãng lai không có tài khoản: xe được Staff ghi nhận vào/ra v
 | **Vai trò** | **Biển số hiển thị** |
 | --- | --- |
 | Customer | Đầy đủ với xe thuộc tài khoản của mình; không xem được biển số của người khác. |
-| Staff | Đầy đủ với lượt gửi đang mở trong bãi (cần để xử lý EX-02, EX-03); đã che với lượt đã đóng. |
-| Manager | Đầy đủ; mỗi lần xem biển số đầy đủ được ghi nhật ký (FR-43). |
+| Staff | Đầy đủ với lượt gửi đang mở trong bãi (cần để xử lý EX-02, EX-03); chỉ xem biển số đã che với lượt đã đóng (Q46). |
+| Manager | Đầy đủ, kể cả với lượt đã đóng (Q46); mỗi lần xem biển số đầy đủ được ghi nhật ký (FR-43). |
 | Báo cáo | Không hiển thị biển số. |
 
 # 3\. Yêu cầu chức năng
@@ -126,14 +127,14 @@ _Hạng mục phạm vi: 1.4.1 - Nền tảng (Must)._
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| FR-01 | Hệ thống phải cho phép người dùng tự đăng ký tài khoản Customer bằng họ tên, email, mật khẩu và nhóm người dùng (Sinh viên hoặc Giảng viên/Nhân viên). | Must | Q08, AS3, AS18 | O1 | Đăng ký với dữ liệu hợp lệ tạo được tài khoản và đăng nhập được ngay; email đã tồn tại hoặc mật khẩu dưới 8 ký tự bị từ chối kèm thông báo lỗi. |
+| FR-01 | Hệ thống phải cho phép người dùng tự đăng ký tài khoản Customer bằng họ tên, email, mật khẩu và nhóm người dùng (Sinh viên hoặc Giảng viên/Nhân viên); nhóm chọn khi đăng ký chỉ Manager đổi được về sau (FR-07). | Must | Q08, Q38, AS3, AS18 | O1 | Đăng ký với dữ liệu hợp lệ tạo được tài khoản và đăng nhập được ngay; email đã tồn tại hoặc mật khẩu dưới 8 ký tự bị từ chối kèm thông báo lỗi. |
 | FR-02 | Hệ thống phải cho phép người dùng đăng nhập bằng email và mật khẩu và chuyển tới màn hình theo vai trò. | Must | Q07, AS5 | O4 | Đăng nhập đúng mở màn hình đúng vai trò (Customer, Staff, Manager); sai email hoặc mật khẩu hiển thị một thông báo chung, không nói rõ sai trường nào. |
-| FR-03 | Hệ thống phải cho phép người dùng đăng xuất và tự kết thúc phiên sau 30 phút không thao tác. | Must | CN4, AS25 | O4 | Sau khi đăng xuất hoặc sau 30 phút không thao tác, mọi yêu cầu tới chức năng cần đăng nhập đều bị từ chối và chuyển về màn hình đăng nhập. |
+| FR-03 | Hệ thống phải cho phép người dùng đăng xuất. | Must | CN4, Q39 | O4 | Sau khi đăng xuất, mọi yêu cầu tới chức năng cần đăng nhập đều bị từ chối và chuyển về màn hình đăng nhập. Tự kết thúc phiên sau một thời gian không thao tác không phải tiêu chí nghiệm thu (Q39). |
 | FR-04 | Hệ thống phải cho phép Customer đăng ký nhiều xe vào tài khoản, mỗi xe gồm biển số và loại xe (xe máy hoặc ô tô). | Must | Q05, Q29, AS17 | O2 | Thêm được ít nhất 3 xe vào một tài khoản; biển số đã thuộc tài khoản khác bị từ chối kèm thông báo; mỗi biển số chỉ tồn tại một lần trong hệ thống. |
 | FR-05 | Hệ thống phải gán các lượt gửi trước đó của một biển số vãng lai cho tài khoản khi Customer đăng ký biển số đó. | Should | Q29, AS17 | O2 | Sau khi đăng ký một biển số đã có lượt gửi vãng lai, các lượt này hiện trong lịch sử của Customer. |
 | FR-06 | Hệ thống phải kiểm tra quyền của vai trò trước mỗi chức năng theo ma trận phân quyền ở mục 2.2. | Must | Q07, Q25, AS5, AS22 | O4 | Với mỗi ô của ma trận 2.2, gọi chức năng bằng vai trò không có quyền đều bị từ chối (mã lỗi 403) và được ghi vào nhật ký truy cập. |
-| FR-07 | Hệ thống phải cho phép Manager xem danh sách tài khoản, tạo tài khoản Staff hoặc Manager, khóa hoặc mở khóa tài khoản và đổi nhóm người dùng của Customer. | Must | Q25, AS22 | O4 | Tài khoản bị khóa không đăng nhập được; tài khoản Staff do Manager tạo đăng nhập được và chỉ thấy chức năng của Staff. |
-| FR-08 | Hệ thống phải cho phép Customer xem và sửa họ tên, mật khẩu và nhóm người dùng của mình. | Should | Q08, AS18 | O1 | Thông tin sửa xong hiển thị đúng ở lần đăng nhập sau; đổi mật khẩu yêu cầu nhập mật khẩu cũ. |
+| FR-07 | Hệ thống phải cho phép Manager xem danh sách tài khoản, tạo tài khoản Staff hoặc Manager, khóa hoặc mở khóa tài khoản và đổi nhóm người dùng của Customer theo yêu cầu của Customer. | Must | Q25, Q38, AS22 | O4 | Tài khoản bị khóa không đăng nhập được; tài khoản Staff do Manager tạo đăng nhập được và chỉ thấy chức năng của Staff; sau khi Manager đổi nhóm của một Customer, lượt vào tiếp theo của xe thuộc tài khoản đó được tính phí theo nhóm mới và thao tác được ghi nhật ký. |
+| FR-08 | Hệ thống phải cho phép Customer xem và sửa họ tên, mật khẩu của mình và xem nhóm người dùng của mình; Customer không tự đổi nhóm mà gửi yêu cầu để Manager cập nhật (FR-07). | Should | Q08, Q38, AS18 | O1 | Thông tin sửa xong hiển thị đúng ở lần đăng nhập sau; đổi mật khẩu yêu cầu nhập mật khẩu cũ; màn hình hồ sơ hiển thị nhóm người dùng nhưng không cho sửa. |
 
 ## 3.2 Quản lý xe vào/ra
 
@@ -168,11 +169,11 @@ _Hạng mục phạm vi: 1.4.1 - Quản lý thông tin bãi đỗ (Must); Phạm
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| FR-22 | Hệ thống phải cho phép Manager tạo và sửa bãi đỗ gồm tên, địa chỉ, giờ hoạt động và trạng thái hoạt động. | Must | Q01, Q14, AS9 | O1 | Bãi tạo mới hiển thị đủ 4 trường cho Customer; sửa giờ hoạt động có hiệu lực ngay ở màn hình xem bãi. |
+| FR-22 | Hệ thống phải cho phép Manager tạo và sửa bãi đỗ gồm tên, địa chỉ, giờ hoạt động và trạng thái hoạt động; giờ hoạt động chỉ để thông báo, không chặn lượt vào hoặc đặt chỗ ngoài giờ. | Must | Q01, Q14, Q37, AS9 | O1 | Bãi tạo mới hiển thị đủ 4 trường cho Customer; sửa giờ hoạt động có hiệu lực ngay ở màn hình xem bãi; lượt vào và đặt chỗ ngoài giờ hoạt động vẫn được xử lý như trong giờ. |
 | FR-23 | Hệ thống phải cho phép Manager tạo khu vực trong bãi và đặt sức chứa riêng cho xe máy và ô tô của từng khu vực. | Must | Q05, Q14, AS9, AS14 | O1 | Tạo được bãi thí điểm 3 khu vực với tổng 300 chỗ xe máy và 30 chỗ ô tô; sức chứa âm hoặc không phải số nguyên bị từ chối. |
-| FR-24 | Hệ thống phải cho phép Manager lập bảng giá theo bãi, loại xe và nhóm người dùng (Sinh viên, Giảng viên/Nhân viên, Khách), mỗi mục chọn cách tính theo lượt hoặc theo giờ. | Must | Q14, Q16, AS11, AS18 | O4 | Lập được đủ 6 mục giá (2 loại xe × 3 nhóm); mục giá thiếu đơn giá hoặc đơn giá âm bị từ chối. |
+| FR-24 | Hệ thống phải cho phép Manager lập bảng giá theo loại xe và nhóm người dùng (Sinh viên, Giảng viên/Nhân viên, Khách), mỗi mục là một đơn giá tính theo lượt. | Must | Q14, Q16, Q36, AS11, AS18 | O4 | Lập được đủ 6 mục giá (2 loại xe × 3 nhóm); mục giá thiếu đơn giá hoặc đơn giá âm bị từ chối. |
 | FR-25 | Hệ thống phải cho phép Manager chuyển trạng thái bãi giữa "Hoạt động" và "Tạm ngưng". | Must | Q14, Q32, AS9, AS20 | O4 | Đổi trạng thái được ghi vào nhật ký truy cập; trạng thái mới hiển thị ngay cho Customer và Staff. |
-| FR-26 | Hệ thống phải cho phép Customer xem thông tin bãi gồm địa chỉ, giờ hoạt động, trạng thái và bảng giá áp dụng cho nhóm của mình. | Must | Q14, AS9 | O1 | Màn hình bãi hiển thị đúng bảng giá theo nhóm của Customer đang đăng nhập. |
+| FR-26 | Hệ thống phải cho phép Customer xem thông tin bãi gồm địa chỉ, giờ hoạt động, trạng thái và bảng giá áp dụng cho nhóm của mình. | Must | Q14, Q37, Q45, AS9 | O1 | Màn hình bãi hiển thị đúng bảng giá theo nhóm của Customer đang đăng nhập. |
 
 ## 3.5 Đặt chỗ trước
 
@@ -197,9 +198,9 @@ _Hạng mục phạm vi: 1.4.1 - Thanh toán mô phỏng (Should)._
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| FR-34 | Hệ thống phải tính phí khi xe ra theo mục bảng giá của bãi, loại xe và nhóm người dùng: theo lượt thì bằng đơn giá, theo giờ thì bằng đơn giá nhân số giờ gửi làm tròn lên. | Should | Q03, Q16, AS2, AS11, AS26 | O4 | Bộ test tính phí (mọi tổ hợp loại xe × nhóm × cách tính, có ca gửi đúng 60 phút và 61 phút) cho kết quả đúng 100%. |
+| FR-34 | Hệ thống phải tính phí khi xe ra bằng đơn giá theo lượt của mục bảng giá ứng với loại xe và nhóm người dùng của lượt gửi. | Should | Q03, Q16, Q36, AS2, AS11 | O4 | Bộ test tính phí cho đủ 6 tổ hợp loại xe × nhóm, mỗi tổ hợp có đơn giá khác nhau, cho kết quả đúng 100%; phí không phụ thuộc thời gian gửi. |
 | FR-35 | Hệ thống phải cho phép Staff xác nhận thanh toán mô phỏng trước khi đóng lượt gửi khi xe ra. | Should | Q03, Q33, AS2, AS21 | O4 | Không đóng được lượt ra khi chưa xác nhận thanh toán; sau khi xác nhận, lượt đóng và giao dịch được tạo; khi lượt đang bị chặn bởi EX-02, nút xác nhận thanh toán không dùng được. |
-| FR-36 | Hệ thống phải lưu mỗi giao dịch mô phỏng gồm mã lượt gửi, số tiền, mục giá áp dụng, thời điểm và Staff xác nhận. | Should | Q03, AS2 | O4 | Mỗi lượt đã thanh toán có đúng 1 giao dịch với đủ 5 trường. |
+| FR-36 | Hệ thống phải lưu mỗi giao dịch mô phỏng gồm mã lượt gửi, số tiền, mục giá áp dụng, thời điểm và Staff xác nhận; mục giá áp dụng được xác định bởi loại xe và nhóm người dùng lưu trên lượt gửi. | Should | Q03, Q36, AS2 | O4 | Mỗi lượt đã thanh toán có đúng 1 giao dịch với đủ 5 thông tin; mục giá áp dụng tra được từ loại xe và nhóm của lượt gửi và khớp số tiền. |
 | FR-37 | Hệ thống phải cho phép Customer xem lịch sử lượt gửi và giao dịch của mình, và cho phép Manager xem lịch sử giao dịch của bãi. | Should | Q03, AS2 | O4 | Customer chỉ thấy lượt và giao dịch của xe thuộc tài khoản mình; Manager thấy toàn bộ giao dịch của bãi. |
 
 ## 3.7 Báo cáo cơ bản
@@ -219,10 +220,10 @@ _Hạng mục phạm vi: 1.4.1 - Bảo mật dữ liệu (Must)._
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| FR-42 | Hệ thống phải che một phần biển số (chỉ hiện 3 ký tự cuối) với vai trò không có quyền xem đầy đủ theo mục 2.3. | Must | Q12, CN4, AS5 | O4 | Đăng nhập bằng từng vai trò, các màn hình và API trả về biển số đúng dạng (đầy đủ hoặc đã che) theo bảng 2.3. |
+| FR-42 | Hệ thống phải che một phần biển số (chỉ hiện 3 ký tự cuối) với vai trò không có quyền xem đầy đủ theo mục 2.3. | Must | Q12, Q46, CN4, AS5 | O4 | Đăng nhập bằng từng vai trò, các màn hình và API trả về biển số đúng dạng (đầy đủ hoặc đã che) theo bảng 2.3. |
 | FR-43 | Hệ thống phải ghi nhật ký truy cập cho đăng nhập (thành công và thất bại), lần xem biển số đầy đủ, lần bị từ chối quyền, thay đổi tài khoản, bảng giá, trạng thái bãi và mọi xác nhận thủ công khi xử lý ngoại lệ. | Must | Q12, CN4 | O4 | Mỗi thao tác trong danh sách tạo 1 dòng nhật ký gồm thời điểm, tài khoản, thao tác và đối tượng. |
 | FR-44 | Hệ thống phải cho phép Manager xem và lọc nhật ký truy cập theo tài khoản, loại thao tác và khoảng thời gian. | Must | Q12, CN4 | O4 | Kết quả lọc chỉ gồm các dòng thỏa điều kiện; Staff và Customer không mở được màn hình này. |
-| FR-45 | Hệ thống phải tự động xóa biển số khỏi các lượt gửi đã đóng quá 12 tháng, nhưng giữ lại dữ liệu thống kê không gắn biển số. | Must | Q18, Q35, AS15, AS23 | O4 | Chạy tác vụ xóa trên dữ liệu mẫu có lượt cũ hơn 12 tháng: biển số của các lượt đó bị xóa; số lượt gửi, thời gian gửi và doanh thu của các ngày đó không đổi. |
+| FR-45 | Hệ thống phải tự động xóa biển số khỏi các lượt gửi đã đóng quá 12 tháng, tính từ thời điểm xe ra (lượt gửi được đóng), nhưng giữ lại dữ liệu thống kê không gắn biển số. | Must | Q18, Q35, Q44, AS15, AS23 | O4 | Tác vụ xóa chạy tự động, không cần thao tác. Trên dữ liệu mẫu: biển số của lượt có thời điểm ra cũ hơn 12 tháng bị xóa; lượt vào cũ hơn 12 tháng nhưng ra chưa đủ 12 tháng vẫn giữ biển số; số lượt gửi, thời gian gửi và doanh thu của các ngày đó không đổi. |
 
 ## 3.9 Xử lý ngoại lệ
 
@@ -252,16 +253,16 @@ Có 13 yêu cầu phi chức năng: 10 Must, 3 Should.
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| NFR-04 | Hệ thống phải hoàn tất việc ghi nhận một lượt vào hoặc ra trong tối đa 3 giây kể từ khi nhận sự kiện. | Must | Q28, AS28 | O2 | Trong kịch bản 100 lượt, 100% lượt ghi nhận trong ≤ 3 giây (đo theo log thời gian). |
-| NFR-05 | Hệ thống phải cập nhật số chỗ trống trên màn hình đang mở trong tối đa 5 giây sau khi lượt vào/ra được ghi nhận. | Must | Q01, AS24 | O1 | Trong kịch bản 100 lượt, 100% lần cập nhật hiển thị trong ≤ 5 giây, không cần tải lại trang. |
-| NFR-06 | Hệ thống phải có số chỗ trống khớp 100% với số đếm tay sau kịch bản mô phỏng 100 lượt vào/ra. | Must | Q28, AS12, AS28 | O1 | So sánh số chỗ trống của từng khu vực và loại xe với bảng đếm tay sau kịch bản: khớp 100%. |
-| NFR-07 | Hệ thống phải tạo bản ghi đầy đủ (có thời điểm vào, thời điểm ra, loại xe, khu vực) cho 100% lượt gửi đã đóng. | Must | Q28, AS28 | O2 | Truy vấn sau kịch bản 100 lượt: không có lượt đã đóng nào thiếu một trong 4 trường. |
+| NFR-04 | Hệ thống phải hoàn tất việc ghi nhận một lượt vào hoặc ra trong tối đa 3 giây kể từ khi nhận sự kiện. | Must | Q28, Q41, AS28 | O2 | Trong kịch bản 100 lượt, 100% lượt ghi nhận trong ≤ 3 giây (đo theo log thời gian). |
+| NFR-05 | Hệ thống phải cập nhật số chỗ trống trên màn hình đang mở trong tối đa 5 giây sau khi lượt vào/ra được ghi nhận. | Must | Q01, Q41, AS24 | O1 | Trong kịch bản 100 lượt, 100% lần cập nhật hiển thị trong ≤ 5 giây, không cần tải lại trang. |
+| NFR-06 | Hệ thống phải có số chỗ trống khớp 100% với số đếm tay sau kịch bản mô phỏng 100 lượt vào/ra. | Must | Q28, Q41, AS12, AS28 | O1 | So sánh số chỗ trống của từng khu vực và loại xe với bảng đếm tay sau kịch bản: khớp 100%. |
+| NFR-07 | Hệ thống phải tạo bản ghi đầy đủ (có thời điểm vào, thời điểm ra, loại xe, khu vực) cho 100% lượt gửi đã đóng. | Must | Q28, Q41, AS28 | O2 | Truy vấn sau kịch bản 100 lượt: không có lượt đã đóng nào thiếu một trong 4 trường. |
 
 ## 4.3 Khả dụng và giao diện
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| NFR-08 | Hệ thống phải là ứng dụng web responsive dùng được trên màn hình rộng từ 360 px tới 1920 px trên phiên bản hiện hành của Chrome, Edge và Firefox. | Must | Q12, AS27 | O1 | Chạy các workflow cốt lõi ở 3 độ rộng 360, 768 và 1920 px trên 3 trình duyệt: không có chức năng nào bị che hoặc không bấm được. |
+| NFR-08 | Hệ thống phải là ứng dụng web responsive dùng được trên màn hình rộng từ 360 px tới 1920 px trên phiên bản hiện hành của Chrome, Edge và Firefox. | Must | Q12, Q43, AS27 | O1 | Chạy các workflow cốt lõi ở 3 độ rộng 360, 768 và 1920 px trên 3 trình duyệt: không có chức năng nào bị che hoặc không bấm được. |
 | NFR-09 | Hệ thống phải hiển thị thông báo lỗi bằng tiếng Việt nêu rõ lý do và cách khắc phục cho mỗi thao tác bị từ chối. | Should | Q11, D2 | O5 | Mỗi ca từ chối trong bộ test (dữ liệu sai, thiếu quyền, ngoại lệ EX-01 đến EX-05, từ chối đặt chỗ ở FR-27 đến FR-29 và FR-53) hiển thị thông báo có lý do. |
 | NFR-10 | Hệ thống phải cho phép Staff hoàn tất một lượt vào hoặc ra thủ công trong tối đa 3 thao tác bấm sau khi nhập biển số. | Should | Q11, D1, D2 | O2 | Đếm thao tác trong kịch bản nghiệm thu: không quá 3 lần bấm cho mỗi lượt. |
 
@@ -269,8 +270,8 @@ Có 13 yêu cầu phi chức năng: 10 Must, 3 Should.
 
 | **ID** | **Mô tả** | **Ưu tiên** | **Nguồn (Q/AS)** | **Mục tiêu (O)** | **Tiêu chí chấp nhận** |
 | --- | --- | --- | --- | --- | --- |
-| NFR-11 | Hệ thống phải cho phép thêm bãi thứ hai chỉ bằng cấu hình trên giao diện, không cần sửa mã nguồn hoặc lược đồ CSDL. | Should | Q04, AS4 | O5 | Tạo bãi thứ hai với khu vực, sức chứa, bảng giá; chạy lượt vào/ra ở bãi đó; số liệu hai bãi tách biệt. |
-| NFR-12 | Hệ thống phải vận hành đúng với quy mô bãi thí điểm 3 khu vực, 300 chỗ xe máy và 30 chỗ ô tô ở trạng thái đầy. | Must | Q24, AS14 | O1, O2 | Chạy mô phỏng tới khi đầy cả hai loại xe: NFR-04 và NFR-05 vẫn đạt. |
+| NFR-11 | Hệ thống phải được thiết kế để hỗ trợ nhiều bãi đỗ; phiên bản bàn giao chỉ cần vận hành một bãi thí điểm. | Should | Q04, Q40, AS4 | O5 | Nghiệm thu chạy trên một bãi thí điểm; thiết kế mở rộng nhiều bãi được trình bày trong đặc tả kiến trúc và API (P18) và thiết kế CSDL (P03). Không yêu cầu tạo và vận hành bãi thứ hai trên giao diện (Q40). |
+| NFR-12 | Hệ thống phải vận hành đúng với quy mô bãi thí điểm 3 khu vực, 300 chỗ xe máy và 30 chỗ ô tô, và không tiếp nhận thêm xe khi khu vực đã hết chỗ. | Must | Q24, Q41, AS14 | O1, O2 | Kiểm thử riêng quy tắc hết chỗ: đưa một khu vực tới hết chỗ cho từng loại xe, sự kiện vào tiếp theo bị từ chối (`ZONE_FULL`, EX-01). Không bắt buộc đo lại NFR-04 và NFR-05 khi bãi đầy (Q41). |
 | NFR-13 | Hệ thống phải gắn mọi sự kiện và bản ghi với dấu thời gian theo múi giờ UTC+7. | Must | Q06, AS1 | O2 | Thời điểm vào/ra hiển thị khớp đồng hồ hệ thống của bộ mô phỏng. |
 
 # 5\. Ma trận ngoại lệ
@@ -297,6 +298,11 @@ Danh sách theo AS13 (Q21, chờ xác nhận ở Q27). Mỗi ngoại lệ có í
 | Vé tháng | AS11 | Giả định của SRS |
 | Phí phạt khi mất mã QR/thẻ | AS13 | Giả định của SRS |
 | Theo dõi trạng thái từng ô đỗ bằng cảm biến | AS12 | Giả định của SRS |
+| Tính phí theo giờ | Q36 | Khách hàng xác nhận phiên bản bàn giao chỉ tính theo lượt |
+| Chặn lượt vào và đặt chỗ ngoài giờ hoạt động | Q37 | Giờ hoạt động chỉ để thông báo |
+| Customer tự đổi nhóm người dùng | Q38 | Customer gửi yêu cầu, Manager cập nhật (FR-07) |
+| Tạo và vận hành bãi thứ hai trên giao diện khi nghiệm thu | Q40 | Chỉ chạy một bãi thí điểm (NFR-11) |
+| Khảo sát mức hài lòng của người dùng làm tiêu chí nghiệm thu | Q42 | Khách hàng xác nhận không bắt buộc |
 
 # 7\. Giả định và vấn đề mở
 
@@ -307,39 +313,40 @@ Danh sách theo AS13 (Q21, chờ xác nhận ở Q27). Mỗi ngoại lệ có í
 | AS1 | Dữ liệu thiết bị (QR, RFID, nhận dạng biển số) được mô phỏng bằng phần mềm. | Q06 | Đã xác nhận | 3.2, 4.4 |
 | AS2 | Thanh toán dừng ở mức mô phỏng, không tích hợp cổng thanh toán thật. | Q03 | Đã xác nhận | 3.6 |
 | AS3 | Người dùng tự đăng ký, không tích hợp SSO. | Q08 | Đã xác nhận | 3.1 |
-| AS4 | Thí điểm một bãi; thiết kế hỗ trợ nhiều bãi. | Q04 | Đã xác nhận | 3.4, NFR-11 |
+| AS4 | Thí điểm một bãi; thiết kế hỗ trợ nhiều bãi; nghiệm thu chỉ chạy bãi thí điểm. | Q04, Q40 | Đã xác nhận | 3.4, NFR-11 |
 | AS5 | Ba vai trò Customer, Staff, Manager; quyền quản trị gộp vào Manager. | Q07, Q25 | Đã xác nhận | 2, 3.1, 3.8 |
-| AS6 | Biển số chỉ hiển thị đầy đủ với vai trò có thẩm quyền; thời hạn lưu được làm rõ ở AS15. | Q12 | Đã xác nhận | 3.8 |
+| AS6 | Biển số chỉ hiển thị đầy đủ với vai trò có thẩm quyền; với lượt gửi đã kết thúc, Staff chỉ xem biển số đã che, Manager xem đầy đủ; thời hạn lưu được làm rõ ở AS15. | Q12, Q46 | Đã xác nhận | 2.3, 3.8 |
 | AS7 | Chưa có dữ liệu baseline; thước đo dùng giá trị ước tính và dữ liệu mô phỏng. | Q10, Q26 | Đã xác nhận | 4.2 |
 | AS8 | Không ràng buộc công nghệ hay hosting. | Q12 | Đã xác nhận | 4.3 |
-| AS9 | Thông tin bãi gồm tên, địa chỉ, khu vực, sức chứa theo loại xe, giờ hoạt động, trạng thái hoạt động và bảng giá. | Q14 | Đã xác nhận | 3.4 |
+| AS9 | Thông tin bãi gồm tên, địa chỉ, khu vực, sức chứa theo loại xe, giờ hoạt động, trạng thái hoạt động và bảng giá; giờ hoạt động chỉ để thông báo, không chặn lượt vào hoặc đặt chỗ; Customer xem được bảng giá áp dụng cho nhóm của mình. | Q14, Q37, Q45 | Đã xác nhận | 3.4 |
 | AS10 | Giữ chỗ tối đa 30 phút sau giờ hẹn rồi tự hủy và tính là không đến; được hủy trước giờ hẹn; chỗ đặt lấy từ sức chứa chung của khu vực. | Q15 | Đã xác nhận | 3.5 |
-| AS11 | Phí được cấu hình theo loại xe và nhóm người dùng; mỗi mục giá tính theo lượt hoặc theo giờ; vé tháng không thuộc v1.0. | Q16 | Đã xác nhận một phần (cách tính và vé tháng là đề xuất của nhóm) | 3.4, 3.6 |
+| AS11 | Phí được cấu hình theo loại xe và nhóm người dùng; phiên bản bàn giao chỉ tính phí theo lượt; vé tháng không thuộc v1.0. | Q16, Q36 | Đã xác nhận (vé tháng là đề xuất của nhóm) | 3.4, 3.6 |
 | AS12 | Số chỗ trống tính theo lượt xe vào/ra tại cổng của từng khu vực, không theo từng ô đỗ. | Q17 | Đã xác nhận | 3.3 |
 | AS13 | Năm ngoại lệ bắt buộc: hết chỗ, biển số không khớp khi ra, mất mã QR/thẻ, xe đã có lượt đang mở, bãi tạm ngưng; mất mã thì Staff tra theo biển số, xác minh, xác nhận thủ công, ghi nhật ký, không thu phí phạt. | Q21, Q27 | Đã xác nhận | 3.9, 5 |
 | AS14 | Bãi thí điểm có 3 khu vực, khoảng 300 chỗ xe máy và 30 chỗ ô tô. | Q24 | Đã xác nhận | 3.4, NFR-12 |
 | AS15 | Biển số gắn với lượt gửi được lưu 12 tháng, sau đó xóa. | Q18 | Đã xác nhận | 3.8 |
 | AS16 | Cách tính 4 chỉ số báo cáo: tỷ lệ sử dụng theo giờ (%) tính riêng theo khu vực và loại xe; giờ cao điểm là 3 khung 1 giờ có nhiều lượt vào nhất; doanh thu là tổng giao dịch đã xác nhận trong ngày; tỷ lệ không đến (%) chỉ tính đặt chỗ đã hết thời gian chờ. | Q20, Q28 | Đã xác nhận | 3.7 |
 | AS17 | Một tài khoản có nhiều xe, không giới hạn; biển số là duy nhất; xe vãng lai được gán cho tài khoản khi biển số được đăng ký; biển số đã thuộc tài khoản khác thì báo lỗi. | Q29 | Đã xác nhận | 3.1, 3.2 |
-| AS18 | Người dùng tự chọn nhóm (Sinh viên hoặc Giảng viên/Nhân viên) khi đăng ký; xe vãng lai tính theo mức "Khách". | Q30 | Đã xác nhận | 3.1, 3.2, 3.4 |
+| AS18 | Người dùng tự chọn nhóm (Sinh viên hoặc Giảng viên/Nhân viên) khi đăng ký; sau đó Customer không tự đổi nhóm, muốn đổi thì gửi yêu cầu và Manager cập nhật; xe vãng lai tính theo mức "Khách". | Q30, Q38 | Đã xác nhận | 3.1, 3.2, 3.4 |
 | AS19 | Chỗ đặt trước được giữ ngay khi đặt và không phục vụ đặt chỗ hoặc xe đến trực tiếp khác; chỉ đặt trong ngày; tối đa 1 đặt chỗ đang hiệu lực mỗi tài khoản; xe đến sớm do Staff kiểm tra và tiếp nhận, chỉ tính là đã đến khi được tiếp nhận; vào khu vực khác thì hủy đặt chỗ và tiếp nhận như khách vãng lai tại khu vực mới. | Q31 | Đã xác nhận (khách hàng sửa phần xe đến sớm) | 3.3, 3.5, 3.9 |
 | AS20 | Khi bãi tạm ngưng: không tiếp nhận xe mới, cho xe đang gửi ra, từ chối đặt chỗ mới, hủy đặt chỗ đang hiệu lực và thông báo người dùng. | Q32 | Đã xác nhận | 3.4, 3.9 |
 | AS21 | Thanh toán mô phỏng do Staff xác nhận khi xe ra. | Q33 | Đã xác nhận | 3.6 |
 | AS22 | Chỉ Manager dùng: thông tin bãi, khu vực, sức chứa, bảng giá, tài khoản, nhóm người dùng, báo cáo. Staff ghi nhận xe vào/ra, tra cứu lượt gửi, xác nhận thanh toán, xử lý ngoại lệ, theo dõi chỗ trống và xem thông tin xe, lượt gửi, đặt chỗ, tình trạng bãi cần cho nghiệp vụ. | Q25, Q34 | Đã xác nhận (khách hàng bổ sung quyền xem của Staff) | 2.1, 2.2, 3.1, 3.5 |
-| AS23 | Sau 12 tháng, hệ thống tự động xóa biển số trên lượt gửi đã kết thúc, giữ số liệu thống kê (số lượt, thời gian gửi, doanh thu) không gắn biển số. | Q35 | Đã xác nhận | 3.8 |
-| AS24 | Số chỗ trống trên màn hình được cập nhật trong tối đa 5 giây sau mỗi lượt vào/ra (định lượng cho "gần thời gian thực"). | Nhóm đề xuất | Chưa gửi khách hàng | NFR-05 |
-| AS25 | Phiên đăng nhập tự kết thúc sau 30 phút không thao tác. | Nhóm đề xuất | Chưa gửi khách hàng | FR-03 |
-| AS26 | Khi tính phí theo giờ, số giờ gửi được làm tròn lên (61 phút tính 2 giờ). | Nhóm đề xuất | Chưa gửi khách hàng | FR-34 |
-| AS27 | Phạm vi responsive: màn hình rộng 360 px tới 1920 px; trình duyệt Chrome, Edge, Firefox bản hiện hành. | Nhóm đề xuất | Chưa gửi khách hàng | NFR-08 |
-| AS28 | Ngưỡng nghiệm thu: chỗ trống khớp 100% số đếm tay trong kịch bản 100 lượt; 100% lượt có bản ghi đầy đủ; xử lý đúng 5/5 ngoại lệ; mỗi lượt ghi nhận trong tối đa 3 giây. | Q28, nhóm đề xuất | Chờ xác nhận (khách hàng chưa phản hồi phần ngưỡng) | 4.2 |
+| AS23 | 12 tháng sau khi lượt gửi kết thúc (xe ra và lượt được đóng), hệ thống tự động xóa biển số trên lượt đó, giữ số liệu thống kê (số lượt, thời gian gửi, doanh thu) không gắn biển số. | Q35, Q44 | Đã xác nhận (Q44 làm rõ mốc tính từ khi xe ra) | 3.8 |
+| AS24 | Số chỗ trống trên màn hình được cập nhật trong tối đa 5 giây sau mỗi lượt vào/ra (định lượng cho "gần thời gian thực"). | Nhóm đề xuất, Q41 | Đã xác nhận | NFR-05 |
+| AS25 | Phiên đăng nhập tự kết thúc sau 30 phút không thao tác. | Nhóm đề xuất, Q39 | Không áp dụng: khách hàng xác nhận đây không phải tiêu chí nghiệm thu | FR-03 |
+| AS26 | Khi tính phí theo giờ, số giờ gửi được làm tròn lên (61 phút tính 2 giờ). | Nhóm đề xuất, Q36 | Không áp dụng: phiên bản bàn giao chỉ tính phí theo lượt | FR-34 |
+| AS27 | Phạm vi responsive: màn hình rộng 360 px tới 1920 px; trình duyệt Chrome, Edge, Firefox bản hiện hành; nghiệm thu chạy các luồng cốt lõi trên cả 3 trình duyệt ở 3 độ rộng 360, 768 và 1920 px. | Nhóm đề xuất, Q43 | Đã xác nhận | NFR-08 |
+| AS28 | Ngưỡng nghiệm thu: chỗ trống khớp 100% số đếm tay trong kịch bản 100 lượt; 100% lượt có bản ghi đầy đủ; xử lý đúng 5/5 ngoại lệ; mỗi lượt ghi nhận trong tối đa 3 giây; không bắt buộc đo lại ngưỡng thời gian khi bãi đầy, nhưng phải kiểm riêng quy tắc hết chỗ. | Q28, Q41 | Đã xác nhận | 4.2, NFR-12 |
 | AS29 | Một xe có tối đa 1 đặt chỗ đang hiệu lực và không được đặt chỗ khi đang có lượt gửi đang mở (quy tắc bổ sung theo mã nguồn, KB-11). | Nhóm đề xuất (A-70) | Chưa gửi khách hàng | FR-28, FR-53 |
 
 ## 7.2 Câu hỏi đang chờ khách hàng
 
 | **Mã** | **Nội dung chờ** | **Phần SRS bị ảnh hưởng** | **Ảnh hưởng nếu khác giả định** |
 | --- | --- | --- | --- |
-| Q28 | Ngưỡng nghiệm thu (AS28): khách hàng đã xác nhận công thức báo cáo nhưng chưa phản hồi phần ngưỡng; ngưỡng 3 giây, 100% bản ghi đầy đủ và 5/5 ngoại lệ chưa có trong câu hỏi đã gửi | 4.2 (NFR-04, NFR-06, NFR-07) | Sửa ngưỡng trong NFR-04, NFR-06, NFR-07 và bộ test nghiệm thu P21. |
-| Chưa gửi | Các đề xuất của nhóm AS24 đến AS27 và AS29 (độ trễ cập nhật, thời gian phiên, làm tròn giờ tính phí, phạm vi responsive, quy tắc đặt chỗ theo xe) | 3.1, 3.5, 3.6, 4.2, 4.3 (FR-03, FR-28, FR-34, FR-53, NFR-05, NFR-08) | Sửa số liệu hoặc quy tắc trong yêu cầu tương ứng và test. |
+| Chưa gửi | Đề xuất AS29 của nhóm (mỗi xe tối đa 1 đặt chỗ đang hiệu lực; không đặt chỗ cho xe đang gửi) | 3.5 (FR-28, FR-53) | Sửa quy tắc trong FR-28, FR-53 và test đặt chỗ. |
+
+Các câu hỏi Q28 (ngưỡng nghiệm thu) và các đề xuất AS24 đến AS27 đã được khách hàng trả lời ở Phase 5 (Q36 đến Q46); trạng thái mới ghi ở mục 7.1.
 
 # 8\. Truy vết
 
@@ -379,12 +386,18 @@ Mỗi yêu cầu ở phần 3 và 4 đã ghi nguồn (Q/AS) và mục tiêu (O) 
 
 # 9\. Khác biệt với mã nguồn chưa xử lý
 
-Khi đồng bộ SRS với mã nguồn (A-70), các yêu cầu dưới đây **giữ nguyên** vì khách hàng đã xác nhận. Mã nguồn hiện tại (nhánh `main`, đối chiếu ngày 22/11/2026) chưa đáp ứng chúng. Mỗi dòng cần RES-01 quyết định ở mức dự án: sửa mã, hoặc mở CR xin khách hàng chấp nhận hành vi hiện tại.
+Khi đồng bộ SRS với mã nguồn (A-70), các yêu cầu dưới đây **giữ nguyên** vì khách hàng đã xác nhận. Mã nguồn hiện tại (nhánh `main`, đối chiếu ngày 22/11/2026; các dòng từ v2.1 đối chiếu ngày 23/11/2026) chưa đáp ứng chúng. Mỗi dòng cần RES-01 quyết định ở mức dự án: sửa mã, hoặc mở CR xin khách hàng chấp nhận hành vi hiện tại.
 
 | **Yêu cầu SRS** | **Nguồn đã xác nhận** | **Hành vi của mã nguồn** | **Đề xuất** |
 | --- | --- | --- | --- |
 | FR-52: Staff xem đặt chỗ đang hiệu lực của bãi | Q34, AS22 | Không có endpoint, service hoặc trang Staff cho danh sách đặt chỗ của bãi: `GET /api/reservations` chỉ cho vai trò Customer và chỉ trả đặt chỗ của chính người đó; menu Staff chỉ có các trang Xe vào, Xe ra, Lượt gửi | Bổ sung endpoint và trang Staff liệt kê đặt chỗ đang hiệu lực (A-65) hoặc CR |
 | FR-51: Staff thấy thông tin đặt chỗ khi xe đến sớm | Q31, AS19 (khách hàng sửa) | Bước xác nhận đã có (`EARLY_ARRIVAL`, `confirmEarly`), nhưng hộp xác nhận chỉ hiện cảnh báo chung, không hiện giờ hẹn và khu vực đã đặt | Hiển thị giờ hẹn và khu vực trong hộp xác nhận (có thể làm cùng FR-52) |
+| FR-45: tự động xóa biển số sau 12 tháng tính từ khi xe ra | Q35, Q44, AS23 | `purgeOldData` chỉ chạy khi Manager gọi `POST /api/purge`, không có tác vụ tự động; mốc 12 tháng so theo thời điểm vào (`entryTime`) thay vì thời điểm ra | So mốc theo `exitTime`; thêm tác vụ định kỳ trong `instrumentation.ts` như tác vụ hết hạn đặt chỗ |
+| 2.3, FR-42: Staff chỉ xem biển số đã che với lượt đã đóng | Q46, AS6 | `presentPlate` cho Staff xem biển số đầy đủ với mọi lượt gửi, kể cả lượt đã đóng | Thêm điều kiện trạng thái lượt gửi: lượt đã đóng thì chỉ Manager và chủ xe thấy đầy đủ |
+| FR-26: Customer xem bảng giá áp dụng cho nhóm của mình | Q14, Q45, AS9 | Không có màn hình Customer hiển thị bảng giá; Customer chỉ thấy số tiền trong lịch sử giao dịch | Hiển thị đơn giá theo loại xe cho nhóm của Customer trên màn hình thông tin bãi |
+| FR-22, FR-26: giờ hoạt động của bãi (chỉ để thông báo) | Q14, Q37, AS9 | Bảng `parking_lots` chỉ có tên, địa chỉ, trạng thái; không lưu và không hiển thị giờ hoạt động | Thêm trường giờ hoạt động (migration), ô nhập cho Manager, hiển thị cho Customer; không chặn lượt vào hoặc đặt chỗ |
+| FR-07: Manager đổi nhóm người dùng của Customer | Q25, Q38, AS18 | `PATCH /api/accounts/[id]` chỉ nhận `locked`; Manager không đổi được nhóm của Customer | Cho phép đổi `userGroup`, ghi nhật ký thay đổi tài khoản |
+| FR-19, FR-20, FR-21: màn hình chỗ trống | Q01, Q05, Q21, AS13 | API trả đủ `free`, `open`, `reserved`, `capacity`, nhưng màn hình chỗ trống (`LiveAvailability`) chỉ hiện cột Còn trống và Sức chứa: không có thời điểm cập nhật (FR-19), không có số chỗ đã dùng (FR-20), không hiện "Hết chỗ" khi chỗ trống bằng 0 (FR-21) | Sửa giao diện: thêm cột Đã dùng (`open + reserved`), nhãn "Hết chỗ", thời điểm nhận dữ liệu gần nhất (phát hiện trong A-49) |
 
 Các khác biệt dưới đây từng được ghi nhận theo P18 nhưng **đã được xử lý trong mã nguồn**; P18 v1.1 đã cập nhật tương ứng (KB-11, KB-20). FR-52 ứng với KB-21 trong P18:
 
@@ -393,3 +406,13 @@ Các khác biệt dưới đây từng được ghi nhận theo P18 nhưng **đ�
 | FR-28: tối đa 1 đặt chỗ đang hiệu lực mỗi tài khoản | `createReservation` kiểm tra cả theo xe (`VEHICLE_ALREADY_RESERVED`) và theo tài khoản (`RESERVATION_LIMIT`, 409). |
 | FR-31, FR-51: xe đến sớm chỉ được tiếp nhận sau khi Staff xác nhận | `recordEntry` từ chối xe đến trước giờ hẹn (`EARLY_ARRIVAL`, 409) cho tới khi Staff gửi `confirmEarly`; khi đó mới tạo lượt vào, chuyển đặt chỗ sang FULFILLED, ghi sự kiện `EARLY_ARRIVAL_CONFIRMED` và nhật ký `MANUAL_CONFIRM`. |
 | FR-50 (EX-05): hủy đặt chỗ và thông báo Customer khi bãi tạm ngưng | `updateLot` khi chuyển bãi sang SUSPENDED hủy mọi đặt chỗ PENDING của bãi (lý do `LOT_SUSPENDED`, không tính là không đến) và tạo thông báo cho từng Customer, trong cùng transaction. |
+
+Các khác biệt dưới đây được giải quyết ở v2.1 bằng cách **sửa SRS theo phản hồi Phase 5**, vì khách hàng chấp nhận hành vi hiện tại của mã nguồn:
+
+| **Yêu cầu SRS** | **Phản hồi** | **Hành vi hiện tại của mã nguồn** |
+| --- | --- | --- |
+| FR-24, FR-34: tính phí theo lượt hoặc theo giờ | Q36: chỉ tính theo lượt | `computeFee` trả đơn giá của mục bảng giá (loại xe, nhóm); bảng giá không có cách tính theo giờ. |
+| FR-36: giao dịch lưu mục giá áp dụng | Q36 (hệ quả) | `payments` không có cột mục giá; mục giá xác định bởi `vehicleTypeCode` và `feeGroup` lưu trên lượt gửi. |
+| FR-03: tự kết thúc phiên sau 30 phút | Q39: không phải tiêu chí nghiệm thu | Phiên đăng nhập là JWT hết hạn sau 7 ngày; đăng xuất xóa phiên. |
+| NFR-11: tạo bãi thứ hai trên giao diện | Q40: chạy một bãi thí điểm | Bảng giá không gắn với bãi; mô hình bãi, khu vực, sức chứa hỗ trợ nhiều bãi. |
+| NFR-12: đo lại ngưỡng thời gian khi bãi đầy | Q41: không bắt buộc; kiểm riêng quy tắc hết chỗ | `recordEntry` từ chối lượt vào khi hết chỗ (`ZONE_FULL`). |
