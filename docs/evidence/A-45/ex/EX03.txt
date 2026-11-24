@@ -5,7 +5,7 @@ action="ENTRY"
 ## parking_lots (1)
 name="Bãi xe thí điểm" | address="Cơ sở chính" | status="ACTIVE"
 ## parking_sessions (1)
-zone="B" | plate_snapshot="29A-01001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN"
+zone="B" | plate_snapshot="29A-01001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
 ## payments (0)
 ## reservations (0)
 ## roles (3)
@@ -21,25 +21,25 @@ vehicle_type_code="CAR" | fee_group="STUDENT" | price=10000
 vehicle_type_code="CAR" | fee_group="LECTURER_STAFF" | price=10000
 vehicle_type_code="CAR" | fee_group="GUEST" | price=10000
 ## users (19)
-email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false
-email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false
-email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false
-email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false
-email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
 ## vehicle_types (2)
 code="MOTORBIKE" | name_vi="Xe máy" | name_en="Motorbike"
 code="CAR" | name_vi="Ô tô" | name_en="Car"

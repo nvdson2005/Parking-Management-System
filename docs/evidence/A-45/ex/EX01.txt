@@ -154,156 +154,156 @@ action="ENTRY"
 ## parking_lots (1)
 name="Bãi xe thí điểm" | address="Cơ sở chính" | status="ACTIVE"
 ## parking_sessions (150)
-zone="B" | plate_snapshot="86L-152.68" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="28M-731.56" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="04P-805.02" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="17B-501.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="34V-005.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="23Q-785.22" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="06H-669.09" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="91L-103.46" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="07X-927.15" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="19V-594.53" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="37P-248.69" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="45X-216.37" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="04X-819.17" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="24S-163.26" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="37X-318.30" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="68T-926.41" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="77B-223.02" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="59Z-115.23" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="46L-338.34" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="55P-232.36" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="16F-313.05" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="43F-798.41" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="58W-841.68" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="35F-948.87" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="01B-567.98" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="88Q-534.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="96J-381.30" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="67C-984.71" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="10H-245.77" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="16U-544.44" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="31I-525.56" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="10L-190.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="08N-032.75" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="97C-675.85" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="00E-026.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="03Z-328.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="92Y-589.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="34V-756.55" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="97Z-366.83" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="38W-435.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="61W-294.26" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="77U-189.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="48B-644.67" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="01N-013.88" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="00R-272.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="83X-062.42" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="75G-451.76" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="10X-032.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="83P-607.73" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="75F-107.48" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="49U-115.62" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="21U-665.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="70N-952.03" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="72S-841.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="80E-192.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="46Q-198.32" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="74N-424.08" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="42J-506.09" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="68T-055.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="45M-070.61" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="79J-269.40" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="44O-471.75" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="84Y-090.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="56R-869.99" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="98V-109.04" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="67W-384.96" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="13G-701.26" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="69J-477.06" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="25W-843.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="45I-915.06" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="45U-835.19" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="67E-556.87" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="00A-900.50" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="60T-483.17" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="06Q-585.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="51K-177.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="45Y-369.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="95I-921.39" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="90N-669.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="93F-532.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="35Q-341.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="58R-584.64" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="66P-410.73" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="01I-620.46" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="72D-263.36" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="80M-138.89" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="16M-679.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="95E-108.05" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="59N-565.98" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="29C-375.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="36J-882.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="75N-492.40" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="01E-375.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="74Z-372.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="83C-190.75" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="68B-182.94" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="03K-034.40" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="72Z-116.79" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="82W-758.20" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="99V-210.96" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="06Q-670.82" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="30N-299.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="80A-939.97" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="32D-065.66" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="08P-664.82" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="19L-126.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="43L-470.66" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="88Q-471.46" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="19K-949.90" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="82M-473.73" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="09Y-742.23" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="20H-712.07" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="75C-436.53" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="87U-643.59" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="44H-263.16" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="59U-895.53" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="20W-601.71" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="13G-947.88" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="83G-207.78" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="26M-628.76" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="59Q-498.08" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="82S-183.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="35K-029.95" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="10N-822.96" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="32G-289.63" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="15T-453.44" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="62M-686.13" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="80E-572.04" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="74B-265.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="10Z-875.02" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="84G-126.77" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="48Z-978.31" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="56B-299.79" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="70G-356.97" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="89T-886.93" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="03O-272.62" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="20U-119.93" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="87I-231.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="88S-672.24" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="91F-583.99" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="11S-584.80" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="63B-168.20" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="12A-983.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="22N-644.95" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="85B-611.59" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="22I-443.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="47B-102.24" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="86X-462.91" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="85S-636.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
-zone="B" | plate_snapshot="23M-414.32" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN"
+zone="B" | plate_snapshot="86L-152.68" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="28M-731.56" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="04P-805.02" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="17B-501.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="34V-005.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="23Q-785.22" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="06H-669.09" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="91L-103.46" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="07X-927.15" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="19V-594.53" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="37P-248.69" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="45X-216.37" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="04X-819.17" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="24S-163.26" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="37X-318.30" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="68T-926.41" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="77B-223.02" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="59Z-115.23" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="46L-338.34" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="55P-232.36" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="16F-313.05" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="43F-798.41" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="58W-841.68" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="35F-948.87" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="01B-567.98" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="88Q-534.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="96J-381.30" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="67C-984.71" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="10H-245.77" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="16U-544.44" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="31I-525.56" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="10L-190.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="08N-032.75" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="97C-675.85" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="00E-026.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="03Z-328.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="92Y-589.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="34V-756.55" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="97Z-366.83" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="38W-435.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="61W-294.26" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="77U-189.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="48B-644.67" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="01N-013.88" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="00R-272.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="83X-062.42" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="75G-451.76" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="10X-032.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="83P-607.73" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="75F-107.48" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="49U-115.62" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="21U-665.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="70N-952.03" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="72S-841.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="80E-192.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="46Q-198.32" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="74N-424.08" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="42J-506.09" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="68T-055.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="45M-070.61" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="79J-269.40" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="44O-471.75" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="84Y-090.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="56R-869.99" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="98V-109.04" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="67W-384.96" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="13G-701.26" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="69J-477.06" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="25W-843.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="45I-915.06" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="45U-835.19" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="67E-556.87" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="00A-900.50" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="60T-483.17" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="06Q-585.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="51K-177.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="45Y-369.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="95I-921.39" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="90N-669.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="93F-532.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="35Q-341.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="58R-584.64" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="66P-410.73" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="01I-620.46" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="72D-263.36" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="80M-138.89" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="16M-679.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="95E-108.05" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="59N-565.98" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="29C-375.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="36J-882.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="75N-492.40" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="01E-375.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="74Z-372.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="83C-190.75" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="68B-182.94" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="03K-034.40" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="72Z-116.79" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="82W-758.20" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="99V-210.96" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="06Q-670.82" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="30N-299.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="80A-939.97" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="32D-065.66" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="08P-664.82" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="19L-126.65" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="43L-470.66" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="88Q-471.46" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="19K-949.90" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="82M-473.73" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="09Y-742.23" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="20H-712.07" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="75C-436.53" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="87U-643.59" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="44H-263.16" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="59U-895.53" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="20W-601.71" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="13G-947.88" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="83G-207.78" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="26M-628.76" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="59Q-498.08" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="82S-183.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="35K-029.95" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="10N-822.96" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="32G-289.63" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="15T-453.44" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="62M-686.13" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="80E-572.04" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="74B-265.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="10Z-875.02" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="84G-126.77" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="48Z-978.31" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="56B-299.79" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="70G-356.97" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="89T-886.93" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="03O-272.62" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="20U-119.93" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="87I-231.58" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="88S-672.24" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="91F-583.99" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="11S-584.80" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="63B-168.20" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="12A-983.43" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="22N-644.95" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="85B-611.59" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="22I-443.54" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="47B-102.24" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="86X-462.91" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="85S-636.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="23M-414.32" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
 ## payments (0)
 ## reservations (0)
 ## roles (3)
@@ -319,25 +319,25 @@ vehicle_type_code="CAR" | fee_group="STUDENT" | price=10000
 vehicle_type_code="CAR" | fee_group="LECTURER_STAFF" | price=10000
 vehicle_type_code="CAR" | fee_group="GUEST" | price=10000
 ## users (19)
-email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false
-email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false
-email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false
-email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false
-email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
-email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false
-email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false
+email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
 ## vehicle_types (2)
 code="MOTORBIKE" | name_vi="Xe máy" | name_en="Motorbike"
 code="CAR" | name_vi="Ô tô" | name_en="Car"
