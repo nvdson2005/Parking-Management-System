@@ -18,7 +18,7 @@ No column or data change.
   - `openSession { id, zoneName, entryTime, idMethod } | null`
   - `activeReservation { id, zoneName, arrivalTime, holdUntil } | null`
 - **ActiveReservationItem**: `{ id, plate, zoneId, zoneName, vehicleTypeCode, arrivalTime, holdUntil }`. Ordered by `arrivalTime` ascending. "Active" means `status = PENDING` and `holdUntil > now`, after expiry.
-- **SessionListItem**: `{ id, plate, zoneName, vehicleTypeCode, entryTime, exitTime, status }`. The plate goes through `presentPlate(plateSnapshot, viewer, ownerId)`. Ordered by `entryTime` descending.
+- **SessionListItem**: `{ id, plate, zoneName, vehicleTypeCode, entryTime, exitTime, status }`. The plate goes through `presentPlate(plateSnapshot, viewer, ownerId, status === 'CLOSED')` (Q46: Staff see closed sessions masked). Ordered by `entryTime` descending.
 - Access-log and payment responses reuse the existing `listAccessLogs`, `allPayments` and `customerHistory` shapes.
 
 ## Validation rules

@@ -46,7 +46,8 @@ The Manager button on `/manager/access-log` still runs it on demand.
 
 Who sees a full plate (Q46): a Manager always; the owner on their own
 vehicles and history; Staff only while the session is open. Staff see a
-masked plate (`51F-***.45`) on sessions that have ended, also inside the
+masked plate showing only the last 3 letters or digits (`51F-123.45` →
+`***-**3.45`, SRS FR-42) on sessions that have ended, also inside the
 EX-02 note. A plate typed by hand into a free-text staff note is shown as written.
 
 ## Tests

@@ -27,25 +27,47 @@ describe('plate helpers', () => {
   })
 
   describe('maskPlate', () => {
-    it('should mask plate with hyphen', () => {
-      expect(maskPlate('51F-123.45')).toBe('51F-***.45')
-    })
-
-    it('should mask plate without hyphen', () => {
-      expect(maskPlate('29A12345')).toBe('29A***45')
+    it('shows only the last 3 letters or digits, keeping separators (SRS FR-42)', () => {
+      expect(maskPlate('51F-123.45')).toBe('***-**3.45')
+      expect(maskPlate('29A12345')).toBe('*****345')
+      expect(maskPlate('59X1-678.90')).toBe('****-**8.90')
     })
 
     it('masks a short plate too, so a masked value never equals the plate (review of PR #11)', () => {
-      expect(maskPlate('51F-12')).toBe('51F-**')
-      expect(maskPlate('51F-1')).toBe('51F-*')
-      expect(maskPlate('29A12')).toBe('29A**')
-      expect(maskPlate('29A')).toBe('2**')
-      expect(maskPlate('AB')).toBe('A*')
+      expect(maskPlate('51F-12')).toBe('**F-12')
+      expect(maskPlate('51F-1')).toBe('*1F-1')
+      expect(maskPlate('29A12')).toBe('**A12')
+      expect(maskPlate('29A')).toBe('*9A')
+      expect(maskPlate('AB')).toBe('*B')
       expect(maskPlate('A')).toBe('*')
-      expect(maskPlate('51F-')).toBe('5**-')
-      for (const p of ['51F-12', '51F-1', '29A12', '29A', 'AB', 'A', '51F-', '51F-123.45', '29A12345']) {
+      expect(maskPlate('51F-')).toBe('*1F-')
+      // Separators must not hide the masking (second review of PR #11).
+      expect(maskPlate('51F-.12')).toBe('**F-.12')
+      expect(maskPlate('29A.12')).toBe('**A.12')
+      expect(maskPlate('51F-..12')).toBe('**F-..12')
+      expect(maskPlate('51F-1.2.3')).toBe('***-1.2.3')
+      for (const p of ['51F-12', '51F-1', '29A12', '29A', 'AB', 'A', '51F-', '51F-123.45', '29A12345', '51F-.12', '29A.12', '-12', '.-.1']) {
         expect(maskPlate(p)).not.toBe(p)
         expect(maskPlate(p)).toContain('*')
+      }
+    })
+
+    it('every plate with a letter or digit is changed and keeps its length and separators', () => {
+      // Deterministic pseudo-random plates over letters, digits and separators.
+      let seed = 42
+      const next = () => (seed = (seed * 1103515245 + 12345) % 2147483648)
+      const alphabet = 'AB51F9x-.- '
+      for (let k = 0; k < 2000; k++) {
+        const len = 1 + (next() % 10)
+        let p = ''
+        for (let i = 0; i < len; i++) p += alphabet[next() % alphabet.length]
+        const m = maskPlate(p)
+        expect(m.length).toBe(p.length)
+        expect(m.replace(/[a-zA-Z0-9*]/g, '')).toBe(p.replace(/[a-zA-Z0-9]/g, ''))
+        if (/[a-zA-Z0-9]/.test(p)) {
+          expect(m, p).not.toBe(p)
+          expect(m, p).toContain('*')
+        }
       }
     })
   })
@@ -68,7 +90,7 @@ describe('plate helpers', () => {
     })
 
     it('should mask plate to non-staff non-owner', () => {
-      expect(presentPlate('51F-123.45', cust, 'other')).toBe('51F-***.45')
+      expect(presentPlate('51F-123.45', cust, 'other')).toBe('***-**3.45')
     })
 
     it('should pass through purged marker', () => {
@@ -76,7 +98,7 @@ describe('plate helpers', () => {
     })
 
     it('Q46: masks a closed session for STAFF, but not for MANAGER or the owner', () => {
-      expect(presentPlate('51F-123.45', staff, null, true)).toBe('51F-***.45')
+      expect(presentPlate('51F-123.45', staff, null, true)).toBe('***-**3.45')
       expect(presentPlate('51F-123.45', manager, null, true)).toBe('51F-123.45')
       expect(presentPlate('51F-123.45', { id: 'c', role: 'CUSTOMER' }, 'c', true)).toBe('51F-123.45')
       expect(presentPlate('51F-123.45', staff, null, false)).toBe('51F-123.45')
@@ -86,9 +108,9 @@ describe('plate helpers', () => {
       const note = observedPlateNote('51F-123.45', 'worn plate')
       expect(note).toBe('Observed plate: 51F-123.45 — worn plate')
       const EX02 = 'PLATE_MISMATCH_CONFIRMED'
-      expect(presentEventNote(note, EX02, false)).toBe('Observed plate: 51F-***.45 — worn plate')
+      expect(presentEventNote(note, EX02, false)).toBe('Observed plate: ***-**3.45 — worn plate')
       expect(presentEventNote(note, EX02, true)).toBe(note)
-      expect(presentEventNote('Observed plate: 51F-12', EX02, false)).toBe('Observed plate: 51F-**')
+      expect(presentEventNote('Observed plate: 51F-12', EX02, false)).toBe('Observed plate: **F-12')
       expect(presentEventNote('Observed plate: [purged]', EX02, false)).toBe('Observed plate: [purged]')
       expect(presentEventNote('Reserved arrival: 2026-11-23T08:00:00.000Z', 'EARLY_ARRIVAL_CONFIRMED', false)).toBe(
         'Reserved arrival: 2026-11-23T08:00:00.000Z',
@@ -98,7 +120,7 @@ describe('plate helpers', () => {
     })
 
     it('should mask plate to null viewer', () => {
-      expect(presentPlate('51F-123.45', null, 'other')).toBe('51F-***.45')
+      expect(presentPlate('51F-123.45', null, 'other')).toBe('***-**3.45')
     })
   })
 })

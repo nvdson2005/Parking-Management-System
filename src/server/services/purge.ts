@@ -75,13 +75,13 @@ export async function purgeOldData(
       await tx.vehicle.deleteMany({ where: { id: { in: vehicleIds } } })
     }
 
+    // The PURGE row commits with the purge itself (FR-43, spec 002 FR-003).
+    await logAccess(tx, {
+      userId: actorId,
+      action: 'PURGE',
+      target: `${masked.count} sessions, ${vehicleIds.length} vehicles`,
+    })
     return { sessionsMasked: masked.count, vehiclesDeleted: vehicleIds.length }
-  })
-
-  await logAccess(db, {
-    userId: actorId,
-    action: 'PURGE',
-    target: `${sessionsMasked} sessions, ${vehiclesDeleted} vehicles`,
   })
 
   return { sessionsMasked, vehiclesDeleted }

@@ -90,9 +90,9 @@ const confirmExitSchema = z.object({
  * - a lost card writes `LOST_CARD` (EX-03, D-09).
  *
  * The read-check-write sequence runs inside `withLock` + a transaction so a
- * session can't be closed/paid twice concurrently. `logAccess` (always
- * `EXIT`, plus `MANUAL_CONFIRM` when any event was written) and the
- * availability broadcast run after the transaction commits. Exits succeed
+ * session can't be closed/paid twice concurrently. The audit rows (always
+ * `EXIT`, plus `MANUAL_CONFIRM` when any event was written) are written in
+ * the same transaction; the availability broadcast runs after it commits. Exits succeed
  * regardless of lot status (D-27).
  */
 export async function confirmExit(
@@ -180,14 +180,15 @@ export async function confirmExit(
         data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED', exitGate: data.gate ?? DEFAULT_GATE, exitSource: data.source ?? DEFAULT_SOURCE },
       })
 
-      return { session: closed, payment, wroteEvent }
+      // The audit rows commit with the exit, as in recordEntry (FR-43).
+      await logAccess(tx, { userId: data.staffId, action: 'EXIT', target: closed.id })
+      if (wroteEvent) {
+        await logAccess(tx, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: closed.id })
+      }
+      return { session: closed, payment }
     }),
   )
 
-  await logAccess(db, { userId: data.staffId, action: 'EXIT', target: result.session.id })
-  if (result.wroteEvent) {
-    await logAccess(db, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: result.session.id })
-  }
   publishAvailabilityChanged()
 
   return { session: result.session, payment: result.payment }

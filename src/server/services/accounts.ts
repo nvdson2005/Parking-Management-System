@@ -5,6 +5,7 @@ import { DomainError } from '@/server/errors'
 import { hashPassword } from '@/server/auth/password'
 import { logAccess } from '@/server/services/accessLog'
 import { createNotification } from '@/server/services/notifications'
+import { inTransaction } from '@/server/tx'
 import type { UserGroup } from '@/lib/types'
 
 const createStaffSchema = z.object({
@@ -131,16 +132,19 @@ export async function createStaffAccount(
   if (existing) throw new DomainError('EMAIL_TAKEN', 'Email already registered')
 
   const passwordHash = await hashPassword(parsed.data.password)
-  const user = await db.user.create({
-    data: {
-      email,
-      passwordHash,
-      name: parsed.data.name,
-      roleCode: parsed.data.role,
-    },
+  // The account and its ACCOUNT_CHANGE row commit together (FR-43).
+  const user = await inTransaction(db, async (tx) => {
+    const created = await tx.user.create({
+      data: {
+        email,
+        passwordHash,
+        name: parsed.data.name,
+        roleCode: parsed.data.role,
+      },
+    })
+    await logAccess(tx, { userId: actorId, action: 'ACCOUNT_CHANGE', target: created.id })
+    return created
   })
-
-  await logAccess(db, { userId: actorId, action: 'ACCOUNT_CHANGE', target: user.id })
   return toView(user)
 }
 
@@ -159,12 +163,13 @@ export async function setLocked(
     throw new DomainError('VALIDATION', 'A manager cannot lock their own account')
   }
 
-  const existing = await db.user.findUnique({ where: { id: userId } })
-  if (!existing) throw new DomainError('NOT_FOUND', 'User not found')
-
-  const user = await db.user.update({ where: { id: userId }, data: { locked } })
-
-  await logAccess(db, { userId: actorId, action: 'ACCOUNT_CHANGE', target: user.id })
+  const user = await inTransaction(db, async (tx) => {
+    const existing = await tx.user.findUnique({ where: { id: userId } })
+    if (!existing) throw new DomainError('NOT_FOUND', 'User not found')
+    const updated = await tx.user.update({ where: { id: userId }, data: { locked } })
+    await logAccess(tx, { userId: actorId, action: 'ACCOUNT_CHANGE', target: updated.id })
+    return updated
+  })
   return toView(user)
 }
 

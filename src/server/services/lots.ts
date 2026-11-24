@@ -5,6 +5,7 @@ import { DomainError } from '@/server/errors'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
 import { withLock } from '@/server/lock'
+import { inTransaction } from '@/server/tx'
 import { createNotifications } from '@/server/services/notifications'
 import { expireReservations } from '@/server/services/reservations'
 import type { VehicleTypeCode } from '@/lib/types'
@@ -82,8 +83,8 @@ async function upsertCapacities(
 }
 
 /**
- * Creates a parking lot (MANAGER only, FR-07/FR-10). Logs `LOT_CHANGE` and
- * broadcasts availability after the row is persisted so live views refresh.
+ * Creates a parking lot (MANAGER only, FR-07/FR-10). The lot and its
+ * `LOT_CHANGE` row commit together; availability is broadcast after commit.
  */
 export async function createLot(
   db: Db,
@@ -93,9 +94,12 @@ export async function createLot(
   const parsed = createLotSchema.safeParse(input)
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid lot input')
 
-  const lot = await db.parkingLot.create({ data: { ...parsed.data, status: 'ACTIVE' } })
+  const lot = await inTransaction(db, async (tx) => {
+    const created = await tx.parkingLot.create({ data: { ...parsed.data, status: 'ACTIVE' } })
+    await logAccess(tx, { userId: actorId, action: 'LOT_CHANGE', target: created.id })
+    return created
+  })
 
-  await logAccess(db, { userId: actorId, action: 'LOT_CHANGE', target: lot.id })
   publishAvailabilityChanged()
   return lot
 }
@@ -125,9 +129,13 @@ export async function updateLot(
 
   let lot: ParkingLot
   if (opts.cancelPendingReservations === false) {
-    const existing = await db.parkingLot.findUnique({ where: { id: lotId } })
-    if (!existing) throw new DomainError('NOT_FOUND', 'Lot not found')
-    lot = await db.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+    lot = await inTransaction(db, async (tx) => {
+      const existing = await tx.parkingLot.findUnique({ where: { id: lotId } })
+      if (!existing) throw new DomainError('NOT_FOUND', 'Lot not found')
+      const updated = await tx.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+      await logAccess(tx, { userId: actorId, action: 'LOT_CHANGE', target: updated.id })
+      return updated
+    })
   } else {
     const prisma = db as PrismaClient
     // The status read, the suspend decision and the writes share one lock and
@@ -138,7 +146,11 @@ export async function updateLot(
         if (!existing) throw new DomainError('NOT_FOUND', 'Lot not found')
 
         const suspending = parsed.data.status === 'SUSPENDED' && existing.status !== 'SUSPENDED'
-        if (!suspending) return tx.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+        if (!suspending) {
+          const updated = await tx.parkingLot.update({ where: { id: lotId }, data: parsed.data })
+          await logAccess(tx, { userId: actorId, action: 'LOT_CHANGE', target: updated.id })
+          return updated
+        }
 
         // Sweep lapsed holds first so they become NO_SHOW, not LOT_SUSPENDED cancels.
         await expireReservations(tx)
@@ -161,12 +173,12 @@ export async function updateLot(
             })),
           )
         }
+        await logAccess(tx, { userId: actorId, action: 'LOT_CHANGE', target: updated.id })
         return updated
       }),
     )
   }
 
-  await logAccess(db, { userId: actorId, action: 'LOT_CHANGE', target: lot.id })
   publishAvailabilityChanged()
   return lot
 }
@@ -192,10 +204,10 @@ export async function createZone(
 
     const created = await tx.zone.create({ data: { lotId: parsed.data.lotId, name: parsed.data.name } })
     await upsertCapacities(tx, created.id, parsed.data.capacities)
+    await logAccess(tx, { userId: actorId, action: 'LOT_CHANGE', target: created.id })
     return created
   })
 
-  await logAccess(db, { userId: actorId, action: 'LOT_CHANGE', target: zone.id })
   publishAvailabilityChanged()
   return zone
 }
@@ -226,10 +238,10 @@ export async function updateZone(
         : existing
 
     if (parsed.data.capacities) await upsertCapacities(tx, zoneId, parsed.data.capacities)
+    await logAccess(tx, { userId: actorId, action: 'LOT_CHANGE', target: updated.id })
     return updated
   })
 
-  await logAccess(db, { userId: actorId, action: 'LOT_CHANGE', target: zone.id })
   publishAvailabilityChanged()
   return zone
 }
