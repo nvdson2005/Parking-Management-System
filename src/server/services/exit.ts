@@ -7,8 +7,9 @@ import { findVehicleByIdentifier } from '@/server/services/vehicles'
 import { computeFee } from '@/server/services/fees'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
-import { normalizePlate } from '@/lib/plate'
-import type { FeeGroup, IdMethod, VehicleTypeCode } from '@/lib/types'
+import { PLATE_MISMATCH_EVENT, normalizePlate, observedPlateNote, plateCompareKey } from '@/lib/plate'
+import { DEFAULT_GATE, DEFAULT_SOURCE, GATES, SOURCES } from '@/lib/types'
+import type { FeeGroup, GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
 export type ExitPreview = {
   sessionId: string
@@ -62,7 +63,7 @@ export async function previewExit(
     feeGroup,
     entryTime: session.entryTime,
     fee,
-    plateMismatch: normalizePlate(observedPlate) !== session.plateSnapshot,
+    plateMismatch: plateCompareKey(observedPlate) !== plateCompareKey(session.plateSnapshot),
   }
 }
 
@@ -71,8 +72,11 @@ const confirmExitSchema = z.object({
   observedPlate: z.string().min(1),
   confirmMismatch: z.boolean(),
   lostCard: z.boolean(),
+  method: z.enum(['PLATE', 'QR', 'RFID']).optional(),
   note: z.string().optional(),
   staffId: z.string().min(1),
+  gate: z.enum(GATES).optional(),
+  source: z.enum(SOURCES).optional(),
   now: z.date().optional(),
 })
 
@@ -86,9 +90,9 @@ const confirmExitSchema = z.object({
  * - a lost card writes `LOST_CARD` (EX-03, D-09).
  *
  * The read-check-write sequence runs inside `withLock` + a transaction so a
- * session can't be closed/paid twice concurrently. `logAccess` (always
- * `EXIT`, plus `MANUAL_CONFIRM` when any event was written) and the
- * availability broadcast run after the transaction commits. Exits succeed
+ * session can't be closed/paid twice concurrently. The audit rows (always
+ * `EXIT`, plus `MANUAL_CONFIRM` when any event was written) are written in
+ * the same transaction; the availability broadcast runs after it commits. Exits succeed
  * regardless of lot status (D-27).
  */
 export async function confirmExit(
@@ -98,8 +102,11 @@ export async function confirmExit(
     observedPlate: string
     confirmMismatch: boolean
     lostCard: boolean
+    method?: IdMethod
     note?: string
     staffId: string
+    gate?: GateCode
+    source?: SessionSource
     now?: Date
   },
 ): Promise<{ session: ParkingSession; payment: Payment }> {
@@ -107,6 +114,12 @@ export async function confirmExit(
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid exit input')
   const data = parsed.data
   const now = data.now ?? new Date()
+
+  // EX-03 / D-09: a lost card is looked up by plate. Enforced here so the
+  // simulator and any direct API client cannot skip the staff screen's rule.
+  if (data.lostCard && data.method !== 'PLATE') {
+    throw new DomainError('VALIDATION', 'Lost card requires plate lookup')
+  }
 
   // `confirmExit` is the top-level caller holding a real client, so it owns
   // the transaction boundary the `Db` union type can't express.
@@ -120,18 +133,17 @@ export async function confirmExit(
       }
 
       const observedPlate = normalizePlate(data.observedPlate)
-      const mismatch = observedPlate !== session.plateSnapshot
+      const mismatch = plateCompareKey(observedPlate) !== plateCompareKey(session.plateSnapshot)
       if (mismatch && !data.confirmMismatch) throw new DomainError('PLATE_MISMATCH', 'Observed plate does not match')
 
       let wroteEvent = false
       if (mismatch) {
-        const base = `Observed plate: ${observedPlate}`
         await tx.sessionEvent.create({
           data: {
             sessionId: session.id,
-            type: 'PLATE_MISMATCH_CONFIRMED',
+            type: PLATE_MISMATCH_EVENT,
             staffId: data.staffId,
-            note: data.note ? `${base} — ${data.note}` : base,
+            note: observedPlateNote(observedPlate, data.note),
           },
         })
         wroteEvent = true
@@ -165,17 +177,18 @@ export async function confirmExit(
 
       const closed = await tx.parkingSession.update({
         where: { id: session.id },
-        data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED' },
+        data: { exitTime: now, exitStaffId: data.staffId, status: 'CLOSED', exitGate: data.gate ?? DEFAULT_GATE, exitSource: data.source ?? DEFAULT_SOURCE },
       })
 
-      return { session: closed, payment, wroteEvent }
+      // The audit rows commit with the exit, as in recordEntry (FR-43).
+      await logAccess(tx, { userId: data.staffId, action: 'EXIT', target: closed.id })
+      if (wroteEvent) {
+        await logAccess(tx, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: closed.id })
+      }
+      return { session: closed, payment }
     }),
   )
 
-  await logAccess(db, { userId: data.staffId, action: 'EXIT', target: result.session.id })
-  if (result.wroteEvent) {
-    await logAccess(db, { userId: data.staffId, action: 'MANUAL_CONFIRM', target: result.session.id })
-  }
   publishAvailabilityChanged()
 
   return { session: result.session, payment: result.payment }

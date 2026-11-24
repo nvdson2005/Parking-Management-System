@@ -3,7 +3,7 @@ import { db } from '@/server/db'
 import { getDict, getLang, t } from '@/i18n'
 import { requireRole } from '@/server/auth/rbac'
 import { logAccess } from '@/server/services/accessLog'
-import { presentPlate } from '@/lib/plate'
+import { canViewFullPlate, presentEventNote, presentPlate } from '@/lib/plate'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default async function StaffSessionDetailPage({
@@ -37,8 +37,13 @@ export default async function StaffSessionDetailPage({
     )
   }
 
-  // Viewing a session's detail reveals the full plate (D-31).
-  await logAccess(db, { userId: user.id, action: 'VIEW_FULL_PLATE', target: session.id })
+  // The detail reveals the full plate to a Manager, the owner, or Staff while
+  // the session is open (Q46); each such view is logged (D-31, FR-43).
+  const closed = session.status === 'CLOSED'
+  const fullPlate = session.plateSnapshot !== '[purged]' && canViewFullPlate(user, session.ownerId, closed)
+  if (fullPlate) {
+    await logAccess(db, { userId: user.id, action: 'VIEW_FULL_PLATE', target: session.id })
+  }
 
   const fee = session.payment ? new Intl.NumberFormat('vi-VN').format(session.payment.amount) : null
 
@@ -57,7 +62,7 @@ export default async function StaffSessionDetailPage({
           <dl className="grid grid-cols-2 gap-2 text-sm">
             <dt className="text-muted-foreground">{t(dict, 'sessions.plate')}</dt>
             <dd className="font-mono">
-              {presentPlate(session.plateSnapshot, user, session.ownerId)}
+              {presentPlate(session.plateSnapshot, user, session.ownerId, closed)}
             </dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.zone')}</dt>
             <dd>{session.zone.name}</dd>
@@ -67,6 +72,22 @@ export default async function StaffSessionDetailPage({
             <dd>{t(dict, `exit.feeGroups.${session.feeGroup}`)}</dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.entryTime')}</dt>
             <dd>{session.entryTime.toLocaleString()}</dd>
+            <dt className="text-muted-foreground">{t(dict, 'sessions.entryGate')}</dt>
+            <dd>{t(dict, `gates.${session.entryGate}`)}</dd>
+            <dt className="text-muted-foreground">{t(dict, 'sessions.entrySource')}</dt>
+            <dd>{t(dict, `sources.${session.entrySource}`)}</dd>
+            {session.exitGate ? (
+              <>
+                <dt className="text-muted-foreground">{t(dict, 'sessions.exitGate')}</dt>
+                <dd>{t(dict, `gates.${session.exitGate}`)}</dd>
+              </>
+            ) : null}
+            {session.exitSource ? (
+              <>
+                <dt className="text-muted-foreground">{t(dict, 'sessions.exitSource')}</dt>
+                <dd>{t(dict, `sources.${session.exitSource}`)}</dd>
+              </>
+            ) : null}
             <dt className="text-muted-foreground">{t(dict, 'sessions.status')}</dt>
             <dd>{session.status}</dd>
           </dl>
@@ -86,7 +107,9 @@ export default async function StaffSessionDetailPage({
                 <li key={event.id} className="flex flex-col gap-0.5">
                   <span className="font-medium">{t(dict, `sessions.eventTypes.${event.type}`)}</span>
                   <span className="text-xs text-muted-foreground">{event.createdAt.toLocaleString()}</span>
-                  {event.note ? <span className="text-muted-foreground">{event.note}</span> : null}
+                  {event.note ? (
+                    <span className="text-muted-foreground">{presentEventNote(event.note, event.type, fullPlate)}</span>
+                  ) : null}
                 </li>
               ))}
             </ul>

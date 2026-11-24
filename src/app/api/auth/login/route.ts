@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { cookies } from 'next/headers'
 import { db } from '@/server/db'
-import { handle } from '@/server/api'
+import { handle, readJsonObject } from '@/server/api'
 import { authenticate } from '@/server/services/auth'
 import { signSession } from '@/server/auth/session'
 import type { Role, UserGroup } from '@/lib/types'
@@ -14,7 +14,7 @@ const loginSchema = z.object({
 })
 
 export const POST = handle(async (req) => {
-  const body = await req.json()
+  const body = await readJsonObject(req)
   const { email, password } = loginSchema.parse(body)
 
   const user = await authenticate(db, email, password)
