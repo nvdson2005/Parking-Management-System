@@ -7,7 +7,7 @@
 - [X] T001 [US1] Failing tests in `tests/auth-log.test.ts`: US1 scenarios 1-4 and 6 (unknown email, wrong password, locked, Customer calling `requireRole('MANAGER')`, no session)
 - [X] T002 [US1] Add `LOGIN_FAILED`, `ACCESS_DENIED` to `AccessAction` in `src/lib/types.ts`; log in `authenticate` (`src/server/services/auth.ts`) and `requireRole` (`src/server/auth/rbac.ts`)
 - [X] T003 [US1] Failing test for `logPageDenied` (an allowed prefix logs `page:<prefix>`, any other value logs nothing); implement in `src/server/services/accessLog.ts`
-- [X] T004 [US1] Middleware redirects a wrong role to `/denied?from=<prefix>`; add `src/app/denied/page.tsx` and `denied.*` i18n keys
+- [X] T004 [US1] ~~Middleware redirects a wrong role to `/denied?from=<prefix>`~~ (superseded by T012: section layouts decide and log, `/denied` is read-only); add `src/app/denied/page.tsx` and `denied.*` i18n keys
 
 ## Phase 2: User Story 2 - G-09 (P1)
 

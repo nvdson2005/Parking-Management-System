@@ -334,9 +334,9 @@ Each exception can be tested **manually** (preferred, because it shows the staff
 | ID | Req | Steps | Expected | Result |
 |---|---|---|---|---|
 | TC-DP-01 | FR-30 / D-39 | `customer01` views **My vehicles**, **My reservations** and **Parking history**. | Their own plates are shown **in full**. | |
-| TC-DP-02 | FR-30 | Staff / Manager views sessions and payments. | Full plates (Staff and Manager may see full plates, §4). | |
+| TC-DP-02 | FR-30, FR-42 (Q46) | Staff views **Open** and **Closed** sessions and one closed session's details; Manager does the same and views payments. | Staff: full plates on open sessions, plates masked to the last 3 letters or digits (`***-**3.45`) on closed sessions, also in an EX-02 "Observed plate" note. Manager: full plates everywhere. | |
 | TC-DP-03 | FR-30 | (Masking format) See E-1. Format (SRS FR-42, only the last 3 letters or digits): `51F-123.45` → `***-**3.45`. | Covered by automated tests (`tests/plate.test.ts`). | |
-| TC-DP-04 | FR-31 | Manager → **Access log** after the tests above. | Entries for **Login**, **Entry**, **Exit**, **View full plate** (only from opening a single Session details page, not from lists), **Lot change**, **Tariff change**, **Account change**, **Manual confirm**, **Purge**. Logout is **not** logged (D-23 covers login plus sensitive actions). Each entry has time, user, action and target. | |
+| TC-DP-04 | FR-31, FR-44 | Manager → **Access log** after the tests above; then filter by one account, by **Login failed**, and by a time range. | Entries for **Login**, **Entry**, **Exit**, **View full plate** (only from opening a single Session details page or a Staff lookup when the full plate is shown, not from lists; a Staff member opening a closed session writes none), **Lot change**, **Tariff change**, **Account change**, **Manual confirm**, **Purge**. Logout is **not** logged (D-23 covers login plus sensitive actions). Each entry has time, user, action and target. | |
 | TC-DP-05 | FR-31 | Open the **Open parking sessions** list only (do not open details). | **No** new *View full plate* entry. | |
 | TC-DP-06 | FR-32 | After TC-SIM-02 → **Access log** → **Purge data older than 12 months** → **Confirm purge**. | "Masked N sessions and deleted M vehicles." A **Purge** entry is logged with the counts. | |
 | TC-DP-07 | FR-32 | Manager → **Payments**, From = 14 months ago, To = 12 months ago. | Old rows show plate `[purged]`. Newer rows keep their plates. | |
@@ -416,7 +416,7 @@ Objectives (spec §1.1):
 
 These are known and should not be reported as new failures:
 
-- **E-1 · Plate masking is not visible in the UI.** No screen shows another person's plate to a Customer: customers only see their own vehicles, and Staff and Managers see full plates by design. The mask format (`51F-***.45`) is therefore verified only by automated tests (`tests/plate.test.ts`).
+- **E-1 · Plate masking in the UI.** Customers only see their own vehicles. Since Q46 (23/11), Staff see masked plates on closed sessions (TC-DP-02), in the SRS FR-42 format that keeps only the last 3 letters or digits (`51F-123.45` → `***-**3.45`); Managers see full plates. Edge cases (short plates, separators) are covered by `tests/plate.test.ts`.
 - **E-2 · Plate format is not validated.** Any non-empty plate is accepted after normalisation (trim, upper-case, spaces removed). The spec does not define a plate format.
 - **E-3 · EX-05 simulator message.** The outcome text always reads "…entry rejected and lot reactivated", even when the lot was already suspended and is correctly left suspended (TC-EX-05e). This is a text-only inaccuracy.
 - **E-4 · Simulator EX-01 fills a whole zone** (up to 150 sessions). Prefer TC-EX-01a for live demos. Reset the DB after TC-EX-01b (A.9).
