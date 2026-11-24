@@ -14,4 +14,4 @@
 - [X] T007 Merge the final PR #17 feature branch onto current `main` in the integration worktree; preserve the other merged PRs.
 - [X] T008 Add failing service and route regressions for exact pending-request approval, no request and mismatched target (FR-C, Phase 5 FR-003).
 - [X] T009 Enforce exact pending-request approval atomically in `setUserGroup` and show only the requested approval action on the Manager accounts page.
-- [ ] T010 Run focused tests, full suite, lint, build and disposable-database migration verification on the integration head; sync CodeGraph and record the result.
+- [X] T010 Run focused tests, full suite, lint, build and disposable-database migration verification on the integration head; sync CodeGraph and record the result.
