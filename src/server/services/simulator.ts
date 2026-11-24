@@ -8,7 +8,8 @@ import { getFree } from '@/server/services/availability'
 import { computeFee } from '@/server/services/fees'
 import { updateLot } from '@/server/services/lots'
 import { publishAvailabilityChanged } from '@/server/bus'
-import type { FeeGroup, IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, DEFAULT_SOURCE } from '@/lib/types'
+import type { FeeGroup, GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
 export type ExceptionCode = 'EX01' | 'EX02' | 'EX03' | 'EX04' | 'EX05'
 
@@ -473,6 +474,10 @@ export async function generateHistory(
     exitTime: Date
     entryStaffId: string
     exitStaffId: string
+    entryGate: GateCode
+    exitGate: GateCode
+    entrySource: SessionSource
+    exitSource: SessionSource
     status: string
   }
   type PaymentRow = {
@@ -516,6 +521,12 @@ export async function generateHistory(
       exitTime,
       entryStaffId: actorId,
       exitStaffId: actorId,
+      // Written directly, not through recordEntry/confirmExit, so the gate and
+      // source those set must be set here too (G-09, G-04): a device lane.
+      entryGate: DEFAULT_GATE,
+      exitGate: DEFAULT_GATE,
+      entrySource: DEFAULT_SOURCE,
+      exitSource: DEFAULT_SOURCE,
       status: 'CLOSED',
     })
     paymentRows.push({

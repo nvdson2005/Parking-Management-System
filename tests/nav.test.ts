@@ -12,7 +12,12 @@ describe('role navigation links', () => {
       '/customer/reservations',
       '/customer/history',
     ])
-    expect(ROLE_LINKS.STAFF.map((l) => l.href)).toEqual(['/staff/entry', '/staff/exit', '/staff/sessions'])
+    expect(ROLE_LINKS.STAFF.map((l) => l.href)).toEqual([
+      '/staff/entry',
+      '/staff/exit',
+      '/staff/sessions',
+      '/staff/lookup',
+    ])
     expect(ROLE_LINKS.MANAGER.map((l) => l.href)).toEqual([
       '/staff',
       '/manager/lots',

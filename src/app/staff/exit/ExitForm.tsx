@@ -8,10 +8,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Toaster } from '@/components/ui/sonner'
 import { useT } from '@/components/I18nProvider'
-import type { FeeGroup, IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, GATES } from '@/lib/types'
+import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
 type ExitPreview = {
   sessionId: string
@@ -35,6 +43,7 @@ export function ExitForm() {
   const [observedPlate, setObservedPlate] = useState('')
   const [lostCard, setLostCard] = useState(false)
   const [note, setNote] = useState('')
+  const [gate, setGate] = useState<GateCode>(DEFAULT_GATE)
   const [preview, setPreview] = useState<ExitPreview | null>(null)
   const [confirmMismatch, setConfirmMismatch] = useState(false)
   const [previewing, setPreviewing] = useState(false)
@@ -85,6 +94,8 @@ export function ExitForm() {
           confirmMismatch,
           lostCard,
           method: effectiveMethod,
+          gate,
+          source: 'MANUAL',
           note: note.trim() ? note.trim() : undefined,
         }),
       })
@@ -162,6 +173,22 @@ export function ExitForm() {
                 resetPreview()
               }}
             />
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="gate">{t('exit.gate')}</Label>
+            <Select value={gate} onValueChange={(value) => setGate((value as GateCode) ?? DEFAULT_GATE)}>
+              <SelectTrigger id="gate">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {GATES.map((g) => (
+                  <SelectItem key={g} value={g}>
+                    {t(`gates.${g}`)}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <label className="flex items-center gap-2 text-sm">
