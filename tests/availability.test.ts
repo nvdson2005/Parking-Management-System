@@ -218,7 +218,7 @@ describe('availability broadcast on every event that changes free (FR-18, RT-01,
       recordEntry(db, { method: 'QR', identifier: vehicle.qrCode, zoneId: f.zoneA.id, staffId: f.staff.id }),
     )
 
-    expect(events).toBeGreaterThanOrEqual(1)
+    expect(events).toBe(1)
     expect(await getFree(db, f.zoneA.id, 'MOTORBIKE')).toBe(freeA - 1)
     expect(await getFree(db, f.zoneB.id, 'MOTORBIKE')).toBe(freeB)
   })
@@ -308,7 +308,7 @@ describe('availability broadcast on every event that changes free (FR-18, RT-01,
 
     const events = await countBroadcasts(() => updateLot(db, f.manager.id, f.lot.id, { status: 'SUSPENDED' }))
 
-    expect(events).toBeGreaterThanOrEqual(1)
+    expect(events).toBe(1)
     const [lot] = await getAvailability(db)
     expect(lot.status).toBe('SUSPENDED')
   })

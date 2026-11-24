@@ -31,7 +31,22 @@ Full suite on 23/11: **24 files, 215 tests passing** (`npx vitest run`, separate
 | FR-25 suspended lot still shows counts | `reports SUSPENDED lot status with normal counts` |
 | Concurrency (T05) | `tests/entry.test.ts` › `20 concurrent entries into zone with cap 2 -> exactly 2 succeed` |
 
-**RT-01 closed.** Before A-49 only hold expiry had a broadcast test. Mutation check: with `publishAvailabilityChanged()` commented out in `src/server/services/exit.ts`, the new exit test fails (1 failed, 11 passed); the file was restored afterwards.
+**RT-01 closed.** Before A-49 only hold expiry had a broadcast test. Each of the six new tests asserts **exactly one** broadcast (`toBe(1)`): entry broadcasts a second time only when it sweeps lapsed holds, and these fixtures have none.
+
+Mutation check, one change at a time, `tests/availability.test.ts` run after each and the source restored afterwards:
+
+| Mutation | Test that fails | Result |
+|---|---|---|
+| `publishAvailabilityChanged()` removed in `recordEntry` (`entry.ts`) | entry | 1 failed, 11 passed |
+| removed in `confirmExit` (`exit.ts`) | exit | 1 failed, 11 passed |
+| removed in `createReservation` (`reservations.ts`) | reservation | 1 failed, 11 passed |
+| removed in `cancelReservation` (`reservations.ts`) | cancellation | 1 failed, 11 passed |
+| removed in `updateZone` (`lots.ts`) | capacity change | 1 failed, 11 passed |
+| removed in `updateLot` (`lots.ts`) | lot suspension | 1 failed, 11 passed |
+| broadcast duplicated in `recordEntry` | entry (`expected 2 to be 1`) | 1 failed, 11 passed |
+| broadcast duplicated in `updateLot` | lot suspension (`expected 2 to be 1`) | 1 failed, 11 passed |
+
+Full suite after the change: 24 files, 215 tests passing.
 
 ## 2. Hand count, small scenario (TC-AV-01..03, FR-17, FR-18)
 
@@ -63,6 +78,15 @@ The acceptance contract (SC-001) asks for both timings **during the normal 100-v
 - Completeness and counts are checked with a read-only Prisma query, independent of the service code: every closed session of the run must have entry time, exit time, vehicle type, zone and plate; and `GET /api/availability` must equal capacity − open sessions − unexpired pending reservations per zone and vehicle type. The count is taken after event 100 (vehicles parked) and at the end.
 
 **Run.** 24/11/2026 12:20 (UTC+7), development server (`npm run dev`) on `dev.db` freshly seeded (first car entry shows 29 free of 30). 200 events in 10.1 s. Raw data per event: `docs/m3/evidence/a49-at100-2026-11-24T05-20-01-689Z.csv`; summary: same name `.json`.
+
+To repeat the run with the same event order and plates (timings will differ), on a freshly reset database with the server running:
+
+```powershell
+npx prisma migrate reset --force
+$env:STAFF_PASSWORD = 'password123'; $env:SEED = '1686'; node scripts/a49-at100-latency.mjs
+```
+
+The recorded run used commit `e7fd47e`, where the password fell back to the seeded demo value. Since review the script requires `STAFF_PASSWORD` from the environment; the scenario is unchanged.
 
 | Measure | Events | Min | Mean | p95 | Max | Over threshold | Threshold |
 |---|---|---|---|---|---|---|---|
@@ -118,9 +142,9 @@ These ten samples came from separate manual entries and exits, not from the 100-
 
 All 10 samples ≤ 5 s (max 170 ms). Measured on the development server; entries 1–5 and exits 6–10 came from two console sessions. Visual check: the Customer window updated on every event without a reload.
 
-## 4. Simulator events (TC-AV-04, TC-AV-05, FR-17, NFR-06)
+## 4. Simulator events (supplementary, not counted towards the verdict)
 
-The simulator runs its events on the server inside one request, so it cannot give per-event timing; section 3 covers timing. This section only checks the count after a large simulator load.
+**Supplementary observation only.** This run is not reproducible: the simulator was triggered several times, the per-run result line was not captured, and the event total is only known to be above 100. FR-17 and NFR-06 are decided by section 3 (and sections 1–2); this section only records that the count also matched after a heavier, uncontrolled simulator load. The simulator runs its events on the server inside one request, so it cannot give per-event timing.
 
 Manager → Simulator → Live events, 100 events per run. The run was triggered several times because the result line (small grey text under the button) was not noticed, so the scenario covers **more than 100 events**. The database shows simulator batches at 00:19–00:21, 00:25 and 00:26 on 24/11 (UTC+7), and 274 sessions in total, about 6 of them manual from sections 2–3. The per-run result line was not captured.
 
@@ -132,7 +156,7 @@ The independent count comes from a read-only script that counts OPEN sessions an
 | B | Motorbike | 150 | 24 | 0 | 126 | 126 | Yes |
 | C | Car | 30 | 24 | 0 | 6 | 6 | Yes |
 
-**Result: Pass.** 3/3 rows match; free is never negative and never above capacity.
+**Observation:** 3/3 rows match; free is never negative and never above capacity. Not counted.
 
 ## 5. Other cases
 
@@ -168,8 +192,8 @@ Observed outside A-49 scope (recorded for CR-03, not part of this verdict):
 
 | Area | Result |
 |---|---|
-| Free-spot calculation and concurrency (FR-17, T05) | Pass: automated tests; hand count 5/5; 6/6 rows in the 100-visit run; 3/3 rows after 100+ simulator events |
-| Every change reaches open screens (FR-18) | Pass: 6 new broadcast tests (RT-01 closed); live updates seen for entry, exit, reservation, cancellation, capacity change, suspension |
+| Free-spot calculation and concurrency (FR-17, T05) | Pass: automated tests; hand count 5/5; 6/6 rows in the 100-visit run (simulator count in section 4 is supplementary, not counted) |
+| Every change reaches open screens (FR-18) | Pass: 6 new broadcast tests, each asserting exactly one broadcast and each mutation-checked (RT-01 closed); live updates seen for entry, exit, reservation, cancellation, capacity change, suspension |
 | Timing in the 100-visit scenario (SC-001; NFR-04, NFR-05) | Pass: 200/200 events recorded ≤ 3 s (max 153 ms); 200/200 display updates ≤ 5 s (max 155 ms) |
 | Records and counts in the 100-visit scenario (SC-002 count part; NFR-06) | Pass: 100/100 closed sessions complete; 6/6 count rows match |
 | Full zone rejection (EX-01, NFR-12, Q41) | Pass: entry rejected with `ZONE_FULL` |

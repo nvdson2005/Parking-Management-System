@@ -10,8 +10,10 @@
 //
 // Usage (dev or production server already running, ideally on a fresh
 // `npx prisma migrate reset --force`):
-//   node scripts/a49-at100-latency.mjs [outDir]
-// Env: BASE_URL (default http://localhost:3000), STAFF_EMAIL, STAFF_PASSWORD.
+//   STAFF_PASSWORD=... [SEED=1686] node scripts/a49-at100-latency.mjs [outDir]
+// Env: STAFF_PASSWORD (required), STAFF_EMAIL (default staff1@demo.local),
+// BASE_URL (default http://localhost:3000), SEED (event order; default random,
+// printed in the output so a run can be repeated).
 
 import { mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
@@ -21,7 +23,11 @@ const { PrismaClient } = prismaPkg
 
 const BASE_URL = process.env.BASE_URL ?? 'http://localhost:3000'
 const STAFF_EMAIL = process.env.STAFF_EMAIL ?? 'staff1@demo.local'
-const STAFF_PASSWORD = process.env.STAFF_PASSWORD ?? 'password123'
+const STAFF_PASSWORD = process.env.STAFF_PASSWORD
+if (!STAFF_PASSWORD) {
+  console.error('Set STAFF_PASSWORD (the seeded demo password is in README.md) before running this script.')
+  process.exit(1)
+}
 const OUT_DIR = process.argv[2] ?? path.join('docs', 'm3', 'evidence')
 
 const VISITS = 100
