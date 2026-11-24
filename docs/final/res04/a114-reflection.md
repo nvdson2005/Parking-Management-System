@@ -20,16 +20,16 @@ Built from the repository history and my own account of work that is not in git 
 | SRS review fixes (A-09) | Revised the SRS after the review | Team shared Drive. No review record was found in the repository on 19/11 (`docs/m3/a-90-planned-vs-actual.md`), so the CP-01 outcome is for RES-02 to record (F2-01) |
 | AI use | Claude (chat) for M1–M2 drafting. Claude Code (Claude Opus) from 20/11: drafts of the SRS sync and v2.1, the CR-03 analysis, the spec, plan and tasks, the code and tests, the evidence files, and the independent `review-implementation` runs. I ran the manual tests, took the screenshots and made the scope decisions | Every commit of mine from 22/11 carries a `Co-Authored-By: Claude` trailer. Not yet in the workbook AI Usage Log: rows to paste are below |
 
-**Effort (estimate, not logged):** I did not keep a daily log, so these figures assume about 2 h per day. They are not measured and should be marked as estimated wherever they are used (A-90, workbook Planned vs Actual).
+**Effort (estimate, not logged):** I did not keep a daily log, so these figures assume 8 h per week, the capacity per member assumed in the baseline. They are not measured and should be marked as estimated wherever they are used (A-90, workbook Planned vs Actual).
 
 | Week | Dates | Estimated hours | Main work |
 |---|---|---|---|
-| W12 | 09–15/11 | 14 | SRS revision after review (A-09); UI design document (A-13) |
-| W13 | 16–22/11 | 14 | SRS and P18 sync with the code (A-70) |
-| W14 (to 24/11) | 23–24/11 | 4 | SRS v2.1; A-49 tests, timing run and Quality Evidence; CR-03; spec 006 and its implementation; A-49 retest |
-| **Total** | | **32** | M1–M2 work before W12 is not counted |
+| W12 | 09–15/11 | 8 | SRS revision after review (A-09); UI design document (A-13) |
+| W13 | 16–22/11 | 8 | SRS and P18 sync with the code (A-70) |
+| W14 | 23–29/11 | 8 | SRS v2.1; A-49 tests, timing run and Quality Evidence; CR-03; spec 006 and its implementation; A-49 retest |
+| **Total** | | **24** | M1–M2 work before W12 is not counted |
 
-Planned figures to compare with: A-70 3 h, A-49 2 h, A-76 1 h, CR-03 groups A + B + C 2.6 h (decision record), F4-01..F4-05 8 h in the final work division. The baseline assumed 8 h per member per week (`docs/m3/weekly-log-draft.md`); my estimate of 14 h per week is above that, which is itself a deviation to explain in A-90.
+Planned figures to compare with: A-70 3 h, A-49 2 h, A-76 1 h, CR-03 groups A + B + C 2.6 h (decision record), F4-01..F4-05 8 h in the final work division. The estimate equals the baseline capacity of 8 h per member per week (`docs/m3/weekly-log-draft.md`), so it cannot show over- or under-use; that is a limit of not logging hours, not evidence that the plan was met.
 
 ## Reflection draft
 
