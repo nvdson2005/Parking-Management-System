@@ -7,7 +7,7 @@ import { findVehicleByIdentifier } from '@/server/services/vehicles'
 import { computeFee } from '@/server/services/fees'
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
-import { normalizePlate, observedPlateNote, plateCompareKey } from '@/lib/plate'
+import { PLATE_MISMATCH_EVENT, normalizePlate, observedPlateNote, plateCompareKey } from '@/lib/plate'
 import { DEFAULT_GATE, DEFAULT_SOURCE, GATES, SOURCES } from '@/lib/types'
 import type { FeeGroup, GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
@@ -141,7 +141,7 @@ export async function confirmExit(
         await tx.sessionEvent.create({
           data: {
             sessionId: session.id,
-            type: 'PLATE_MISMATCH_CONFIRMED',
+            type: PLATE_MISMATCH_EVENT,
             staffId: data.staffId,
             note: observedPlateNote(observedPlate, data.note),
           },

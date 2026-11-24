@@ -35,8 +35,18 @@ describe('plate helpers', () => {
       expect(maskPlate('29A12345')).toBe('29A***45')
     })
 
-    it('should not mask if rest.length <= 2', () => {
-      expect(maskPlate('51F-12')).toBe('51F-12')
+    it('masks a short plate too, so a masked value never equals the plate (review of PR #11)', () => {
+      expect(maskPlate('51F-12')).toBe('51F-**')
+      expect(maskPlate('51F-1')).toBe('51F-*')
+      expect(maskPlate('29A12')).toBe('29A**')
+      expect(maskPlate('29A')).toBe('2**')
+      expect(maskPlate('AB')).toBe('A*')
+      expect(maskPlate('A')).toBe('*')
+      expect(maskPlate('51F-')).toBe('5**-')
+      for (const p of ['51F-12', '51F-1', '29A12', '29A', 'AB', 'A', '51F-', '51F-123.45', '29A12345']) {
+        expect(maskPlate(p)).not.toBe(p)
+        expect(maskPlate(p)).toContain('*')
+      }
     })
   })
 
@@ -75,12 +85,16 @@ describe('plate helpers', () => {
     it('presentEventNote masks only the observed plate of an EX-02 note', () => {
       const note = observedPlateNote('51F-123.45', 'worn plate')
       expect(note).toBe('Observed plate: 51F-123.45 — worn plate')
-      expect(presentEventNote(note, false)).toBe('Observed plate: 51F-***.45 — worn plate')
-      expect(presentEventNote(note, true)).toBe(note)
-      expect(presentEventNote('Observed plate: [purged]', false)).toBe('Observed plate: [purged]')
-      expect(presentEventNote('Reserved arrival: 2026-11-23T08:00:00.000Z', false)).toBe(
+      const EX02 = 'PLATE_MISMATCH_CONFIRMED'
+      expect(presentEventNote(note, EX02, false)).toBe('Observed plate: 51F-***.45 — worn plate')
+      expect(presentEventNote(note, EX02, true)).toBe(note)
+      expect(presentEventNote('Observed plate: 51F-12', EX02, false)).toBe('Observed plate: 51F-**')
+      expect(presentEventNote('Observed plate: [purged]', EX02, false)).toBe('Observed plate: [purged]')
+      expect(presentEventNote('Reserved arrival: 2026-11-23T08:00:00.000Z', 'EARLY_ARRIVAL_CONFIRMED', false)).toBe(
         'Reserved arrival: 2026-11-23T08:00:00.000Z',
       )
+      // A LOST_CARD note is staff text: not reformatted even if it starts the same way.
+      expect(presentEventNote('Observed plate: hard to read', 'LOST_CARD', false)).toBe('Observed plate: hard to read')
     })
 
     it('should mask plate to null viewer', () => {

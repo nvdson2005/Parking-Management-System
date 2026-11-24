@@ -2,7 +2,7 @@ import type { PrismaClient } from '@prisma/client'
 import type { Db } from '@/server/db'
 import { logAccess } from '@/server/services/accessLog'
 import { subMonths } from '@/lib/time'
-import { OBSERVED_PLATE_PREFIX, PURGED_PLATE, observedPlateNote } from '@/lib/plate'
+import { OBSERVED_PLATE_PREFIX, PLATE_MISMATCH_EVENT, PURGED_PLATE, observedPlateNote } from '@/lib/plate'
 
 const PURGED = PURGED_PLATE
 const RETENTION_MONTHS = 12
@@ -40,6 +40,8 @@ export async function purgeOldData(
 
     const notes = await tx.sessionEvent.findMany({
       where: {
+        // Only the system-written EX-02 note; a LOST_CARD note is staff text.
+        type: PLATE_MISMATCH_EVENT,
         note: { startsWith: OBSERVED_PLATE_PREFIX, not: { startsWith: `${OBSERVED_PLATE_PREFIX}${PURGED}` } },
         session: { status: 'CLOSED', exitTime: { lt: cutoff } },
       },
