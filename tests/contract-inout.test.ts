@@ -106,6 +106,17 @@ describe('CT-04..CT-08 ngoại lệ EX-01..EX-05 (AT-EX01..05)', () => {
     const yes = await call(confirmPOST, { method: 'PLATE', sessionId: s.id, observedPlate: '59X1-99999', confirmMismatch: true, lostCard: false })
     expect(yes.status).toBe(200)
     expect(yes.body.session).toMatchObject({ id: s.id, status: 'CLOSED', exitTime: expect.stringMatching(ISO) })
+    // Q46, review of PR #11: the session is closed, so Staff get the plate masked.
+    expect(yes.body.session.plateSnapshot).toBe('59X1-***45')
+    expect(JSON.stringify(yes.body)).not.toContain('59X1-12345')
+  })
+
+  it('CT-05b a Manager confirming an exit gets the full plate (Q46)', async () => {
+    const s = (await call(entryPOST, entryBody(f))).body
+    as(f, 'MANAGER')
+    const r = await call(confirmPOST, { method: 'PLATE', sessionId: s.id, observedPlate: '59X1-12345', confirmMismatch: false, lostCard: false })
+    expect(r.status).toBe(200)
+    expect(r.body.session.plateSnapshot).toBe('59X1-12345')
   })
 
   it('CT-06 EX-03 mất thẻ → đóng lượt, phí thường, không phạt', async () => {

@@ -75,7 +75,7 @@ When a client sends a body that is not valid JSON (or not a JSON object) to the 
 ### Functional Requirements
 
 - **FR-001**: The system MUST run the 12-month retention purge automatically at least once every 24 hours while the server is running, without any user action (Q35, FR-45, G-05).
-- **FR-002**: The automatic purge MUST apply exactly the same rules as the Manager purge: mask plates only on sessions that are not open and entered before the 12-month cutoff; delete only ownerless vehicles with no newer session, no open session and no reservation; keep counts, times and payments.
+- **FR-002**: The automatic purge MUST apply exactly the same rules as the Manager purge: mask plates only on CLOSED sessions whose `exit_time` is before the 12-month cutoff (Q44), together with the observed plate in their EX-02 (`PLATE_MISMATCH_CONFIRMED`) notes; delete only ownerless vehicles with no session that exited after the cutoff, no open session and no reservation; keep counts, times and payments.
 - **FR-003**: The automatic purge MUST be recorded in the access log with action PURGE, no user attached, and a target giving the number of sessions masked and vehicles deleted.
 - **FR-004**: The Manager purge button MUST keep working and keep recording the Manager as the actor.
 - **FR-005**: The automatic purge schedule MUST be registered only once per server process, including after development reloads, and a failed run MUST NOT stop later runs or crash the server.

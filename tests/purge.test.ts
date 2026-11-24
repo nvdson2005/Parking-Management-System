@@ -199,6 +199,22 @@ describe('purge service', () => {
     expect(await note(recent.id)).toBe('Observed plate: 51F-10056 — worn')
   })
 
+  it('leaves a LOST_CARD note alone even when it starts like an EX-02 note (review of PR #11)', async () => {
+    await resetDb()
+    const f = await makeFixture()
+    const v = await makeVehicle('51F-10077', f.student.id)
+    const old = await makeSession(v.id, '51F-10077', f.zoneA.id, f.staff.id, OLD)
+    await db.sessionEvent.create({
+      data: { sessionId: old.id, type: 'LOST_CARD', staffId: f.staff.id, note: 'Observed plate: hard to read — customer lost card' },
+    })
+
+    await purgeOldData(db, null, NOW)
+
+    expect((await db.sessionEvent.findFirst({ where: { sessionId: old.id } }))?.note).toBe(
+      'Observed plate: hard to read — customer lost card',
+    )
+  })
+
   it('second purge reports 0 sessionsMasked', async () => {
     await resetDb()
     const f = await makeFixture()

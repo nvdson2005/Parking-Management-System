@@ -108,7 +108,7 @@ export default async function StaffSessionDetailPage({
                   <span className="font-medium">{t(dict, `sessions.eventTypes.${event.type}`)}</span>
                   <span className="text-xs text-muted-foreground">{event.createdAt.toLocaleString()}</span>
                   {event.note ? (
-                    <span className="text-muted-foreground">{presentEventNote(event.note, fullPlate)}</span>
+                    <span className="text-muted-foreground">{presentEventNote(event.note, event.type, fullPlate)}</span>
                   ) : null}
                 </li>
               ))}

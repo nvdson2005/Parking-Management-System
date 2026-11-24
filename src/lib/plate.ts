@@ -14,6 +14,16 @@ export function plateCompareKey(raw: string): string {
   return normalizePlate(raw).replace(/[^A-Z0-9]/g, '')
 }
 
+const ALNUM = /[a-zA-Z0-9]/g
+
+/**
+ * Masks a plate for viewers who may not see it in full (FR-42): keeps the
+ * prefix up to the hyphen (or the first 3 characters) and the last 2, and
+ * replaces the letters and digits in between with `*`. A short plate is still
+ * masked: if 2 or fewer characters follow the prefix they are all hidden, and
+ * a plate that is only a prefix keeps just its first character. Every plate
+ * with a letter or digit therefore shows at least one `*` (review of PR #11).
+ */
 export function maskPlate(plate: string): string {
   const hyphenIndex = plate.indexOf('-')
   let prefix: string
@@ -28,7 +38,9 @@ export function maskPlate(plate: string): string {
   }
 
   if (rest.length <= 2) {
-    return plate
+    if (/[a-zA-Z0-9]/.test(rest)) return prefix + rest.replace(ALNUM, '*')
+    if (plate.length <= 1) return plate.replace(ALNUM, '*')
+    return plate.charAt(0) + plate.slice(1).replace(ALNUM, '*')
   }
 
   // Keep last 2 characters
@@ -79,12 +91,17 @@ export function observedPlateNote(plate: string, staffNote?: string | null): str
   return staffNote ? `${base}${NOTE_SEPARATOR}${staffNote}` : base
 }
 
+/** The only event whose note starts with a system-written plate (EX-02). */
+export const PLATE_MISMATCH_EVENT = 'PLATE_MISMATCH_CONFIRMED'
+
 /**
- * An event note as the viewer may see it: the observed plate in an EX-02 note
- * is masked unless the viewer may see the session's full plate (Q46).
+ * An event note as the viewer may see it: in an EX-02 note (event type
+ * PLATE_MISMATCH_CONFIRMED) the observed plate is masked unless the viewer may
+ * see the session's full plate (Q46). Other notes, such as LOST_CARD, are
+ * staff text and are shown as written, even if they start with the same words.
  */
-export function presentEventNote(note: string, showFullPlate: boolean): string {
-  if (showFullPlate || !note.startsWith(OBSERVED_PLATE_PREFIX)) return note
+export function presentEventNote(note: string, eventType: string, showFullPlate: boolean): string {
+  if (showFullPlate || eventType !== PLATE_MISMATCH_EVENT || !note.startsWith(OBSERVED_PLATE_PREFIX)) return note
   const rest = note.slice(OBSERVED_PLATE_PREFIX.length)
   const cut = rest.indexOf(NOTE_SEPARATOR)
   const plate = cut === -1 ? rest : rest.slice(0, cut)
