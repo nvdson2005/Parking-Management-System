@@ -27,7 +27,9 @@ The run was local and sequential with one operator. It does not establish multi-
 
 ## Exceptions and separate full-lot refusal
 
-On the same scratch database, Manager simulator requests produced EX-05 `LOT_SUSPENDED`, EX-04 `ALREADY_OPEN`, EX-02 `SESSION_OPEN` with mismatch instructions, EX-03 `SESSION_OPEN` with lost-card instructions, and EX-01 `ZONE_FULL` with `needsReset: true`. EX-02 and EX-03 were generated but their Staff resolution steps were **not** executed in this run. The prior A-68 evidence covers those steps on a different build; QA must rerun or explicitly accept that coverage for A-87.
+On the same scratch database, Manager simulator requests produced EX-05 `LOT_SUSPENDED`, EX-04 `ALREADY_OPEN`, EX-02 `SESSION_OPEN` with mismatch instructions, EX-03 `SESSION_OPEN` with lost-card instructions, and EX-01 `ZONE_FULL` with `needsReset: true`.
+
+Staff then resolved EX-02 and EX-03 through the HTTP exit endpoints on that database. For EX-02, preview flagged `plateMismatch: true` and a 2,000 ₫ fee; confirmation without the explicit mismatch flag returned `PLATE_MISMATCH`, while confirmation with the flag closed the session and created one confirmed 2,000 ₫ payment. For EX-03, plate lookup previewed 2,000 ₫ and `lostCard: true` confirmation closed the session with one confirmed 2,000 ₫ payment. Direct database queries found `PLATE_MISMATCH_CONFIRMED` and `LOST_CARD` events and two `MANUAL_CONFIRM` access-log rows. The Staff browser warning and checkbox interactions were not repeated in this run; prior A-68 evidence covers them on a different build.
 
 After EX-01, zone C had 30/30 car sessions open. A separate `POST /api/events/entry` for a new car plate, authenticated as Manager through the same endpoint Staff uses, returned `ZONE_FULL`; the open count remained 30 before and after. This verifies the refusal and unchanged session count, not an independent browser display update for that refusal.
 
@@ -45,4 +47,4 @@ These are **partial** SC-003 observations: the full entry/exit and Customer work
 
 ## Remaining acceptance work
 
-RES-02 recorded CP-05 as **pass with conditions** on 24/11 in PR #18. Its C1–C6 issue allocation, PM approval and closure evidence remain open; its original A-68 run used an older build. RES-02 must record the A-87 outcome with the exact tested SHA, EX-02/EX-03 Staff resolutions, exclusions and any retests. Run Edge and Firefox at 360/768/1920 px and complete core UI workflows at each cell. A-88 requires the actual lecturer verdict and accepted exceptions. This technical run cannot close those gates.
+RES-02 recorded CP-05 as **pass with conditions** on 24/11 in PR #18. Its C1–C6 issue allocation, PM approval and closure evidence remain open; its original A-68 run used an older build. RES-02 must record the formal A-87 outcome with the exact tested SHA, browser EX-02/EX-03 Staff interactions, exclusions and any retests. Run Edge and Firefox at 360/768/1920 px and complete core UI workflows at each cell. A-88 requires the actual lecturer verdict and accepted exceptions. This technical run cannot close those gates.
