@@ -3,6 +3,7 @@ import { z } from 'zod'
 import type { Db } from '@/server/db'
 import { DomainError } from '@/server/errors'
 import { logAccess } from '@/server/services/accessLog'
+import { inTransaction } from '@/server/tx'
 import { publishAvailabilityChanged } from '@/server/bus'
 
 const setTariffSchema = z.object({
@@ -34,13 +35,15 @@ export async function setTariff(
   if (!parsed.success) throw new DomainError('VALIDATION', 'Invalid tariff input')
   const { vehicleType, feeGroup, price } = parsed.data
 
-  const tariff = await db.tariff.upsert({
-    where: { vehicleTypeCode_feeGroup: { vehicleTypeCode: vehicleType, feeGroup } },
-    update: { price },
-    create: { vehicleTypeCode: vehicleType, feeGroup, price },
+  const tariff = await inTransaction(db, async (tx) => {
+    const saved = await tx.tariff.upsert({
+      where: { vehicleTypeCode_feeGroup: { vehicleTypeCode: vehicleType, feeGroup } },
+      update: { price },
+      create: { vehicleTypeCode: vehicleType, feeGroup, price },
+    })
+    await logAccess(tx, { userId: actorId, action: 'TARIFF_CHANGE', target: `${vehicleType}_${feeGroup}` })
+    return saved
   })
-
-  await logAccess(db, { userId: actorId, action: 'TARIFF_CHANGE', target: `${vehicleType}_${feeGroup}` })
   publishAvailabilityChanged()
   return tariff
 }
