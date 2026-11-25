@@ -63,13 +63,48 @@ No criterion failed, and no S1 defect is known. A conditional pass needs an ISS-
 
 | ID | Condition | Owner | Due (proposed) | ISS-xx |
 |---|---|---|---|---|
-| C1 | Hand-count photo (O1): count open sessions per zone and vehicle type by hand in the open-sessions list; photograph the count next to the system availability | RES-05; RES-02 verifies | Before A-87 | to allocate |
-| C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records | Before A-87 | to allocate |
-| C3 | Add DevTools Network screenshots (or re-measure) for `events/entry`, `exit/preview`, `exit/confirm` to `evidence/a68/` | RES-05 | Before A-87 | to allocate |
-| C4 | QE rows carry the tested commit and an independent verifier (P20 v1.2 section 5: no commit, not counted). A-68 rows use `8472986`. T06 and T09 (A-67, code `5182b97`, re-run 23/11) and T12 (A-31, `36b1c91`) need their commit hash on the rows | RES-05 | Before A-87 | to allocate |
-| C5 | Re-run D-01 on a scratch DB (two clicks on the 100-session run) and run `a68-check`. If expected free differs from the UI, D-01 is S1 and CP-05 becomes Không đạt | RES-05 | Before A-87 | to allocate |
-| C6 | Fix and retest D-01, D-03, D-04 (S2; D-02 closed 24/11). The PM may accept D-05 and D-06 (S3) open in P14 | D-01 RES-05 with RES-01; D-03, D-04 RES-04 | CP-07 (27/11) | to allocate |
+| C1 | Hand-count photo (O1): count open sessions per zone and vehicle type by hand in the open-sessions list; photograph the count next to the system availability | RES-05; RES-02 verifies | 26/11, before A-87 | ISS-06 |
+| C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records; RES-05 records the video | 26/11, before A-87 | ISS-07 |
+| C3 | Add DevTools Network screenshots (or re-measure) for `events/entry`, `exit/preview`, `exit/confirm` to `evidence/a68/` | RES-05 | 26/11, before A-87 | ISS-08 |
+| C4 | QE rows carry the tested commit and an independent verifier (P20 v1.2 section 5: no commit, not counted). A-68 rows use `8472986`. T06 and T09 (A-67, code `5182b97`, re-run 23/11) and T12 (A-31, `36b1c91`) need their commit hash on the rows | RES-05 | 26/11, before A-87 | ISS-09 (done 25/11, see 3.2) |
+| C5 | Re-run D-01 on a scratch DB (two clicks on the 100-session run) and run `a68-check`. If expected free differs from the UI, D-01 is S1 and CP-05 becomes Không đạt | RES-05 | 26/11, before A-87 | ISS-10 |
+| C6 | Fix and retest D-01, D-03, D-04 (S2; D-02 closed 24/11). The PM may accept D-05 and D-06 (S3) open in P14 | D-01 RES-05 with RES-01; D-03, D-04 RES-04 | CP-07 (27/11) | ISS-11 |
 
 CP-05 is approved by RES-02. RES-01 (owner of P05) is informed, not an approver (P20 v1.2 section 7.2).
+
+ISS-06..ISS-11 are proposed by RES-05 on 25/11 (next free numbers after ISS-05 on `main`), pending allocation by RES-02 and approval by RES-01 (PM). The gate stays open until both are recorded here:
+
+| Allocation (RES-02) | PM approval (RES-01) |
+|---|---|
+| ___ | ___ |
+
+### 3.1 Issue log rows (paste-ready for RES-03 on 28/11)
+
+Shared files are not edited directly (`m3-m4-final-work-division.md` rule 2). RES-03 pastes these rows into the Issue Log.
+
+| ISS | Description | Owner | Due | Status | Link |
+|---|---|---|---|---|---|
+| ISS-06 | CP-05 C1: hand-count photo of open sessions per zone and vehicle type next to the system availability (O1) | RES-05; RES-02 verifies | 26/11 | Open | PR #18, `a-68-cp05-test.md` section 3 |
+| ISS-07 | CP-05 C2: CP-05 demo video sent to the client by email (Q23); date and recipient recorded | RES-01 sends; RES-05 records the video; RES-02 records | 26/11 | Open | PR #18 |
+| ISS-08 | CP-05 C3: DevTools Network screenshots for `events/entry`, `exit/preview`, `exit/confirm` in `evidence/a68/` | RES-05 | 26/11 | Open | PR #18 |
+| ISS-09 | CP-05 C4: tested commit and independent verifier on every T05–T13 QE row | RES-05 | 26/11 | Done 25/11, verifier sign-off pending | `a-68-cp05-test.md` 3.2 |
+| ISS-10 | CP-05 C5: re-run D-01 on a scratch DB with two clicks, check with `a68-check`; mismatch makes D-01 S1 and CP-05 fail | RES-05 | 26/11 | Open | PR #18 |
+| ISS-11 | CP-05 C6: fix and retest D-01 (RES-05 with RES-01), D-03 and D-04 (RES-04) before CP-07 | RES-05, RES-04 | 27/11 | Open | PR #18; fix PRs to follow |
+
+### 3.2 Quality Evidence rows with commit and verifier (C4, paste-ready)
+
+A row counts only with its tested commit and an independent verifier (P20 v1.2 section 5). The verifier is someone other than the tester who checked the evidence or repeated the test.
+
+| QE row | Test | Tested commit | Tester, date | Independent verifier | Evidence |
+|---|---|---|---|---|---|
+| T05 / O1 | Availability = capacity − open sessions | `8472986` | RES-05, 24/11 | RES-02 (to sign); hand count: ISS-06 | `evidence/a68/b1-*`, `b6-*` |
+| T06 | Zone full refused (EX-01) | `5182b97` (HTTP), `4c8fde2` (UI) | RES-01 HTTP 20/11; RES-05 UI 23/11 | RES-01 and RES-05 tested independently of each other | `a-67-integration-check.md`, `evidence/a67/` |
+| T07 | Plate mismatch (EX-02) | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b2-*` |
+| T08 | Lost card (EX-03) | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b3-*` |
+| T09 | Duplicate entry refused (EX-04) | `5182b97` (HTTP), `4c8fde2` (UI) | RES-01 HTTP 20/11; RES-05 UI 23/11 | RES-01 and RES-05 tested independently of each other | `a-67-integration-check.md`, `evidence/a67/` |
+| T10 | Lot suspended: entry refused, exit allowed (EX-05) | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b4-*` |
+| T11 / O2 | Complete records | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b1-check.txt`, `b6-check.txt` |
+| T12 | Only Staff and Manager operate | `36b1c91` (A-28 branch); suite re-run on `4f2089f` after PR #11 | RES-05, 24/11 | RES-02 (to sign) | `a-31-auth-test.md`, `evidence/a31/` |
+| T13 | ≤ 3 inputs, ≤ 3 s | `8472986` | RES-05, 24/11 | RES-02 (to sign); screenshots: ISS-08 | `evidence/a68/b5-entry.png` |
 
 Effort RES-05: 1 h.
