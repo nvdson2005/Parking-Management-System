@@ -54,18 +54,18 @@ A-68 executed on 24/11 (planned 23/11, one day late). The A-67 rows that were pe
 |---|---|
 | T05–T13 pass | Met (T12 in A-31) |
 | 100 simulated sessions have valid records (O2) | Met: `incomplete: 0` on 100 and on 104 sessions |
-| Availability matches the hand count (O1) | Partly: the independent DB count equals the UI in two snapshots; no hand-count photo (C1) |
-| T13 ≤ 3 s (NFR-04) | Met: 1.47 / 1.08 / 1.17 s; Network screenshots missing (C3) |
+| Availability matches the hand count (O1) | Met 25/11: hand count = UI = DB, photo in `c1-hand-count.png` (C1 done, 3.4) |
+| T13 ≤ 3 s (NFR-04) | Met: 1.47 / 1.08 / 1.17 s on `next dev`; 31 / 14 / 23 ms on the production build with screenshots (C3 done, 3.4) |
 | Automated suite not above the A-96 baseline of 9 failing tests | Met: 181/181 on 19/11, 209/209 on 23/11, 310/310 on 24/11 after PR #11 |
-| Evidence: QE rows T05–T13, hand-count photo, demo video (Q23) | Rows prepared; photo and video missing (C1, C2) |
+| Evidence: QE rows T05–T13, hand-count photo, demo video (Q23) | Rows with commit and verifier (3.2); photo added (C1); video recorded, client email pending (C2) |
 
 No criterion failed, and no S1 defect is known. A conditional pass needs an ISS-xx per condition with owner, due date and PM approval (P20 v1.2 section 2.3 and QC-15). Until RES-02 allocates the ISS-xx and RES-01 (PM) approves them, the gate stays open.
 
 | ID | Condition | Owner | Due (proposed) | ISS-xx |
 |---|---|---|---|---|
-| C1 | Hand-count photo (O1): count open sessions per zone and vehicle type by hand in the open-sessions list; photograph the count next to the system availability | RES-05; RES-02 verifies | 26/11, before A-87 | ISS-06 |
-| C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records; RES-05 records the video | 26/11, before A-87 | ISS-07 |
-| C3 | Add DevTools Network screenshots (or re-measure) for `events/entry`, `exit/preview`, `exit/confirm` to `evidence/a68/` | RES-05 | 26/11, before A-87 | ISS-08 |
+| C1 | Hand-count photo (O1): count open sessions per zone and vehicle type by hand in the open-sessions list; photograph the count next to the system availability | RES-05; RES-02 verifies | 26/11, before A-87 | ISS-06 (done 25/11, see 3.4; RES-02 to verify) |
+| C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records; RES-05 records the video | 26/11, before A-87 | ISS-07 (video ready 25/11, see 3.4; email to the client pending RES-01) |
+| C3 | Add DevTools Network screenshots (or re-measure) for `events/entry`, `exit/preview`, `exit/confirm` to `evidence/a68/` | RES-05 | 26/11, before A-87 | ISS-08 (done 25/11, see 3.4) |
 | C4 | QE rows carry the tested commit and an independent verifier (P20 v1.2 section 5: no commit, not counted). A-68 rows use `8472986`. T06 and T09 (A-67, code `5182b97`, re-run 23/11) and T12 (A-31, `36b1c91`) need their commit hash on the rows | RES-05 | 26/11, before A-87 | ISS-09 (done 25/11, see 3.2) |
 | C5 | Re-run D-01 on a scratch DB (two clicks on the 100-session run) and run `a68-check`. If expected free differs from the UI, D-01 is S1 and CP-05 becomes Không đạt | RES-05 | 26/11, before A-87 | ISS-10 (done 25/11, see 3.3: no mismatch, D-01 stays S2) |
 | C6 | Fix and retest D-01, D-03, D-04 (S2; D-02 closed 24/11). The PM may accept D-05 and D-06 (S3) open in P14 | D-01 RES-05 with RES-01; D-03, D-04 RES-04 | CP-07 (27/11) | ISS-11 |
@@ -84,9 +84,9 @@ Shared files are not edited directly (`m3-m4-final-work-division.md` rule 2). RE
 
 | ISS | Description | Owner | Due | Status | Link |
 |---|---|---|---|---|---|
-| ISS-06 | CP-05 C1: hand-count photo of open sessions per zone and vehicle type next to the system availability (O1) | RES-05; RES-02 verifies | 26/11 | Open | PR #18, `a-68-cp05-test.md` section 3 |
-| ISS-07 | CP-05 C2: CP-05 demo video sent to the client by email (Q23); date and recipient recorded | RES-01 sends; RES-05 records the video; RES-02 records | 26/11 | Open | PR #18 |
-| ISS-08 | CP-05 C3: DevTools Network screenshots for `events/entry`, `exit/preview`, `exit/confirm` in `evidence/a68/` | RES-05 | 26/11 | Open | PR #18 |
+| ISS-06 | CP-05 C1: hand-count photo of open sessions per zone and vehicle type next to the system availability (O1) | RES-05; RES-02 verifies | 26/11 | Done 25/11: hand count 7 / 12 / 12 = UI = DB; RES-02 verification pending | `a-68-cp05-test.md` 3.4, `evidence/a68/c1-*` |
+| ISS-07 | CP-05 C2: CP-05 demo video sent to the client by email (Q23); date and recipient recorded | RES-01 sends; RES-05 records the video; RES-02 records | 26/11 | In progress: video recorded 25/11 (RES-05); email to the client and record of date/recipient pending | `a-68-cp05-test.md` 3.4 |
+| ISS-08 | CP-05 C3: DevTools Network screenshots for `events/entry`, `exit/preview`, `exit/confirm` in `evidence/a68/` | RES-05 | 26/11 | Done 25/11: 31 / 14 / 23 ms on the production build | `evidence/a68/c3-network.png` |
 | ISS-09 | CP-05 C4: tested commit and independent verifier on every T05–T13 QE row | RES-05 | 26/11 | Done 25/11, verifier sign-off pending | `a-68-cp05-test.md` 3.2 |
 | ISS-10 | CP-05 C5: re-run D-01 on a scratch DB with two clicks, check with `a68-check`; mismatch makes D-01 S1 and CP-05 fail | RES-05 | 26/11 | Done 25/11: overlap reproduced (220 sessions), expected free = UI, incomplete 0; D-01 stays S2 | `a-68-cp05-test.md` 3.3 |
 | ISS-11 | CP-05 C6: fix and retest D-01 (RES-05 with RES-01), D-03 and D-04 (RES-04) before CP-07 | RES-05, RES-04 | 27/11 | Open | PR #18; fix PRs to follow |
@@ -97,7 +97,7 @@ A row counts only with its tested commit and an independent verifier (P20 v1.2 s
 
 | QE row | Test | Tested commit | Tester, date | Independent verifier | Evidence |
 |---|---|---|---|---|---|
-| T05 / O1 | Availability = capacity − open sessions | `8472986` | RES-05, 24/11 | RES-02 (to sign); hand count: ISS-06 | `evidence/a68/b1-*`, `b6-*` |
+| T05 / O1 | Availability = capacity − open sessions | `8472986`; hand count on `0be7ccf` (production build) | RES-05, 24/11; hand count 25/11 | RES-02 (to sign); hand count: ISS-06 done | `evidence/a68/b1-*`, `b6-*`, `c1-*` |
 | T06 | Zone full refused (EX-01) | `5182b97` (HTTP), `4c8fde2` (UI) | RES-01 HTTP 20/11; RES-05 UI 23/11 | RES-01 and RES-05 tested independently of each other | `a-67-integration-check.md`, `evidence/a67/` |
 | T07 | Plate mismatch (EX-02) | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b2-*` |
 | T08 | Lost card (EX-03) | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b3-*` |
@@ -105,7 +105,7 @@ A row counts only with its tested commit and an independent verifier (P20 v1.2 s
 | T10 | Lot suspended: entry refused, exit allowed (EX-05) | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b4-*` |
 | T11 / O2 | Complete records | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b1-check.txt`, `b6-check.txt` |
 | T12 | Only Staff and Manager operate | `36b1c91` (A-28 branch); suite re-run on `4f2089f` after PR #11 | RES-05, 24/11 | RES-02 (to sign) | `a-31-auth-test.md`, `evidence/a31/` |
-| T13 | ≤ 3 inputs, ≤ 3 s | `8472986` | RES-05, 24/11 | RES-02 (to sign); screenshots: ISS-08 | `evidence/a68/b5-entry.png` |
+| T13 | ≤ 3 inputs, ≤ 3 s | `8472986` | RES-05, 24/11 | RES-02 (to sign); screenshots: ISS-08 done | `evidence/a68/b5-entry.png`, `c3-network.png` |
 
 ### 3.3 C5 result: D-01 re-run on a scratch DB (ISS-10)
 
@@ -128,5 +128,39 @@ A row counts only with its tested commit and an independent verifier (P20 v1.2 s
 **Result:** the overlapping runs only distort the simulator's own counters (24 rejected, more than 100 sessions); stored sessions and availability stay correct. D-01 is **not S1** and CP-05 stays a conditional pass. D-01 remains S2 and is fixed under ISS-11 (C6).
 
 Evidence: `evidence/a68/c5-check.txt`, `c5-network.png`, `c5-ui-availability.png`.
+
+### 3.4 C1, C3 and C2: hand count, Network timings and demo video (ISS-06, ISS-08, ISS-07)
+
+| Field | Value |
+|---|---|
+| Date, tester | 25/11, RES-05 |
+| Code | `test/a68-cp05` at `0be7ccf` (no `src/` change since `8472986`), **production build** (`npm run build` + `npm run start`), as planned for A-87/A-88 (A-31 O-01) |
+| DB | fresh `c1.db` (`prisma migrate deploy` + seed) |
+
+**C1 hand count (O1).** Simulator, ≥ N sessions mode, N = 100, seed 68, one click: `{"entries":100,"exits":69,"rejected":0,"sessions":100,"seed":68}`, the same result as the clean run on 24/11 on `next dev` (seed reproducible across environments). Open sessions counted by hand on paper from the open-sessions list (`/staff/sessions`), one tally mark per row:
+
+| Zone | Type | Hand count | Capacity | Free (hand) | Free (UI) | `a68-check` expected free |
+|---|---|---|---|---|---|---|
+| A | Motorbike | 7 | 150 | 143 | 143 | 143 |
+| B | Motorbike | 12 | 150 | 138 | 138 | 138 |
+| C | Car | 12 | 30 | 18 | 18 | 18 |
+
+Total 31 = 100 − 69; `incomplete: 0` on 100 sessions. Three independent sources agree. Evidence: `c1-hand-count.png` (paper next to the availability table), `c1-simulator.png`, `c1-ui-availability.png`, `c1-check.txt`.
+
+**C3 Network timings (T13, NFR-04 ≤ 3 s).** Staff (`staff1`), entry by plate `51A-123.45`, zone A, then exit preview and confirm:
+
+| Request | Status | Time, production (25/11) | Time, `next dev` (24/11) |
+|---|---|---|---|
+| `events/entry` | 200 | 31 ms | 1.47 s |
+| `events/exit/preview` | 200 | 14 ms | 1.08 s |
+| `events/exit/confirm` | 200 | 23 ms | 1.17 s |
+
+The `next dev` figures include on-demand compilation. Evidence: `c3-network.png`.
+
+**C2 demo video (Q23).** Screen recording of the run above (simulator run, hand count against the availability table, entry/exit with timings): 2 min 54 s, MKV, 6.2 MB, recorded 25/11 by RES-05. Not committed (binary); shared link: [CP-05 demo video](https://drive.google.com/file/d/16cyrBSe4s62T_PcgVOxgo4FY33uBFbsX/view?usp=sharing). To close ISS-07, RES-01 emails the link to the client and RES-02 records here:
+
+| Sent by | Date | Recipient | Reply |
+|---|---|---|---|
+| ___ | ___ | ___ | ___ |
 
 Effort RES-05: 1 h.
