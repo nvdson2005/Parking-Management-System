@@ -86,7 +86,7 @@ Biến môi trường bắt buộc: `DATABASE_URL` (SQLite, `prisma/schema.prism
 | Trang chung | Đăng nhập, đăng ký, điều hướng theo vai trò, khung trang có nút đổi ngôn ngữ | `src/app/login`, `src/app/register`, `src/app/page.tsx`, `src/components/AppShell.tsx`, `src/components/LangToggle.tsx`, `src/lib/nav.ts` | P07, P19 |
 | Hiển thị chỗ trống trực tiếp | Mở `EventSource` tới `/api/availability/stream`, vẽ lại khi nhận dữ liệu; hiển thị huy hiệu "Suspended" | `src/components/LiveAvailability.tsx` | P09 |
 | Middleware | Chặn route UI `/customer`, `/staff`, `/manager` theo JWT và vai trò | `src/middleware.ts` | P07 |
-| API route handler | 29 endpoint REST + 1 luồng SSE (tổng 30 endpoint, mục 8); kiểm tra vai trò, đọc body, gọi service | `src/app/api/**/route.ts` | P05, P07, P08, P09, P04, P06, P10, P11 |
+| API route handler | 35 endpoint REST + 1 luồng SSE (tổng 36 endpoint, mục 8); kiểm tra vai trò, đọc body, gọi service | `src/app/api/**/route.ts` | P05, P07, P08, P09, P04, P06, P10, P11 |
 | Bộ bọc API | `handle()` tuần tự hóa kết quả JSON và ánh xạ lỗi; `readJsonObject()` kiểm tra body | `src/server/api.ts` | Tất cả |
 | Mô-đun lỗi | `DomainError` + bảng mã lỗi → HTTP status | `src/server/errors.ts` | Tất cả |
 | Xác thực, phân quyền | Băm mật khẩu; ký/xác minh JWT; lấy người dùng hiện tại; `requireRole` | `src/server/auth/password.ts`, `session.ts`, `rbac.ts` | P07 |
@@ -359,7 +359,7 @@ Lưu ý thời điểm tính phí và thanh toán (KB-02, KB-03): phí tính the
 
 ## 8. Đặc tả endpoint
 
-Tổng cộng **30 endpoint** (phương thức + đường dẫn) trong 25 file `route.ts`.
+Tổng cộng **36 endpoint** (phương thức + đường dẫn) trong 31 file `route.ts`: 35 endpoint REST và 1 luồng SSE (dòng 19).
 
 | # | Phương thức + đường dẫn | Vai trò được phép | FR / EX liên quan | Đầu vào chính | Đầu ra chính | Lỗi có thể trả | Phạm vi |
 |---|---|---|---|---|---|---|---|
@@ -393,10 +393,16 @@ Tổng cộng **30 endpoint** (phương thức + đường dẫn) trong 25 file 
 | 28 | `GET /api/reports?from=YYYY-MM-DD&to=YYYY-MM-DD` | MANAGER | FR-29, D-20, D-30 | `from`, `to` (mặc định hôm nay) | `{utilisationByHour[24], peakHours[≤3], revenue{total, byDate}, noShowRate}` | `VALIDATION` | Could |
 | 29 | `GET /api/notifications` | CUSTOMER, STAFF, MANAGER | EX-05 (Q32), KB-20 | — | `{items[≤20]: {id, type, params, createdAt, readAt}, unreadCount}` của chính người dùng; `params` không chứa biển số | `UNAUTHENTICATED`, `FORBIDDEN` | Must (thông báo EX-05) |
 | 30 | `POST /api/notifications/read` | CUSTOMER, STAFF, MANAGER | EX-05 (Q32), KB-20 | `ids?` (bỏ trống = đánh dấu tất cả) | `{updated}`; chỉ đánh dấu thông báo của chính người dùng | `VALIDATION` | Must (thông báo EX-05) |
+| 31 | `GET /api/sessions` | STAFF, MANAGER | FR-13, FR-31, A-65, KB-15 | `status?` (`OPEN` mặc định / `CLOSED`) | Danh sách lượt gửi, mới nhất trước; biển số qua `presentPlate` (Staff thấy lượt đã đóng ở dạng che, Q46) | `VALIDATION`, `UNAUTHENTICATED`, `FORBIDDEN` | Must |
+| 32 | `GET /api/access-logs` | MANAGER | FR-31, A-65, KB-15 | `limit?` (1–500, mặc định 200) | Nhật ký truy cập mới nhất trước, kèm `userName` | `VALIDATION`, `UNAUTHENTICATED`, `FORBIDDEN` | Must |
+| 33 | `GET /api/payments?from=&to=` | MANAGER, CUSTOMER | FR-28, A-65, KB-15 | `from?`, `to?` (chỉ Manager) | MANAGER: mọi thanh toán đã xác nhận (`paymentId`, `plateSnapshot`, `amount`, `paidAt`, `confirmedByName`, `zoneName`); CUSTOMER: lịch sử gửi xe của mình (`customerHistory`) | `VALIDATION`, `UNAUTHENTICATED`, `FORBIDDEN` | Should |
+| 34 | `GET /api/staff/lookup?method=&identifier=` | STAFF, MANAGER | G-08 (Q34), A-65, D-31 | `method` (`PLATE`/`QR`/`RFID`), `identifier` | `{vehicle, openSession, activeReservation}`; hết hạn các giữ chỗ quá hạn trước; thành công thì ghi `VIEW_FULL_PLATE` | `VALIDATION`, `NOT_FOUND`, `UNAUTHENTICATED`, `FORBIDDEN` | Should |
+| 35 | `GET /api/staff/reservations?zoneId=` | STAFF, MANAGER | G-08 (Q34), A-65, KB-21 | `zoneId?` | Đặt chỗ PENDING còn hiệu lực kèm biển số, khu vực, `arrivalTime`, `holdUntil` | `UNAUTHENTICATED`, `FORBIDDEN` | Should |
+| 36 | `POST /api/account/group-request` | CUSTOMER | Q38 | `group` (`STUDENT`/`LECTURER_STAFF`) | `{userGroup, requestedUserGroup}`; nhật ký `ACCOUNT_CHANGE` | `VALIDATION`, `NOT_FOUND` | Should |
 
 Mọi endpoint có `requireRole` đều có thể trả thêm `UNAUTHENTICATED` (401) và `FORBIDDEN` (403).
 
-**Chức năng không có endpoint riêng** (trang server gọi service trực tiếp, có `requireRole`): danh sách và chi tiết lượt gửi `/staff/sessions` (FR-13, FR-31), nhật ký truy cập `/manager/access-log` (FR-31), lịch sử khách hàng `/customer/history` và thanh toán `/manager/payments` (FR-28, Should), danh sách khu vực cho màn hình xe vào `/staff/entry`.
+**Chức năng không có endpoint riêng** (trang server gọi service trực tiếp, có `requireRole`): chi tiết lượt gửi `/staff/sessions/[id]` (FR-13, FR-31), danh sách khu vực cho màn hình xe vào `/staff/entry`.
 
 ---
 
@@ -433,10 +439,10 @@ Mọi endpoint có `requireRole` đều có thể trả thêm `UNAUTHENTICATED` 
 | FR-25 | Chỗ đã giữ tính vào sức chứa | `availability.ts#getFree` (`reserved`) | Should |
 | FR-26 | Phí theo loại xe × nhóm/Guest | `fees.ts#computeFee`; `feeGroup` chụp lúc vào (`entry.ts`) | Should |
 | FR-27 | Staff xác nhận thanh toán, lưu payment | `POST /api/events/exit/confirm` (phần `payment`) | Should |
-| FR-28 | Lịch sử giao dịch | `history.ts#customerHistory` (`/customer/history`), `#allPayments` (`/manager/payments`); không có endpoint | Should |
+| FR-28 | Lịch sử giao dịch | `history.ts#customerHistory` (`/customer/history`), `#allPayments` (`/manager/payments`); `GET /api/payments` (A-65) | Should |
 | FR-29 | Báo cáo 4 chỉ số | `GET /api/reports`; `reports.ts#buildReport`; `/manager/reports` | Could |
 | FR-30 | Che biển số | `src/lib/plate.ts#maskPlate`, `#presentPlate`; `PlateText` | Must |
-| FR-31 | Nhật ký truy cập, Manager xem | `accessLog.ts#logAccess` (trong các service và `/staff/sessions/[id]`); `/manager/access-log` (`listAccessLogs`) | Must |
+| FR-31 | Nhật ký truy cập, Manager xem | `accessLog.ts#logAccess` (trong các service và `/staff/sessions/[id]`); `/manager/access-log` (`listAccessLogs`); `GET /api/access-logs` (A-65) | Must |
 | FR-32 | Purge 12 tháng | `POST /api/purge`; `purge.ts` | Must |
 | FR-33 | Trang mô phỏng 3 hành động | `POST /api/simulator`; `/manager/simulator` | Must (P04); hành động `history` phục vụ P06/P10/P11 |
 | FR-34 | Chạy ≥ 100 lượt, ghi đầy đủ | `POST /api/simulator` `{action:"live", n: 100..500}` | Must |
@@ -461,13 +467,13 @@ Mọi endpoint có `requireRole` đều có thể trả thêm `UNAUTHENTICATED` 
 | KB-12 | D-24 | Manager khóa/mở mọi tài khoản | Manager không được tự khóa mình (`VALIDATION`) | Quy tắc bổ sung hợp lý | **Quyết định (A-22): chấp nhận.** Manager không tự khóa mình |
 | KB-13 | FR-11 | Staff chọn loại xe và khu vực | Với xe đã có trong hệ thống, `vehicleType` gửi lên bị bỏ qua; loại xe lấy từ bản ghi xe. Chỉ bắt buộc khi biển số mới | Chi tiết [BUILDER]; ghi trong hợp đồng mục 7.1 | **Quyết định (A-22): chấp nhận.** Ghi trong hợp đồng mục 7.1 và có test (A-63) (A-63) |
 | KB-14 | Quy ước API (mục 6) | Lỗi đầu vào → 400 `VALIDATION` | `auth/login`, `auth/register`, `lang`, `POST /api/vehicles` đọc body bằng `req.json()` thay vì `readJsonObject`; body không phải JSON hợp lệ gây lỗi 500 thay vì 400 | Không nhất quán nội bộ; đề xuất dùng `readJsonObject` | **Quyết định (A-22): sửa mã** tại A-28 (RES-03) (A-28) |
-| KB-15 | Tiêu chí CP-02 "mỗi FR có endpoint hoặc thành phần" | — | FR-31 (xem nhật ký), FR-13 (xem lượt gửi) và FR-28 không có endpoint; dữ liệu được đọc trong trang server. FR-05, FR-16, FR-18, FR-19a, FR-30 đáp ứng bằng thành phần | Tiêu chí CP-02 đã chấp nhận "endpoint hoặc thành phần"; bổ sung endpoint nếu CP-02 yêu cầu | **Quyết định (A-22): chấp nhận** tiêu chí "endpoint hoặc thành phần"; A-65 (RES-03) bổ sung endpoint (A-65) |
+| KB-15 | Tiêu chí CP-02 "mỗi FR có endpoint hoặc thành phần" | — | FR-31 (xem nhật ký), FR-13 (xem lượt gửi) và FR-28 từng không có endpoint; A-65 đã bổ sung `GET /api/access-logs`, `GET /api/sessions`, `GET /api/payments` (mục 8). FR-05, FR-16, FR-18, FR-19a, FR-30 đáp ứng bằng thành phần | Tiêu chí CP-02 đã chấp nhận "endpoint hoặc thành phần"; bổ sung endpoint nếu CP-02 yêu cầu | **Quyết định (A-22): chấp nhận** tiêu chí "endpoint hoặc thành phần"; A-65 (RES-03) bổ sung endpoint (A-65) |
 | KB-16 | FR-02, FR-04 | Đăng xuất, khóa tài khoản | JWT 7 ngày, đăng xuất chỉ xóa cookie (không thu hồi token). Middleware chỉ kiểm chữ ký và vai trò (không đọc CSDL), nên người bị khóa vẫn qua middleware; nhưng mọi API và trang có `requireRole` đều từ chối | Đáp ứng FR-04; ghi nhận rủi ro nhỏ | **Quyết định (A-22): sửa mã** theo ánh xạ Baseline V1.0 tại A-28 (RES-03 xác nhận phạm vi) (A-28) |
 | KB-17 | §7 thực thể | Danh sách 12 thực thể | Thêm bảng `roles`; `parking_sessions` thêm `fee_group`, `owner_id` (chụp chủ xe lúc vào); `reservations` thêm `cancel_reason`, `cancel_zone_id` (D-41) | [BUILDER] cho phép; P03 cần cập nhật tương ứng | **Quyết định (A-22): sửa spec.** P03 đã có `roles`, `fee_group`, `owner_id`, `cancel_reason`, `cancel_zone_id`; không cần sửa thêm |
 | KB-18 | `src/server/services/lots.ts` (chú thích) | D-27: bãi tạm ngưng hiển thị số đếm bình thường | Chú thích `updateLot` ghi "suspension immediately hides the lot's free spots", nhưng mã thực tế vẫn trả số đếm bình thường + `status` | Chỉ sai chú thích; hành vi đúng spec | **Quyết định (A-22): sửa chú thích, đã làm.** Hành vi đúng spec |
 | KB-19 | FR-16 | ≤ 2 giây mỗi sự kiện | Tìm xe theo biển số đọc **toàn bộ** bảng `vehicles` rồi lọc trong bộ nhớ (`findVehicleByCompareKey`) | Đạt ở quy mô thí điểm; rủi ro khi dữ liệu lớn | **Quyết định (A-22): chấp nhận** ở quy mô thí điểm; rủi ro khi dữ liệu lớn |
 | KB-20 | D-27, R3-Q3, R3-Q4 | Xe đặt chỗ đến sớm được nhận ngay; bãi tạm ngưng giữ nguyên đặt chỗ PENDING | Theo phản hồi khách hàng Q31, Q32: xe đến sớm bị từ chối `EARLY_ARRIVAL` cho tới khi Staff gửi `confirmEarly`; tạm ngưng bãi hủy đặt chỗ PENDING (`LOT_SUSPENDED`) và thông báo Customer (bảng `notifications`, `GET /api/notifications`, `POST /api/notifications/read`, chuông thông báo) | Spec MVP lỗi thời so với yêu cầu khách hàng đã xác nhận (SRS FR-31, FR-50, FR-51) | **Đã sửa mã** (A-70). Spec MVP và P03 cần bổ sung bảng `notifications` |
-| KB-21 | SRS FR-52 (Q34) | Staff xem đặt chỗ đang hiệu lực của bãi cùng thông tin xe | Không có endpoint, service hoặc trang Staff cho danh sách đặt chỗ; `GET /api/reservations` chỉ cho CUSTOMER. Hộp xác nhận xe đến sớm chỉ hiện cảnh báo chung, không hiện giờ hẹn và khu vực | Thiếu chức năng (Should) | **Chưa xử lý.** RES-01 quyết định: bổ sung endpoint và trang Staff (A-65) hoặc CR (xem SRS mục 9) |
+| KB-21 | SRS FR-52 (Q34) | Staff xem đặt chỗ đang hiệu lực của bãi cùng thông tin xe | Trước A-65 không có endpoint, service hoặc trang Staff cho danh sách đặt chỗ (`GET /api/reservations` chỉ cho CUSTOMER); A-65 đã bổ sung `GET /api/staff/reservations` và `GET /api/staff/lookup` (mục 8). Hộp xác nhận xe đến sớm chỉ hiện cảnh báo chung, không hiện giờ hẹn và khu vực | Thiếu chức năng (Should) | **Chưa xử lý.** RES-01 quyết định: bổ sung endpoint và trang Staff (A-65) hoặc CR (xem SRS mục 9) |
 
 ### 10.1 Ánh xạ khác biệt sang hoạt động sửa
 
