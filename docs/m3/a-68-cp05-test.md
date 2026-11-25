@@ -35,7 +35,7 @@
 
 | ID | Finding | Severity (P20 v1.2, section 4) | Owner / next step |
 |---|---|---|---|
-| D-01 | During the first 100-session run the page reloaded itself (RSC request `simulator?_rsc=…` returned 500) and the run button was enabled again, so a second run was sent while the first was still running. The two runs competed for the same sessions and vehicles: 21 rejected, 200 sessions in the DB. Records stayed complete (`incomplete: 0` on 200). Run discarded; DB reset and the counted run repeated with a single click | S2 (was Medium, confirmed) | RES-05 to raise with RES-01. A-31 O-01 found the likely cause (`next dev` rebuilds on DB writes; not seen on the production build). For A-87/A-88 use `npm run build` + `npm run start` and click once, or disable the button server-side while a run is active |
+| D-01 | During the first 100-session run the page reloaded itself (RSC request `simulator?_rsc=…` returned 500) and the run button was enabled again, so a second run was sent while the first was still running. The two runs competed for the same sessions and vehicles: 21 rejected, 200 sessions in the DB. Records stayed complete (`incomplete: 0` on 200). Run discarded; DB reset and the counted run repeated with a single click | S2 (was Medium, confirmed; C5 re-run 25/11 found no data mismatch, so not S1, see 3.3) | RES-05 to raise with RES-01. A-31 O-01 found the likely cause (`next dev` rebuilds on DB writes; not seen on the production build). For A-87/A-88 use `npm run build` + `npm run start` and click once, or disable the button server-side while a run is active |
 | D-02 | A session cookie that outlived `npm run db:reset` points to a deleted user. Middleware accepts the JWT, then `requireRole` throws `UNAUTHENTICATED` and `/staff/exit` shows a 500 instead of redirecting to `/login` (`src/app/staff/exit/page.tsx:6`) | S2 (was Low, **raised** on 24/11: a Must auth flow answers a stale session with a 500; workaround is to open `/login`; a rehearsal cookie plus `db:reset` hits it at the demo) | **Closed 24/11**: fixed by A-28 (`36b1c91`), retest in [A-31](a-31-auth-test.md) check 9 (`/login`, API 401); PR #11 merged (`755caf6`); `npm test` 310/310 on `4f2089f` |
 | D-03 | Staff entry form: "Zone" lists internal IDs (e.g. `cmwu0ta1w0002ujkw24gjksgv` for zone A) instead of zone names; "Vehicle type" shows `MOTORBIKE` instead of the localised label | S2 (was Medium, confirmed: AT-01 and AT-02 name zones, the dropdown shows IDs) | RES-04 (UI); fix before CP-07 |
 | D-04 | Staff exit preview: the field labelled "Observed plate" shows the plate recorded at entry (`66F-403.45` when `66F-403.46` was typed) | S2 (was Low, **raised** on 24/11) | RES-04 (UI); fix before CP-07. AT-EX02 expects both plates shown. Warning, confirm and logging work, so not S1 |
@@ -67,7 +67,7 @@ No criterion failed, and no S1 defect is known. A conditional pass needs an ISS-
 | C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records; RES-05 records the video | 26/11, before A-87 | ISS-07 |
 | C3 | Add DevTools Network screenshots (or re-measure) for `events/entry`, `exit/preview`, `exit/confirm` to `evidence/a68/` | RES-05 | 26/11, before A-87 | ISS-08 |
 | C4 | QE rows carry the tested commit and an independent verifier (P20 v1.2 section 5: no commit, not counted). A-68 rows use `8472986`. T06 and T09 (A-67, code `5182b97`, re-run 23/11) and T12 (A-31, `36b1c91`) need their commit hash on the rows | RES-05 | 26/11, before A-87 | ISS-09 (done 25/11, see 3.2) |
-| C5 | Re-run D-01 on a scratch DB (two clicks on the 100-session run) and run `a68-check`. If expected free differs from the UI, D-01 is S1 and CP-05 becomes Không đạt | RES-05 | 26/11, before A-87 | ISS-10 |
+| C5 | Re-run D-01 on a scratch DB (two clicks on the 100-session run) and run `a68-check`. If expected free differs from the UI, D-01 is S1 and CP-05 becomes Không đạt | RES-05 | 26/11, before A-87 | ISS-10 (done 25/11, see 3.3: no mismatch, D-01 stays S2) |
 | C6 | Fix and retest D-01, D-03, D-04 (S2; D-02 closed 24/11). The PM may accept D-05 and D-06 (S3) open in P14 | D-01 RES-05 with RES-01; D-03, D-04 RES-04 | CP-07 (27/11) | ISS-11 |
 
 CP-05 is approved by RES-02. RES-01 (owner of P05) is informed, not an approver (P20 v1.2 section 7.2).
@@ -88,7 +88,7 @@ Shared files are not edited directly (`m3-m4-final-work-division.md` rule 2). RE
 | ISS-07 | CP-05 C2: CP-05 demo video sent to the client by email (Q23); date and recipient recorded | RES-01 sends; RES-05 records the video; RES-02 records | 26/11 | Open | PR #18 |
 | ISS-08 | CP-05 C3: DevTools Network screenshots for `events/entry`, `exit/preview`, `exit/confirm` in `evidence/a68/` | RES-05 | 26/11 | Open | PR #18 |
 | ISS-09 | CP-05 C4: tested commit and independent verifier on every T05–T13 QE row | RES-05 | 26/11 | Done 25/11, verifier sign-off pending | `a-68-cp05-test.md` 3.2 |
-| ISS-10 | CP-05 C5: re-run D-01 on a scratch DB with two clicks, check with `a68-check`; mismatch makes D-01 S1 and CP-05 fail | RES-05 | 26/11 | Open | PR #18 |
+| ISS-10 | CP-05 C5: re-run D-01 on a scratch DB with two clicks, check with `a68-check`; mismatch makes D-01 S1 and CP-05 fail | RES-05 | 26/11 | Done 25/11: overlap reproduced (220 sessions), expected free = UI, incomplete 0; D-01 stays S2 | `a-68-cp05-test.md` 3.3 |
 | ISS-11 | CP-05 C6: fix and retest D-01 (RES-05 with RES-01), D-03 and D-04 (RES-04) before CP-07 | RES-05, RES-04 | 27/11 | Open | PR #18; fix PRs to follow |
 
 ### 3.2 Quality Evidence rows with commit and verifier (C4, paste-ready)
@@ -106,5 +106,27 @@ A row counts only with its tested commit and an independent verifier (P20 v1.2 s
 | T11 / O2 | Complete records | `8472986` | RES-05, 24/11 | RES-02 (to sign) | `evidence/a68/b1-check.txt`, `b6-check.txt` |
 | T12 | Only Staff and Manager operate | `36b1c91` (A-28 branch); suite re-run on `4f2089f` after PR #11 | RES-05, 24/11 | RES-02 (to sign) | `a-31-auth-test.md`, `evidence/a31/` |
 | T13 | ≤ 3 inputs, ≤ 3 s | `8472986` | RES-05, 24/11 | RES-02 (to sign); screenshots: ISS-08 | `evidence/a68/b5-entry.png` |
+
+### 3.3 C5 result: D-01 re-run on a scratch DB (ISS-10)
+
+| Field | Value |
+|---|---|
+| Date, tester | 25/11, RES-05 |
+| Code | `test/a68-cp05` at `840ba76` + ISS commit (no `src/` change since `8472986` for the simulator and entry/exit) |
+| Environment | Windows, `next dev` (where D-01 occurred), fresh DB `c5.db` (`prisma migrate deploy` + seed) |
+| Steps | Simulator, ≥ N sessions mode, seed 68: first click (N = 100); about 3 s later F5 and a second click (form reset to N = 120). DevTools: first request `(unknown)` (cancelled in the browser, still run by the server), second request 200 in 52.64 s |
+| Second run response | `{"entries":120,"exits":105,"rejected":24,"sessions":120,"seed":68}` |
+
+| Check | `a68-check` (DB) | UI | Result |
+|---|---|---|---|
+| Overlap reproduced | `sessions: 220` = 100 (first run) + 120 (second run) | — | Yes |
+| First run, derived | 100 entries, 174 − 105 = 69 exits | — | Same as the clean seed-68 run on 24/11 (100 / 69) |
+| Open sessions | A 19 + B 13 + C 14 = 46 = 220 − 174 = (100 − 69) + (120 − 105) | — | Consistent |
+| Expected free A / B / C | 131 / 137 / 16 | 131 / 137 / 16 | **Match** |
+| Record completeness | `incomplete: 0` on 220 sessions | — | Pass |
+
+**Result:** the overlapping runs only distort the simulator's own counters (24 rejected, more than 100 sessions); stored sessions and availability stay correct. D-01 is **not S1** and CP-05 stays a conditional pass. D-01 remains S2 and is fixed under ISS-11 (C6).
+
+Evidence: `evidence/a68/c5-check.txt`, `c5-network.png`, `c5-ui-availability.png`.
 
 Effort RES-05: 1 h.
