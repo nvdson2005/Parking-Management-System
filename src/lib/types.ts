@@ -16,10 +16,22 @@ export type LotStatus = 'ACTIVE' | 'SUSPENDED'
 
 export type SessionEventType = 'PLATE_MISMATCH_CONFIRMED' | 'LOST_CARD' | 'EARLY_ARRIVAL_CONFIRMED'
 
-export type NotificationType = 'LOT_SUSPENDED'
+export type NotificationType = 'LOT_SUSPENDED' | 'GROUP_CHANGED'
+
+/** Simulated gates of the pilot lot (G-09, FR-09). */
+export const GATES = ['GATE-1', 'GATE-2'] as const
+export type GateCode = (typeof GATES)[number]
+export const DEFAULT_GATE: GateCode = 'GATE-1'
+
+/** Who recorded an entry or exit (G-04, FR-10): the simulated device or Staff by hand. */
+export const SOURCES = ['DEVICE', 'MANUAL'] as const
+export type SessionSource = (typeof SOURCES)[number]
+export const DEFAULT_SOURCE: SessionSource = 'DEVICE'
 
 export type AccessAction =
   | 'LOGIN'
+  | 'LOGIN_FAILED'
+  | 'ACCESS_DENIED'
   | 'LOGOUT'
   | 'VIEW_FULL_PLATE'
   | 'ENTRY'

@@ -39,3 +39,68 @@ The lecturer's round-3 answers confirmed most assumptions and changed four behav
 - Baseline effect: recorded in Baseline V2.0 as a change-list entry; no scope change.
 - Quality: covered by the existing automated tests and the e2e script from commit `bf07479`.
 - Remaining small items from the changelog (peak-hour interval wording, percentage display, "Admin" vs `MANAGER` naming, staff read access) stay on the document checklist for the final report.
+
+## CR-03 Lecturer replies of 23/11 and gaps found in A-49 testing
+
+**Status update, 24/11/2026:** The five lecturer-confirmed product items below were gaps when CR-03 was raised. [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) subsequently integrated all five into `main` at `26a623c15df6686ee329c496a3788fed3850d9a2`. Their A-87 verification and A-88 client verdict remain pending. The A-49 screen gaps and other groups A–C retain their own fix and retest status; see the approved option 2 in the [decision record](decision-record.md).
+
+| Field | Value |
+|---|---|
+| Date raised | 2026-11-24 (W14, M-03) |
+| Raised by | Phạm Duy Quý (RES-04) |
+| Sources | Lecturer reply of 23/11 (11 answers: Q36–Q46 in SRS v2.1, answers 1–11 in `specs/002-lecturer-acceptance-alignment/spec.md`); SRS v2.1 section 9 (branch `docs/srs-v2.1-customer-feedback`); `docs/m3/quality-evidence-A-49.md` |
+| Decision | `docs/m3/decision-record.md`, section "Options for CR-03" |
+
+**Event.** Two inputs arrived together.
+
+1. **Lecturer replies, 23/11.** Six answers accept what the code already does: per-visit fee only, explicit logout only, one pilot lot, no full-lot timing rerun, no survey, and three browsers at three widths. SRS v2.1 records these as SRS changes; no code is needed. Five answers confirm requirements that the code does not meet yet:
+   - published opening hours, informational only;
+   - a Manager changes a Customer's fee group;
+   - a Customer sees their tariff;
+   - Staff sees masked plates for closed sessions;
+   - automatic plate removal 12 months after **exit**.
+
+   RES-01 has opened `specs/002-lecturer-acceptance-alignment` for these five.
+2. **A-49 testing, 23–24/11.** The availability service and the live stream pass. The availability screen misses three Must requirements (G1–G3). The manual runs also showed four defects outside P09.
+
+**Facts.**
+
+- All 215 automated tests pass. No defect found affects stored data or fee amounts.
+- A-49 is "Partly verified". It can move to "Verified" only after G1–G3 are fixed and TC-AV-01 and the full-zone case are rerun.
+- The client demo (A-88, 27/11) uses the reservation page, the Staff entry form and the availability screen, so the group B defects below would show during it.
+- The CR-01 residual gap (about 11.5 h, see the decision record) is still open. Any hours CR-03 adds compete with A-92 and the submission package.
+- Effort figures below are owner estimates, not measurements.
+
+**Change items.**
+
+| Group | Item | Requirement | Product / file | Proposed owner | Estimate (h) |
+|---|---|---|---|---|---|
+| A. Must, blocks A-49 | G1: show the time of the last update next to the counts | FR-19 | P09, `src/components/LiveAvailability.tsx` | RES-04 | 0.3 |
+| | G2: show used spots (`open + reserved`) for Staff and Manager | FR-20 | P09, same file | RES-04 | 0.4 |
+| | G3: show "Hết chỗ" / "Full" when free is 0, with vi and en keys | FR-21 | P09, same file, `src/i18n/*` | RES-04 | 0.3 |
+| | Rerun TC-AV-01 and the full-zone case; append the results to the A-49 evidence | FR-19..21 | A-49 | RES-04 | 0.5 |
+| B. Defects on the demo path | The reservation page pre-fills the arrival time with the current minute, which is already past, so the default value always fails with `RESERVATION_WINDOW` | FR-27 | P06, `src/app/customer/reservations/page.tsx` | RES-04 | 0.25 |
+| | The global font falls back to serif because `--font-sans` refers to itself | UI design (A-13) | `src/app/globals.css` | RES-04 | 0.1 |
+| | Staff entry form: after a choice, the Zone select shows the raw zone ID and the Vehicle type select shows `CAR` | NFR-09 | P05, `src/app/staff/entry/EntryForm.tsx` | RES-01 (P05) or RES-04 | 0.25 |
+| C. Reservation UI (Should) | The early-arrival prompt shows the booked time and zone | FR-51 | P05, P06 | RES-04 | 0.5 |
+| | Staff list of active reservations (endpoint and page) | FR-52 | P06, API | RES-04 with RES-03 | 2.0 |
+| | Status labels match the SRS; reservation cards show zone and plate; error messages say how to fix the input | SRS reservation status wording, NFR-09 | P06 | RES-04 | 0.75 |
+| D. Lecturer replies (spec 002) | Opening hours: stored, edited by the Manager, shown to the Customer, never blocking | FR-22, FR-26 (Q37) | P03, migration | per spec 002 | 1.5 |
+| | The Manager changes a Customer's fee group | FR-07 (Q38) | P01, `PATCH /api/accounts/[id]` | per spec 002 | 1.0 |
+| | The Customer sees the per-visit tariff of their group | FR-26 (Q45) | P10 | per spec 002 | 1.0 |
+| | Staff sees masked plates for closed sessions | §2.3, FR-42 (Q46) | P13, `src/lib/plate.ts` | per spec 002 | 0.5 |
+| | Plate purge measured from `exitTime` and run automatically | FR-45 (Q44) | P13, `purge.ts`, `instrumentation.ts` | per spec 002 | 0.75 |
+
+Totals: A 1.5 h, B 0.6 h, C 3.25 h, D 4.75 h. All groups together come to about 10.1 h.
+
+| Dimension | Impact |
+|---|---|
+| Requirements / products | No requirement is added. Items in groups A–C are existing SRS requirements that the code does not meet. Group D items were confirmed by the lecturer on 23/11. SRS v2.1 section 9 already lists every item. |
+| Activities | A-49 gains a fix-and-retest step. Group D is carried by spec 002 (RES-01's Spec Kit flow). A-110 (scope-status table) records anything not done as "partial" or "deferred", with the reason. |
+| Effort | A + B: about 2.1 h. All groups: about 10.1 h. Against the open CR-01 gap, only A + B fits without new hours. |
+| Resources | Same five members. Groups A, B and C sit with RES-04 (UI owner). Group D touches RES-03's API and data code and RES-01's spec. |
+| Risks | R-G5-01 (late fixes cause regressions) rises with each item taken. Mitigation: each fix lands with its test, the full suite runs before merge, and A-49 is rerun. If group D is not done, the acceptance report shows five lecturer-confirmed requirements as unmet, which weakens the O3 and O4 evidence. |
+| Schedule | A + B fit before the 27/11 demo with no milestone change. C and D cannot all finish before 27/11; they can land before the A-92 freeze on 28/11 only if hours are found. |
+| Cost | Converted at 50,000 VND per person-hour (not cash): A + B about 105,000 VND; all groups about 505,000 VND. |
+| Quality | Group A moves A-49 from "Partly verified" to "Verified" and closes FR-19..21. Group B removes defects that anyone watching the demo would see first. Groups C and D raise O3 and O4 coverage; skipping them is recorded as a known gap, not hidden. |
+| Baseline | No new baseline. The CR is listed as a V2.0 change entry, as CR-02 was. |

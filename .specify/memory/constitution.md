@@ -1,8 +1,8 @@
 <!--
 Sync Impact Report
-Version change: (template, unversioned) -> 1.0.0
-Modified principles: none (initial adoption; all five principles are new)
-Added sections: Core Principles I-V, Technical Constraints, Delivery Workflow, Governance
+Version change: 1.0.0 -> 1.1.0
+Modified principles: none
+Added sections: Principle VI (shared service layer for entry/exit, KB-01 / A-22 / CP-02)
 Removed sections: none
 Deferred TODOs: none
 -->
@@ -47,6 +47,18 @@ Each commit message MUST reference the activity ID and, where relevant, the KB I
 Work MUST happen on the main checkout, not in `.worktrees/`.
 Rationale: the course assesses planned-vs-actual evidence and baseline integrity.
 
+### VI. Shared Service Layer for Entry/Exit
+Entry and exit events (FR-15) MUST go through one shared set of service functions in
+`src/server/services/` (`recordEntry`, exit preview, exit confirm). The routes
+`/api/events/entry`, `/api/events/exit/preview` and `/api/events/exit/confirm` and the device
+simulator (`services/simulator.ts`) MUST call these functions in-process; the simulator MUST NOT
+call HTTP. A new entry/exit rule MUST go into the service, never into one caller only. Moving the
+simulator to HTTP needs a new decision against KB-01.
+Rationale: decision A-22 accepted KB-01 as "API shared at the service layer"; CP-02 passed with it
+recorded (P18 section 10.2, 2026-11-24) and the entry/exit contract frozen (P18 section 7).
+Reference: `docs/m2-report/products/CO3011_M2_KienTrucAPI_v0.1.md` (KB-01, 10.2),
+`docs/m3/A-43-simulator-review.md` (criterion 6), PD-P04 criterion 6.
+
 ## Technical Constraints
 
 - Stack: Next.js 15 App Router, React 19, Prisma 6 with SQLite, Zod, jose, vitest, Tailwind 4.
@@ -72,7 +84,7 @@ This constitution supersedes other working practices in this repository. `AGENTS
 runtime guidance and MUST NOT contradict it. An amendment MUST be a commit that states the
 change, its rationale and any migration needed for open work. Versioning follows semantic rules:
 MAJOR for removed or redefined principles, MINOR for added principles or materially expanded
-guidance, PATCH for clarifications. Plans and reviews MUST check compliance with the five
+guidance, PATCH for clarifications. Plans and reviews MUST check compliance with the six
 principles, and any deviation MUST be justified in the plan's complexity section.
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-18 | **Last Amended**: 2026-11-18
+**Version**: 1.1.0 | **Ratified**: 2026-11-18 | **Last Amended**: 2026-11-24

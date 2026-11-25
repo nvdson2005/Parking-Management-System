@@ -2,7 +2,7 @@ import { db } from '@/server/db'
 import { handle, readJsonObject } from '@/server/api'
 import { requireRole } from '@/server/auth/rbac'
 import { recordEntry } from '@/server/services/entry'
-import type { IdMethod, VehicleTypeCode } from '@/lib/types'
+import type { GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
 export const POST = handle(async (req) => {
   const user = await requireRole('STAFF', 'MANAGER')
@@ -14,6 +14,8 @@ export const POST = handle(async (req) => {
     zoneId: body.zoneId as string,
     vehicleType: body.vehicleType as VehicleTypeCode | undefined,
     confirmEarly: body.confirmEarly as boolean | undefined,
+    gate: body.gate as GateCode | undefined,
+    source: body.source as SessionSource | undefined,
     staffId: user.id,
   })
 })

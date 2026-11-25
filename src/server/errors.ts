@@ -20,6 +20,7 @@ export type ErrorCode =
   | 'EARLY_ARRIVAL'
   | 'VEHICLE_PARKED'
   | 'NOT_OWNER'
+  | 'SIMULATOR_BUSY'
 
 const STATUS_MAP: Record<ErrorCode, number> = {
   VALIDATION: 400,
@@ -43,6 +44,7 @@ const STATUS_MAP: Record<ErrorCode, number> = {
   EARLY_ARRIVAL: 409,
   VEHICLE_PARKED: 409,
   NOT_OWNER: 403,
+  SIMULATOR_BUSY: 409,
 }
 
 export class DomainError extends Error {

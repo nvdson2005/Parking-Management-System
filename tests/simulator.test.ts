@@ -28,7 +28,14 @@ async function seedSimFixture() {
   return f
 }
 
-describe('simulator', () => {
+// F5-01 (A-68 D-06, A-96): these cases drive 100–300 simulated events through
+// SQLite and take 3–15 s on slower Windows machines (QR/RFID 15.0 s and
+// minSessions 8.2 s measured on main on 23/11), above Vitest's 5 s default.
+// The higher limit applies to this suite only; other files keep 5 s, and the
+// per-call speed requirement is still asserted by the FR-16 case below.
+const SIMULATOR_SUITE_TIMEOUT_MS = 60_000
+
+describe('simulator', { timeout: SIMULATOR_SUITE_TIMEOUT_MS }, () => {
   it('randomPlate matches /^\\d{2}[A-Z]-\\d{3}\\.\\d{2}$/', () => {
     for (let i = 0; i < 200; i++) {
       expect(randomPlate()).toMatch(/^\d{2}[A-Z]-\d{3}\.\d{2}$/)
@@ -249,6 +256,18 @@ describe('simulator', () => {
     const cutoff = subMonths(new Date(), 12)
     const oldSessions = await db.parkingSession.count({ where: { entryTime: { lt: cutoff } } })
     expect(oldSessions).toBeGreaterThanOrEqual(20)
+  })
+
+  it('generateHistory sets gate and source on both ends of every closed session (G-09, G-04)', async () => {
+    await resetDb()
+    const f = await seedSimFixture()
+    await generateHistory(db, f.manager.id, 2)
+
+    const closed = await db.parkingSession.findMany({ where: { status: 'CLOSED' } })
+    expect(closed.length).toBeGreaterThan(0)
+    for (const s of closed) {
+      expect(s).toMatchObject({ entryGate: 'GATE-1', exitGate: 'GATE-1', entrySource: 'DEVICE', exitSource: 'DEVICE' })
+    }
   })
 
   it('makeRng: same seed gives the same stream, ints stay in range and cover the span', () => {
