@@ -49,20 +49,20 @@ Checked by Nguyễn Tuấn Thành (RES-05) on `main` at `4c8fde2`, Windows, disp
 | Test re-run | `npm test -- --testTimeout=30000`: 24 files, 209 tests passed. At the default 5 s timeout, `live events use QR and RFID as well as PLATE` timed out (5,012 ms; 7.8–10.2 s when run fully). Test-environment issue, not a functional defect; reported to RES-01 | OK (note) |
 | SC-01 live, N=20, seed 67 | 12 entries, 8 exits, 0 rejected (sum 20). Availability A 149 / B 149 / C 28 = 4 open sessions = 12 − 8. Availability tab updated without reload (SSE) | Pass |
 | SC-07 ≥100 sessions, seed 7: session count and aggregate availability | 100 entries, 49 exits, 0 rejected. Cumulative open 4 + 100 − 49 = 55 = drop in availability (17 + 17 + 21) | Pass |
-| SC-07: complete records | Not checked in this UI run. Automated evidence only: `tests/simulator.test.ts` "simulateLive(120) … every session has plateSnapshot, zone, entryStaffId, idMethod"; `tests/contract-inout.test.ts` CT-11 (all fields, timestamps) | Pending for this run → A-68 |
-| SC-07: independent occupancy count | Not done. The 55 above is derived from the simulator's own counters, not counted independently | Pending → A-68 |
-| SC-07: ≤ 2 s per operation | Not measured in this UI run. Automated evidence only: `tests/simulator.test.ts` "FR-16 … each recordEntry/confirmExit call takes < 2000 ms" (max over `simulateLive(100)`) | Pending for this run → A-68 |
+| SC-07: complete records | Not checked in this UI run. Automated evidence only: `tests/simulator.test.ts` "simulateLive(120) … every session has plateSnapshot, zone, entryStaffId, idMethod"; `tests/contract-inout.test.ts` CT-11 (all fields, timestamps) | Pass in A-68: clean 100-session run (seed 68), `incomplete: 0` on 100 sessions ([A-68](a-68-cp05-test.md) T11) |
+| SC-07: independent occupancy count | The 55 above is derived from the simulator's own counters. Independent DB count done in A-68 | Pass in A-68: open 7 / 12 / 12 = 31, expected free 143 / 138 / 18 = UI ([A-68](a-68-cp05-test.md) T05) |
+| SC-07: ≤ 2 s per operation | Not measured in this UI run. Automated evidence only: `tests/simulator.test.ts` "FR-16 … each recordEntry/confirmExit call takes < 2000 ms" (max over `simulateLive(100)`) | Pass with note in A-68: manual HTTP entry/exit requests 1.08–1.47 s; per-operation time inside the simulator run covered by the FR-16 test only ([A-68](a-68-cp05-test.md) T13) |
 | SC-05 EX-04 | Duplicate entry rejected (`ALREADY_OPEN`) | Pass |
 | SC-06 EX-05 | Entry rejected (`LOT_SUSPENDED`); `/manager/lots` shows lot active afterwards | Pass |
 | SC-03 EX-02: simulator setup | Session opened; instructions PLATE, identifier vs observed plate differ by one character | Pass |
-| SC-03 EX-02: staff exit | `PLATE_MISMATCH` rejection without manual confirm; close with "Confirm manually" and `MANUAL_CONFIRM` audit event | Pending → A-68 |
+| SC-03 EX-02: staff exit | `PLATE_MISMATCH` rejection without manual confirm; close with "Confirm manually" and `PLATE_MISMATCH_CONFIRMED` session event plus `MANUAL_CONFIRM` access-log entry | Pass in A-68: UI blocks confirm without the tick, API returns 409 `PLATE_MISMATCH`, closed after manual confirm ([A-68](a-68-cp05-test.md) T07) |
 | SC-04 EX-03: simulator setup | Session opened; instructions PLATE + "Lost card" (consistent with KB-05) | Pass |
-| SC-04 EX-03: staff exit | Session closed by plate with "Lost card"; `LOST_CARD` event; normal fee, no penalty | Pending → A-68 |
+| SC-04 EX-03: staff exit | Session closed by plate with "Lost card"; `LOST_CARD` event; normal fee, no penalty | Pass in A-68: `LOST_CARD`, fee 2,000 ₫ = tariff ([A-68](a-68-cp05-test.md) T08) |
 | SC-02 EX-01 | Zone full (`ZONE_FULL`), reset warning shown; availability 0, not negative | Pass |
 | Seed reproducibility in UI | After `npm run db:reset`, N=20 seed 67 again gave 12 / 8 / 0 and 149 / 149 / 28 | Pass |
 
-Carried to A-68 (CP-05): staff exit outcomes for SC-03 and SC-04, and the SC-07 record completeness, independent occupancy count and per-operation time for a UI run. A-68 evidence will be linked here when recorded. Not covered by A-67 or A-68: production build, client acceptance run (A-87).
+Carried to A-68 (CP-05) and closed there on 24/11: staff exit outcomes for SC-03 and SC-04, and the SC-07 record completeness, independent occupancy count and per-operation time. Evidence: [a-68-cp05-test.md](a-68-cp05-test.md). Not covered by A-67 or A-68: production build, client acceptance run (A-87).
 
 **Dates:** planned finish 20/11; initial HTTP verification 20/11 (RES-01, above); actual finish 23/11 (RES-05 UI confirmation, 3 days late).
 
-**Verdict:** A-67 simulator integration done: simulator setup for SC-01..SC-07 works through the UI, and A-44 is closed. Scenario outcomes listed above as pending are carried to A-68 (CP-05), which is now unblocked. Effort RES-05: ___ h.
+**Verdict:** A-67 simulator integration done: simulator setup for SC-01..SC-07 works through the UI, and A-44 is closed. Scenario outcomes carried to A-68 (CP-05) passed there on 24/11. Effort RES-05: ___ h.
