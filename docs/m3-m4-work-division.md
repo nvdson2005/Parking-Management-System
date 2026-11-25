@@ -178,12 +178,12 @@ A-92 finishes on **28/11** so one review day remains before the **29/11** submis
 
 ### CP-05 conditional deferral notice (25/11/2026)
 
-Per the user's instruction, record the outstanding CP-05 checks under A-117. This does **not** waive C1–C6 or close CP-05. The latest A-68 record proposes ISS-06–ISS-11; RES-02 allocation and formal RES-01 (PM) approval remain pending there. See `docs/m3/cp05-follow-up-verification.md` for the evidence and approval status.
+Per the user's instruction, record the outstanding CP-05 checks under A-117. C1 evidence was reviewed by Codex on 25/11; RES-02 formal verification remains pending. The user directed that the C2 email be skipped; it was **not sent**, Q23 remains unmet, and authorized gate acceptance of the waiver remains pending. The latest A-68 record proposes ISS-06–ISS-11; RES-02 allocation and formal RES-01 (PM) approval remain pending. See `docs/m3/cp05-follow-up-verification.md` for the evidence and approval status.
 
 | Condition | Owner / verification task | Due | Latest status |
 |---|---|---|---|
-| C1 — Hand-count photo | RES-05 performs independent hand count; RES-02 verifies | Before A-87 | Evidence done; verification pending (ISS-06) |
-| C2 — Client demo video | RES-01 sends the video and records date/recipient | Before A-87 | Video recorded; client email pending (ISS-07) |
+| C1 — Hand-count photo | RES-05 performs independent hand count; RES-02 verifies | Before A-87 | Evidence reviewed by Codex; RES-02 verification pending (ISS-06) |
+| C2 — Client demo video | RES-01 sends the video and records date/recipient, unless authorized approvers accept waiver | Before A-87 | User directed skip; video not emailed, Q23 unmet; gate acceptance pending (ISS-07) |
 | C3 — Entry/exit Network timings | RES-05 captures/re-measures the three operations | Before A-87 | Done (ISS-08) |
 | C4 — Commit and verifier on QE rows | RES-05 updates; RES-02 verifies | Before A-87 | Rows updated; verifier sign-off pending (ISS-09) |
 | C5 — Re-run D-01 and compare `a68-check` with UI | RES-05, with RES-02 reviewing the result; mismatch triggers immediate gate reassessment | Before A-87 | Done; availability matched, D-01 remains S2 (ISS-10) |

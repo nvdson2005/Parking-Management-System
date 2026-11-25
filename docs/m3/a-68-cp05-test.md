@@ -57,14 +57,14 @@ A-68 executed on 24/11 (planned 23/11, one day late). The A-67 rows that were pe
 | Availability matches the hand count (O1) | Met 25/11: hand count = UI = DB, photo in `c1-hand-count.png` (C1 done, 3.4) |
 | T13 ≤ 3 s (NFR-04) | Met: 1.47 / 1.08 / 1.17 s on `next dev`; 31 / 14 / 23 ms on the production build with screenshots (C3 done, 3.4) |
 | Automated suite not above the A-96 baseline of 9 failing tests | Met: 181/181 on 19/11, 209/209 on 23/11, 310/310 on 24/11 after PR #11 |
-| Evidence: QE rows T05–T13, hand-count photo, demo video (Q23) | Rows with commit and verifier (3.2); photo added (C1); video recorded, client email pending (C2) |
+| Evidence: QE rows T05–T13, hand-count photo, demo video (Q23) | Rows with commit and verifier (3.2); C1 photo independently reviewed by Codex 25/11 (RES-02 verification pending); C2 email waived by user's explicit instruction, video not emailed, Q23 unmet pending authorized gate acceptance |
 
 No criterion failed, and no S1 defect is known. A conditional pass needs an ISS-xx per condition with owner, due date and PM approval (P20 v1.2 section 2.3 and QC-15). Until RES-02 allocates the ISS-xx and RES-01 (PM) approves them, the gate stays open.
 
 | ID | Condition | Owner | Due (proposed) | ISS-xx |
 |---|---|---|---|---|
-| C1 | Hand-count photo (O1): count open sessions per zone and vehicle type by hand in the open-sessions list; photograph the count next to the system availability | RES-05; RES-02 verifies | 26/11, before A-87 | ISS-06 (done 25/11, see 3.4; RES-02 to verify) |
-| C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records; RES-05 records the video | 26/11, before A-87 | ISS-07 (video ready 25/11, see 3.4; email to the client pending RES-01) |
+| C1 | Hand-count photo (O1): count open sessions per zone and vehicle type by hand in the open-sessions list; photograph the count next to the system availability | RES-05; RES-02 verifies | 26/11, before A-87 | ISS-06 (evidence reviewed by Codex 25/11: hand 7/12/12 = UI = DB, free 143/138/18; RES-02 formal verification pending; see 3.4) |
+| C2 | Demo video for CP-05 sent to the client by email (Q23); record date and recipient | RES-01 sends (to confirm); RES-02 records; RES-05 records the video | 26/11, before A-87 | ISS-07 waived by user's explicit instruction 25/11; video not emailed, Q23 unmet. Authorized gate acceptance of waiver pending (see 3.4) |
 | C3 | Add DevTools Network screenshots (or re-measure) for `events/entry`, `exit/preview`, `exit/confirm` to `evidence/a68/` | RES-05 | 26/11, before A-87 | ISS-08 (done 25/11, see 3.4) |
 | C4 | QE rows carry the tested commit and an independent verifier (P20 v1.2 section 5: no commit, not counted). A-68 rows use `8472986`. T06 and T09 (A-67, code `5182b97`, re-run 23/11) and T12 (A-31, `36b1c91`) need their commit hash on the rows | RES-05 | 26/11, before A-87 | ISS-09 (done 25/11, see 3.2) |
 | C5 | Re-run D-01 on a scratch DB (two clicks on the 100-session run) and run `a68-check`. If expected free differs from the UI, D-01 is S1 and CP-05 becomes Không đạt | RES-05 | 26/11, before A-87 | ISS-10 (done 25/11, see 3.3: no mismatch, D-01 stays S2) |
@@ -72,7 +72,7 @@ No criterion failed, and no S1 defect is known. A conditional pass needs an ISS-
 
 CP-05 is approved by RES-02. RES-01 (owner of P05) is informed, not an approver (P20 v1.2 section 7.2).
 
-ISS-06..ISS-11 are proposed by RES-05 on 25/11 (next free numbers after ISS-05 on `main`), pending allocation by RES-02 and approval by RES-01 (PM). The gate stays open until both are recorded here:
+ISS-06..ISS-11 are proposed by RES-05 on 25/11 (next free numbers after ISS-05 on `main`), pending allocation by RES-02 and approval by RES-01 (PM). ISS-07 is waived by user direction only; that does not satisfy Q23 or replace formal gate acceptance. The gate stays open until allocation and approval (including acceptance of the C2 waiver) are recorded here:
 
 | Allocation (RES-02) | PM approval (RES-01) |
 |---|---|
@@ -137,7 +137,7 @@ Evidence: `evidence/a68/c5-check.txt`, `c5-network.png`, `c5-ui-availability.png
 | Code | `test/a68-cp05` at `0be7ccf` (no `src/` change since `8472986`), **production build** (`npm run build` + `npm run start`), as planned for A-87/A-88 (A-31 O-01) |
 | DB | fresh `c1.db` (`prisma migrate deploy` + seed) |
 
-**C1 hand count (O1).** Simulator, ≥ N sessions mode, N = 100, seed 68, one click: `{"entries":100,"exits":69,"rejected":0,"sessions":100,"seed":68}`, the same result as the clean run on 24/11 on `next dev` (seed reproducible across environments). Open sessions counted by hand on paper from the open-sessions list (`/staff/sessions`), one tally mark per row:
+**C1 hand count (O1).** Simulator, ≥ N sessions mode, N = 100, seed 68, one click: `{"entries":100,"exits":69,"rejected":0,"sessions":100,"seed":68}`, the same result as the clean run on 24/11 on `next dev` (seed reproducible across environments). Open sessions counted by hand on paper from the open-sessions list (`/staff/sessions`), one tally mark per row. Codex independently reviewed the photo and `c1-check.txt` on 25/11; values agree below. This evidence review does not substitute for pending RES-02 verification:
 
 | Zone | Type | Hand count | Capacity | Free (hand) | Free (UI) | `a68-check` expected free |
 |---|---|---|---|---|---|---|
@@ -157,11 +157,11 @@ Total 31 = 100 − 69; `incomplete: 0` on 100 sessions. Three independent source
 
 The `next dev` figures include on-demand compilation. Evidence: `c3-network.png`.
 
-**C2 demo video (Q23).** Screen recording of the run above (simulator run, hand count against the availability table, entry/exit with timings): 2 min 54 s, MKV, 6.2 MB, recorded 25/11 by RES-05. Not committed (binary); shared link: [CP-05 demo video](https://drive.google.com/file/d/16cyrBSe4s62T_PcgVOxgo4FY33uBFbsX/view?usp=sharing). To close ISS-07, RES-01 emails the link to the client and RES-02 records here:
+**C2 demo video (Q23).** Screen recording of the run above (simulator run, hand count against the availability table, entry/exit with timings): 2 min 54 s, MKV, 6.2 MB, recorded 25/11 by RES-05. Not committed (binary); shared link: [CP-05 demo video](https://drive.google.com/file/d/16cyrBSe4s62T_PcgVOxgo4FY33uBFbsX/view?usp=sharing). Per the user's explicit instruction on 25/11, the client-email task is waived for this follow-up and the video was not emailed. Q23 remains unmet unless the authorized gate approvers formally accept this waiver. ISS-07 is not complete:
 
-| Sent by | Date | Recipient | Reply |
+| Waiver directed by | Date | Email sent? | Gate acceptance |
 |---|---|---|---|
-| ___ | ___ | ___ | ___ |
+| User | 25/11/2026 | No | Pending RES-02 allocation and RES-01 (PM) approval |
 
 ### 3.5 C6: D-01 fix and retest (ISS-11, D-01 part)
 
