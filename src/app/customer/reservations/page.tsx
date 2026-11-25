@@ -4,23 +4,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { useT } from '@/components/I18nProvider'
+import { defaultArrival, minArrivalInput, toLocalDateTimeInput } from '@/lib/arrival'
+import { ReservationForm } from './ReservationForm'
+import type { VehicleOption, ZoneChoice } from './ReservationForm'
 import type { ReservationStatus, VehicleTypeCode } from '@/lib/types'
 
-type Vehicle = {
-  id: string
-  plate: string
-  vehicleTypeCode: VehicleTypeCode
-}
+type Vehicle = VehicleOption
 
 type TypeAvailability = {
   vehicleType: VehicleTypeCode
@@ -49,13 +39,6 @@ type Reservation = {
   cancelZoneName: string | null
 }
 
-function toLocalDateTimeInput(d: Date): string {
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(
-    d.getMinutes(),
-  )}`
-}
-
 export default function ReservationsPage() {
   const t = useT()
   const [vehicles, setVehicles] = useState<Vehicle[]>([])
@@ -65,6 +48,9 @@ export default function ReservationsPage() {
   const [vehicleId, setVehicleId] = useState('')
   const [zoneId, setZoneId] = useState('')
   const [arrivalTime, setArrivalTime] = useState('')
+  // Set on the client only, so the server render and hydration agree.
+  const [minArrival, setMinArrival] = useState<string | undefined>(undefined)
+  const [closedToday, setClosedToday] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [cancellingId, setCancellingId] = useState<string | null>(null)
@@ -90,17 +76,28 @@ export default function ReservationsPage() {
     loadAll().catch(() => setLoading(false))
   }, [loadAll])
 
+  // Pre-fill a valid arrival time (spec 006 US2): the current minute is already
+  // past and would fail with RESERVATION_WINDOW. No valid time left: say so.
   useEffect(() => {
-    if (!arrivalTime) setArrivalTime(toLocalDateTimeInput(new Date()))
+    if (arrivalTime) return
+    const now = new Date()
+    setMinArrival(minArrivalInput(now))
+    const next = defaultArrival(now)
+    if (next) {
+      setClosedToday(false)
+      setArrivalTime(toLocalDateTimeInput(next))
+    } else {
+      setClosedToday(true)
+    }
   }, [arrivalTime])
 
   const selectedVehicle = vehicles.find((v) => v.id === vehicleId) ?? null
 
   // Zones that currently have a free spot for the selected vehicle's type.
   const availableZones = useMemo(() => {
-    if (!selectedVehicle) return [] as { zoneId: string; label: string }[]
+    if (!selectedVehicle) return [] as ZoneChoice[]
     const type = selectedVehicle.vehicleTypeCode
-    const zones: { zoneId: string; label: string }[] = []
+    const zones: ZoneChoice[] = []
     for (const lot of lots) {
       for (const zone of lot.zones) {
         const typeInfo = zone.byType.find((bt) => bt.vehicleType === type)
@@ -169,8 +166,6 @@ export default function ReservationsPage() {
     }
   }
 
-  const canSubmit = vehicleId !== '' && zoneId !== '' && arrivalTime !== '' && !submitting
-
   return (
     <div className="flex flex-col gap-4">
       <h1 className="font-heading text-xl font-semibold">{t('reservations.title')}</h1>
@@ -183,59 +178,21 @@ export default function ReservationsPage() {
           {vehicles.length === 0 ? (
             <p className="text-sm text-muted-foreground">{t('reservations.noVehicles')}</p>
           ) : (
-            <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="vehicle">{t('reservations.vehicle')}</Label>
-                <Select value={vehicleId} onValueChange={(value) => setVehicleId(value ?? '')}>
-                  <SelectTrigger id="vehicle" className="w-full">
-                    <SelectValue placeholder={t('reservations.selectVehicle')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {vehicles.map((v) => (
-                      <SelectItem key={v.id} value={v.id}>
-                        {v.plate} · {t(`availability.vehicleTypes.${v.vehicleTypeCode}`)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="zone">{t('reservations.zone')}</Label>
-                {selectedVehicle && availableZones.length === 0 ? (
-                  <p className="text-sm text-muted-foreground">{t('reservations.noZones')}</p>
-                ) : (
-                  <Select value={zoneId} onValueChange={(value) => setZoneId(value ?? '')} disabled={!selectedVehicle}>
-                    <SelectTrigger id="zone" className="w-full">
-                      <SelectValue placeholder={t('reservations.selectZone')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableZones.map((z) => (
-                        <SelectItem key={z.zoneId} value={z.zoneId}>
-                          {z.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="arrivalTime">{t('reservations.arrivalTime')}</Label>
-                <Input
-                  id="arrivalTime"
-                  type="datetime-local"
-                  required
-                  value={arrivalTime}
-                  max={maxArrival}
-                  onChange={(e) => setArrivalTime(e.target.value)}
-                />
-              </div>
-
-              <Button type="submit" disabled={!canSubmit} className="self-start">
-                {submitting ? t('reservations.submitting') : t('reservations.submit')}
-              </Button>
-            </form>
+            <ReservationForm
+              vehicles={vehicles}
+              vehicleId={vehicleId}
+              onVehicleChange={setVehicleId}
+              zones={availableZones}
+              zoneId={zoneId}
+              onZoneChange={setZoneId}
+              arrivalTime={arrivalTime}
+              minArrival={minArrival}
+              maxArrival={maxArrival}
+              onArrivalChange={setArrivalTime}
+              closedToday={closedToday}
+              submitting={submitting}
+              onSubmit={handleSubmit}
+            />
           )}
           {error ? (
             <p role="alert" className="mt-2 text-sm text-destructive">

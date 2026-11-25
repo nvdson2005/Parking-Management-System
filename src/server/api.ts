@@ -33,7 +33,8 @@ export function handle<Ctx = unknown>(fn: (req: Request, ctx: Ctx) => Promise<un
       return Response.json(result ?? null)
     } catch (err) {
       if (err instanceof DomainError) {
-        return Response.json({ error: err.code }, { status: err.status })
+        const body = err.details ? { error: err.code, details: err.details } : { error: err.code }
+        return Response.json(body, { status: err.status })
       }
       if (err instanceof ZodError) {
         return Response.json({ error: 'VALIDATION' }, { status: 400 })

@@ -164,7 +164,7 @@ The independent count comes from a read-only script that counts OPEN sessions an
 |---|---|---|---|---|
 | TC-AV-06 | FR-18 | Manager → Lot management → zone A motorbike capacity 150 → 160 → Save, then back to 150 | New capacity and free count appear live for Customer and Staff | **Pass**: Customer and Staff screens changed to capacity 160, free 133 (was 150 / 123) without a reload; after reverting, 150 / 123 again |
 | Full zone | FR-21, NFR-12, EX-01 (Q41) | Simulator → Exceptions → EX-01 filled zone C (cars), then Staff recorded entry `51F-999.99`, car, zone C | Free shows 0; entry rejected "Khu vực đã hết chỗ" (`ZONE_FULL`); Customer cannot pick that zone when reserving | **Pass** (free 0 on the Customer screen; entry rejected with the toast "Khu vực đã hết chỗ"). Customer reservation zone list: not applicable, no customer in the seed owns a car (checked in `dev.db`: 0 owned cars); the reservation page lists only zones with free > 0 (`availableZones` in `src/app/customer/reservations/page.tsx`) |
-| Full zone label | FR-21 | Same as above | Customer and Staff screens show "Hết chỗ" | **Fail** (gap G3): zone C row shows only `0`, no "Hết chỗ" label |
+| Full zone label | FR-21 | Same as above | Customer and Staff screens show "Hết chỗ" | **Fail** (gap G3): zone C row shows only `0`, no "Hết chỗ" label. **Pass in the CR-03 retest** (section 6) |
 | TC-AV-07 | FR-25 | Manager → Lot management → Suspend (lot status shows "Tạm ngưng"), then reactivate | "Tạm ngưng" badge in every availability view, counts still shown | **Pass**: red "Tạm ngưng" badge on the lot card of the Customer and Staff home pages, counts unchanged (A 123/150, B 126/150, C 0/30). Reactivated afterwards: status "Đang hoạt động", badge gone from the Customer and Staff screens |
 
 ## Gaps found
@@ -186,9 +186,13 @@ Observed outside A-49 scope (recorded for CR-03, not part of this verdict):
 - Staff entry form (module P05): after choosing a value, the Zone select shows the raw zone ID (for example `cmwthjh41000…`) and the Vehicle type select shows the code `CAR` instead of the zone name and "Ô tô".
 - Simulator EX-05 suspends the lot and reactivates it within the same request, so the "Tạm ngưng" badge cannot be observed through it; TC-AV-07 uses the Manager lot screen instead.
 
+## 6. Retest after CR-03 (24/11)
+
+The fixes for G1–G3 (branch `fix/cr-03-ui`, spec 006) were retested on 24/11: TC-AV-01 5/5 with the update time changing at each step, free + used = capacity on the Staff screen, and "Hết chỗ" / "Full" shown on a full zone (Staff screen observed; every role covered by `tests/live-availability.test.ts`) and cleared 1.1–2.1 s after a spot was freed. Details, timings and screenshots are in [docs/final/res04/a49-retest.md](../final/res04/a49-retest.md) (F4-05).
+
 ## Verdict
 
-**Partly verified.**
+**Verified** (24/11, after the CR-03 retest). Before the retest: Partly verified.
 
 | Area | Result |
 |---|---|
@@ -198,12 +202,12 @@ Observed outside A-49 scope (recorded for CR-03, not part of this verdict):
 | Records and counts in the 100-visit scenario (SC-002 count part; NFR-06) | Pass: 100/100 closed sessions complete; 6/6 count rows match |
 | Full zone rejection (EX-01, NFR-12, Q41) | Pass: entry rejected with `ZONE_FULL` |
 | Suspended badge (FR-25) | Pass |
-| Screen content (FR-19, FR-20, FR-21) | Fail: gaps G1–G3 |
+| Screen content (FR-19, FR-20, FR-21) | Pass after CR-03 (24/11): gaps G1–G3 closed; retest in `docs/final/res04/a49-retest.md` |
 
-A-49 moves to **Verified** once G1–G3 are fixed (CR-03) and TC-AV-01 and the full-zone case are rerun and appended here.
+G1–G3 were fixed under CR-03 and the retest passed (section 6), so A-49 is **Verified**.
 
 Quality Evidence row for the workbook:
 
 ```text
-A-49 | P09 availability | availability.test.ts 12 passing (6 new, RT-01 closed); AT-100 run (100 visits, 200 events): recording max 153 ms ≤ 3 s, display update max 155 ms ≤ 5 s, 100/100 records complete, 6/6 counts match (SC-001, SC-002); hand count 5/5; screen misses FR-19/20/21 (G1–G3, CR-03) | RES-04 | 24/11 | Partly verified
+A-49 | P09 availability | availability.test.ts 12 passing (6 new, RT-01 closed); AT-100 run (100 visits, 200 events): recording max 153 ms ≤ 3 s, display update max 155 ms ≤ 5 s, 100/100 records complete, 6/6 counts match (SC-001, SC-002); hand count 5/5; CR-03 retest: FR-19/20/21 on screen, G1–G3 closed (docs/final/res04/a49-retest.md) | RES-04 | 24/11 | Verified
 ```

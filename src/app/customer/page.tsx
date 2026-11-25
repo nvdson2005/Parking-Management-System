@@ -38,7 +38,7 @@ export default async function CustomerPage() {
       ))}
       {group ? <MyTariffCard group={group} tariffs={tariffs} lang={lang} /> : null}
       {group ? <GroupRequestForm current={group} requested={requested} /> : null}
-      <LiveAvailability initial={initial} />
+      <LiveAvailability initial={initial} role="CUSTOMER" renderedAt={new Date().toISOString()} />
     </div>
   )
 }
