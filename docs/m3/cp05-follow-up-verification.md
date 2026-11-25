@@ -4,6 +4,8 @@
 
 **Tracking:** Proposed IDs ISS-06–ISS-11 are recorded in the latest A-68 gate evidence; RES-02 allocation and RES-01 (PM) approval remain pending there. Due points below follow the A-68 gate record.
 
+**Spec Kit reminder:** [`specs/005-cp05-gate-follow-up/`](../../specs/005-cp05-gate-follow-up/) keeps C6 attached to CP-05 through its CP-07 due point and records the outstanding closure approvals.
+
 | ID | Follow-up task | Owner | Due point | Completion evidence | Estimate |
 |---|---|---|---|---|---:|
 | C1 | Count open sessions by zone and vehicle type; photograph count beside displayed availability. | RES-05; RES-02 verifies | Before A-87 | Evidence reviewed by Codex 25/11: photo, UI, and `a68-check` agree at 7/12/12 open and 143/138/18 free; RES-02 verification pending. `a68-cp05-test.md` §3.4, `evidence/a68/c1-*` | Evidence confirmed; formal sign-off pending |
