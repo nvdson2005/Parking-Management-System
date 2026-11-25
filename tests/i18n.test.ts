@@ -29,6 +29,7 @@ const ERROR_CODES: ErrorCode[] = [
   'EARLY_ARRIVAL',
   'VEHICLE_PARKED',
   'NOT_OWNER',
+  'SIMULATOR_BUSY',
 ]
 
 function collectKeys(obj: unknown, prefix = ''): string[] {

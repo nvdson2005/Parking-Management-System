@@ -441,5 +441,6 @@ export const en: Dict = {
     EARLY_ARRIVAL: 'Vehicle arrived before the reserved time; staff must confirm',
     VEHICLE_PARKED: 'Vehicle is currently parked',
     NOT_OWNER: 'You are not the owner of this vehicle',
+    SIMULATOR_BUSY: 'A simulator run is already in progress. Wait for it to finish.',
   },
 }
