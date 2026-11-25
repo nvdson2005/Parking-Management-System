@@ -6,6 +6,7 @@ import {
   simulateLive,
   triggerException,
   generateHistory,
+  runSimulatorExclusive,
   type ExceptionCode,
 } from '@/server/services/simulator'
 
@@ -38,27 +39,20 @@ export const POST = handle(async (req) => {
     }
     // In minSessions mode `n` is ignored, so it is optional there.
     const n = opts.minSessions !== undefined && body.n === undefined ? 0 : asInt(body.n)
-    return simulateLive(db, user.id, n, opts)
+    return runSimulatorExclusive(() => simulateLive(db, user.id, n, opts))
   }
   if (action === 'exception') {
     const ex = body.ex
     if (typeof ex !== 'string' || !EXCEPTIONS.includes(ex as ExceptionCode)) {
       throw new DomainError('VALIDATION', 'Unknown exception')
     }
-    return triggerException(
-      db,
-      user.id,
-      ex as ExceptionCode,
-      body.seed === undefined ? undefined : asInt(body.seed),
-    )
+    const seed = body.seed === undefined ? undefined : asInt(body.seed)
+    return runSimulatorExclusive(() => triggerException(db, user.id, ex as ExceptionCode, seed))
   }
   if (action === 'history') {
-    return generateHistory(
-      db,
-      user.id,
-      asInt(body.days),
-      body.seed === undefined ? undefined : asInt(body.seed),
-    )
+    const days = asInt(body.days)
+    const seed = body.seed === undefined ? undefined : asInt(body.seed)
+    return runSimulatorExclusive(() => generateHistory(db, user.id, days, seed))
   }
 
   throw new DomainError('VALIDATION', 'Unknown action')

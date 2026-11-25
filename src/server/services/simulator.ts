@@ -61,6 +61,34 @@ export function makeRng(seed: number = freshSeed()): Rng {
  * Tunable knobs (KB-09): previously hard-coded inside the generators.
  * Override per call via the options argument.
  */
+type SimulatorStore = typeof globalThis & { __simulatorBusy?: boolean }
+
+/** True while a simulator action (live, exception or history) is running in this process. */
+export function isSimulatorBusy(): boolean {
+  return (globalThis as SimulatorStore).__simulatorBusy === true
+}
+
+/**
+ * A-68 D-01: runs one simulator action at a time. A second request while one is
+ * running (for example after the page reloads and the button is enabled again)
+ * fails with `SIMULATOR_BUSY` instead of competing for the same sessions and
+ * vehicles. The flag lives on `globalThis` so it survives HMR, and it is always
+ * cleared, also when the action throws. It is separate from `withLock`, so the
+ * entry and exit services the simulator calls keep their own lock.
+ */
+export async function runSimulatorExclusive<T>(fn: () => Promise<T>): Promise<T> {
+  const store = globalThis as SimulatorStore
+  if (store.__simulatorBusy) {
+    throw new DomainError('SIMULATOR_BUSY', 'A simulator run is already in progress')
+  }
+  store.__simulatorBusy = true
+  try {
+    return await fn()
+  } finally {
+    store.__simulatorBusy = false
+  }
+}
+
 export const DEFAULT_SIM_CONFIG = {
   /** Probability that an iteration drives an open session out. */
   exitRatio: 0.4,

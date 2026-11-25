@@ -440,5 +440,6 @@ export const vi = {
     EARLY_ARRIVAL: 'Xe đến sớm hơn giờ đặt; nhân viên cần xác nhận',
     VEHICLE_PARKED: 'Xe đang đỗ trong bãi',
     NOT_OWNER: 'Bạn không phải chủ sở hữu xe này',
+    SIMULATOR_BUSY: 'Bộ mô phỏng đang chạy một lượt khác. Vui lòng chờ chạy xong.',
   },
 } as const
