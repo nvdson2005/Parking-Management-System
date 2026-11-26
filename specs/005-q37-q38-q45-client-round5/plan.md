@@ -25,4 +25,4 @@ The PR #17 merge targeted the already-merged PR #11 branch, leaving its changes 
 
 ## Effort
 
-About 4.5 h in total (G-01 1.5 h, Q45 1 h, Q38 2 h). Recorded in CR-03 (P03 §11.1, risk register).
+About 4.5 h in total (G-01 1.5 h, Q45 1 h, Q38 2 h). Recorded in CR-04 (P03 §11.1, risk register).

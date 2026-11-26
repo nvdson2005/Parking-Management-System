@@ -17,10 +17,10 @@ Yêu cầu của Task 3.8: lập kế hoạch cấp thấp khi có thêm chi ti�
 | L-01 | Phân công M3/M4 và 16 hoạt động mới A-100..A-116 | 09/11 | RES-01 | Ánh xạ từng Task 3.x, 4.x sang người phụ trách; lịch tuần của từng người; giờ PERT cho hoạt động mới (≈ 32,5 h) | `docs/m3-m4-work-division.md` mục 3-5 |
 | L-02 | Spec Kit cho các sửa lỗi KB-01..KB-19 | 19/11 | RES-01 | Yêu cầu, kế hoạch và danh sách task cho từng KB đã được quyết trong P18 v1.0 | `specs/001-m3-kb-fixes/` |
 | L-03 | Kế hoạch W13-W14 sau khi đổi hạn nộp (CR-01) | 19/11 | RES-01 | Lịch mới bỏ W15; cắt giảm theo phương án C; điểm kích hoạt Q22 tại M-03 | `docs/m3-m4-work-division.md` mục 7, `decision-record.md` |
-| L-04 | Chốt phạm vi CR-03 và bảng khoảng trống G-01..G-09 | 22/11, cập nhật đến 24/11 | RES-03 | Từng khoảng trống so với SRS: làm hay hoãn, giờ, người quyết, commit | P03 v0.4-v0.6 §11.1, `risk-register.md` mục 6 |
+| L-04 | Chốt phạm vi CR-04 và bảng khoảng trống G-01..G-09 | 22/11, cập nhật đến 24/11 | RES-03 | Từng khoảng trống so với SRS: làm hay hoãn, giờ, người quyết, commit | P03 v0.4-v0.6 §11.1, `risk-register.md` mục 6 |
 | L-05 | Spec Kit cho các thay đổi của A-28, A-65 | 23/11-24/11 | RES-03 | Yêu cầu, plan, task và test cho G-05 (xóa tự động), G-08 (Staff tra cứu), G-06, G-09 (nhật ký và cổng), Q37, Q38, Q45 | `specs/002-a28-auth-log-purge/`, `003-a65-staff-lookup-api/`, `004-g06-g09-auth-log-gate/`, `005-q37-q38-q45-client-round5/` |
 | L-06 | Đối chiếu nghiệm thu với câu trả lời của giảng viên (Phase 5) | 23/11 | RES-01 | 11 câu trả lời vòng 5 chuyển thành yêu cầu nghiệm thu và việc của từng người | `specs/002-lecturer-acceptance-alignment/`, PR #19 |
-| L-07 | Baseline V2.0 | 23/11-24/11 | RES-03 (lập), RES-01 (duyệt) | Kế hoạch, Gantt, CPM, rủi ro sinh lại với CR-01 và CR-03; mục tiêu và dự báo cho A-87, A-88 | `docs/m2-report/data/plan-v2.0.mjs`, `generated-v2/`, `docs/m3/baseline-v2.0.md` |
+| L-07 | Baseline V2.0 | 23/11-24/11 | RES-03 (lập), RES-01 (duyệt) | Kế hoạch, Gantt, CPM, rủi ro sinh lại với CR-01, CR-03 và CR-04; mục tiêu và dự báo cho A-87, A-88 | `docs/m2-report/data/plan-v2.0.mjs`, `generated-v2/`, `docs/m3/baseline-v2.0.md` |
 | L-08 | Spec Kit cho CR-03 giao diện (A-49) | 24/11 | RES-04 | Các việc sửa màn hình chỗ trống FR-19..FR-21 và lỗi trên đường demo | `specs/006-cr03-ui-fixes/` |
 | L-09 | Phân công cuối M3/M4 (F1-01..F5-07) | 24/11 | RES-01 | 26 task có file đầu ra, mục báo cáo, giờ và thứ tự phụ thuộc cho 24/11-29/11; quy tắc mỗi file một người sửa | `docs/m3-m4-final-work-division.md` |
 | L-10 | Xử lý điều kiện CP-05 (A-117) | 25/11-26/11 | RES-01, RES-05 | Điều kiện C1-C6, ISS-06..ISS-11, sửa D-01 và D-06, người kiểm và hạn | `docs/m3/cp05-follow-up-verification.md`, `specs/005-cp05-gate-follow-up/`, `006-a68-d01-simulator-single-run/`, `007-f5-01-simulator-test-timeout/` |
@@ -65,12 +65,12 @@ Bài học (gửi A-113): ngoài danh sách sản phẩm, cần đối chiếu t
 
 - **Không sửa V1.0.** L-01 và L-03 nằm trong file riêng. Phần làm thay đổi effort, lịch hoặc phạm vi đi vào Baseline V2.0 (L-07). V1.0 giữ ở tag `baseline-v1.0` và `data/archive/` (`baseline-v1.0-freeze.md`).
 - **Truy vết bằng A-ID.** Mỗi kế hoạch Spec Kit và mỗi commit ghi A-ID của baseline (A-28, A-65, A-49, A-68), hoặc A-ID mới (A-100..A-117). Nhờ vậy giờ của các kế hoạch cấp thấp cộng ngược về hoạt động gốc trong `docs/m3/actuals.md`.
-- **Thay đổi phạm vi qua CR.** L-04, L-05, L-06 và L-08 chỉ được làm sau khi có CR (CR-02, CR-03) hoặc quyết định của RES-01 ghi trong `decision-record.md`.
+- **Thay đổi phạm vi qua CR.** L-04, L-05, L-06 và L-08 chỉ được làm sau khi có CR (CR-02, CR-03, CR-04) hoặc quyết định của RES-01 ghi trong `decision-record.md`.
 
 ## 4. Vấn đề phát hiện khi tổng hợp
 
 | Vấn đề | Đề xuất |
 |---|---|
 | Thư mục Spec Kit trùng số: hai thư mục `002-*`, hai thư mục `005-*`, hai thư mục `006-*`, vì các thành viên tạo song song trên các nhánh khác nhau | Không đổi tên (nhiều tài liệu và commit đã trỏ tới). A-92 dẫn đường dẫn đầy đủ, không chỉ số |
-| Mã CR-03 được dùng cho hai thay đổi (ISS-M3-04 trong `risk-register-final.md`) | RES-01 quyết; đề xuất đổi thay đổi của RES-04 thành CR-04 |
+| Mã CR-03 được dùng cho hai thay đổi (ISS-M3-04 trong `risk-register-final.md`) | Đã xử lý 26/11: nhóm giữ CR-03 cho RES-04, đổi thay đổi phạm vi P03 của RES-03 thành CR-04 |
 | L-01 giao A-108 (tổng hợp M3), A-89, A-110, A-112 và A-113 là tài liệu riêng; L-03 gộp chúng vào A-92 | A-92 ghi theo L-03 (bản mới hơn, có quyết định của RES-01) |

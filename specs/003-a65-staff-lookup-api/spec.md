@@ -6,9 +6,9 @@
 
 **Status**: Draft
 
-**Input**: User description: "A-65 (RES-03): bổ sung API theo KB-15 (P18 v1.0 §10) và Staff tra cứu theo Q34 (G-08), chỉ mục G-07 (P03 v0.4 §11.1, CR-03). (1) KB-15: endpoint đọc cho nhật ký truy cập (Manager), lượt gửi (Staff/Manager, lọc theo trạng thái), lịch sử thanh toán (Manager: tất cả có lọc thời gian; Customer: của mình). (2) G-08 / Q34: Staff tra cứu theo biển số/QR/RFID trả về xe, lượt đang mở và đặt chỗ đang hiệu lực; danh sách đặt chỗ đang hiệu lực theo khu vực; trang tra cứu cho Staff và link trong menu; lộ biển số đầy đủ thì ghi VIEW_FULL_PLATE. (3) G-07: chỉ mục reservations(customer_id,status), parking_sessions(entry_time), access_logs(created_at), access_logs(user_id) bằng migration mới."
+**Input**: User description: "A-65 (RES-03): bổ sung API theo KB-15 (P18 v1.0 §10) và Staff tra cứu theo Q34 (G-08), chỉ mục G-07 (P03 v0.4 §11.1, CR-04). (1) KB-15: endpoint đọc cho nhật ký truy cập (Manager), lượt gửi (Staff/Manager, lọc theo trạng thái), lịch sử thanh toán (Manager: tất cả có lọc thời gian; Customer: của mình). (2) G-08 / Q34: Staff tra cứu theo biển số/QR/RFID trả về xe, lượt đang mở và đặt chỗ đang hiệu lực; danh sách đặt chỗ đang hiệu lực theo khu vực; trang tra cứu cho Staff và link trong menu; lộ biển số đầy đủ thì ghi VIEW_FULL_PLATE. (3) G-07: chỉ mục reservations(customer_id,status), parking_sessions(entry_time), access_logs(created_at), access_logs(user_id) bằng migration mới."
 
-**Sources**: client answer Q34 (round 3, 15/11/2026); P18 v1.0 §10 KB-15 (decision: accept "endpoint or component", A-65 adds endpoints); P03 v0.4 §6.1, §7, §11.1 (G-07, G-08); CR-03 (pending RES-01 approval). The design is already decided in these documents, so no separate brainstorming round was run.
+**Sources**: client answer Q34 (round 3, 15/11/2026); P18 v1.0 §10 KB-15 (decision: accept "endpoint or component", A-65 adds endpoints); P03 v0.4 §6.1, §7, §11.1 (G-07, G-08); CR-04 (approved by RES-01 on 24/11). The design is already decided in these documents, so no separate brainstorming round was run.
 
 ## User Scenarios & Testing *(mandatory)*
 
