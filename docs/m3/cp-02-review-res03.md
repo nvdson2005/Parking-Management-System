@@ -15,7 +15,7 @@
 
 | # | Tiêu chí | Kết quả | Căn cứ |
 |---|---|---|---|
-| 1 | Mỗi KB có quyết định | **Đạt** | P18 v1.0 §10: đủ 19/19 quyết định (sửa mã, sửa spec hoặc chấp nhận), kèm hoạt động và người phụ trách ở §10.1. v1.1 thêm KB-20, KB-21 cũng có quyết định. Trạng thái các KB giao cho RES-03: KB-07, KB-14 **đã sửa** (PR #11, `38c7e20`, `2992cb0`); KB-16 **chấp nhận không sửa** (P03 v0.4 §11.1, CR-03); KB-15 **đã bổ sung endpoint** (`5882e49`); KB-21 **đã làm** dưới tên G-08 (`49299ac`) |
+| 1 | Mỗi KB có quyết định | **Đạt** | P18 v1.0 §10: đủ 19/19 quyết định (sửa mã, sửa spec hoặc chấp nhận), kèm hoạt động và người phụ trách ở §10.1. v1.1 thêm KB-20, KB-21 cũng có quyết định. Trạng thái các KB giao cho RES-03: KB-07, KB-14 **đã sửa** (PR #11, `38c7e20`, `2992cb0`); KB-16 **chấp nhận không sửa** (P03 v0.4 §11.1, CR-04); KB-15 **đã bổ sung endpoint** (`5882e49`); KB-21 **đã làm** dưới tên G-08 (`49299ac`) |
 | 2 | Hợp đồng vào/ra đóng băng | **Đạt** | v1.0 §7 đóng băng với 2 thay đổi đã biết (`method` cho exit/confirm do KB-05; quy tắc so biển KB-04). v1.1 thêm trường tùy chọn `confirmEarly` và mã lỗi `EARLY_ARRIVAL` cho entry (Q31). Thay đổi này đi qua CR-02 và tương thích ngược (client cũ không gửi trường này vẫn chạy). `tests/contract-inout.test.ts` (A-79) kiểm tra hợp đồng; A-67 chạy 25 kiểm tra HTTP và 120 sự kiện mô phỏng không lỗi |
 | 3 | Mỗi FR có endpoint hoặc thành phần | **Đạt có điều kiện** | v1.0 §9 phủ FR-01 đến FR-34; FR-13, FR-28, FR-31 chỉ có thành phần (đã chấp nhận ở KB-15). PR #11 bổ sung endpoint cho cả ba. **Điều kiện:** P18 phải ghi các endpoint mới (mục 2, K-01) và cập nhật R3-Q6 (K-02) |
 

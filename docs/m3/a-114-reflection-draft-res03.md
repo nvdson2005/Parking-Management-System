@@ -8,7 +8,7 @@
 | Mảng | Đã làm | Bằng chứng |
 |---|---|---|
 | Thiết kế CSDL (A-24) | P03 v0.3 và v0.4: đối chiếu 9 câu trả lời vòng 3 với lược đồ và code, viết cách tính 4 chỉ số (Q28), quyền đọc theo vai trò (Q34), chốt phạm vi các khoảng trống so với SRS v0.2, ERD v0.4 | `1b0c77c`, `02072ca` (PR #10) |
-| Quản lý rủi ro (A-102, Task 3.4) | Lập sổ rủi ro M3 từ V1.0, chấm lại sau thay đổi hạn nộp (CR-01), thêm 7 rủi ro mới, soạn CR-03 | `docs/m3/risk-register.md` (PR #10) |
+| Quản lý rủi ro (A-102, Task 3.4) | Lập sổ rủi ro M3 từ V1.0, chấm lại sau thay đổi hạn nộp (CR-01), thêm 7 rủi ro mới, soạn CR-04 | `docs/m3/risk-register.md` (PR #10) |
 | Baseline (A-106, Task 3.7) | Ghi nhận đóng băng V1.0; sinh Baseline V2.0 bằng chính bộ lập lịch của V1.0; chỉ ra kế hoạch mới vượt năng lực (116%) và đưa lựa chọn cho PM | `679946c` (PR #10) |
 | Code (A-28) | Tự động xóa biển số sau 12 tháng (Q35); ghi LOGIN khi đăng ký (KB-07); trả lỗi 400 thay vì 500 khi body hỏng (KB-14) | `bc172ce`, `38c7e20`, `2992cb0` (PR #11) |
 | Code (A-65) | Trang Staff tra cứu xe và đặt chỗ (Q34); 3 endpoint đọc (KB-15); 4 chỉ mục (G-07) | `49299ac`, `5882e49`, `d64e95f` (PR #11) |
@@ -21,7 +21,7 @@ Effort ước tính: W12 8 giờ (giả định theo năng lực), W13 khoảng 
 
 <!-- ## 2. Tự đánh giá
 
-**Điều tôi làm được.** Câu trả lời vòng 3 đến sau khi MVP đã xây xong. Tôi không chỉ so câu trả lời với giả định của nhóm mà đối chiếu từng câu với code thật. Nhờ vậy tôi tìm ra hai yêu cầu khách hàng đã chốt nhưng chưa có code: Staff được xem xe và đặt chỗ (Q34), và biển số phải được xóa tự động (Q35). Tôi đưa cả hai vào CR-03 và làm xong trước buổi chạy thử.
+**Điều tôi làm được.** Câu trả lời vòng 3 đến sau khi MVP đã xây xong. Tôi không chỉ so câu trả lời với giả định của nhóm mà đối chiếu từng câu với code thật. Nhờ vậy tôi tìm ra hai yêu cầu khách hàng đã chốt nhưng chưa có code: Staff được xem xe và đặt chỗ (Q34), và biển số phải được xóa tự động (Q35). Tôi đưa cả hai vào CR-04 và làm xong trước buổi chạy thử.
 
 **Quyết định tôi sẽ bảo vệ.** Thứ nhất, tôi đề xuất hoãn 6 yêu cầu chỉ có trong SRS v0.2, như giờ hoạt động của bãi, bảng giá theo giờ và hết phiên sau 30 phút. Hạn nộp bị dời lên 29/11, khách hàng không yêu cầu các mục này, và theo câu Q22 thì chức năng cốt lõi phải được ưu tiên. Làm hết sẽ tốn khoảng 22 giờ; chỉ làm phần khách hàng yêu cầu tốn khoảng 5 giờ. Thứ hai, lần xóa tự động được ghi vào nhật ký với người thực hiện để trống. Như vậy nhìn vào là biết đó là thao tác của hệ thống, không cần tạo tài khoản "hệ thống" giả có thể đăng nhập được.
 

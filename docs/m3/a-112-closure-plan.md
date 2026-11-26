@@ -33,8 +33,8 @@
 
 | # | Vấn đề | Ảnh hưởng | Xử lý đề xuất | Nguồn |
 |---|---|---|---|---|
-| 1 | Yêu cầu chỉ có trong SRS v0.2 bị hoãn, khách hàng đã xác nhận ở vòng 5 (23/11): bảng giá theo bãi và theo giờ (G-02; Q36 chỉ tính theo lượt), mục giá trên giao dịch (G-03), hết phiên sau 30 phút (FR-03; Q39 không bắt buộc). G-04, G-06 ban đầu hoãn, đã làm ngày 23/11 sau review CP-03 (PR #11); G-01 giờ hoạt động ban đầu hoãn, đã làm ngày 24/11 theo Q37 (PR #17) | Không có trong demo | Ghi "Hoãn, khách hàng xác nhận" trong bảng phạm vi A-110; là đầu vào cho giai đoạn sau | CR-03, P03 v0.6 §11.1 |
-| 2 | KB-16: đăng xuất không thu hồi token; middleware không kiểm tra tài khoản bị khóa | Token cũ qua được middleware nhưng không lấy được dữ liệu (`requireRole` chặn) | Chấp nhận; giai đoạn sau dùng phiên ngắn hơn và danh sách thu hồi | P18 §10, CR-03 |
+| 1 | Yêu cầu chỉ có trong SRS v0.2 bị hoãn, khách hàng đã xác nhận ở vòng 5 (23/11): bảng giá theo bãi và theo giờ (G-02; Q36 chỉ tính theo lượt), mục giá trên giao dịch (G-03), hết phiên sau 30 phút (FR-03; Q39 không bắt buộc). G-04, G-06 ban đầu hoãn, đã làm ngày 23/11 sau review CP-03 (PR #11); G-01 giờ hoạt động ban đầu hoãn, đã làm ngày 24/11 theo Q37 (PR #17) | Không có trong demo | Ghi "Hoãn, khách hàng xác nhận" trong bảng phạm vi A-110; là đầu vào cho giai đoạn sau | CR-04, P03 v0.6 §11.1 |
+| 2 | KB-16: đăng xuất không thu hồi token; middleware không kiểm tra tài khoản bị khóa | Token cũ qua được middleware nhưng không lấy được dữ liệu (`requireRole` chặn) | Chấp nhận; giai đoạn sau dùng phiên ngắn hơn và danh sách thu hồi | P18 §10, CR-04 |
 | 3 | Chỉ chạy đúng trong một tiến trình: khóa, event bus, bộ hẹn giờ xóa tự động (VM-04) | Không mở rộng sang nhiều tiến trình hoặc nhiều máy | Ghi là ràng buộc triển khai; khi mở rộng thì chuyển sang khóa và lịch chạy ở CSDL | P18 VM-04, P03 §4 |
 | 4 | 4 test bộ mô phỏng vượt giới hạn 5 giây mặc định của vitest (cả trên `main`) | `npm test` báo lỗi trên máy chậm | RES-05 tăng timeout cho các test này (A-44) | PR #11 |
 | 5 | P18 v1.0 bị sửa đè lên file thuộc Baseline V1.0 | Lệnh kiểm tra đóng băng không còn rỗng | RES-01 khôi phục file V1.0, tách bản v1.0 | `baseline-v1.0-freeze.md` |
@@ -45,7 +45,7 @@
 ## 3. Tài liệu và tri thức
 
 - **Mã nguồn**: README (lệnh, tài khoản, API), AGENTS.md và CLAUDE.md (quy tắc làm việc, kiến trúc), `specs/` (spec, plan, tasks cho từng đợt sửa: 001 KB fixes, 002 A-28, 003 A-65).
-- **Quản lý dự án**: báo cáo M2 (Baseline V1.0), `docs/m3/` (sổ rủi ro, quyết định CR-01, CR-02, CR-03, V2.0, actuals, Quality Evidence, weekly log).
+- **Quản lý dự án**: báo cáo M2 (Baseline V1.0), `docs/m3/` (sổ rủi ro, quyết định CR-01, CR-02, CR-03, CR-04, V2.0, actuals, Quality Evidence, weekly log).
 - **Sử dụng AI**: nhóm dùng Claude Code và Codex để hỗ trợ viết code và tài liệu. Ghi vào sheet AI Usage Log của workbook trước khi nộp. Mỗi thành viên phải giải thích được phần mình phụ trách khi vấn đáp.
 
 ## 4. Giải phóng nguồn lực
@@ -65,5 +65,5 @@
   - Sai lệch ước lượng lớn nhất: kế hoạch tự xây dựng v0.2 cần 178,7 giờ, còn MVP có công cụ AI hỗ trợ xong trong 1 ngày. Baseline phải lập lại quanh việc kiểm chứng (`actuals.md` §2).
   - Không ghi giờ thật từ đầu (A-100), nên Task 3.3 phải dựa vào ước tính.
   - Cổng CP-02 bị trễ khiến code phải làm song song với việc ghi biên bản (ISS-M3-01).
-  - Câu trả lời vòng 3 đến sau khi đã có MVP, nên phải xử lý bằng CR (CR-02, CR-03).
+  - Câu trả lời vòng 3 đến sau khi đã có MVP, nên phải xử lý bằng CR (CR-02, CR-04).
 - **Sau khi chấm**: ghi nhận xét của giảng viên vào bài học, nếu nhóm còn làm tiếp.
