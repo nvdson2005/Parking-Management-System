@@ -1,26 +1,28 @@
-# A-114 Individual Contribution and Reflection: DRAFT (RES-04)
+# A-114 Individual Contribution and Reflection (RES-04)
+
+**Status:** draft until the A-87/A-88 outcome is added after the demo on 27/11 (the one open TODO below). Everything else is final for review.
 
 Built from the repository history and my own account of work that is not in git (F4-04 of `docs/m3-m4-final-work-division.md`, report ref M4 §4.6). The reflection must match what I can explain at the viva. The one remaining **TODO(RES-04)** is the A-87/A-88 outcome, added after 27/11.
 
 **Member:** Phạm Duy Quý (RES-04), Requirements and UI
-**Period covered:** W12 through 24/11/2026 (update after A-87 on 26/11 and A-88 on 27/11)
+**Period covered:** W12 through 26/11/2026 (update after A-87 on 26/11 and A-88 on 27/11)
 
 ## Contribution (evidence)
 
 | Area | What I did | Evidence |
 |---|---|---|
-| Requirements (A-01, A-70) | Synced the SRS and P18 reservation rules with the code (KB-11, KB-20, KB-21). Updated the SRS to v2.1 from the Phase 5 customer answers Q36–Q46, including section 9, which lists the gaps between the SRS and the code | `07cea70`, `e6b4cdb` (A-70); `493fec4` (SRS v2.1, PR #22, waiting for RES-01 to choose #22 or #23) |
+| Requirements (A-01, A-70) | Synced the SRS and P18 reservation rules with the code (KB-11, KB-20, KB-21). Updated the SRS to v2.1 from the Phase 5 customer answers Q36–Q46, including section 9, which lists the gaps between the SRS and the code | `07cea70`, `e6b4cdb` (A-70); `493fec4` (SRS v2.1); PR #22 approved and merged into `main` on 26/11 (`9b811a2`) |
 | Availability testing (A-49) | Added six tests asserting that every event changing free spots sends exactly one live update (RT-01 closed), with a mutation check for each. Wrote an AT-100 script that times 100 visits (200 events) over HTTP with the live stream open. Wrote the A-49 Quality Evidence | `484fbb2`, `b0dd9cd`, `e7fd47e`, `88f4cd8`, `d848d81` (PR #13, merged) |
 | Change request (CR-03) | Raised CR-03 from the lecturer replies of 23/11 and the A-49 gaps: impact analysis, options and decision record; RES-01 approved option 2 | `14127a7` (PR #20, merged) |
-| UI implementation (F4-01, F4-02) | Spec 006 through Spec Kit. Availability screen: last update time, used spots for Staff and Manager, "Hết chỗ" label (FR-19/20/21). Reservation form: valid default time, earliest time, closed-for-today state. Readable select labels on the entry and reservation forms. Font fix. Early-arrival prompt with booked time and zone (FR-51) | `1b088cd`, `093b9f3`, `60fce57`, `9293038`, `da0ac5f` (PR #24); 376 tests passing |
+| UI implementation (F4-01, F4-02) | Spec 006 through Spec Kit. Availability screen: last update time, used spots for Staff and Manager, "Hết chỗ" label (FR-19/20/21). Reservation form: valid default time, earliest time, closed-for-today state. Readable select labels on the entry and reservation forms. Font fix. Early-arrival prompt with booked time and zone (FR-51) | `1b088cd`, `093b9f3`, `60fce57`, `9293038`, `da0ac5f` (PR #24, merged 26/11 as `ac57507`); 376 tests passing at merge |
 | Retest (F4-05) | Manual retest of A-49 after CR-03, timed from the database; A-49 moved from Partly verified to Verified | `4eb809d`, `docs/final/res04/a49-retest.md` |
-| Payment test (A-76) | Test that all 6 vehicle type × fee group prices are applied | `26677dc` on `test/A-76-payment` (no PR yet; manual TC-PAY-01..03 still TODO) |
+| Payment test (A-76) | Test that all 6 vehicle type × fee group prices are applied | `26677dc` on `test/A-76-payment` (no PR). In the final work division A-76 evidence moved to RES-02 (F2-02); the branch is handed over for that task |
 | Requirements before W12 (M1–M2, A-01) | Wrote the Product Description for the SRS (P02), then drafted the whole SRS | SRS files under `docs/m2-report/products/` (`CO3011_M2_SRS_v0.1`); drafts on the team Drive. Not committed under my name |
 | UI design (A-13) | Wrote the UI design document from the existing screens | Team shared Drive (not in git) |
 | SRS review fixes (A-09) | Revised the SRS after the review | Team shared Drive. No review record was found in the repository on 19/11 (`docs/m3/a-90-planned-vs-actual.md`), so the CP-01 outcome is for RES-02 to record (F2-01) |
-| AI use | Claude (chat) for M1–M2 drafting. Claude Code (Claude Opus) from 20/11: drafts of the SRS sync and v2.1, the CR-03 analysis, the spec, plan and tasks, the code and tests, the evidence files, and the independent `review-implementation` runs. I ran the manual tests, took the screenshots and made the scope decisions | Every commit of mine from 22/11 carries a `Co-Authored-By: Claude` trailer. Not yet in the workbook AI Usage Log: rows to paste are below |
+| AI use | Claude (chat) for M1–M2 drafting. Claude Code (Claude Opus) from 20/11: drafts of the SRS sync and v2.1, the CR-03 analysis, the spec, plan and tasks, the code and tests, the evidence files, and the independent `review-implementation` runs. I ran the manual tests, took the screenshots and made the scope decisions | Claude Code: all 21 of my non-merge commits from 22/11 carry a `Co-Authored-By: Claude` trailer (checked 26/11 with `git log --all --author=pdiqui-17 --no-merges --since=2026-11-22 --format=%B`). The trailer shows that AI assisted, not how much of each change it wrote. Claude chat use in M1–M2 is self-reported; there is no record of it in the repository. Not yet in the workbook AI Usage Log: rows to paste are below |
 
-**Effort (estimate, not logged):** I did not keep a daily log, so these figures assume 8 h per week, the capacity per member assumed in the baseline. They are not measured and should be marked as estimated wherever they are used (A-90, workbook Planned vs Actual).
+**Effort (self-reported estimate, not logged and not verifiable from git):** I did not keep a daily log, so these figures assume 8 h per week, the capacity per member assumed in the baseline. They are not measured and should be marked as estimated wherever they are used (A-90, workbook Planned vs Actual).
 
 | Week | Dates | Estimated hours | Main work |
 |---|---|---|---|
@@ -43,7 +45,7 @@ Planned figures to compare with: A-70 3 h, A-49 2 h, A-76 1 h, CR-03 groups A + 
 
 **Process.** I skipped `speckit-clarify` and ran `speckit-analyze` only after implementation, and CodeGraph was not installed until late. The analysis still found a real bug (the time picker allowed a minute that the server rejects) and a planning gap. I would run the full Spec Kit chain in order next time; analyze is cheap compared with fixing after review.
 
-**Mock viva:** I propose to explain RES-03's staff reservation lookup (A-65, FR-52), which sits next to my FR-51 work: how Staff find active reservations and why the list is limited to Staff and Manager. Pending confirmation in RES-05's viva plan (F5-02).
+**Mock viva:** RES-05's plan (F5-02, `docs/final/res05/demo-script-and-viva.md` section 5) assigns me RES-02's P20 test plan and P21 acceptance tests, for example what separates a T-test from an AT and who signs CP-05. At the A-88 demo I present reservation and early arrival (AT-05).
 
 **After A-87/A-88:** **TODO(RES-04):** add the dry-run and acceptance outcome for the availability and reservation screens, and one lesson from the A-91 retrospective.
 
@@ -52,7 +54,7 @@ Planned figures to compare with: A-70 3 h, A-49 2 h, A-76 1 h, CR-03 groups A + 
 Columns of the workbook sheet: Date | Member | Tool | Task it was used for | What it produced | How the team verified or changed it | Report section affected.
 
 ```text
-M1–M2 (dates to confirm) | Phạm Duy Quý | Claude (chat) | Drafting the SRS Product Description and SRS sections | Draft text for the Product Description and SRS | I rewrote and restructured the drafts; the SRS went through review (A-09) | M1, M2 (SRS)
+M1–M2 (self-reported, dates to confirm) | Phạm Duy Quý | Claude (chat) | Drafting the SRS Product Description and SRS sections | Draft text for the Product Description and SRS | I rewrote and restructured the drafts; the SRS went through review (A-09) | M1, M2 (SRS)
 20–23/11 | Phạm Duy Quý | Claude Code | SRS and P18 sync with the code (A-70); SRS v2.1 from the Q36–Q46 answers | Draft edits to the SRS and P18; section 9 gap table | I checked each changed rule against the code and the client answers before committing (07cea70, 493fec4) | M3 §3.5, §3.7
 23–24/11 | Phạm Duy Quý | Claude Code | A-49 availability tests, AT-100 timing script, Quality Evidence | 6 broadcast tests, timing script, evidence document | Mutation check per test; I ran the timing script and the manual steps; the reviewer's comments were addressed (PR #13) | M3 §3.5
 24/11 | Phạm Duy Quý | Claude Code | CR-03 impact analysis and decision record | CR text with options and estimates | Reviewed and approved by RES-01 (option 2, PR #20); wrong FR citations corrected | M3 §3.6
