@@ -1,0 +1,14 @@
+﻿
+== O1 / T05: independent occupancy count ==
+zone | type | capacity | open | pending res. | expected free
+A | MOTORBIKE | 150 | 7 | 0 | 143
+B | MOTORBIKE | 150 | 12 | 0 | 138
+C | CAR | 30 | 12 | 0 | 18
+
+== O2 / T11: record completeness ==
+sessions: 100 (open 31, closed 69)
+incomplete: 0
+
+== T07 / T08: latest session events ==
+
+== Access log MANUAL_CONFIRM (latest 5) ==
