@@ -7,7 +7,7 @@
 | Người review thứ hai | Đào Xuân Sơn (RES-02, QA): **chưa ghi** |
 | Người duyệt | Nguyễn Võ Đức Sơn (RES-01) |
 | Ngày review | 23/11/2026 (kế hoạch V1.0: 13-16/11; dời 20/11; xem ISS-M3-01) |
-| Tài liệu được review | P18 v1.0, `docs/m2-report/products/CO3011_M2_KienTrucAPI_v0.1.md` trên `main` (A-22, 19/11). P18 v1.1, `docs/m2-report/v2.0/products/CO3011_M3_KienTrucAPI_v1.1.md` trên nhánh `docs/A-70-srs-p18-sync` (A-70, RES-04, 22/11, **chưa merge**) |
+| Tài liệu được review | P18 v1.0, `docs/m2-report/products/CO3011_M2_KienTrucAPI_v0.1.md` trên `main` (A-22, 19/11). P18 v1.1, `docs/m2-report/v2.0/products/CO3011_M3_KienTrucAPI_v1.1.md` trên nhánh `docs/A-70-srs-p18-sync` (A-70, RES-04, 22/11; merge vào `main` qua PR #22 ngày 26/11) |
 | Đối chiếu với | Mã nguồn `main` (`4c8fde2`), PR #11 (A-28, A-65), câu trả lời vòng 3 Q27-Q35, P03 v0.4 (PR #10) |
 | Tiêu chí (kế hoạch chất lượng 2.12.1) | (1) Mỗi khác biệt KB-01 đến KB-19 có quyết định; (2) hợp đồng vào/ra đóng băng; (3) mỗi FR có endpoint hoặc thành phần |
 
@@ -42,7 +42,7 @@
 | Vai trò | Người | Kết quả | Ngày |
 |---|---|---|---|
 | Review (Kiến trúc và dữ liệu) | Nguyễn Phạm Mạnh Dũng (RES-03) | Đạt có điều kiện (K-01, K-02) | 23/11/2026 |
-| Review (QA) | Đào Xuân Sơn (RES-02) | `TODO(RES-02)` | |
-| Duyệt | Nguyễn Võ Đức Sơn (RES-01) | `TODO(RES-01)` | |
+| Review (QA) | Đào Xuân Sơn (RES-02) | Không ghi riêng; RES-01 tiếp nhận phần review còn chờ của A-23 (P18, lịch sử v1.1) | 24/11/2026 |
+| Duyệt | Nguyễn Võ Đức Sơn (RES-01) | Đạt theo ba tiêu chí CP-02 (`499037e`, P18 lịch sử v1.1) | 24/11/2026 |
 
-Khi RES-02 ghi xong và RES-01 duyệt, chép kết luận vào P18 §10.2 của bản mới và vào sheet Quality Evidence. Đóng ISS-M3-01 trong sổ rủi ro.
+RES-01 đã ghi kết luận vào P18 (`499037e`, 24/11). RES-03 chép vào sheet Quality Evidence ngày 28/11 (F3-05). ISS-M3-01 đóng phía RES-03 (`docs/final/res03/risk-register-final.md`, pending #29).

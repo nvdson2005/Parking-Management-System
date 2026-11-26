@@ -15,7 +15,7 @@
 | Theo dõi và chất lượng (A-101, A-103, A-23) | Bảng kế hoạch so với thực tế; review CP-02 | `00a7258`, `b73a818` (PR #12) |
 | Bàn giao (A-33, A-112) | Hướng dẫn cài đặt và demo P13; kế hoạch đóng dự án | `901bb2c`, `7c62bcc` (PR #12) |
 
-Effort ước tính: W12 8 giờ (giả định theo năng lực), W13 khoảng 8,25 giờ, W14 đến 23/11 khoảng 15,25 giờ (`docs/m3/actuals.md`).
+Effort ước tính: W12 8 giờ (giả định theo năng lực), W13 10 giờ, W14 đến 26/11 khoảng 16,25 giờ (`docs/m3/actuals.md`; đều là ước tính, chưa đo).
 
 **Sử dụng AI:** dùng Claude Code để hỗ trợ viết code, test và tài liệu. Tôi đi theo quy trình của repo (spec, plan, tasks trước khi code; test viết trước). Tự kiểm tra kết quả bằng toàn bộ test, lint và build.
 

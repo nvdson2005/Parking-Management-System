@@ -7,7 +7,7 @@
 | Người viết | Nguyễn Phạm Mạnh Dũng (RES-03) |
 | Phiên bản | v1.0, 23/11/2026 |
 | Tiêu chí nghiệm thu | Một người không phải tác giả chạy được demo chỉ bằng hướng dẫn này (PD-P13) |
-| Áp dụng cho | `main` sau khi merge PR #11 (A-28, A-65). Mục nào cần PR #11 có ghi chú **[PR #11]** |
+| Áp dụng cho | `main` từ 24/11 (PR #11 đã merge; PR #17 tích hợp qua PR #21) |
 
 Tài liệu đi kèm: [README](../README.md) (lệnh, tài khoản, bảng API), [hướng dẫn kiểm thử E2E thủ công](manual-e2e-test-guide.md) (kiểm thử chi tiết từng màn hình).
 
@@ -61,7 +61,7 @@ Chuẩn bị: chạy `npm run db:reset`, rồi mở 3 cửa sổ trình duyệt 
 | 1 | Customer | `/customer/vehicles`: xem xe và mã QR | Có ảnh QR và mã RFID mô phỏng | Q29 |
 | 2 | Customer | `/customer/reservations`: đặt chỗ khu A cho giờ đến sau thời điểm hiện tại khoảng 1 giờ | Đặt chỗ thành công; **số chỗ trống khu A trên cửa sổ Staff giảm 1 ngay lập tức** | Q15, Q31, O1 |
 | 3 | Customer | `/customer/vehicles`: thêm một xe máy thứ hai (ví dụ `59X1-123.45`), rồi đặt chỗ cho xe đó | Bị từ chối: mỗi **tài khoản** chỉ có 1 đặt chỗ đang hiệu lực. (Đặt lại cho chính xe ở bước 2 sẽ báo lỗi khác, "xe đã có đặt chỗ", vì hệ thống kiểm tra theo xe trước) | Q31 |
-| 4 | Staff | `/staff/lookup`: nhập biển số xe của `customer01` **[PR #11]** | Thấy xe, "Không ở trong bãi" và đặt chỗ vừa tạo. Danh sách "Các đặt chỗ đang hiệu lực" có đặt chỗ này | Q34 |
+| 4 | Staff | `/staff/lookup`: nhập biển số xe của `customer01` | Thấy xe, "Không ở trong bãi" và đặt chỗ vừa tạo. Danh sách "Các đặt chỗ đang hiệu lực" có đặt chỗ này | Q34 |
 | 5 | Staff | `/staff/entry`: chọn QR, dán mã QR của xe đó, khu A | Bị chặn vì xe **đến sớm** hơn giờ hẹn; Staff kiểm tra chỗ rồi bấm xác nhận thì xe được vào, đặt chỗ chuyển sang FULFILLED | Q31 |
 | 6 | Staff | `/staff/entry`: chọn biển số, nhập một biển mới (ví dụ `51F-999.99`), ô tô, khu C | Mở lượt gửi cho xe khách vãng lai | Q30 |
 | 7 | Staff | `/staff/exit`: tìm xe máy ở bước 5, xem phí, xác nhận thanh toán | Hiện phí; lượt đóng; Customer thấy giao dịch ở `/customer/history` | Q33, O4 |
@@ -70,7 +70,7 @@ Chuẩn bị: chạy `npm run db:reset`, rồi mở 3 cửa sổ trình duyệt 
 | 10 | Manager | Kích hoạt lại bãi; `/manager/tariffs`: sửa giá | Bãi hoạt động lại; giá mới áp dụng cho lượt ra sau đó | Q14, Q16 |
 | 11 | Manager | `/manager/simulator`: chạy "live" với ít nhất 100 lượt, rồi "history" vài ngày | Bộ mô phỏng báo số lượt vào, ra và bị từ chối; mọi lượt có bản ghi đầy đủ | SC-07, O2 |
 | 12 | Manager | `/manager/reports`: chọn khoảng ngày | 4 chỉ số: tỷ lệ sử dụng theo giờ (có chọn từng khu và loại xe), 3 giờ cao điểm, doanh thu theo ngày, tỷ lệ không đến | Q28, O3 |
-| 13 | Manager | `/manager/access-log` | Thấy LOGIN, VIEW_FULL_PLATE (từ bước 4), PURGE. Dòng PURGE không có người thực hiện là lần xóa **tự động** **[PR #11]** | Q35, CN4 |
+| 13 | Manager | `/manager/access-log` | Thấy LOGIN, VIEW_FULL_PLATE (từ bước 4), PURGE. Dòng PURGE không có người thực hiện là lần xóa **tự động** | Q35, CN4 |
 | 14 | Bất kỳ | Bấm nút đổi ngôn ngữ VI ↔ EN | Mọi trang đổi ngôn ngữ | Q8 |
 
 Lưu ý:
@@ -85,7 +85,7 @@ npm run lint
 npm run build
 ```
 
-Trên máy chậm, vài test bộ mô phỏng có thể vượt giới hạn 5 giây mặc định. Khi đó chạy riêng với giới hạn dài hơn: `npx vitest run tests/simulator.test.ts --testTimeout=60000`.
+Từ PR #27 (F5-01, 25/11), bộ test mô phỏng có timeout 60 giây trong `tests/simulator.test.ts`, nên `npm test` chạy được mà không cần thêm tham số.
 
 ## 6. Xử lý sự cố
 

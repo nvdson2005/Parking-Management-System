@@ -12,7 +12,7 @@
 | Bước | Nội dung | Người làm | Hạn | Bằng chứng |
 |---|---|---|---|---|
 | 1 | Chạy thử nghiệm thu nội bộ A-87 (CP-07): 100% AT Must đạt | RES-02, RES-04 | 26-27/11 | Quality Evidence, biên bản CP-07 |
-| 2 | Trình diễn với khách hàng A-88 (CP-08), theo kịch bản trong `docs/P13-huong-dan-cai-dat-va-demo.md` | RES-01, RES-05 | 27/11 | Video demo, email khách hàng xác nhận (Q11, Q23) |
+| 2 | Demo nội bộ A-88 (CP-08; RES-01 xác nhận là nội bộ ngày 26/11), theo `docs/final/res05/demo-script-and-viva.md`. Gửi video CP-05 cho khách hàng qua email (Q23) để xin xác nhận | RES-01, RES-05 | 27/11 | Biên bản demo; email gửi khách hàng và trả lời (nếu có) |
 | 3 | Ghi kết quả nghiệm thu A-89 (mục `a-89-acceptance-section.md`) | RES-03, RES-04 | 28/11 | P14 |
 | 4 | Gắn tag phiên bản bàn giao trên commit `main` đã nghiệm thu (đề xuất `v1.0-delivery`), cùng với tag `baseline-v1.0` | RES-01 | 28/11 | `git tag` trên remote |
 | 5 | Nộp gói bài A-116: PDF báo cáo, link repo, hướng dẫn chạy (P13), Baseline V1.0 + V2.0, weekly log | RES-04 | 29/11 | Biên nhận LMS |
@@ -21,12 +21,12 @@
 
 | Sản phẩm | Vị trí | Trạng thái lúc lập |
 |---|---|---|
-| Phần mềm (P05-P11) | Repo GitHub, nhánh `main` | Đủ phạm vi V1.0; PR #11 (Q34, Q35) chờ merge |
+| Phần mềm (P05-P11) | Repo GitHub, nhánh `main` | Đủ phạm vi V1.0 và CR-04 (pending #29); PR #11 merge 24/11, PR #17 tích hợp qua PR #21 (24/11) |
 | P13 Hướng dẫn cài đặt và demo | `docs/P13-huong-dan-cai-dat-va-demo.md`, README | v1.0; chờ người không phải tác giả chạy thử |
 | P14 Kết quả nghiệm thu | Báo cáo A-92, mục A-89 | Chờ A-87, A-88 |
 | P12 Hướng dẫn sử dụng | — | **Hoãn** theo baseline; P13 thay thế phần thao tác |
-| P02 SRS, P03 CSDL, P18 kiến trúc và API | `docs/m2-report/products/`, `docs/m2-report/v2.0/products/` | P03 v0.6 (chờ CP-03 và PR #11, PR #17 merge); P18 v1.0/v1.1 (CP-02 đạt có điều kiện, RES-03); SRS v2.0, v2.1 theo vòng 5 (RES-04, PR #16) |
-| Baseline V1.0, V2.0 | Tag `baseline-v1.0`; `docs/m2-report/generated/`, `generated-v2/` | V2.0 chờ RES-01 duyệt (PR #10) |
+| P02 SRS, P03 CSDL, P18 kiến trúc và API | `docs/m2-report/products/`, `docs/m2-report/v2.0/products/` | P03 v0.6 (CP-03 đã review 23/11; PR #11 và #17 đã lên `main` 24/11); P18 v1.0/v1.1 (CP-02: RES-03 đạt có điều kiện 23/11, RES-01 đạt 24/11; P18 v1.1 merge qua PR #22); SRS v2.0, v2.1 theo vòng 5 (RES-04, PR #16) |
+| Baseline V1.0, V2.0 | Tag `baseline-v1.0`; `docs/m2-report/generated/`, `generated-v2/` | V2.0 chờ RES-01 duyệt (F1-03), chốt ở F3-02 (pending #29) |
 | Sổ rủi ro, Change Log, Quality Evidence, Task Log | `docs/m3/`; workbook trên Drive (bản chính) | Cần đối chiếu repo với Drive trước khi nộp (R-M3-05) |
 
 ## 2. Vấn đề còn mở khi bàn giao
@@ -36,10 +36,10 @@
 | 1 | Yêu cầu chỉ có trong SRS v0.2 bị hoãn, khách hàng đã xác nhận ở vòng 5 (23/11): bảng giá theo bãi và theo giờ (G-02; Q36 chỉ tính theo lượt), mục giá trên giao dịch (G-03), hết phiên sau 30 phút (FR-03; Q39 không bắt buộc). G-04, G-06 ban đầu hoãn, đã làm ngày 23/11 sau review CP-03 (PR #11); G-01 giờ hoạt động ban đầu hoãn, đã làm ngày 24/11 theo Q37 (PR #17) | Không có trong demo | Ghi "Hoãn, khách hàng xác nhận" trong bảng phạm vi A-110; là đầu vào cho giai đoạn sau | CR-04, P03 v0.6 §11.1 |
 | 2 | KB-16: đăng xuất không thu hồi token; middleware không kiểm tra tài khoản bị khóa | Token cũ qua được middleware nhưng không lấy được dữ liệu (`requireRole` chặn) | Chấp nhận; giai đoạn sau dùng phiên ngắn hơn và danh sách thu hồi | P18 §10, CR-04 |
 | 3 | Chỉ chạy đúng trong một tiến trình: khóa, event bus, bộ hẹn giờ xóa tự động (VM-04) | Không mở rộng sang nhiều tiến trình hoặc nhiều máy | Ghi là ràng buộc triển khai; khi mở rộng thì chuyển sang khóa và lịch chạy ở CSDL | P18 VM-04, P03 §4 |
-| 4 | 4 test bộ mô phỏng vượt giới hạn 5 giây mặc định của vitest (cả trên `main`) | `npm test` báo lỗi trên máy chậm | RES-05 tăng timeout cho các test này (A-44) | PR #11 |
+| 4 | Test bộ mô phỏng vượt giới hạn 5 giây mặc định của vitest | **Đã xử lý**: PR #27 (F5-01) đặt timeout 60 giây cho bộ test mô phỏng | Đóng | PR #27 |
 | 5 | P18 v1.0 bị sửa đè lên file thuộc Baseline V1.0 | Lệnh kiểm tra đóng băng không còn rỗng | RES-01 khôi phục file V1.0, tách bản v1.0 | `baseline-v1.0-freeze.md` |
 | 6 | Ngưỡng nghiệm thu gửi kèm Q28 chưa được khách hàng xác nhận | P21, CP-08 dựa trên ngưỡng nhóm đề xuất | Ghi kết quả của A-88 | R-M3-06 |
-| 7 | Giờ thực tế của thành viên chưa đo (A-100); `actuals.md` đang là ước tính | Ảnh hưởng độ tin cậy của so sánh kế hoạch và thực tế (Task 4.2) | Từng thành viên sửa trước 25/11 | `actuals.md` |
+| 7 | Giờ thực tế của thành viên chưa đo (A-100); `actuals.md` đang là ước tính | Ảnh hưởng độ tin cậy của so sánh kế hoạch và thực tế (Task 4.2) | Ghi rõ là ước tính trong A-92; thành viên nào muốn sửa dòng của mình thì sửa trực tiếp | `actuals.md` |
 | 8 | `.env.example` có sẵn một giá trị `AUTH_SECRET` | Nếu triển khai thật mà giữ nguyên thì ai cũng ký được phiên đăng nhập | Khi bàn giao để triển khai: tạo `AUTH_SECRET` mới (ví dụ `openssl rand -base64 48`) và không dùng giá trị mẫu | `.env.example` |
 
 ## 3. Tài liệu và tri thức
