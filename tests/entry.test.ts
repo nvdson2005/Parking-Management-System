@@ -317,6 +317,21 @@ describe('recordEntry: early arrival', () => {
     expect(await db.parkingSession.count({ where: { vehicleId: vehicle.id } })).toBe(0)
   })
 
+  it('EARLY_ARRIVAL carries the booked time and zone for the Staff prompt, no plate (FR-51)', async () => {
+    const { f, vehicle } = await setup()
+
+    const err = await recordEntry(db, {
+      method: 'QR',
+      identifier: vehicle.qrCode,
+      zoneId: f.zoneA.id,
+      staffId: f.staff.id,
+      now: NOW,
+    }).catch((e: unknown) => e)
+
+    expect(err).toMatchObject({ code: 'EARLY_ARRIVAL' })
+    expect((err as { details?: unknown }).details).toEqual({ arrivalTime: ARRIVAL.toISOString(), zoneName: 'A' })
+  })
+
   it('a rejected EARLY_ARRIVAL keeps the sweep of other lapsed holds', async () => {
     const { f, vehicle } = await setup()
     const other = await addVehicle(db, { ownerId: f.lecturer.id, plate: '51F-900.02', vehicleType: 'MOTORBIKE' })

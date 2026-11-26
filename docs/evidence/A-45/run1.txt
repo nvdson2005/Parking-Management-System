@@ -1,0 +1,443 @@
+## access_logs (154)
+action="LOGIN"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="ENTRY"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="EXIT"
+action="ENTRY"
+action="EXIT"
+action="ENTRY"
+## notifications (0)
+## parking_lots (1)
+name="Bãi xe thí điểm" | address="Cơ sở chính" | status="ACTIVE"
+## parking_sessions (100)
+zone="B" | plate_snapshot="61W-526.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="56F-604.80" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-05001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="29A-03001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="00L-552.62" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="20H-666.90" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="10D-346.80" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="15S-819.59" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="37P-248.69" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="16H-379.04" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="61W-526.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="16K-326.83" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="29A-01001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="26X-410.77" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="52E-344.63" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="32G-362.16" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-06001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="18L-588.41" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="59K-488.70" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="86Z-885.34" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="63Y-813.00" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="47W-121.02" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="71U-654.44" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-02001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="29A-09001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="19A-084.50" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-04001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="76Z-758.51" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="03Z-328.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="89N-658.34" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="59O-973.66" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="52E-344.63" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="86N-861.29" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="29A-10001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="95W-404.86" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="50S-101.38" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="27A-286.98" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-06001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="76C-910.03" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="60I-773.27" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="10D-346.80" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="91M-156.27" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="95F-709.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="41W-651.80" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="19R-832.57" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="08M-342.50" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="61W-526.84" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="54P-544.50" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="29A-15001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="29A-13001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="29A-11001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="75D-984.09" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="86P-999.89" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="10D-346.80" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="84I-962.13" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="16K-326.83" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="32G-362.16" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="68A-258.43" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="59M-150.67" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="51K-916.75" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="00U-090.05" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="29A-05001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="58Q-545.45" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="94Y-536.98" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="75D-984.09" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="19A-084.50" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="66A-929.29" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-12001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="41W-651.80" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="84P-645.66" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="00L-552.62" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="03Z-328.52" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="59K-488.70" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="13C-889.41" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="43Y-195.10" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="32G-362.16" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="59R-802.93" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="33I-688.25" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="49O-240.10" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="97J-437.25" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="16H-379.04" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="RFID" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="56F-604.80" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="03K-440.97" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="C" | plate_snapshot="27X-582.08" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="09D-660.66" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="76Z-758.51" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="15S-819.59" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="08F-093.99" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="29A-07001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="08P-664.82" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="89N-658.34" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="QR" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="34K-706.66" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="B" | plate_snapshot="14U-641.99" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="48C-247.37" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="32G-207.12" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="53Q-787.64" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="A" | plate_snapshot="29A-09001" | vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | id_method="RFID" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="B" | plate_snapshot="89Z-553.82" | vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | id_method="PLATE" | status="CLOSED" | entry_gate="GATE-1" | exit_gate="GATE-1" | entry_source="DEVICE" | exit_source="DEVICE"
+zone="A" | plate_snapshot="29A-02001" | vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | id_method="QR" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+zone="C" | plate_snapshot="28V-320.77" | vehicle_type_code="CAR" | fee_group="GUEST" | id_method="PLATE" | status="OPEN" | entry_gate="GATE-1" | exit_gate=null | entry_source="DEVICE" | exit_source=null
+## payments (53)
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=10000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+amount=2000 | status="CONFIRMED"
+## reservations (0)
+## roles (3)
+code="CUSTOMER"
+code="STAFF"
+code="MANAGER"
+## session_events (0)
+## tariffs (6)
+vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | price=2000
+vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | price=2000
+vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | price=2000
+vehicle_type_code="CAR" | fee_group="STUDENT" | price=10000
+vehicle_type_code="CAR" | fee_group="LECTURER_STAFF" | price=10000
+vehicle_type_code="CAR" | fee_group="GUEST" | price=10000
+## users (19)
+email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+## vehicle_types (2)
+code="MOTORBIKE" | name_vi="Xe máy" | name_en="Motorbike"
+code="CAR" | name_vi="Ô tô" | name_en="Car"
+## vehicles (79)
+plate="29A-01001" | vehicle_type_code="MOTORBIKE"
+plate="29A-02001" | vehicle_type_code="MOTORBIKE"
+plate="29A-03001" | vehicle_type_code="MOTORBIKE"
+plate="29A-04001" | vehicle_type_code="MOTORBIKE"
+plate="29A-05001" | vehicle_type_code="MOTORBIKE"
+plate="29A-06001" | vehicle_type_code="MOTORBIKE"
+plate="29A-07001" | vehicle_type_code="MOTORBIKE"
+plate="29A-08001" | vehicle_type_code="MOTORBIKE"
+plate="29A-09001" | vehicle_type_code="MOTORBIKE"
+plate="29A-10001" | vehicle_type_code="MOTORBIKE"
+plate="29A-11001" | vehicle_type_code="MOTORBIKE"
+plate="29A-12001" | vehicle_type_code="MOTORBIKE"
+plate="29A-13001" | vehicle_type_code="MOTORBIKE"
+plate="29A-14001" | vehicle_type_code="MOTORBIKE"
+plate="29A-15001" | vehicle_type_code="MOTORBIKE"
+plate="61W-526.84" | vehicle_type_code="MOTORBIKE"
+plate="56F-604.80" | vehicle_type_code="MOTORBIKE"
+plate="00L-552.62" | vehicle_type_code="MOTORBIKE"
+plate="20H-666.90" | vehicle_type_code="MOTORBIKE"
+plate="10D-346.80" | vehicle_type_code="CAR"
+plate="15S-819.59" | vehicle_type_code="MOTORBIKE"
+plate="37P-248.69" | vehicle_type_code="MOTORBIKE"
+plate="16H-379.04" | vehicle_type_code="MOTORBIKE"
+plate="16K-326.83" | vehicle_type_code="MOTORBIKE"
+plate="26X-410.77" | vehicle_type_code="CAR"
+plate="52E-344.63" | vehicle_type_code="MOTORBIKE"
+plate="32G-362.16" | vehicle_type_code="MOTORBIKE"
+plate="18L-588.41" | vehicle_type_code="CAR"
+plate="59K-488.70" | vehicle_type_code="MOTORBIKE"
+plate="86Z-885.34" | vehicle_type_code="CAR"
+plate="63Y-813.00" | vehicle_type_code="MOTORBIKE"
+plate="47W-121.02" | vehicle_type_code="CAR"
+plate="71U-654.44" | vehicle_type_code="CAR"
+plate="19A-084.50" | vehicle_type_code="MOTORBIKE"
+plate="76Z-758.51" | vehicle_type_code="MOTORBIKE"
+plate="03Z-328.52" | vehicle_type_code="MOTORBIKE"
+plate="89N-658.34" | vehicle_type_code="MOTORBIKE"
+plate="59O-973.66" | vehicle_type_code="CAR"
+plate="86N-861.29" | vehicle_type_code="MOTORBIKE"
+plate="95W-404.86" | vehicle_type_code="MOTORBIKE"
+plate="50S-101.38" | vehicle_type_code="MOTORBIKE"
+plate="27A-286.98" | vehicle_type_code="MOTORBIKE"
+plate="76C-910.03" | vehicle_type_code="MOTORBIKE"
+plate="60I-773.27" | vehicle_type_code="CAR"
+plate="91M-156.27" | vehicle_type_code="CAR"
+plate="95F-709.52" | vehicle_type_code="MOTORBIKE"
+plate="41W-651.80" | vehicle_type_code="MOTORBIKE"
+plate="19R-832.57" | vehicle_type_code="MOTORBIKE"
+plate="08M-342.50" | vehicle_type_code="MOTORBIKE"
+plate="54P-544.50" | vehicle_type_code="MOTORBIKE"
+plate="75D-984.09" | vehicle_type_code="CAR"
+plate="86P-999.89" | vehicle_type_code="MOTORBIKE"
+plate="84I-962.13" | vehicle_type_code="CAR"
+plate="68A-258.43" | vehicle_type_code="CAR"
+plate="59M-150.67" | vehicle_type_code="MOTORBIKE"
+plate="51K-916.75" | vehicle_type_code="CAR"
+plate="00U-090.05" | vehicle_type_code="CAR"
+plate="58Q-545.45" | vehicle_type_code="MOTORBIKE"
+plate="94Y-536.98" | vehicle_type_code="MOTORBIKE"
+plate="66A-929.29" | vehicle_type_code="CAR"
+plate="84P-645.66" | vehicle_type_code="CAR"
+plate="13C-889.41" | vehicle_type_code="CAR"
+plate="43Y-195.10" | vehicle_type_code="CAR"
+plate="59R-802.93" | vehicle_type_code="MOTORBIKE"
+plate="33I-688.25" | vehicle_type_code="MOTORBIKE"
+plate="49O-240.10" | vehicle_type_code="CAR"
+plate="97J-437.25" | vehicle_type_code="MOTORBIKE"
+plate="03K-440.97" | vehicle_type_code="MOTORBIKE"
+plate="27X-582.08" | vehicle_type_code="CAR"
+plate="09D-660.66" | vehicle_type_code="MOTORBIKE"
+plate="08F-093.99" | vehicle_type_code="MOTORBIKE"
+plate="08P-664.82" | vehicle_type_code="MOTORBIKE"
+plate="34K-706.66" | vehicle_type_code="MOTORBIKE"
+plate="14U-641.99" | vehicle_type_code="MOTORBIKE"
+plate="48C-247.37" | vehicle_type_code="CAR"
+plate="32G-207.12" | vehicle_type_code="MOTORBIKE"
+plate="53Q-787.64" | vehicle_type_code="MOTORBIKE"
+plate="89Z-553.82" | vehicle_type_code="MOTORBIKE"
+plate="28V-320.77" | vehicle_type_code="CAR"
+## zone_capacities (3)
+zone="A" | vehicle_type_code="MOTORBIKE" | capacity=150
+zone="B" | vehicle_type_code="MOTORBIKE" | capacity=150
+zone="C" | vehicle_type_code="CAR" | capacity=30
+## zones (3)
+name="A"
+name="B"
+name="C"
+## zone_availability (3)
+zone="A" | vehicle_type_code="MOTORBIKE" | capacity=150 | open=17 | free=133
+zone="B" | vehicle_type_code="MOTORBIKE" | capacity=150 | open=15 | free=135
+zone="C" | vehicle_type_code="CAR" | capacity=30 | open=15 | free=15
+total | vehicle_type_code="CAR" | free=15
+total | vehicle_type_code="MOTORBIKE" | free=268

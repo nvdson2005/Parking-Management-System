@@ -20,7 +20,7 @@ export default async function ManagerPage() {
           </Link>
         ))}
       </nav>
-      <LiveAvailability initial={initial} />
+      <LiveAvailability initial={initial} role="MANAGER" renderedAt={new Date().toISOString()} />
     </div>
   )
 }

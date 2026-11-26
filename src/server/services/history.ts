@@ -1,3 +1,4 @@
+import { z } from 'zod'
 import type { Db } from '@/server/db'
 
 /**
@@ -73,3 +74,15 @@ export async function allPayments(
     zoneName: payment.session.zone.name,
   }))
 }
+
+const optionalDate = z
+  .string()
+  .optional()
+  .refine((v) => v === undefined || !Number.isNaN(new Date(v).getTime()), { message: 'Invalid date' })
+  .transform((v) => (v === undefined ? undefined : new Date(v)))
+
+/**
+ * Query for the manager's GET /api/payments (A-65, KB-15): optional `from`
+ * and `to`, each a parsable date; an unparsable value is a VALIDATION error.
+ */
+export const paymentsQuerySchema = z.object({ from: optionalDate, to: optionalDate })

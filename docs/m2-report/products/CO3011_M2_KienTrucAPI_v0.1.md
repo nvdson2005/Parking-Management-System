@@ -8,10 +8,10 @@ Hệ thống quản lý bãi đỗ xe thông minh (Smart Parking Management Syst
 |---|---|
 | Mã và tên | P18 - Thiết kế kiến trúc và API |
 | Loại | Sản phẩm trung gian |
-| Phiên bản | v1.0 (A-22 hoàn thành 18/11/2026; chờ ghi nhận review CP-02) |
+| Phiên bản | v1.1 (ghi nhận follow-up review CP-02 ngày 24/11/2026) |
 | Chủ sở hữu | Nguyễn Võ Đức Sơn (Trưởng nhóm kỹ thuật, RES-01) |
-| Người review | Đào Xuân Sơn (QA) |
-| Hoạt động tạo / review | A-22 (09–12/11/2026, W12, Nguyễn Võ Đức Sơn) tạo v1.0; A-23 (~13–16/11/2026, W12–W13) review tại CP-02 bởi Đào Xuân Sơn |
+| Người review | A-23 ban đầu giao cho Đào Xuân Sơn (RES-02) và Nguyễn Phạm Mạnh Dũng (RES-03); follow-up review do Nguyễn Võ Đức Sơn (RES-01) tiếp nhận ngày 24/11/2026 |
+| Hoạt động tạo / review | A-22 (09–12/11/2026, W12, Nguyễn Võ Đức Sơn) tạo v1.0; A-23 (~13–16/11/2026, W12–W13) được giao cho RES-02/RES-03; RES-01 tiếp nhận follow-up ngày 24/11/2026 khi kết quả A-23 còn chờ |
 | Checkpoint | CP-02 |
 | Mục tiêu liên quan | O1, O2, O4, O5 |
 | Nguồn | P02 SRS, M1 report, client log, mã nguồn MVP (hoàn thành 08/11/2026) |
@@ -24,6 +24,7 @@ Hệ thống quản lý bãi đỗ xe thông minh (Smart Parking Management Syst
 | v0.1 | 08/11/2026 | Nguyễn Võ Đức Sơn | Bản nháp đầu tiên, đối chiếu đặc tả MVP với mã nguồn |
 | v0.2 | 09/11/2026 | Nguyễn Võ Đức Sơn | Đưa P06, P10, P11 vào phạm vi V1.0; ánh xạ KB-01..KB-19 sang hoạt động sửa của Baseline V1.0 |
 | v1.0 | 18/11/2026 | Nguyễn Võ Đức Sơn | A-22: quyết định cho KB-01..KB-19; chấp nhận KB-02, KB-03; sửa KB-04, KB-05; bổ sung `method` cho `/api/events/exit/confirm` và quy tắc loại xe cho `/api/events/entry` |
+| v1.1 | 24/11/2026 | Nguyễn Võ Đức Sơn (RES-01) | Ghi nhận follow-up review CP-02 sau khi RES-01 tiếp nhận quyền sở hữu review còn chờ từ A-23; kết quả đạt theo ba tiêu chí CP-02 |
 
 **Quy ước trong tài liệu.** Mã FR-xx, EX-xx, D-xx giữ nguyên theo đặc tả thiết kế MVP (`docs/superpowers/specs/2026-11-08-smart-parking-mvp-design.md`). Mọi mô tả hành vi lấy từ đặc tả và mã nguồn hiện tại; đường dẫn mã ghi bằng tiếng Anh.
 
@@ -482,9 +483,9 @@ Các lựa chọn [BUILDER] khác của spec §8 và mã đã chọn: thư việ
 | Quyết định | KB-01..KB-19 đều có quyết định (cột cuối bảng mục 10); KB-02, KB-03 chấp nhận; KB-04, KB-05 sửa mã (A-63); KB-18 sửa chú thích |
 | Hợp đồng vào/ra | Đóng băng với hai thay đổi: `method` ở `/api/events/exit/confirm` (KB-05) và quy tắc so biển (KB-04) |
 | Người duyệt | Nguyễn Võ Đức Sơn (RES-01) |
-| Người review | Đào Xuân Sơn (RES-02) và Nguyễn Phạm Mạnh Dũng (RES-03), theo A-23 |
-| Ngày review | Dự kiến 20/11/2026 (giả định kế hoạch, chưa diễn ra; ghi ngày thực tế sau buổi review) |
-| Kết quả | Chờ review. Trạng thái giả định: chưa đạt cho đến khi RES-02 và RES-03 ghi kết quả |
+| Người review | Nguyễn Võ Đức Sơn (RES-01), tiếp nhận quyền sở hữu follow-up review còn chờ từ A-23 (ban đầu giao RES-02/RES-03) |
+| Ngày review | 24/11/2026 (follow-up review của RES-01; ngày dự kiến 20/11/2026 trước đó không phải ngày review thực tế) |
+| Kết quả | Đạt theo các tiêu chí CP-02 đã nêu: KB-01..KB-19 đều có quyết định tại mục 10; hợp đồng vào/ra được đóng băng tại mục 7; FR-01..FR-34 được ánh xạ tới endpoint hoặc thành phần tại mục 9. Đây là rà soát tài liệu P18 theo các tiêu chí trên. |
 
 ### 10.3 Rà soát A-74 (thanh toán mô phỏng, FR-26..FR-28)
 

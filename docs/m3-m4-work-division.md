@@ -76,8 +76,11 @@ These activities are not in Baseline V1.0. Every effort figure is a PERT-style m
 | A-114 | Individual contribution and reflection statement | P17 | all 5 × 1 h | W15 | A-90 |
 | A-115 | Demo script + slides (RES-05 2 h); mock viva, everyone explains any artifact (all 5 × 0.5 h) | P14 | RES-05 2, all 0.5 | W15 | A-88 |
 | A-116 | Final submission package and LMS upload | P17 | RES-04 1.5 | W15–W16 | A-92 |
+| A-117 | CP-05 conditional follow-up: complete C1–C6 evidence and defect fixes; detail and approval record in `docs/m3/cp05-follow-up-verification.md` | P20 | RES-01 1–2; RES-02 0.5–1; RES-04 2–3; RES-05 4.5–9.5 | W14, before A-87 / by CP-07 | A-68 |
 
 **Effort impact:** about 32.5 h of firm work (+3 h if A-106 is triggered). Total planned effort rises from 139.6 h to 172.1 h against 190 h of capacity, so utilisation goes from 73 % to about **91 %**. That is tight. It raises the likelihood of R-G4-02 (members not keeping their hours), so RES-01 keeps the most free time (≈7 h) to absorb the change event. If the change event costs more than ≈7 h, apply the Q22 fallback order (reports → payment → reservations) through a CR.
+
+A-117 adds an estimated **9–17 h** including QA review and approval recording, beyond the effort totals above. Re-estimate after C5; if the two-click run exposes an availability mismatch, stop and have RES-02 reassess the CP-05 verdict before continuing with C6.
 
 ## 5. Per-person plan by week
 
@@ -172,3 +175,18 @@ If at M-03 any Must product is not verified or the schedule is more than 2 days 
 ### Final report timeline
 
 A-92 finishes on **28/11** so one review day remains before the **29/11** submission. A-116 (package and upload) is assembled during W14, not after.
+
+### CP-05 conditional deferral notice (25/11/2026)
+
+Per the user's instruction, record the outstanding CP-05 checks under A-117. C1 evidence was reviewed by Codex on 25/11; RES-02 formal verification remains pending. The user directed that the C2 email be skipped; it was **not sent**, Q23 remains unmet, and authorized gate acceptance of the waiver remains pending. The latest A-68 record proposes ISS-06–ISS-11; RES-02 allocation and formal RES-01 (PM) approval remain pending. See `docs/m3/cp05-follow-up-verification.md` for the evidence and approval status.
+
+| Condition | Owner / verification task | Due | Latest status |
+|---|---|---|---|
+| C1 — Hand-count photo | RES-05 performs independent hand count; RES-02 verifies | Before A-87 | Evidence reviewed by Codex; RES-02 verification pending (ISS-06) |
+| C2 — Client demo video | RES-01 sends the video and records date/recipient, unless authorized approvers accept waiver | Before A-87 | User directed skip; video not emailed, Q23 unmet; gate acceptance pending (ISS-07) |
+| C3 — Entry/exit Network timings | RES-05 captures/re-measures the three operations | Before A-87 | Done (ISS-08) |
+| C4 — Commit and verifier on QE rows | RES-05 updates; RES-02 verifies | Before A-87 | Rows updated; verifier sign-off pending (ISS-09) |
+| C5 — Re-run D-01 and compare `a68-check` with UI | RES-05, with RES-02 reviewing the result; mismatch triggers immediate gate reassessment | Before A-87 | Done; availability matched, D-01 remains S2 (ISS-10) |
+| C6 — Fix and retest D-01, D-03, D-04 | D-01: RES-05 with RES-01; D-03/D-04: RES-04 | By CP-07 | D-01 fixed/retested, merge pending; D-03/D-04 still open (ISS-11) |
+
+CP-05 remains **pass with conditions** until evidence, issue allocation, verifier sign-off, and formal PM approval are recorded. Any availability mismatch requires immediate gate reassessment.

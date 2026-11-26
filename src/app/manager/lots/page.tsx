@@ -13,7 +13,15 @@ const VEHICLE_TYPES: VehicleTypeCode[] = ['MOTORBIKE', 'CAR']
 
 type ZoneCapacity = { vehicleTypeCode: string; capacity: number }
 type Zone = { id: string; name: string; capacities: ZoneCapacity[] }
-type Lot = { id: string; name: string; address: string; status: 'ACTIVE' | 'SUSPENDED'; zones: Zone[] }
+type Lot = {
+  id: string
+  name: string
+  address: string
+  status: 'ACTIVE' | 'SUSPENDED'
+  openTime: string | null
+  closeTime: string | null
+  zones: Zone[]
+}
 
 function capacityOf(zone: Zone, type: VehicleTypeCode): number {
   return zone.capacities.find((c) => c.vehicleTypeCode === type)?.capacity ?? 0
@@ -33,6 +41,7 @@ export default function ManagerLotsPage() {
   const [capDrafts, setCapDrafts] = useState<Record<string, string>>({})
   const [lotEdits, setLotEdits] = useState<Record<string, { name: string; address: string }>>({})
   const [zoneNameDrafts, setZoneNameDrafts] = useState<Record<string, string>>({})
+  const [hourDrafts, setHourDrafts] = useState<Record<string, { open: string; close: string }>>({})
 
   const load = useCallback(async () => {
     const res = await fetch('/api/lots')
@@ -94,6 +103,25 @@ export default function ManagerLotsPage() {
     )
     if (ok) {
       setLotEdits((prev) => {
+        const next = { ...prev }
+        delete next[lot.id]
+        return next
+      })
+    }
+  }
+
+  // Opening hours (G-01, Q37): both times, or both empty to clear them.
+  async function handleSaveHours(e: FormEvent, lot: Lot) {
+    e.preventDefault()
+    const draft = hourDrafts[lot.id] ?? { open: lot.openTime ?? '', close: lot.closeTime ?? '' }
+    const ok = await send(
+      `/api/lots/${lot.id}`,
+      'PATCH',
+      { openTime: draft.open || null, closeTime: draft.close || null },
+      `hours-${lot.id}`,
+    )
+    if (ok) {
+      setHourDrafts((prev) => {
         const next = { ...prev }
         delete next[lot.id]
         return next
@@ -229,6 +257,31 @@ export default function ManagerLotsPage() {
                   {busy === `details-${lot.id}` ? t('lots.saving') : t('lots.save')}
                 </Button>
               </form>
+              <form
+                className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-end"
+                onSubmit={(e) => handleSaveHours(e, lot)}
+              >
+                {(['open', 'close'] as const).map((which) => (
+                  <div key={which} className="flex flex-col gap-1.5">
+                    <Label htmlFor={`${which}Time-${lot.id}`}>{t(which === 'open' ? 'lots.openTime' : 'lots.closeTime')}</Label>
+                    <Input
+                      id={`${which}Time-${lot.id}`}
+                      type="time"
+                      value={hourDrafts[lot.id]?.[which] ?? (which === 'open' ? lot.openTime : lot.closeTime) ?? ''}
+                      onChange={(e) =>
+                        setHourDrafts((prev) => {
+                          const current = prev[lot.id] ?? { open: lot.openTime ?? '', close: lot.closeTime ?? '' }
+                          return { ...prev, [lot.id]: { ...current, [which]: e.target.value } }
+                        })
+                      }
+                    />
+                  </div>
+                ))}
+                <Button type="submit" variant="outline" disabled={busy === `hours-${lot.id}`}>
+                  {busy === `hours-${lot.id}` ? t('lots.saving') : t('lots.saveHours')}
+                </Button>
+              </form>
+              <p className="text-xs text-muted-foreground">{t('lots.hoursHint')}</p>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               <div className="flex flex-col gap-3">

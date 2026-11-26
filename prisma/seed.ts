@@ -37,7 +37,8 @@ async function main() {
   }
 
   const lot = await db.parkingLot.create({
-    data: { name: 'Bãi xe thí điểm', address: 'Cơ sở chính', status: 'ACTIVE' },
+    // Opening hours are information only (Q37); AT-03 step 1 changes them.
+    data: { name: 'Bãi xe thí điểm', address: 'Cơ sở chính', status: 'ACTIVE', openTime: '06:00', closeTime: '22:00' },
   })
 
   const zoneA = await db.zone.create({ data: { lotId: lot.id, name: 'A' } })

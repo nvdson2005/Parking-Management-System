@@ -9,7 +9,8 @@ import { findVehicleByIdentifier, generateCode } from '@/server/services/vehicle
 import { logAccess } from '@/server/services/accessLog'
 import { publishAvailabilityChanged } from '@/server/bus'
 import { normalizePlate } from '@/lib/plate'
-import type { IdMethod, VehicleTypeCode } from '@/lib/types'
+import { DEFAULT_GATE, DEFAULT_SOURCE, GATES, SOURCES } from '@/lib/types'
+import type { GateCode, IdMethod, SessionSource, VehicleTypeCode } from '@/lib/types'
 
 const MAX_CODE_ATTEMPTS = 10
 
@@ -20,6 +21,8 @@ const recordEntrySchema = z.object({
   vehicleType: z.enum(['MOTORBIKE', 'CAR']).optional(),
   staffId: z.string().min(1),
   confirmEarly: z.boolean().optional(),
+  gate: z.enum(GATES).optional(),
+  source: z.enum(SOURCES).optional(),
   now: z.date().optional(),
 })
 
@@ -68,6 +71,8 @@ export async function recordEntry(
     zoneId: string
     vehicleType?: VehicleTypeCode
     staffId: string
+    gate?: GateCode
+    source?: SessionSource
     confirmEarly?: boolean
     now?: Date
   },
@@ -119,7 +124,12 @@ export async function recordEntry(
               // Lecturer R3: staff must check and explicitly confirm an early
               // arrival before the reservation is fulfilled.
               if (!data.confirmEarly) {
-                throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time')
+                // FR-51: Staff see the booked time and zone before deciding.
+                // `zone` is the reserved zone here (same id); no plate in details.
+                throw new DomainError('EARLY_ARRIVAL', 'Vehicle arrived before the reserved time', {
+                  arrivalTime: reservation.arrivalTime.toISOString(),
+                  zoneName: zone.name,
+                })
               }
               earlyArrivalAt = reservation.arrivalTime
             }
@@ -157,6 +167,8 @@ export async function recordEntry(
             status: 'OPEN',
             reservationId: ownReservationId,
             ownerId: vehicle.ownerId,
+            entryGate: data.gate ?? DEFAULT_GATE,
+            entrySource: data.source ?? DEFAULT_SOURCE,
           },
         })
 

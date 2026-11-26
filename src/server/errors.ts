@@ -20,6 +20,7 @@ export type ErrorCode =
   | 'EARLY_ARRIVAL'
   | 'VEHICLE_PARKED'
   | 'NOT_OWNER'
+  | 'SIMULATOR_BUSY'
 
 const STATUS_MAP: Record<ErrorCode, number> = {
   VALIDATION: 400,
@@ -43,16 +44,20 @@ const STATUS_MAP: Record<ErrorCode, number> = {
   EARLY_ARRIVAL: 409,
   VEHICLE_PARKED: 409,
   NOT_OWNER: 403,
+  SIMULATOR_BUSY: 409,
 }
 
 export class DomainError extends Error {
   code: ErrorCode
   status: number
+  /** Extra data for the client, sent next to `error` (spec 006, FR-51). Never personal data. */
+  details?: Record<string, unknown>
 
-  constructor(code: ErrorCode, message: string) {
+  constructor(code: ErrorCode, message: string, details?: Record<string, unknown>) {
     super(message)
     this.name = 'DomainError'
     this.code = code
     this.status = STATUS_MAP[code]
+    if (details) this.details = details
   }
 }

@@ -15,13 +15,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useT } from '@/components/I18nProvider'
+import type { UserGroup } from '@/lib/types'
 
 type User = {
   id: string
   email: string
   name: string
   roleCode: string
-  userGroup: string | null
+  userGroup: UserGroup | null
+  requestedUserGroup: UserGroup | null
   locked: boolean
 }
 
@@ -163,7 +165,30 @@ export default function ManagerAccountsPage() {
                 <TableCell className="font-mono text-sm">{user.email}</TableCell>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{t(`accounts.roles.${user.roleCode}`)}</TableCell>
-                <TableCell>{user.userGroup ? t(`accounts.groups.${user.userGroup}`) : '—'}</TableCell>
+                <TableCell>
+                  {user.roleCode === 'CUSTOMER' ? (
+                    <div className="flex flex-col gap-1">
+                      <span>{user.userGroup ? t(`accounts.groups.${user.userGroup}`) : '—'}</span>
+                      {user.requestedUserGroup ? (
+                        <>
+                          <span className="text-xs text-muted-foreground">
+                            {t('accounts.requested', { group: t(`accounts.groups.${user.requestedUserGroup}`) })}
+                          </span>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={busy === `group-${user.id}`}
+                            onClick={() => send(`/api/accounts/${user.id}`, 'PATCH', { userGroup: user.requestedUserGroup }, `group-${user.id}`)}
+                          >
+                            {t('accounts.approveGroup')}
+                          </Button>
+                        </>
+                      ) : null}
+                    </div>
+                  ) : (
+                    '—'
+                  )}
+                </TableCell>
                 <TableCell>{user.locked ? t('accounts.yes') : t('accounts.no')}</TableCell>
                 <TableCell>
                   <Button

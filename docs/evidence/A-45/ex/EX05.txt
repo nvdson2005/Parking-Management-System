@@ -1,0 +1,75 @@
+## access_logs (3)
+action="LOGIN"
+action="LOT_CHANGE"
+action="LOT_CHANGE"
+## notifications (0)
+## parking_lots (1)
+name="Bãi xe thí điểm" | address="Cơ sở chính" | status="ACTIVE"
+## parking_sessions (0)
+## payments (0)
+## reservations (0)
+## roles (3)
+code="CUSTOMER"
+code="STAFF"
+code="MANAGER"
+## session_events (0)
+## tariffs (6)
+vehicle_type_code="MOTORBIKE" | fee_group="STUDENT" | price=2000
+vehicle_type_code="MOTORBIKE" | fee_group="LECTURER_STAFF" | price=2000
+vehicle_type_code="MOTORBIKE" | fee_group="GUEST" | price=2000
+vehicle_type_code="CAR" | fee_group="STUDENT" | price=10000
+vehicle_type_code="CAR" | fee_group="LECTURER_STAFF" | price=10000
+vehicle_type_code="CAR" | fee_group="GUEST" | price=10000
+## users (19)
+email="manager1@demo.local" | name="Manager 1" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="manager2@demo.local" | name="Manager 2" | role_code="MANAGER" | user_group=null | locked=false | requested_user_group=null
+email="staff1@demo.local" | name="Staff 1" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="staff2@demo.local" | name="Staff 2" | role_code="STAFF" | user_group=null | locked=false | requested_user_group=null
+email="customer01@demo.local" | name="Customer 01" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer02@demo.local" | name="Customer 02" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer03@demo.local" | name="Customer 03" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer04@demo.local" | name="Customer 04" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer05@demo.local" | name="Customer 05" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer06@demo.local" | name="Customer 06" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer07@demo.local" | name="Customer 07" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer08@demo.local" | name="Customer 08" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer09@demo.local" | name="Customer 09" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer10@demo.local" | name="Customer 10" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer11@demo.local" | name="Customer 11" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer12@demo.local" | name="Customer 12" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer13@demo.local" | name="Customer 13" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+email="customer14@demo.local" | name="Customer 14" | role_code="CUSTOMER" | user_group="LECTURER_STAFF" | locked=false | requested_user_group=null
+email="customer15@demo.local" | name="Customer 15" | role_code="CUSTOMER" | user_group="STUDENT" | locked=false | requested_user_group=null
+## vehicle_types (2)
+code="MOTORBIKE" | name_vi="Xe máy" | name_en="Motorbike"
+code="CAR" | name_vi="Ô tô" | name_en="Car"
+## vehicles (15)
+plate="29A-01001" | vehicle_type_code="MOTORBIKE"
+plate="29A-02001" | vehicle_type_code="MOTORBIKE"
+plate="29A-03001" | vehicle_type_code="MOTORBIKE"
+plate="29A-04001" | vehicle_type_code="MOTORBIKE"
+plate="29A-05001" | vehicle_type_code="MOTORBIKE"
+plate="29A-06001" | vehicle_type_code="MOTORBIKE"
+plate="29A-07001" | vehicle_type_code="MOTORBIKE"
+plate="29A-08001" | vehicle_type_code="MOTORBIKE"
+plate="29A-09001" | vehicle_type_code="MOTORBIKE"
+plate="29A-10001" | vehicle_type_code="MOTORBIKE"
+plate="29A-11001" | vehicle_type_code="MOTORBIKE"
+plate="29A-12001" | vehicle_type_code="MOTORBIKE"
+plate="29A-13001" | vehicle_type_code="MOTORBIKE"
+plate="29A-14001" | vehicle_type_code="MOTORBIKE"
+plate="29A-15001" | vehicle_type_code="MOTORBIKE"
+## zone_capacities (3)
+zone="A" | vehicle_type_code="MOTORBIKE" | capacity=150
+zone="B" | vehicle_type_code="MOTORBIKE" | capacity=150
+zone="C" | vehicle_type_code="CAR" | capacity=30
+## zones (3)
+name="A"
+name="B"
+name="C"
+## zone_availability (3)
+zone="A" | vehicle_type_code="MOTORBIKE" | capacity=150 | open=0 | free=150
+zone="B" | vehicle_type_code="MOTORBIKE" | capacity=150 | open=0 | free=150
+zone="C" | vehicle_type_code="CAR" | capacity=30 | open=0 | free=30
+total | vehicle_type_code="CAR" | free=30
+total | vehicle_type_code="MOTORBIKE" | free=300
