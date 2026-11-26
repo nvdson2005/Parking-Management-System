@@ -26,11 +26,11 @@ Sources: [decision record](../../m3/decision-record.md), [change impact analysis
 |---|---|
 | Planned | 30 minutes, five members (5 x 0.5 h), chaired by RES-01. Agenda: facts and gap; options A/B/C; cuts per member and extra W14 hours; levers for the residual; fallback trigger and who reports on 24/11. |
 | Date | 20/11/2026 (per RES-01). |
-| Attendance | `TODO(RES-01): confirm who attended. No attendance record exists in the repository.` |
+| Attendance | All five members (RES-01 to RES-05), per RES-01. No attendance record exists in the repository, so this rests on RES-01's statement. |
 | Levers chosen | `TODO(RES-01): confirm.` The planning assumption was Option C plus one extra W14 hour per member. |
 | Capacity commitment | RES-01 reported on 24/11 that all five members committed to **12 h in W14** and to work on **28–29/11**. This is a PM-reported commitment, not a measured one. |
 
-Until RES-01 confirms the two TODO lines, cite the workshop as "held 20/11 per RES-01, attendance and levers not recorded" and do not cite the assumed outcome as a measured one.
+Until RES-01 confirms the levers, cite the workshop as "held 20/11 per RES-01, levers not recorded" and do not cite the assumed outcome as a measured one.
 
 ## 3. M-03 gate, 24/11/2026
 
@@ -43,7 +43,7 @@ Until RES-01 confirms the two TODO lines, cite the workshop as "held 20/11 per R
 | **Q22 trigger** | **Triggered on the stated rule** (Must verification incomplete). |
 | **Q22 decision** | **Late 24/11 decision by RES-01: retain the A-72 and A-76 manual acceptance checks.** No verification is omitted under Q22. The 2.6 h fallback saving is not counted, and the checks are not listed as omitted in P14. |
 | Effect | Coverage kept for O3 and O4. The effective capacity gap is about 2.6 h larger than the V2.0 model assumed. Recovery rests on the 12 h W14 commitment and RES-03's revised remaining-work forecast. |
-| Decision time and participants | `TODO(RES-01): time and who was present.` |
+| Decision time and participants | Evening of 24/11/2026, about 20:00, all five members, per RES-01. The time is RES-01's entry; no system record backs it. |
 
 ## 4. CR-03 (24/11)
 
@@ -59,7 +59,7 @@ Until RES-01 confirms the two TODO lines, cite the workshop as "held 20/11 per R
 
 | Item | Owner | Needed before |
 |---|---|---|
-| Fill the three `TODO(RES-01)` lines above | RES-01 | F1-03, report freeze 28/11 |
+| Confirm the levers chosen at the workshop (the one remaining `TODO(RES-01)` in section 2) | RES-01 | F1-03, report freeze 28/11 |
 | Formal acceptance of the CP-05 conditions, including the waived C2 client video (Q23 unmet until accepted) | RES-02 records, RES-01 approves | A-87 / CP-07 |
 | Revised remaining-work forecast and recovery assignment | RES-03 | F3-02, F1-03 |
 | Candidate SHA for A-87 (`26a623c` is out of date; `main` has since gained #22, #24, #26, #27, #28) | RES-02 | A-87 dry run |
