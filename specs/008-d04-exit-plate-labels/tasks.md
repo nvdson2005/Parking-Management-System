@@ -1,0 +1,54 @@
+# Tasks: Show both plates in the exit preview (A-68 D-04)
+
+**Input**: Design documents from `specs/008-d04-exit-plate-labels/`
+
+**Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/exit-preview-view.md, quickstart.md
+
+**Tests**: required by constitution IV (a test that fails without the fix).
+
+## Format: `[ID] [P?] [Story] Description`
+
+## Phase 1: Setup
+
+- [X] T001 Confirm the branch `fix/d04-exit-plate-labels` is based on `origin/main` `2c5a587`, run `codegraph sync`, and run `npx vitest run tests/exit.test.ts tests/i18n.test.ts` as the baseline (both pass)
+
+## Phase 2: Foundational
+
+- [X] T002 [P] Add `entryPlate: 'Biển số lúc vào'` to the `exit` block in `src/i18n/vi.ts` and `entryPlate: 'Plate at entry'` to the `exit` block in `src/i18n/en.ts` (key parity required by `tests/i18n.test.ts`)
+
+## Phase 3: User Story 1 - Staff see which plate was recorded at entry and which plate they observed (Priority: P1) 🎯 MVP
+
+**Goal**: the exit preview shows the entry plate under "Biển số lúc vào" / "Plate at entry" and the typed plate under "Biển số quan sát" / "Observed plate", with the observed plate marked when the plates differ.
+
+**Independent Test**: `npx vitest run tests/exit-preview-details.test.ts`, then the manual AT-EX02 steps in quickstart.md.
+
+### Tests for User Story 1
+
+- [X] T003 [US1] Write `tests/exit-preview-details.test.ts` with `renderToStaticMarkup` inside `I18nProvider` (pattern of `tests/early-arrival-prompt.test.ts`), rendering `ExitPreviewDetails` from `src/app/staff/exit/ExitForm.tsx` with a preview whose `plateSnapshot` is `66F-403.45`: (a) vi, `plateMismatch: true`, `observedPlate: '66F-403.46'` → the HTML contains "Biển số lúc vào" followed by `66F-403.45`, "Biển số quan sát" followed by `66F-403.46`, and `data-mismatch="true"` on the observed value; the entry plate is not the value under "Biển số quan sát"; (b) vi, `plateMismatch: false`, `observedPlate: ' 66F 403 45 '` → both labels, observed value `66F 403 45` (trimmed), no `data-mismatch`; (c) en → "Plate at entry" and "Observed plate". Run it and record that it fails before T004 (the export does not exist and the label is wrong)
+
+### Implementation for User Story 1
+
+- [X] T004 [US1] In `src/app/staff/exit/ExitForm.tsx`, export the `ExitPreview` type and a component `ExitPreviewDetails({ preview, observedPlate }: { preview: ExitPreview; observedPlate: string })` that renders the `<dl>` of contracts/exit-preview-view.md in this order: `exit.entryPlate` → `preview.plateSnapshot`; `exit.observedPlate` → `observedPlate.trim()`, with `data-mismatch="true"` and `text-destructive` when `preview.plateMismatch` is true; then zone, vehicle type, fee group, entry time and fee exactly as today. Replace the inline `<dl>` in `ExitForm` with `<ExitPreviewDetails preview={preview} observedPlate={observedPlate} />`. Leave the mismatch warning, the checkbox, the confirm rule and `resetPreview()` unchanged
+- [X] T005 [US1] Run `npx vitest run tests/exit-preview-details.test.ts tests/exit.test.ts tests/i18n.test.ts` (all pass), then mutation-check: remove the observed-plate row, then swap the entry-plate label back to `exit.observedPlate`, then drop the mismatch mark; each change must make a T003 case fail; restore the fix
+
+## Phase 4: Polish & Cross-Cutting Concerns
+
+- [X] T006 Run `npm test`, `npm run lint` and `npm run build` (constitution IV); record the counts in the PR
+- [ ] T007 Manual AT-EX02 retest on the dev server following quickstart.md steps 1–7 (mismatch, match with separators, English, preview cleared when the observed plate changes, lost card); record the results and screenshots in `docs/final/res04/d04-retest.md`, ending with a paste-ready Quality Evidence row and the D-04 status for ISS-11
+- [ ] T008 Run `codegraph sync`, then the independent `review-implementation`; fix any Critical or Important finding before the PR
+- [ ] T009 Open one PR into `main` (commits reference A-68, D-04, ISS-11); after merge, owners of A-68 (RES-05) and the CP-05 gate (RES-02) update D-04 in `docs/m3/a-68-cp05-test.md` and F2-03 (rule 2: RES-04 does not edit their files)
+
+## Dependencies & Execution Order
+
+- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009.
+- T002 touches only the i18n files and can run in parallel with T003; T003 must fail for the right reason (missing export, wrong label) before T004.
+
+## Parallel Example
+
+```text
+T002 (i18n keys) and T003 (render test) together; then T004.
+```
+
+## Implementation Strategy
+
+One user story, so the MVP is the whole feature: T001–T005 fix and prove the display, T006–T009 close it under the constitution and hand the evidence to the gate owners before CP-07 (27/11).

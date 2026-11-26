@@ -21,7 +21,7 @@ import { useT } from '@/components/I18nProvider'
 import { DEFAULT_GATE, GATES } from '@/lib/types'
 import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
-type ExitPreview = {
+export type ExitPreview = {
   sessionId: string
   plateSnapshot: string
   zoneName: string
@@ -34,6 +34,40 @@ type ExitPreview = {
 
 function formatFee(fee: number): string {
   return new Intl.NumberFormat('vi-VN').format(fee)
+}
+
+/**
+ * The exit preview details (A-68 D-04, spec 008): the plate recorded at entry
+ * and the plate Staff typed, each under its own label, with the typed plate
+ * marked when `previewExit` reports a mismatch (EX-02, AT-EX02). The typed
+ * plate comes from the form, which clears the preview whenever it changes.
+ */
+export function ExitPreviewDetails({ preview, observedPlate }: { preview: ExitPreview; observedPlate: string }) {
+  const t = useT()
+  return (
+    <dl className="grid grid-cols-2 gap-2 text-sm">
+      <dt className="text-muted-foreground">{t('exit.entryPlate')}</dt>
+      <dd className="font-mono">{preview.plateSnapshot}</dd>
+      <dt className="text-muted-foreground">{t('exit.observedPlate')}</dt>
+      {preview.plateMismatch ? (
+        <dd className="font-mono font-semibold text-destructive" data-mismatch="true">
+          {observedPlate.trim()}
+        </dd>
+      ) : (
+        <dd className="font-mono">{observedPlate.trim()}</dd>
+      )}
+      <dt className="text-muted-foreground">{t('exit.zone')}</dt>
+      <dd>{preview.zoneName}</dd>
+      <dt className="text-muted-foreground">{t('exit.vehicleType')}</dt>
+      <dd>{t(`availability.vehicleTypes.${preview.vehicleType}`)}</dd>
+      <dt className="text-muted-foreground">{t('exit.feeGroup')}</dt>
+      <dd>{t(`exit.feeGroups.${preview.feeGroup}`)}</dd>
+      <dt className="text-muted-foreground">{t('exit.entryTime')}</dt>
+      <dd>{new Date(preview.entryTime).toLocaleString()}</dd>
+      <dt className="text-muted-foreground">{t('exit.fee')}</dt>
+      <dd className="font-semibold">{formatFee(preview.fee)} ₫</dd>
+    </dl>
+  )
 }
 
 export function ExitForm() {
@@ -218,20 +252,7 @@ export function ExitForm() {
 
         {preview ? (
           <div className="mt-4 flex flex-col gap-3 rounded-md border p-4">
-            <dl className="grid grid-cols-2 gap-2 text-sm">
-              <dt className="text-muted-foreground">{t('exit.observedPlate')}</dt>
-              <dd className="font-mono">{preview.plateSnapshot}</dd>
-              <dt className="text-muted-foreground">{t('exit.zone')}</dt>
-              <dd>{preview.zoneName}</dd>
-              <dt className="text-muted-foreground">{t('exit.vehicleType')}</dt>
-              <dd>{t(`availability.vehicleTypes.${preview.vehicleType}`)}</dd>
-              <dt className="text-muted-foreground">{t('exit.feeGroup')}</dt>
-              <dd>{t(`exit.feeGroups.${preview.feeGroup}`)}</dd>
-              <dt className="text-muted-foreground">{t('exit.entryTime')}</dt>
-              <dd>{new Date(preview.entryTime).toLocaleString()}</dd>
-              <dt className="text-muted-foreground">{t('exit.fee')}</dt>
-              <dd className="font-semibold">{formatFee(preview.fee)} ₫</dd>
-            </dl>
+            <ExitPreviewDetails preview={preview} observedPlate={observedPlate} />
 
             {preview.plateMismatch ? (
               <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">
