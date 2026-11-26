@@ -406,7 +406,7 @@ Tổng ước lượng G-01 đến G-09: 21h (G-09 thêm 2h ở v0.5; G-01 còn 
 
 ### 11.1 Quyết định phạm vi (RES-03, 22/11/2026)
 
-Nguyên tắc: hạn nộp 29/11 (CR-01) còn ≈ 11,5h chưa có nguồn bù, nên chỉ làm (1) yêu cầu đến từ **câu trả lời của khách hàng** và (2) việc rất nhỏ. Yêu cầu chỉ đến từ SRS v0.2 mà khách hàng chưa đặt ra và không có trong Baseline V1.0 thì hoãn, ghi là khác biệt đã biết trong P14. Cách chọn này theo Q22: ưu tiên chức năng cốt lõi đã thống nhất. Các mục hoãn cần CR (CR-04, dòng soạn sẵn trong `docs/m3/risk-register.md` mục 6). Kết quả được xác nhận lại tại CP-03.
+Nguyên tắc: hạn nộp 29/11 (CR-01) còn ≈ 11,5h chưa có nguồn bù, nên chỉ làm (1) yêu cầu đến từ **câu trả lời của khách hàng** và (2) việc rất nhỏ. Yêu cầu chỉ đến từ SRS v0.2 mà khách hàng chưa đặt ra và không có trong Baseline V1.0 thì hoãn, ghi là khác biệt đã biết trong P14. Cách chọn này theo Q22: ưu tiên chức năng cốt lõi đã thống nhất. Các mục hoãn cần CR (CR-04, dòng Change Log trong `docs/final/res03/risk-register-final.md` mục 7). Kết quả được xác nhận lại tại CP-03.
 
 | Gap | FR | Trạng thái | CR-ID / commit | Người quyết | Ngày | Làm trong, giờ | Lý do |
 |---|---|---|---|---|---|---|---|
