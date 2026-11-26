@@ -43,7 +43,7 @@ Không ai ghi giờ hằng ngày (A-100), nên mọi số đều **ước tính 
 | B5 | 27/11 | Mục A-89: điền kết quả demo A-88 từ RES-01 và kết quả A-87 từ RES-02 | `docs/m3/a-89-acceptance-section.md` | 0,5 | demo 27/11 |
 | B6 | 27/11 | Hoàn thiện A-114 (bỏ ẩn phần reflection), cập nhật A-112 | `a-114-reflection-draft-res03.md`, `a-112-closure-plan.md` | 0,5 | — |
 | B7 | 27/11 | `review-implementation` cho PR #12 trong subagent độc lập; **xin phép rồi mới push**, chuyển PR khỏi draft | PR #12 | 0,3 | B1, B5, B6 |
-| B8 | 27–28/11 | **F3-04** so sánh kế hoạch và thực tế theo 7 chiều (effort, thời gian, lịch, chi phí, phạm vi, chất lượng, rủi ro), các sai lệch ước lượng lớn (MVP 1 ngày so với 123,2 h; CR-01; CR-03; CR-04) và quyết định đã đưa ra | `docs/final/res03/performance-comparison.md` | 2,5 | B1; PR #12 merge (trước đó ghi "pending #12") |
+| B8 | 27–28/11 | **F3-04** so sánh kế hoạch và thực tế theo 7 chiều (effort, thời gian, lịch, chi phí, phạm vi, chất lượng, rủi ro), các sai lệch ước lượng lớn (MVP 1 ngày so với 123,3 h; CR-01; CR-03; CR-04) và quyết định đã đưa ra | `docs/final/res03/performance-comparison.md` | 2,5 | B1; PR #12 merge (trước đó ghi "pending #12") |
 | B9 | 28/11 | **F3-05** dán vào workbook (chỉ mình RES-03 sửa file) các dòng do từng người viết sẵn: Risk Register, Change Log, Planned vs Actual, Task Log, Quality Evidence | `resources/CO3011_Project_Tracking_Workbook (1).xlsx` | 1,0 | các phần còn lại đã merge |
 
 ## 4. Cách chia PR
