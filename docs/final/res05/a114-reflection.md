@@ -23,7 +23,8 @@ F5-07 of `docs/m3-m4-final-work-division.md`, report ref M4 §4.6. Built from th
 | Test suite fix (F5-01) | The simulator suite timed out at the default 5 s; a 60 s suite timeout makes `npm test` green without flags (42 files, 339 tests, run twice) | `9d58c49`, `dbedcc0` (PR #27) |
 | Demo script and mock viva (F5-02, A-115) | Run of show for A-88, setup checklist, known issues, roles, mock viva plan | `965452e` (PR #28); `docs/final/res05/demo-script-and-viva.md` |
 | O1/O2 measures (F5-03, A-92) | Measures of effectiveness for O1 and O2, §4.3.1 assessment (product measures met, outcomes Partial); solo demo run on 26/11 (A-88 internal) on production build `2c5a587`: 100/100 complete records, hand count = UI = DB | `docs/final/res05/objectives-o1-o2.md` (PR pending) |
-| Not in git | Hand count photo and demo video for CP-05; A-09 SRS review (W12) | Video link in `docs/m3/a-68-cp05-test.md` 3.4; A-09 on the team Drive |
+| SRS review (A-09, CP-01) | Reviewed SRS v0.2 on 16/11 against the 7 PD-P02 criteria: not passed, 14 findings; the scope findings were later closed by client decisions in SRS v2.1 (Q36, Q37) | `docs/final/res05/a09-srs-review.md` (committed 26/11; the record was kept in the team workspace until then) |
+| Not in git | Demo video for CP-05 (C2) | Video link in `docs/m3/a-68-cp05-test.md` 3.4 |
 | AI use | Consulted AI (Claude) for advice and draft text; every test, measurement and commit was run and checked by me | |
 
 ## 2. Effort
