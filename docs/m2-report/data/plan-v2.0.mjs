@@ -3,7 +3,7 @@
 // Changes, see docs/m3/baseline-v2.0.md:
 //   CR-01 (lecturer): final submission moved 07/12 -> 29/11; W15 removed; W14 +2 h per person (decision record, option C).
 //   Work-division additions A-100..A-116 (Task 3.8 lower-level plan) added, with the option C cuts applied.
-//   CR-02 (round 3, Q28/Q31/Q32): already built, no effort change. CR-04 (approved by RES-01 on 24/11): A-28 3.17 h -> 7.75 h and A-65 4.33 h -> 15.83 h (PERT E). Items: Q34, Q35 (first 5 h), CP-03 review G-06, G-09, G-04 (+5 h, 23/11), client round 5 Q37, Q38, Q44, Q45, Q46 (+6 h, 24/11), FR-44 for AT-04 (+1.5 h, 24/11); list in P03 §11.1.
+//   CR-02 (round 3, Q28/Q31/Q32): already built, no effort change. CR-04 (pending RES-01 approval): A-28 3.17 h -> 7.75 h and A-65 4.33 h -> 15.83 h (PERT E). Items: Q34, Q35 (first 5 h), CP-03 review G-06, G-09, G-04 (+5 h, 23/11), client round 5 Q37, Q38, Q44, Q45, Q46 (+6 h, 24/11), FR-44 for AT-04 (+1.5 h, 24/11); list in P03 §11.1.
 //   Risk register as of 22/11 (docs/m3/risk-register.md).
 // Effort unit: person-hours. PERT: E = (O + 4M + P) / 6, sigma = (P - O) / 6.
 // Week ids follow the university academic calendar (week 1 starts 24/08/2026).

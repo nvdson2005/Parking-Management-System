@@ -4,7 +4,7 @@
 |---|---|
 | Người sinh | Nguyễn Phạm Mạnh Dũng (RES-03), 23/11/2026; sinh lại 24/11/2026 sau review PR #10 của RES-01 |
 | Người duyệt | Nguyễn Võ Đức Sơn (RES-01). **Chưa duyệt**, xem checklist trong `baseline-v2-handoff.md` |
-| Lý do | CR-01: hạn nộp dời từ 07/12 lên 29/11 (bắt buộc V2.0). Kèm CR-02 (vòng 3, không đổi effort) và CR-04 (Q34, Q35, review CP-03 và câu trả lời vòng 5 của khách hàng ngày 23/11; RES-01 duyệt 24/11, đổi mã từ CR-03 ngày 26/11) |
+| Lý do | CR-01: hạn nộp dời từ 07/12 lên 29/11 (bắt buộc V2.0). Kèm CR-02 (vòng 3, không đổi effort) và CR-04 (Q34, Q35, review CP-03 và câu trả lời vòng 5 của khách hàng ngày 23/11; chờ RES-01 duyệt; đổi mã từ CR-03 ngày 26/11) |
 | Nguồn | `docs/m2-report/data/plan-v2.0.mjs` |
 | Bảng sinh ra | `docs/m2-report/generated-v2/` (19 file, cùng cấu trúc với `generated/` của V1.0) |
 | Lệnh sinh lại | `node docs/m2-report/scripts/schedule-v2.mjs` |

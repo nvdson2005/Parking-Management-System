@@ -8,7 +8,7 @@
 
 **Input**: User description: "A-28 (RES-03): sửa xác thực và nhật ký truy cập theo review P18 v1.0 mục 10, cộng G-05 của P03 v0.4 mục 11.1 (CR-04). Phạm vi: (1) KB-07: đăng ký tự đăng nhập nhưng không ghi LOGIN. (2) KB-14: auth/login, auth/register, lang, POST /api/vehicles trả 500 với body không phải JSON; phải trả 400 VALIDATION. (3) G-05 / Q35: xóa hoặc ẩn biển số trên lượt đã kết thúc sau 12 tháng phải chạy tự động hằng ngày, người thực hiện là hệ thống; giữ nút của Manager. Ngoài phạm vi: KB-16, FR-03, G-06."
 
-**Sources**: P18 v1.0 §10 (KB-07, KB-14, KB-16 decisions), P03 v0.4 §6 and §11.1 (G-05), client answer Q35 (round 3, 15/11/2026), CR-04 (approved by RES-01 on 24/11, `docs/m3/risk-register.md` §6). The design is already decided in these documents, so no separate brainstorming round was run.
+**Sources**: P18 v1.0 §10 (KB-07, KB-14, KB-16 decisions), P03 v0.4 §6 and §11.1 (G-05), client answer Q35 (round 3, 15/11/2026), CR-04 (pending RES-01 approval, `docs/m3/risk-register.md` §6). The design is already decided in these documents, so no separate brainstorming round was run.
 
 ## User Scenarios & Testing *(mandatory)*
 
