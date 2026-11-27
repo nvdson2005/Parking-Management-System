@@ -49,7 +49,7 @@ A Staff member records a vehicle leaving. They identify the vehicle (by plate, Q
 - **FR-003**: When the system reports that the plates do not match, the observed plate MUST be visibly marked as different, in addition to the existing warning.
 - **FR-004**: The mismatch check, the manual-confirmation step, the confirm button rule, the recorded event and the access log MUST behave exactly as before.
 - **FR-005**: Every new label MUST exist in both Vietnamese and English.
-- **FR-006**: The observed plate shown in a preview MUST be the plate that preview was computed for; a response for an earlier input MUST NOT be shown.
+- **FR-006**: The observed plate shown in a preview MUST be the plate that preview was computed for; a response for an earlier input MUST NOT be shown. An input change MUST release the preview button at once, and only the current request may end the loading state (review of `e18e574`, 27/11).
 
 ### Key Entities
 

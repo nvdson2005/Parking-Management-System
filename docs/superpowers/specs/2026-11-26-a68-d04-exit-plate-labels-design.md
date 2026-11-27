@@ -12,7 +12,7 @@ A-68 D-04 (S2, `docs/m3/a-68-cp05-test.md`): on the Staff exit screen, the previ
 |---|---|---|
 | A. Rename the preview label only ("Biển số lúc vào") | The wrong label goes away, but the observed plate is still not shown next to it, so AT-EX02 is still not met | Rejected |
 | B. Return the observed plate from the preview API and show both | Works, but changes the API contract (P18, contract tests) for a value the form already holds | Rejected: needless contract change |
-| C. Show both plates in the preview from data the form already has: `plateSnapshot` from the API under a new label "Biển số lúc vào" / "Plate at entry", and the typed plate under "Biển số quan sát" / "Observed plate"; mark the observed plate when the plates differ | Display-only, no API or service change. Resetting the preview on every input change is not enough on its own: a late response could restore a preview for the earlier value (reviews of `12dae51` and `ca6867b`). The form therefore drops stale answers and shows the plate sent with the request (spec 008 FR-006, `createExitPreviewController`) | **Chosen** |
+| C. Show both plates in the preview from data the form already has: `plateSnapshot` from the API under a new label "Biển số lúc vào" / "Plate at entry", and the typed plate under "Biển số quan sát" / "Observed plate"; mark the observed plate when the plates differ | Display-only, no API or service change. Resetting the preview on every input change is not enough on its own: a late response could restore a preview for the earlier value (reviews of `12dae51` and `ca6867b`). The form therefore drops stale answers and shows the plate sent with the request (spec 008 FR-006, `createExitFormModel`) | **Chosen** |
 
 ## Decision
 
