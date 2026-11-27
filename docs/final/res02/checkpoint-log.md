@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Owner | RES-02, Đào Xuân Sơn |
-| Date | 26/11/2026 (state of `origin/main` at `2c5a587`, plus branches named below) |
+| Date | 26/11/2026 (state of `origin/main` at `2c5a587`, plus branches named below); CP-05 and CP-07 updated 27/11/2026 after the AT-EX run and the merge of PR #35 |
 | Report reference | M3 §3.5 |
 | Basis | Criteria and approvers are taken from the checkpoint table in `docs/m2-report/data/plan-v2.0.mjs`. Evidence is only what exists in the repository or its PRs on 26/11. Where no record exists it says so; no date or outcome has been filled in for a gate that has none |
 
@@ -17,7 +17,7 @@
 | CP-04 | A-45 simulator test and review | **Pass (service-layer contract accepted per KB-01; 100 sessions & 5 exceptions verified)** | 24/11 (PR #8); 26/11 (gate decision) | RES-05 author, RES-01 reviewed PR #8, RES-02 approved gate | PR #8; `docs/evidence/A-45/` (3 runs, EX01..EX05 responses, contract log, availability screenshot); `A87/A100-01.PNG` |
 | CP-05 | A-68 entry/exit module test | **Pass with conditions** (open) | 24/11 (confirmed 26/11) | RES-02 decided; RES-01 reviewed PR #18; RES-01 approval of ISS-06..11 pending | `docs/m3/a-68-cp05-test.md`, `docs/m3/cp05-follow-up-verification.md`; PR #18 merged 26/11 |
 | CP-06 | A-85 acceptance test review, client confirmation | **No client confirmation on file; fallback applied** | 26/11 | RES-03 reviews, client confirms by email (no reply) | `PD-P21 Bộ test nghiệm thu.md` (Drive); fallback applied per PD-P21 / Client Interaction Log assumption |
-| CP-07 | A-87 internal dry run | **Pass reported, conditions open** | 26/11 | RES-02 decides; RES-01 decides the demo | `docs/final/res02/F2-04/a87-dry-run.md` (branch `f2-04`) |
+| CP-07 | A-87 internal dry run | **Pass with conditions** (13 of 13 scenarios Pass; open: evidence gaps 1 to 9, RES-04 re-check, RES-01 demo decision) | 26/11 (AT-01..07, AT-100); 27/11 (AT-EX01..05) | RES-02 decides; RES-01 decides the demo | `docs/final/res02/a87-dry-run.md` |
 
 ## 2. Gate by gate
 
@@ -64,9 +64,9 @@
 | C3 DevTools timings | Done 25/11: 31 / 14 / 23 ms |
 | C4 tested commits and independent verifier in QE rows | Rows done; **verifier sign-off pending** |
 | C5 two-click D-01 rerun | Done 25/11, no mismatch |
-| C6 fix and retest D-01, D-03, D-04 | D-01 fixed and merged (PR #26); D-06 timeout fixed (PR #27). D-03: the dry run shows zone names and localised vehicle type on the entry form (`A87/A01-02.PNG`, `A02-01.PNG`), so it looks fixed; confirm and retest. D-04: not exercised in the dry run (AT-EX02 out of scope); **open until RES-04 confirms** |
+| C6 fix and retest D-01, D-03, D-04 | D-01 fixed and merged (PR #26); D-06 timeout fixed (PR #27). D-03: the dry run shows zone names and localised vehicle type on the entry form (`A87/A01-02.PNG`, `A02-01.PNG`), so it looks fixed; confirm and retest. D-04: fixed in PR #35 (merged 27/11, RES-04 retest 7/7); `AX02-02` shows both plate labels in AT-EX02 on the fixed build; **closes when RES-04 confirms on the post-merge SHA** |
 
-- Decision confirmed (26/11): keep **Pass with conditions** until (a) RES-02 signs C1 and C4, (b) D-04 is fixed or accepted by the PM, and (c) RES-01 approves ISS-06..ISS-11 including acceptance of the C2 waiver. Record that the Q23 criterion is unmet and why.
+- Decision confirmed (26/11, updated 27/11): keep **Pass with conditions** until (a) RES-02 signs C1 and C4, (b) RES-04 confirms D-04 (fixed in PR #35, merged 27/11), and (c) RES-01 approves ISS-06..ISS-11 including acceptance of the C2 waiver. Record that the Q23 criterion is unmet and why.
 
 ### CP-06 (A-85)
 
@@ -77,9 +77,11 @@
 ### CP-07 (A-87, merged with A-95)
 
 - Criteria: 100% of Must ATs pass; Should/Could pass or open defects are accepted by the PM. Approver RES-02; RES-01 (PM) decides the demo.
-- Evidence: `a87-dry-run.md` on pinned SHA `ac57507c` (382/382 tests, lint and build pass, 25/25 e2e, AT-01..AT-07 and AT-100 Pass, no new defect). The file is on branch `f2-04` (commit `5dfa141`, 26/11 14:21) and still carries the screenshot set to be added.
-- Conditions open: evidence gaps listed in section 5 of that file; D-04 (see CP-05); independent review of the dry-run file by RES-04 (A-87 owner per the plan) and RES-01's demo decision.
-- Entry to write: Pass with conditions until the gaps above close; update to Pass after RES-04's review and RES-01's decision.
+- Evidence: `docs/final/res02/a87-dry-run.md`. On pinned SHA `ac57507c` (26/11): 382/382 tests, lint and build pass, 25/25 e2e, AT-01..AT-07 and AT-100 Pass. On 27/11 AT-EX01..AT-EX05 were run on a checkout with the D-04 fix (PR #35), all Pass. Total 13 of 13 Pass. The file has one copy, in `docs/final/res02/`; the `f2-04` copy is dropped. Screenshots: `A87/`, 44 files.
+- Defect: D-04 (known since A-68) showed again on `ac57507c` (`A03-05`). It is fixed in PR #35, merged 27/11, and `AX02-02` shows both labels. No other defect.
+- RES-04 reviewed the file on 27/11 and asked for changes; the file was revised to answer them.
+- Conditions: A, re-pin to the post-merge SHA and rerun `npm test`, lint, build, AT-EX02 and smoke AT-01/AT-02: **rerun done 27/11** (RES-02); B, evidence gaps 1 to 9 open; C, RES-04 re-check and RES-01's demo decision open.
+- Entry: Pass with conditions; update to Pass after A to C close.
 
 ## 3. Gates that are still open and who closes them
 
@@ -87,9 +89,9 @@
 |---|---|---|---|
 | CP-01 | RES-01 conclusion and date on the review record; decision on open findings R09-02..R09-05 | RES-01, RES-04 | 28/11 |
 | CP-02 | RES-01 formal approval sign-off (RES-02 part recorded 26/11) | RES-01 | 28/11 |
-| CP-05 | Verify C1 and C4; D-04; ISS-06..11 approval; C2 waiver acceptance | RES-02, RES-04, RES-01 | CP-07 (27/11) |
+| CP-05 | Verify C1 and C4; RES-04 confirms D-04 (fix merged); ISS-06..11 approval; C2 waiver acceptance | RES-02, RES-04, RES-01 | CP-07 (27/11) |
 | CP-06 | Record fallback assumption in Client Interaction Log | RES-01, RES-03 | 28/11 |
-| CP-07 | Review by RES-04; demo decision by RES-01 | RES-04, RES-01 | 27/11 |
+| CP-07 | RES-04 re-check of the revised dry-run file; demo decision by RES-01 | RES-04, RES-01 | 27/11 |
 
 ## 4. Paste-ready workbook rows (Quality Evidence)
 
@@ -101,8 +103,8 @@ RES-03 pastes these on 28/11; do not edit the `.xlsx`. Update the Result column 
 | CP-02 architecture and API review (A-23) | n/a | 23/11 (RES-03); 26/11 (RES-02) | Conditional pass (RES-03 and RES-02 recorded; RES-01 sign-off pending) | `docs/m3/cp-02-review-res03.md` (PR #12); PR #11, PR #22 |
 | CP-03 DB design review (A-27) | n/a | 23/11 (review); 26/11 (gate) | Pass: two-round review (5 + 4 comments), T-DB1..T-DB10 verified, findings fixed in PR #11 / P03 v0.5 | `docs/m3/risk-register.md` (week 14, 23/11); this file §2 |
 | CP-04 simulator test (A-45) | see PR #8 | 24/11 (PR); 26/11 (gate) | Pass: KB-01 service-layer contract accepted, 100 sessions & 5 exceptions verified, RES-01 reviewed PR #8 | `docs/evidence/A-45/`; this file §2 |
-| CP-05 entry/exit test (A-68) | see `a-68-cp05-test.md` | 24/11 (confirmed 26/11) | Pass with conditions (C1..C6 open: C1, C4 verification, D-04, C2 waiver) | `docs/m3/a-68-cp05-test.md`, `docs/m3/cp05-follow-up-verification.md` |
+| CP-05 entry/exit test (A-68) | see `a-68-cp05-test.md` | 24/11 (confirmed 26/11) | Pass with conditions (open: C1 and C4 verification, D-04 confirmation after the merge, C2 waiver) | `docs/m3/a-68-cp05-test.md`, `docs/m3/cp05-follow-up-verification.md` |
 | CP-06 acceptance test review (A-85) | n/a | 26/11 | No client confirmation on file; fallback applied (proceeding with proposed AT list) | `PD-P21 Bộ test nghiệm thu.md` (Drive); this file §2 |
-| CP-07 dry run (A-87 / A-95) | `ac57507c` | 26/11 | Pass with conditions: 382/382, 25/25 e2e, AT-01..AT-07 and AT-100 Pass | `docs/final/res02/F2-04/a87-dry-run.md` |
+| CP-07 dry run (A-87 / A-95) | `ac57507c`; AT-EX and re-pin: see a87 §6 | 26/11; 27/11 | Pass with conditions: 382/382, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (26/11); AT-EX01..AT-EX05 Pass (27/11, D-04 build, PR #35 merged); re-pin rerun done; evidence gaps 1 to 9 open | `docs/final/res02/a87-dry-run.md` |
 
 Report reference: M3 §3.5.

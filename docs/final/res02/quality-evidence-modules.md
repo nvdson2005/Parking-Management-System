@@ -4,7 +4,7 @@
 |---|---|
 | Owner | RES-02, Đào Xuân Sơn |
 | Date | 26/11/2026 |
-| Pinned SHA | `ac57507c9c2924d54ed35e3dac31e327deac4573` (`origin/main`) |
+| Pinned SHA | `ac57507c9c2924d54ed35e3dac31e327deac4573` (`origin/main`). PR #35 (D-04 fix) was merged on 27/11; the post-merge SHA and its rerun are recorded in `a87-dry-run.md`. The results in this file stay on `ac57507c` |
 | Report reference | M3 §3.5 |
 | Scope | Per CR-01 option C, A-72 and A-76 were reduced to existing automated tests plus one acceptance pass each; A-77 and A-79 follow the same pattern. Any gap is recorded under the Q22 fallback (the order in which scope is dropped is reports, then simulated payment, then reservations) |
 | Basis | Full suite on the pinned SHA: **49 files, 382 tests, 0 failed** (`npm test`, RES-02, 26/11, 12:29; `a87-dry-run.md` §1). Per-file test counts below are a **static count of declared tests in the source on the pinned SHA**, not a per-file run; the pass result comes from the full-suite run. Acceptance passes are the manual run of 26/11 (`a87-dry-run.md` §3, screenshots in `A87/`) |
@@ -13,7 +13,7 @@
 
 | Activity | Module | Owner of the activity | Automated evidence | Acceptance pass | Result | Gap |
 |---|---|---|---|---|---|---|
-| A-72 | Reservation (P06) | RES-02 | `reservations.test.ts` 15, `reservation-form.test.ts` 6, `early-arrival-prompt.test.ts` 3, `arrival.test.ts` 5, `notifications.test.ts` 5 | AT-05 (`A05-01..06`) | Pass | No-show wait (TC-RES-12) run by hand per RES-02, no screenshot attached; manual cancel not shown |
+| A-72 | Reservation (P06) | RES-02 | `reservations.test.ts` 15, `reservation-form.test.ts` 6, `early-arrival-prompt.test.ts` 3, `arrival.test.ts` 5, `notifications.test.ts` 5 | AT-05 (`A05-01..06`) | Pass | No-show wait (TC-RES-12): automated test only on paper, no manual run evidenced (RES-02 to confirm); manual cancel not shown |
 | A-76 | Simulated payment (P10) | RES-04 | `fees.test.ts` 2 (6 combinations in one test), `exit.test.ts`, `history.test.ts`; RES-04's record `docs/m3/quality-evidence-A-76.md` | AT-06 (`A06-01`, `A06-02`, `A01-07`, `A02-05`) | Pass | Six fee combinations covered by test only, not by hand; RES-04's file is on branch `test/A-76-payment`, not on `main` |
 | A-77 | Reports (P11) | RES-05 | `reports.test.ts` 11, `reports-a77.test.ts` 6; `docs/m3/A-77/` (comparison sheet and result screenshot) | AT-07 (`A07-01`, `A07-02`) | Pass | Report screenshot is cropped: only three of the four indicators are in view |
 | A-79 | Entry/exit API contract tests | RES-05 | `contract-inout.test.ts` 16; HTTP rehearsal `e2e/round3.e2e.mjs` 25/25 | AT-01, AT-02 (`A01-*`, `A02-*`) | Pass | none known |
@@ -37,7 +37,7 @@
 | Reservation for another zone when the vehicle parks in zone B | Cancelled by the system, "bạn đã đỗ xe ở khu vực B" | `A05-06` |
 
 **Gaps (Q22 fallback if the PM wants them closed):**
-1. No-show expiry (TC-RES-12): **run by hand** (RES-02, 26/11), and also covered by `reservations.test.ts` (expiry of stale PENDING holds frees the spot). **No screenshot of the manual run is in the `A87/` set**, so on paper this evidence rests on RES-02's report and the automated test. Add a screenshot of the reservation showing the no-show status to close it.
+1. No-show expiry (TC-RES-12): covered by `reservations.test.ts` (expiry of stale PENDING holds frees the spot). **No manual run is evidenced**: there is no screenshot in the `A87/` set. **[RES-02 to confirm whether a manual run took place on 26/11.]** Until then cite only the automated test. If a manual run did take place, add a screenshot of the reservation showing the no-show status.
 2. The manual Cancel button was not shown being used (`A05-06` shows a system cancellation).
 
 **Verdict:** Pass for the core flow; two minor gaps above (no screenshot of the no-show run; manual Cancel not shown).
@@ -80,7 +80,7 @@
 
 **Automated tests:** `tests/contract-inout.test.ts` (16), which RES-03's CP-02 review cites as the check of the entry/exit contract; the HTTP rehearsal `e2e/round3.e2e.mjs` passes 25/25 on the pinned SHA.
 
-**Acceptance pass:** AT-01 and AT-02 exercise entry, exit and payment through the UI on the same contract (`A01-02..07`, `A02-01..05`).
+**Acceptance pass:** AT-01 and AT-02 exercise entry, exit and payment through the UI on the same contract (`A01-02..07`, `A02-01..05`). The exception scenarios AT-EX01..AT-EX05 (27/11, D-04 build, `AX*` screenshots) exercise the same contract for exceptions.
 
 **Gaps:** none known. The contract adds the optional `confirmEarly` field and the `EARLY_ARRIVAL` error (Q31, CR-02), covered by the early-arrival tests.
 
@@ -92,7 +92,7 @@ RES-03 pastes these on 28/11; do not edit the `.xlsx`.
 
 | Test | SHA | Date | Result | Evidence link |
 |---|---|---|---|---|
-| A-72 reservation module | `ac57507c` | 26/11/2026 | Pass: 34 declared tests in 5 files within the 382/382 run; AT-05 Pass; no-show wait run by hand (no screenshot); manual cancel not shown | this file §2 |
+| A-72 reservation module | `ac57507c` | 26/11/2026 | Pass: 34 declared tests in 5 files within the 382/382 run; AT-05 Pass; no-show wait by automated test only (manual run to be confirmed); manual cancel not shown | this file §2 |
 | A-76 simulated payment | `ac57507c` | 26/11/2026 | Pass: fee tests and exit/history tests within the 382/382 run; AT-06 Pass; 6 combinations by test only | this file §3; `docs/m3/quality-evidence-A-76.md` after merge |
 | A-77 report module | `ac57507c` | 26/11/2026 | Pass: 17 declared tests in 2 files; AT-07 Pass; screenshot of four indicators to add | this file §4; `docs/m3/A-77/` |
 | A-79 contract tests | `ac57507c` | 26/11/2026 | Pass: 16 declared tests; e2e 25/25; AT-01 and AT-02 Pass | this file §5 |

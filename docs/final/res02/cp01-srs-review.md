@@ -64,7 +64,7 @@ What this means: the code does what the client confirmed (reservation hold, earl
 | Closure | Findings revised through later SRS versions; **no re-check and no approval recorded** |
 | Gate status | **Open deviation.** Not "pass" |
 | Effect | A-82 and A-83 (acceptance tests) and design and code work went ahead before the gate closed, the same pattern as CP-02 and CP-03 (recorded deviation ISS-M3-01) |
-| Mitigations in place | SRS moved to v2.0 and v2.1 against the client answers Q36 to Q46; every acceptance scenario was run on 26/11 (`a87-dry-run.md`, AT-01..AT-07 and AT-100 Pass); P24 traceability by RES-04 (F4-03) |
+| Mitigations in place | SRS moved to v2.0 and v2.1 against the client answers Q36 to Q46; every acceptance scenario was run (`a87-dry-run.md`: AT-01..AT-07 and AT-100 on 26/11, AT-EX01..AT-EX05 on 27/11, all Pass); P24 traceability by RES-04 (F4-03) |
 | Residual risk | Four High wording conflicts (R09-02, R09-03, R09-04, R09-05) remain in SRS v2.1; the effort to correct them is small, but the SRS is already merged (PR #22) |
 
 Reason the gate was not closed as planned: the record does not give one. RES-05's note says A-82, A-83 and CP-02 went ahead on the client decisions, which is the observed cause; it does not say why the 18/11 re-check was skipped. Do not state a reason beyond that unless RES-01 or RES-05 supplies it.

@@ -4,7 +4,7 @@
 |---|---|
 | Owner | RES-02, Đào Xuân Sơn |
 | Date | 26/11/2026 |
-| Pinned SHA | `ac57507c9c2924d54ed35e3dac31e327deac4573` |
+| Pinned SHA | `ac57507c9c2924d54ed35e3dac31e327deac4573` (26/11 run). The AT-EX run of 27/11 used a build with the D-04 fix (PR #35, now merged); the post-merge SHA is in the `a87-dry-run.md` header |
 | Report reference | M4 §4.3 (Task 4.3: evaluate achievement of the original objectives; distinguish product completion from achievement of project and business objectives) |
 | Status | **DRAFT for 26/11.** O5 cannot be concluded before the client demo A-88 on 27/11. Section 6 is reserved to be filled after A-88 |
 | Companion files | `objectives-o1-o2.md` (RES-05, not yet in the repository on 26/11), `traceability-matrix.md` (RES-04, F4-03), `checkpoint-log.md`, `a87-dry-run.md`, `quality-evidence-modules.md`. The figures here must agree with them |
@@ -31,8 +31,8 @@ The project has no real parking lot and no baseline measurements. The client acc
 | Objective | Product complete? | Objective achieved? | Main reason for the gap |
 |---|---|---|---|
 | O3 | **Yes** for reservations and the four report indicators | **Partly.** Monitoring is demonstrated on simulated data; improved utilisation is not measured | No real usage data, no baseline; no-show wait not run by hand |
-| O4 | **Yes** for fees and the five exceptions | **Mostly, on correctness.** Every fee combination and every exception behaves as specified; a reduction in errors or disputes is not measured | No before/after comparison; manual exception runs are from 24/11, not on the pinned SHA |
-| O5 | **Largely yes** (all eight scenarios run on 26/11 passed) | **Not yet concluded** | Client acceptance (A-88, 27/11) pending; CP-06 and the acceptance thresholds not confirmed by the client |
+| O4 | **Yes** for fees and the five exceptions | **Mostly, on correctness.** Every fee combination and every exception behaves as specified; a reduction in errors or disputes is not measured | No before/after comparison; manual exception runs are AT-EX (27/11, D-04 build) and A-68 (24/11), not on the pinned SHA |
+| O5 | **Largely yes** (13 of 13 scenarios passed: eight on 26/11, five exception scenarios on 27/11) | **Not yet concluded** | Client acceptance (A-88, 27/11) pending; CP-06 and the acceptance thresholds not confirmed by the client |
 
 ## 3. O3: utilisation and demand monitoring
 
@@ -47,7 +47,7 @@ The project has no real parking lot and no baseline measurements. The client acc
 Gaps and how they affect the claim:
 
 1. The AT-07 screenshot is cropped and shows three of the four indicators. A full-page capture is needed before this row is cited as complete.
-2. The no-show expiry (TC-RES-12, 33 minutes of waiting) was verified via automated unit/integration tests (`reservations.test.ts`) rather than a live 33-minute manual wait during the 26/11 dry run.
+2. The no-show expiry (TC-RES-12, 33 minutes of waiting) is verified by automated tests (`reservations.test.ts`). A manual run is not evidenced: no screenshot, and RES-02 is to confirm whether it took place (`quality-evidence-modules.md` §2). Cite only the automated test until then.
 3. The 53,7% no-show rate comes from generated data and is not a finding about real behaviour. Prepare the explanation for the demo (RES-05 simulator, RES-03 report).
 
 **Conclusion:** O3 is achieved as a monitoring capability. It is not shown as an improvement in utilisation. State it that way in the report.
@@ -61,27 +61,27 @@ Gaps and how they affect the claim:
 | One payment per closed session; close and payment in one transaction | Correct | **Met** | `exit.test.ts` (KB-03, one payment per session); `A06-01` shows one row per session |
 | Customer sees the same amount as the payment record | Match | **Met**: 29A-02001, 2.000 đ in history and in payments | `A06-02`, `A06-01` |
 | Five exceptions handled as specified (EX-01 to EX-05) | 5 of 5 | **Met in automated tests on the pinned SHA** (contract tests CT-04 to CT-09, simulator EX01..EX05 tests; lot suspension also in the 25/25 HTTP run) | `contract-inout.test.ts`, `simulator.test.ts` within the 382/382 run |
-| Exceptions run by hand through the UI | 5 of 5 | **Met on an earlier commit**: EX-02 (T07), EX-03 (T08), EX-05 (T10) in A-68; EX-01 and EX-04 in A-67 | `docs/m3/a-68-cp05-test.md` on `main` at `8472986`, 24/11; `a-67-integration-check.md`. **Not rerun on `ac57507c`** |
+| Exceptions run by hand through the UI | 5 of 5 | **Met**: AT-EX01..AT-EX05 Pass on 27/11 on a build with the D-04 fix (evidence gaps 7 to 9 open); earlier by hand: EX-02 (T07), EX-03 (T08), EX-05 (T10) in A-68; EX-01 and EX-04 in A-67 | `a87-dry-run.md` §3 (`AX01..AX05`); `docs/m3/a-68-cp05-test.md` on `main` at `8472986`, 24/11; `a-67-integration-check.md`. **Not run on `ac57507c`**; the post-merge re-pin reruns AT-EX02 only |
 | Fewer errors or disputes than before | Not defined with a number | **Not measured** | No before/after comparison is possible |
 
 Gaps and how they affect the claim:
 
-1. D-04 (the exit preview field labelled "Observed plate" showed the plate recorded at entry) remains recorded as open and owned by RES-04 pending final confirmation on `ac57507c` before the 27/11 demo. However, the mismatch warning, the confirmation flow, and the log entry all functioned properly.
-2. The manual exception evidence is from 24/11. RES-05 drives the exceptions at the 27/11 demo; add that outcome.
+1. D-04 (the exit preview field labelled "Observed plate" showed the plate recorded at entry) was seen on `ac57507c` (`A03-05`). It is fixed in PR #35, merged 27/11, and `AX02-02` shows both labels. RES-04 closes it after confirming on the post-merge SHA. The mismatch warning, the confirmation flow and the log entry worked on both builds.
+2. The AT-EX run of 27/11 is on a different build from `ac57507c`; the post-merge rerun record decides whether it counts for the final SHA. RES-05 drives the exceptions at the 27/11 demo; add that outcome.
 
-**Conclusion:** O4 is achieved as correctness: each fee and each exception behaves as specified, with manual evidence on an earlier commit. A reduction in errors or disputes is not measured.
+**Conclusion:** O4 is achieved as correctness: each fee and each exception behaves as specified, with manual evidence from 27/11 on the D-04 build and from 24/11 on an earlier commit. A reduction in errors or disputes is not measured.
 
 ## 5. O5: agreed scope and client acceptance
 
 | Measure | Target | Actual | Evidence |
 |---|---|---|---|
-| Acceptance scenarios run on the pinned SHA | All pass | **8 of 8 pass** (AT-01 to AT-07, AT-100); 0 defects raised | `a87-dry-run.md` §3 |
-| Automated suite | No failures | **382 of 382** pass, 49 files; lint and build clean; HTTP rehearsal 25 of 25 | `a87-dry-run.md` §1, §2 |
+| Acceptance scenarios run | All pass | **13 of 13 pass**: AT-01 to AT-07 and AT-100 on `ac57507c` (26/11), AT-EX01 to AT-EX05 on the D-04 build (27/11); no new defect; D-04 (known since A-68) fixed in PR #35, merged | `a87-dry-run.md` §3, §4 |
+| Automated suite | No failures | **382 of 382** pass, 49 files; lint and build clean; HTTP rehearsal 25 of 25, all on `ac57507c`; rerun on the post-merge SHA to be recorded | `a87-dry-run.md` §1, §2 |
 | 100-session scenario | 100 sessions, 0 rejected, availability consistent | **Met**: 100 entries, 69 exits, 0 rejected; 31 inside = used A 7 + B 12 + C 12; free 143 / 138 / 18 | `A100-01`, `A100-02`; independent hand count and DB count in `docs/m3/a-68-cp05-test.md` (7/12/12, 25/11) |
 | Client confirmed the acceptance scenario list (CP-06) | Confirmed by email | **Not on file (fallback applied)** | `checkpoint-log.md` CP-06 |
 | Client accepted the proposed thresholds (Q28: 100% hand-count match, 100% complete records, 5 of 5 exceptions, at most 3 s per entry) | Accepted | **Not answered by the client** (risk R-M3-06); the team's thresholds are used as an assumption | `docs/m3/risk-register.md` |
 | Client demo accepted (A-88, 27/11) | Accepted | **Pending** (to be recorded after A-88 on 27/11) | Section 6 below |
-| Gates closed | All closed | **Open**: CP-01 (deviation), CP-02 (pending RES-01 sign-off), CP-05 (conditions C1, C4, C2 waiver, D-04), CP-06 (fallback), CP-07 (review by RES-04 and decision by RES-01) | `checkpoint-log.md` §3 |
+| Gates closed | All closed | **Open**: CP-01 (deviation), CP-02 (pending RES-01 sign-off), CP-05 (conditions C1, C4, C2 waiver, D-04), CP-06 (fallback), CP-07 (re-pin rerun, RES-04 re-check, RES-01 decision) | `checkpoint-log.md` §3 |
 | Scope fully delivered | Completed, partial, deferred, removed all listed | **In progress** | Scope-status table `docs/final/res05/scope-status.md` (F5-04) |
 
 Points that weaken the claim and must be stated, not hidden:
@@ -100,8 +100,8 @@ Fill these rows once A-88 is completed on 27/11, then update the document status
 |---|---|
 | A-88 outcome (accepted / accepted with items / not accepted) | *(Pending 27/11 demo)* |
 | Client comments that change an O3, O4 or O5 conclusion | *(Pending 27/11 demo)* |
-| Exception run at the demo (AT-EX02..AT-EX05) | *(Pending 27/11 demo)* |
-| D-04 state | *(Pending 27/11 demo)* |
+| Exception run at the demo (AT-EX01..AT-EX05) | *(Pending 27/11 demo)* |
+| D-04 state | Fixed and merged (PR #35, 27/11); closed after RES-04 confirms on the post-merge SHA. *(Add the demo outcome)* |
 | Final O5 conclusion | *(Pending 27/11 demo)* |
 
 Report reference: M4 §4.3.

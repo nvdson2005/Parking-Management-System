@@ -3,12 +3,16 @@
 | Field | Value |
 |---|---|
 | Owner | RES-02, Đào Xuân Sơn |
-| Date | 26/11/2026 |
+| Date | 26/11/2026 (AT-01..AT-07, AT-100); 27/11/2026 (AT-EX01..AT-EX05) |
 | Candidate SHA (pinned) | `ac57507c9c2924d54ed35e3dac31e327deac4573` (`origin/main`, merge of PR #24, committed 26/11/2026 01:04 +0700) |
-| Status | **COMPLETE, with 4 minor evidence gaps listed in section 5.** Sections 1 to 5 filled; screenshots attached (`A87/`, 32 files); AT-100 numbers recorded |
+| Build used for AT-EX (27/11) | A build that includes the D-04 fix (PR #35, branch `fix/d04-exit-plate-labels`; `AX02-02` shows both plate labels). Taken before the merge. It is **not** `ac57507c` |
+| After the merge (27/11) | PR #35 is **merged** into `origin/main`. Re-pin checks (condition A, section 5): **done** (RES-02, 27/11) |
+| Status | **PASS WITH CONDITIONS.** 13 of 13 acceptance scenarios run (AT-01..AT-07 and AT-100 on `ac57507c`; AT-EX01..AT-EX05 on the 27/11 build). 9 evidence gaps in section 5 (items 1 to 6 for AT-01..AT-100, items 7 to 9 for AT-EX). Screenshots attached (`A87/`, 44 files); AT-100 numbers recorded. Open conditions A to C in section 5 |
 | Report reference | M3 §3.5, M4 §4.1 |
 
 If `origin/main` moves before the demo, either stay on this SHA for the whole run or re-pin and rerun. Do not mix results from two SHAs.
+
+The AT-EX results below come from a different build (27/11, with the D-04 fix, before PR #35 was merged). They are reported separately and are not merged into the `ac57507c` results. Now that PR #35 is merged, condition A in section 5 says what closes this: re-pin to the post-merge SHA and rerun the checks on it.
 
 ## 1. Build and automated checks on the pinned SHA
 
@@ -18,6 +22,8 @@ If `origin/main` moves before the demo, either stay on this SHA for the whole ru
 | Lint | `npm run lint` | **Pass**, no findings | Run 26/11 on the pinned SHA |
 | Unit and API tests | `npm test` | **Pass: 49 files, 382 tests, 0 failed** (191 s) | Run by RES-02 on Windows, 26/11, 12:29. `tests/simulator.test.ts` 18/18 pass in 52.7 s with the largest tests at 5 to 13 s, so the former 5 s timeout failures no longer occur on this checkout. `git rev-parse HEAD` on the same checkout is `ac57507c` |
 | Build | `npm run build` | **Pass**: Next.js 15.5.29, compiled in 36.5 s, types and lint valid, 50/50 pages | The route table lists the API routes and the customer, staff and manager pages |
+
+The checks above were run on `ac57507c` only. On the post-merge SHA (PR #35 merged; see condition A): RES-02 reports the same results as on `ac57507c` (`npm test`, lint and build pass). On the 27/11 checkout used for AT-EX: same results.
 
 ## 2. Environment for the acceptance run
 
@@ -29,9 +35,11 @@ npx prisma migrate reset --force   # clean seeded DB, no hand edits afterwards
 npm run build && npm start      # http://localhost:3000
 ```
 
-Accounts are seeded with password `password123` (Customer `customer01..04`, plus Staff and Manager; see `prisma/seed.ts`). Do not edit the database by hand during the run (PD-P21 criterion 5). Keep the terminal log.
+Accounts are seeded with password `password123` (Customer `customer01..15`, plus Staff and Manager; see `prisma/seed.ts`). Do not edit the database by hand during the run (PD-P21 criterion 5). Keep the terminal log.
 
 Manual run: screenshots were taken between 13:24 and 14:07 on 26/11/2026, from `localhost:3000` and `192.168.2.8:3000` (same server, LAN address).
+
+AT-EX run: screenshots taken on 27/11/2026 between about 13:08 and 13:27 (first payment in `AX03-02` at 13:08:08, for 29A-01001, an earlier visit than the 13:12:30 entry used in AT-EX03 and AT-EX04; last screenshot with a clock `AX01-01` at 13:26:59), on the build with the D-04 fix. The payments list in `AX03-02` holds only three payments, so the DB was reset on 27/11 before this run (RES-02 confirmed).
 
 Automated HTTP rehearsal (needs a fresh seed, own port):
 
@@ -46,18 +54,20 @@ Result: **25/25 checks PASS, "All e2e checks passed"** (RES-02, 26/11, Windows P
 
 ## 3. Acceptance scenarios
 
-Steps follow `docs/final/res05/demo-script-and-viva.md` and `docs/manual-e2e-test-guide.md`. The detailed AT definitions are in P21 (PD-P21 in `docs/m2-report/report.src.md`). Screenshot files are in the `A87/` folder; the number in the name is `A<AT>-<step>`.
+Steps follow `docs/final/res05/demo-script-and-viva.md` and `docs/manual-e2e-test-guide.md`. The detailed AT definitions are in P21 (PD-P21 in `docs/m2-report/report.src.md`). Screenshot files are in the `A87/` folder; the number in the name is `A<AT>-<step>`; AT-EX files are named `AX<n>-<step>`.
+
+ID mapping: P21 names the volume test AT-VOL01; this file calls it AT-100, as the baseline does. The 13 scenarios are AT-01..AT-07, AT-100 and AT-EX01..AT-EX05 (RES-04's count: 12 ATs plus AT-100). AT-07 is the reports scenario in P21 (confirmed by RES-02).
 
 | ID | Scenario | Objective | Result | Evidence (log, screenshot, file) | Defect ref |
 |---|---|---|---|---|---|
-| AT-01 | Motorbike entry/exit and availability (plate and QR) | O1 | **Pass** (RES-02, 26/11) | Plate path: `A01-01` lot shows A 150/150 before; `A01-02` entry form, plate 29A-01001, zone A, motorbike; `A01-03` A drops to 149 (13:28:08); `A01-04` open session 29A-01001 zone A; `A01-06` A back to 150 after exit (13:30:15); `A01-07` payment 2.000 đ confirmed by Staff 1. QR path: no screenshot (see gap 1) | none |
-| AT-02 | Car entry/exit (zone C) | O1 | **Pass** (RES-02, 26/11) | `A02-01` entry form, plate 30K-123.45, zone C, car; `A02-02` zone C 29 free / 1 used (13:32:46); `A02-04` zone C back to 30 / 0 (13:34:22); `A02-05` payment 10.000 đ, zone C, 13:34:22. Exit screen not captured (`A02-03` is not in the zip) | none |
-| AT-03 | Manager lot and tariff management (suspend/reactivate) | | **Pass** (RES-02, 26/11) | `A03-01`/`A03-02` Lot 2 created with zone D (motorbike 10, car 0); `A03-03` staff page shows lot 1 "Tạm ngưng" (suspended) and Lot 2 zone D 10/10 (13:37:41); `A03-04` entry of 29A-01001 refused with "Bãi xe đang tạm ngưng hoạt động"; `A03-05` exit fee preview, fee group Khách, car, 15.000 đ. No screenshot of reactivation or of the tariff edit (see gap 2) | none |
-| AT-04 | RBAC, plate masking, access log, 12-month purge | O5 | **Pass** (RES-02, 26/11) | `A04-01` Customer 02 opening `/staff` lands on `/denied`, message says the attempt is logged; `A04-02` access log row "Customer 02, Access denied, page:/staff" 13:57:53; `A04-03` staff open-sessions list; `A04-04` log row "Staff 1, View full plate" 13:59:32; `A04-05` purge result "Masked 20 sessions and deleted 0 vehicles", log row "Manager 1, Purge, 20 sessions, 0 vehicles" 14:00:41. Staff see full plates on open sessions by design (Q46, FR-42); masking applies to closed sessions, not yet captured (see gap 3) | none |
-| AT-05 | Reservation, early arrival, cancel and no-show | O3 | **Pass** (RES-02, 26/11) | `A05-01` reservation for 29A-01001, 15:45, status Đang chờ, hold until 16:15; `A05-02` zone A shows 149 free / 1 used while reserved (13:42:09); `A05-03` second reservation refused, "Xe đã được đặt chỗ" (one-reservation limit); `A05-04` early-arrival warning with confirm button; `A05-05` zone A 149 / 1 (13:44:36) after admission; `A05-06` reservation status Đã nhận (fulfilled) and another reservation cancelled by the system because the vehicle parked in zone B. No-show wait not shown (see gap 4) | none |
+| AT-01 | Motorbike entry/exit and availability (plate and QR) | O1 | **Pass, evidence gap 1** (RES-02, 26/11) | Plate path: `A01-01` lot shows A 150/150 before; `A01-02` entry form, plate 29A-01001, zone A, motorbike; `A01-03` A drops to 149 (13:28:08); `A01-04` open session 29A-01001 zone A; `A01-06` A back to 150 after exit (13:30:15); `A01-07` payment 2.000 đ confirmed by Staff 1. QR path: no screenshot (see gap 1) | none |
+| AT-02 | Car entry/exit (zone C) | O1 | **Pass, evidence gap 6** (RES-02, 26/11) | `A02-01` entry form, plate 30K-123.45, zone C, car; `A02-02` zone C 29 free / 1 used (13:32:46); `A02-04` zone C back to 30 / 0 (13:34:22); `A02-05` payment 10.000 đ, zone C, 13:34:22. Exit screen not captured (`A02-03` is not in the zip) | none |
+| AT-03 | Manager lot and tariff management (suspend/reactivate) | O5 | **Pass, evidence gap 2** (RES-02, 26/11) | `A03-01`/`A03-02` Lot 2 created with zone D (motorbike 10, car 0); `A03-03` staff page shows lot 1 "Tạm ngưng" (suspended) and Lot 2 zone D 10/10 (13:37:41); `A03-04` entry of 29A-01001 refused with "Bãi xe đang tạm ngưng hoạt động"; `A03-05` exit fee preview, fee group Khách, car, 15.000 đ. Reactivation is shown indirectly: `A05-05` shows a successful entry at 13:44:36, after the lot was suspended at 13:37 (`A03-03`), so the lot was active again. No screenshot of the reactivation itself or of the tariff edit (see gap 2). `A03-05` shows the D-04 label problem (see section 4) | D-04 |
+| AT-04 | RBAC, plate masking, access log, 12-month purge | O5 | **Pass, evidence gap 3** (RES-02, 26/11) | `A04-01` Customer 02 opening `/staff` lands on `/denied`, message says the attempt is logged; `A04-02` access log row "Customer 02, Access denied, page:/staff" 13:57:53; `A04-03` staff open-sessions list; `A04-04` log row "Staff 1, View full plate" 13:59:32; `A04-05` purge result "Masked 20 sessions and deleted 0 vehicles", log row "Manager 1, Purge, 20 sessions, 0 vehicles" 14:00:41. Staff see full plates on open sessions by design (Q46, FR-42); masking applies to closed sessions, not yet captured (see gap 3) | none |
+| AT-05 | Reservation, early arrival, cancel and no-show | O3 | **Pass, evidence gap 4** (RES-02, 26/11) | `A05-01` reservation for 29A-01001, 15:45, status Đang chờ, hold until 16:15; `A05-02` zone A shows 149 free / 1 used while reserved (13:42:09); `A05-03` second reservation refused, "Xe đã được đặt chỗ" (one-reservation limit); `A05-04` early-arrival warning with confirm button; `A05-05` zone A 149 / 1 (13:44:36) after admission; `A05-06` reservation status Đã nhận (fulfilled) and another reservation cancelled by the system because the vehicle parked in zone B. No-show wait run by hand, no screenshot (see gap 4) | none |
 | AT-06 | Fee calculation and simulated payment | O4 | **Pass** (RES-02, 26/11) | `A01-07` motorbike 2.000 đ; `A02-05` car 10.000 đ; `A06-01` payments list 29A-01001 2.000 đ, 29A-02001 2.000 đ, 30K-123.42 10.000 đ (13:51); `A06-02` customer parking history for 29A-02001: in 13:50:18, out and paid 13:51:23, 2.000 đ. Fee table seen in `A01-01` (student: motorbike 2.000 đ, car 10.000 đ per turn) | none |
-| AT-07 | Reports: four indicators | O3 | **Pass** (RES-02, 26/11) | `A07-01` historical data generated: 7 days, 440 sessions, 55 reservations, 440 payments; `A07-02` report page: hourly occupancy chart, top entry hours (20:00 with 35 entries, 06:00 with 34), revenue total 2.021.000 đ with daily bars, no-show rate 53,7%. The screenshot is cropped; the fourth indicator is not in view (see gap 5) | none |
-| AT-100 | 100-session volume scenario | | **Pass** (RES-02, 26/11) | `A100-01` simulator, 100 events with "at least N sessions" ticked, seed 68: "100 sessions: 100 entries, 69 exits, 0 rejected"; `A100-02` manager home at 14:07:32. Numbers below | none |
+| AT-07 | Reports: four indicators | O3 | **Pass, evidence gap 5** (RES-02, 26/11) | `A07-01` historical data generated: 7 days, 440 sessions, 55 reservations, 440 payments; `A07-02` report page: hourly occupancy chart, top entry hours (20:00 with 35 entries, 06:00 with 34), revenue total 2.021.000 đ with daily bars, no-show rate 53,7%. The screenshot is cropped; the fourth indicator is not in view (see gap 5) | none |
+| AT-100 | 100-session volume scenario | O2 | **Pass, evidence gap 6** (RES-02, 26/11) | `A100-01` simulator, 100 events with "at least N sessions" ticked, seed 68: "100 sessions: 100 entries, 69 exits, 0 rejected"; `A100-02` manager home at 14:07:32. Numbers below | none |
 
 ### AT-100 record
 
@@ -73,42 +83,74 @@ Steps follow `docs/final/res05/demo-script-and-viva.md` and `docs/manual-e2e-tes
 
 The availability check is arithmetic (entries minus exits against the used column), not a count of vehicles in the open-sessions list. If a hand count of the staff open-sessions list is wanted, it should total 31 for zones A to C. The earlier simulator run at 13:54 (`A04-03`, `A04-02`) and the 14:00 purge happened before this run, so state the DB state before AT-100 in the report (reset, or not) because 31 = 100 − 69 only holds if no sessions from the 13:54 run were still open in A to C.
 
+**DB state before AT-100:** **reset** (RES-02 confirmed, 27/11). `A100-02` shows a single lot with the fresh seed-68 values and no Lot 2 from AT-03, which is consistent with the reset (RES-04's review).
+
 `scripts/a49-at100-latency.mjs` produced the 24/11 timing in `docs/m3/evidence/a49-at100-2026-11-24T05-20-01-689Z.json`; cite it only as earlier evidence, not as this run. Note that 120 events and 100 sessions are different measures (see `docs/m3/A-43-simulator-review.md`): `A07-01` shows the default 120 events, `A100-01` the 100-session run.
 
-Exception scenarios AT-EX01..AT-EX05 are outside the scope assigned to F2-04. Record them here only if time allows.
+### AT-EX01..AT-EX05 (run on 27/11/2026, build with the D-04 fix)
+
+Run by RES-02. These are the five exception scenarios of P21 (objective O4, requirements FR-46..FR-50). The build is not `ac57507c` (see the header and condition A in section 5).
+
+| ID | Scenario | Objective | Result | Evidence (log, screenshot, file) | Defect ref |
+|---|---|---|---|---|---|
+| AT-EX01 | Zone full: entry refused, availability 0 and never negative | O4 | **Pass, evidence gap 9** (RES-02, 27/11) | `AX01-01` Staff home 13:26:59: zone C car 0 free / 30 used / 30 capacity with badge "Hết chỗ", zones A and B 150 free; `AX01-02` entry form, plate 30K-123.45, zone C, car, toast "Khu vực đã hết chỗ" (ZONE_FULL). How zone C was filled is not shown (see gap 9) | none |
+| AT-EX02 | Plate mismatch: warning, manual confirmation, close | O4 | **Pass** (RES-02, 27/11) | `AX02-01` entry form 66F-403.45, zone A, motorbike; `AX02-02` exit preview (entry 13:15:46): "Biển số lúc vào" 66F-403.45 and "Biển số quan sát" 66F-403.46 in red, fee group Khách, 2.000 đ, mismatch warning, "Xác nhận thủ công" unticked and the confirm button greyed out; `AX02-03` access log row 13:17:01, Staff 1, "Xác nhận thủ công"; `AX03-02` payments list: 66F-403.45, zone A, 2.000 đ, 13:17:01, Staff 1 (session closed). `AX02-02` is also the D-04 check: both labels are present | D-04 (fixed, see section 4) |
+| AT-EX03 | Lost card: exit by plate, normal fee | O4 | **Pass, evidence gap 8** (RES-02, 27/11) | `AX03-01` exit preview with "Mất thẻ" ticked: 29A-01001 under both plate labels, zone A, motorbike, fee group Sinh viên, entry 13:12:30, 2.000 đ (no surcharge); `AX03-02` payment 29A-01001, 2.000 đ, 13:19:11, Staff 1. The LOST_CARD event and the MANUAL_CONFIRM log row are not captured | none |
+| AT-EX04 | Duplicate entry refused | O4 | **Pass** (RES-02, 27/11) | `AX04-01` entry of 29A-01001, zone A, motorbike, toast "Đã có phiên đỗ xe đang mở"; `AX04-02` open-sessions list with one row for 29A-01001 (entry 13:12:30, the same session as `AX03-01`) | none |
+| AT-EX05 | Lot suspended: entry refused, exit allowed, reactivation | O4 | **Pass, evidence gap 7** (RES-02, 27/11) | `AX05-01` Staff home (English) 13:22:41: lot "Suspended", all zones 0 used; `AX05-02` entry of 29A-01001, zone A, refused with toast "Bãi xe đang tạm ngưng hoạt động"; `AX05-03` exit form with toast "Đã ghi nhận xe ra và thu phí". Reactivation is not captured (see gap 7) | none |
+
+Notes:
+
+- The order of events in AT-EX05 is not visible in the screenshots: `AX05-03` does not show which plate left or that the lot was still suspended, and `AX05-01` already shows 0 sessions in use. State the order in the AT-EX05 notes (entry, suspend, exit while suspended, reactivate).
+- `AX01-02` has no clock in view; it follows `AX01-01` (13:26:59; file time about 13:28). It shows a refusal for ZONE_FULL, not for suspension, which is consistent with the lot being active again after AT-EX05 (screenshots 13:22 to 13:25). It does not replace a screenshot of the reactivation. AT-EX01 was captured after AT-EX05, not in P21 order; how zone C was filled is gap 9.
+- `A03-05` (26/11, `ac57507c`) shows the old label and `AX02-02` (27/11) shows the fixed preview, so the two screenshots together document D-04 before and after the fix.
 
 ## 4. Defects found
 
 | ID | Description | Severity | Steps to reproduce | Owner | Status |
 |---|---|---|---|---|---|
-| none | No defect reported in the manual run of AT-01..AT-07 and AT-100 | | | | |
+| D-04 | Staff exit preview showed the plate recorded at entry under the label "Biển số quan sát" and never the plate Staff typed. Known from A-68 (`docs/m3/a-68-cp05-test.md`); seen again on the pinned SHA in `A03-05` ("Biển số quan sát: 30K-123.45" is the entry plate) | S2 | Staff exit preview of any open session (`A03-05`) | RES-04 | **Fixed and merged**: PR #35 (`fix/d04-exit-plate-labels`; RES-04 retest 7/7, independent review approved) merged into `origin/main` on 27/11. Both labels shown in `AX02-02` on the 27/11 checkout. **Not on the pinned SHA `ac57507c`.** RES-04 closes D-04 after confirming on the post-merge SHA (AT-EX02 rerun) |
+| none | No other defect reported in AT-01..AT-07, AT-100 or AT-EX01..AT-EX05 | | | | |
 
 Observations, not defects (for the demo, nothing to fix unless the owner disagrees):
 
 1. No-show rate shows 53,7% on the simulator's 7-day history (`A07-02`). It is generated data, but a client may ask why it is so high; have the explanation ready (RES-05 for the simulator, RES-03 for the report).
-2. `A03-05` shows fee group Khách (guest) at 15.000 đ for a car while `A02-05` shows 10.000 đ for plate 30K-123.45. This is consistent if the guest tariff was edited in AT-03 or the plate was registered in between, since tariffs are editable on the manager tariffs page; the seed only sets 2.000 / 10.000. Confirm which, and say so in the AT-03 notes.
+2. `A03-05` shows fee group Khách (guest) at 15.000 đ for a car while `A02-05` shows 10.000 đ for plate 30K-123.45. Explained: the seed gives every fee group the same price (2.000 / 10.000), so 15.000 đ is the guest car price changed on the manager tariffs page during AT-03 (RES-02's own report; `quality-evidence-modules.md` §3). The tariff edit screen was not captured, so the new price is shown only by its effect in `A03-05` (gap 2).
 
 Owner guide: UI and reservation screens RES-04, simulator and monitoring RES-05, reports and data RES-03, lot management RES-01. Send this table to the owners the same day so fixes can land before the 27/11 demo.
 
 ## 5. Verdict
 
-On the pinned SHA `ac57507c`: automated checks pass (382/382 tests, build, lint), the HTTP rehearsal passes 25/25, and RES-02 reports every acceptance scenario AT-01..AT-07 and AT-100 as Pass with no defect. Screenshots are attached for all eight scenarios and AT-100 is recorded at 100/100 valid sessions with availability matching entries minus exits. The SHA is **ready for the 27/11 client demo**, subject to the remaining gaps below being closed or accepted.
+**CP-07 status: Pass with conditions** (not yet Pass).
+
+What is shown. On `ac57507c`: automated checks pass (382/382 tests, build, lint), the HTTP rehearsal passes 25/25, and RES-02 ran AT-01..AT-07 and AT-100 by hand, all Pass (the ones with evidence gaps are marked in section 3). On 27/11, RES-02 ran AT-EX01..AT-EX05 by hand on a build that includes the D-04 fix, all Pass (two with evidence gaps). That is 13 of 13 acceptance scenarios run and 13 Pass. D-04 is visible on the pinned SHA (`A03-05`), so "no defect" does not hold for `ac57507c`; D-04 is fixed in PR #35, which is now merged.
+
+Ready for the 27/11 client demo **if conditions A to C are closed or accepted by RES-01** (CP-07 rule: open items need the project manager's acceptance):
+
+- **A. One build.** The results come from two builds: `ac57507c` (AT-01..AT-07, AT-100, automated checks) and the 27/11 checkout with the D-04 fix (AT-EX). Rule at the top of this file: do not mix results from two SHAs. PR #35 is merged (option 1 of RES-04's review). What closes the condition: re-pin to the post-merge SHA, rerun `npm test`, lint, build, AT-EX02 and a short smoke (AT-01, AT-02) on it. With the rerun done, the AT-EX results above stand for the post-merge SHA; the 26/11 results for AT-01..AT-07 and AT-100 stay on `ac57507c`, supported by the smoke rerun. Status: **rerun done** (RES-02, 27/11; same results as on `ac57507c`).
+- **B. Evidence gaps** 1 to 9 below closed or accepted.
+- **C. Independent review.** RES-04 reviewed this file on 27/11 and asked for changes; this revision answers them. RES-04 re-checks, and RES-01 takes the demo decision.
 
 Remaining evidence gaps (not defects):
 
 1. AT-01: the QR entry/exit path has no screenshot (`A01-05` is missing from the zip, which may be it).
-2. AT-03: no screenshot of reactivating the lot or of the tariff edit.
+2. AT-03: no screenshot of reactivating the lot or of the tariff edit. Reactivation is shown indirectly by `A05-05` (entry at 13:44:36 after the 13:37 suspension).
 3. AT-04: no screenshot of a masked plate. `A04-03` is the open-sessions list, where Staff see full plates by design; masking (`***-**3.45`, last 3 characters kept) applies to Staff on **closed** sessions. Log in as Staff, open a closed session (e.g. 29A-01001 or 29A-02001 after exit and payment, via vehicle lookup) and capture the masked plate. If it shows in full there, AT-04 fails and goes into section 4 for RES-04.
-4. AT-05: the no-show wait (TC-RES-12) is not shown; say whether it was run by hand or left to the automated test. The manual cancel button is also not shown being used.
+4. AT-05: the no-show wait (TC-RES-12) was run by hand by RES-02 on 26/11 and is also covered by `reservations.test.ts`, but no screenshot of it exists. Add one screenshot of the reservation with the no-show status, or accept the gap. The manual cancel button is also not shown being used.
 5. AT-07: crop shows three of the four indicators; add a full-page screenshot of the report.
 6. AT-100 run time and response times for TC-EXIT-07 are not recorded. `A02-03` is also missing from the zip.
+7. AT-EX05: no screenshot of the lot reactivation, and `AX05-03` does not show which plate exited or that the lot was still suspended (see the notes under the AT-EX table).
+8. AT-EX03: the LOST_CARD event and the MANUAL_CONFIRM access-log row are not captured (the log screenshot `AX02-03` is cropped to the 13:17:01 row of AT-EX02).
+9. AT-EX01: the screenshots do not show how zone C was filled (simulator EX-01, which fills the whole zone and needs a DB reset afterwards, or capacity set to 1). Say which, and whether the DB was reset after.
 
-The screenshots do not show the commit; the SHA claim rests on RES-02's `git rev-parse HEAD` in section 1 and 2, so keep the terminal log.
+The screenshots do not show the commit; the SHA claim rests on RES-02's `git rev-parse HEAD` in sections 1 and 2 for `ac57507c`. For the 27/11 build and the post-merge re-pin the claim rests on RES-02's report. Keep the terminal logs.
 
 ## 6. Paste-ready workbook rows (Quality Evidence)
 
 | Test | SHA | Date | Result | Evidence link |
 |---|---|---|---|---|
-| A-87 / A-95 dry run | `ac57507c` | 26/11/2026 | Pass: 382/382 tests, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (AT-100: 100/100 sessions, 69 exits, 31 inside, free A143/B138/C18), 0 defects | this file and `A87/` screenshots |
+| A-87 / A-95 dry run (AT-01..AT-07, AT-100) | `ac57507c` | 26/11/2026 | Pass with conditions: 382/382 tests, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (AT-100: 100/100 sessions, 69 exits, 31 inside, free A143/B138/C18); evidence gaps 1 to 6 open; D-04 seen in `A03-05` (fixed in PR #35, merged 27/11, not on this SHA) | this file and `A87/` screenshots |
+| A-87 AT-EX01..AT-EX05 | build with the D-04 fix (PR #35, before the merge) | 27/11/2026 | Pass with conditions: 5 of 5 Pass; evidence gaps 7 to 9 open; D-04 fix visible in `AX02-02` | this file §3 and `A87/AX*` screenshots |
+| A-87 re-pin after PR #35 (`npm test`, lint, build, AT-EX02, smoke AT-01/AT-02) | `origin/main` after the merge of PR #35 | 27/11/2026 | Re-pin rerun done as defined in condition A (RES-02, 27/11; same results as on `ac57507c`). | this file §1 and §5 |
 
 Report reference: M3 §3.5, M4 §4.1.
