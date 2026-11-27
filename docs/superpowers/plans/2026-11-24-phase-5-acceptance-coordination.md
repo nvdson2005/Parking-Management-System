@@ -45,6 +45,8 @@ RES-01 approved these planning decisions on 27 November 2026. Keep historical at
 
 ### Final report and submission
 
+The [RES-01 closeout handoff](../../final/res01/closeout-handoff.md) gives draft entries and the evidence needed to close each remaining item.
+
 - [ ] Close A-90 with verified actuals and clearly identified estimates. Chair A-91 and hand off the lessons. Supply the verified M3 inputs for A-108, then review and sign off A-92 with its acceptance outcome and open exceptions.
 - [ ] Use RES-05’s A-116 submission checklist to verify the package, including the repository link, P13 run guide, baseline references and evidence index. RES-01 uploads the approved package to the LMS and records the date and receipt in the closeout record.
 
