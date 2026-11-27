@@ -32,6 +32,10 @@ Sources: [decision record](../../m3/decision-record.md), [change impact analysis
 
 Until RES-01 confirms the levers, cite the workshop as "held 20/11 per RES-01, levers not recorded" and do not cite the assumed outcome as a measured one.
 
+### Proposed reconstruction for chair review
+
+A reasonable workshop outcome would be to protect the pilot workflows and Must checks, fold the closeout sections into A-92, give RES-02 the outstanding QA evidence review, and give RES-03 the remaining-work estimate by owner. Keep Q22 as a fallback for M-03. The 12 h W14 commitment was reported separately on 24 November. This reconstruction is proposed wording for review. The specific actions agreed on 20 November remain unconfirmed.
+
 ## 3. M-03 gate, 24/11/2026
 
 | Input | Outcome |

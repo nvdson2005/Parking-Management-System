@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="vi">
+<meta charset="utf-8">
+<title>CO3011 | Smart Parking | Báo cáo M3–M4</title>
+<style>
+@page { size: A4; margin: 16mm 17mm }
+body { font: 10.5pt/1.38 Arial, sans-serif; color: #172536; max-width: 180mm; margin: auto }
+section + section { break-before: page }
+h1 { font-size: 31pt; line-height: 1.08; margin: 12pt 0 }
+h2 { font-size: 23pt; margin: 8pt 0 14pt }
+h3 { font-size: 13pt; margin: 10pt 0 3pt; break-after: avoid }
+p { margin: 4pt 0 8pt }
+small, .label { color: #31566c }
+.label { border-top: 3px solid #14657a; padding-top: 7pt; font-weight: bold }
+table { border-collapse: collapse; width: 100%; margin: 8pt 0; font-size: 10pt }
+th, td { border-bottom: 1px solid #a8bac4; padding: 5pt; text-align: left; vertical-align: top }
+th { background: #e9f2f5 }
+tr { break-inside: avoid }
+a { color: #145771 }
+</style>
+<body>
+<section>
+<p class="label">CO3011 · QUẢN LÝ DỰ ÁN PHẦN MỀM</p>
+<h1>Smart Parking</h1>
+<h2>Báo cáo Milestone 3 và Milestone 4</h2>
+<p><strong>A-92 · Bản dự thảo để duyệt · 27/11/2026</strong></p>
+<p>Nhóm thực hiện: Nguyễn Võ Đức Sơn (RES-01), Đào Xuân Sơn (RES-02), Nguyễn Phạm Mạnh Dũng (RES-03), Phạm Duy Quý (RES-04), Nguyễn Tuấn Thành (RES-05).</p>
+<p>Mục tiêu là bàn giao ứng dụng thí điểm cho một bãi, với ba luồng ưu tiên: ghi nhận xe vào/ra, theo dõi chỗ trống theo khu vực và quản lý thông tin bãi. Nhóm dùng dữ liệu mô phỏng cho ba khu, tổng cộng 330 chỗ. Q26 cho phép dùng số nền ước tính và dữ liệu mô phỏng để đánh giá.</p>
+<table>
+<tr><th>Phần</th><th>Nội dung</th></tr>
+<tr><td>3.1–3.4</td><td>Phạm vi thực hiện, nhật ký, theo dõi tiến độ và rủi ro</td></tr>
+<tr><td>3.5–3.8</td><td>Kiểm soát chất lượng, xử lý thay đổi, Baseline V2.0, kế hoạch chi tiết</td></tr>
+<tr><td>4.1–4.6</td><td>Bàn giao, đánh giá hiệu quả, đóng dự án và đóng góp cá nhân</td></tr>
+<tr><td>Phụ lục</td><td>Truy vết và hồ sơ nộp LMS</td></tr>
+</table>
+<h3>Tình trạng tại thời điểm lập bản dự thảo</h3>
+<p>Đã có bản tích hợp và kết quả chạy thử nội bộ A-87. CP-05 đạt có điều kiện. Hồ sơ A-89 mô tả A-88 là demo nội bộ. Xác nhận của giảng viên, duyệt kế hoạch phục hồi, ký duyệt PDF và biên nhận LMS đang chờ.</p>
+</section>
+<section>
+<p class="label">MILESTONE 3</p>
+<h2>Thực hiện, theo dõi và kiểm soát</h2>
+<h3>3.1 Phạm vi phần mềm đã thực hiện</h3>
+<p>Staff ghi nhận xe vào, đối chiếu lượt ra, xác nhận phí mô phỏng và cập nhật chỗ trống. Customer xem chỗ trống và đặt chỗ. Manager quản lý bãi, khu vực, sức chứa, giá và nhật ký. PR #21 tích hợp các thay đổi về quyền, nhóm phí và dữ liệu biển số. PR #24 sửa màn hình chỗ trống và các vấn đề trên luồng demo.</p>
+<h3>3.2 Nhật ký dự án</h3>
+<table>
+<tr><th>Tuần</th><th>Năng lực dự kiến</th><th>Công việc và xử lý</th></tr>
+<tr><td>W12 · 09–15/11</td><td>40 giờ</td><td>Chuẩn bị P18, đối chiếu thiết kế và tiếp nhận Q27–Q35. Ưu tiên các điều chỉnh vòng 3 khi có phản hồi.</td></tr>
+<tr><td>W13 · 16–22/11</td><td>50 giờ</td><td>Hoàn tất P18 v1.0, sửa luồng vào/ra và xác minh tích hợp A-67. Phân tích CR-01 và tổ chức workshop A-105.</td></tr>
+<tr><td>W14 · 23–29/11</td><td>60 giờ</td><td>Tích hợp thay đổi, kiểm thử A-68/A-87, chuẩn bị báo cáo và hồ sơ nộp. Kết quả nộp đang chờ.</td></tr>
+</table>
+<p>40/50/60 giờ là năng lực kế hoạch. Số giờ ghi bù trong A-103 gồm tự khai và ước tính tái dựng. Chưa có tổng giờ đo đủ để tính chênh lệch của cả nhóm.</p>
+<h3>3.3 Theo dõi so với Baseline V1.0</h3>
+<table>
+<tr><th>Hoạt động</th><th>Kế hoạch → ghi nhận</th><th>Chênh lệch và nguyên nhân</th></tr>
+<tr><td>A-22 · P18</td><td>12/11 → 19/11</td><td>+7 ngày. Chờ chốt quy tắc phí và giao dịch, đồng thời xử lý phản hồi vòng 3.</td></tr>
+<tr><td>A-63 · Luồng vào/ra</td><td>18/11 → 19/11</td><td>+1 ngày. Phạm vi sửa tập trung vào các mục KB cần thay đổi mã.</td></tr>
+<tr><td>A-67 · Tích hợp</td><td>20/11 → 20/11</td><td>Đúng ngày. 25 kiểm tra HTTP, 120 sự kiện mô phỏng, 0 từ chối.</td></tr>
+<tr><td>A-68 · Kiểm thử CP-05</td><td>23/11 → 24/11</td><td>+1 ngày. QA ghi đạt có điều kiện C1–C6.</td></tr>
+</table>
+<h3>3.4 Rủi ro và vấn đề</h3>
+<p>R-G4-02 phát sinh khi nguồn lực bị dồn. R-G5-04 theo dõi nguy cơ trễ hạn do CR-01 và R-G5-01 theo dõi làm lại vì sửa muộn. Nhóm tăng năng lực dự kiến W14, gộp các mục báo cáo và kiểm tra lại các luồng bị ảnh hưởng. R-M3-06 vẫn mở vì ngưỡng đề xuất kèm Q28 chưa được xác nhận.</p>
+<p><small>Nguồn: F1-01, A-90, A-103, Risk Register và hồ sơ PR #21/#24.</small></p>
+</section>
+<section>
+<p class="label">MILESTONE 3</p>
+<h2>Chất lượng và thay đổi kế hoạch</h2>
+<h3>3.5 Kiểm soát chất lượng</h3>
+<p>A-61 ghi bảy lượt Staff bị từ chối đúng quyền. A-49 ghi kết quả retest màn hình chỗ trống. A-87 ngày 26/11 trên <code>ac57507c</code> ghi 382 kiểm thử tự động và 25 kiểm tra HTTP đạt, build và lint đạt. QA ghi các kịch bản AT-01–AT-07 và AT-100 đạt, kèm khoảng trống về chứng cứ ảnh, thời gian và ma trận trình duyệt.</p>
+<p><strong>RES-02 cần làm:</strong> gán ISS-06–ISS-11 cho C1–C6, ghi chủ trì, hạn, SHA và chứng cứ. Ký xác minh đếm tay C1 và các dòng QE C4, dẫn số đo C3 và đối chiếu C5, kiểm tra D-01/D-03/D-04 trên bản phù hợp cho C6. Ghi C2 là yêu cầu Q23 chưa đáp ứng và chuyển quyết định ngoại lệ cho người có thẩm quyền. Với CP-07, chốt các khoảng trống đã kiểm lại hoặc còn mở, gồm Chrome/Edge/Firefox ở 360/768/1920 px. Chuyển hồ sơ có ngày và kết quả cho RES-01 duyệt.</p>
+<h3>3.6 Xử lý sự kiện thay đổi</h3>
+<p>CR-01 đưa hạn từ 07/12 lên 29/11. Nhóm so sánh A (giữ mọi việc và tăng giờ), B (giảm phạm vi theo Q22) và C (giữ phạm vi thí điểm, gộp báo cáo, giảm độ sâu xác minh ngoài ưu tiên và giữ Q22 dự phòng). RES-01 chọn C ngày 19/11 để bảo vệ luồng cốt lõi, kiểm thử và thời gian nộp. Ngày 24/11, RES-01 quyết định giữ A-72/A-76 sau khi nhận diện điều kiện kích hoạt Q22. Khoản tiết kiệm 2,6 giờ từ việc bỏ hai lượt kiểm tra không được tính.</p>
+<p><strong>A-105 · Nội dung tái dựng đề xuất, chờ xác nhận.</strong> Workshop 20/11 có đủ năm thành viên theo RES-01. Nội dung đề xuất gồm bảo vệ kiểm thử Must, gộp A-108/A-110/A-112/A-113 vào A-92, giao QA kiểm tra phần bằng chứng còn thiếu và giao RES-03 rà lại việc còn lại theo năng lực từng người. Ghi nhận cam kết 12 giờ/người ở W14 theo báo cáo riêng ngày 24/11. Các hành động đề xuất trong đoạn này chưa có biên bản xác nhận cho ngày 20/11.</p>
+<h3>3.7 Baseline V2.0</h3>
+<table>
+<tr><th>Chỉ số kế hoạch</th><th>V1.0</th><th>V2.0</th></tr>
+<tr><td>Effort gồm dự phòng</td><td>139,60 giờ</td><td>183,89 giờ</td></tr>
+<tr><td>Năng lực</td><td>190 giờ</td><td>150 giờ</td></tr>
+<tr><td>Chi phí quy đổi</td><td>6.980.000 ₫</td><td>9.194.583 ₫</td></tr>
+<tr><td>Hạn nộp</td><td>07/12</td><td>29/11</td></tr>
+</table>
+<p>V1.0 được giữ làm mốc so sánh. RES-01 duyệt dùng V2.0 cho kiểm soát thay đổi ngày 27/11. Mô hình cân bằng nguồn lực kết thúc ở ngày công 24,63 trong cửa sổ 15 ngày. Lịch phục hồi chờ RES-03 cập nhật khối lượng còn lại, phụ thuộc, năng lực từng người và ngày hoàn thành.</p>
+<h3>3.8 Kế hoạch chi tiết phát sinh</h3>
+<p>A-87 mô tả bản chạy, kịch bản và chứng cứ. A-115 phân vai demo. A-116 liệt kê hồ sơ nộp. Chi tiết xuất hiện sau khi nhóm biết bản tích hợp, phản hồi mới và hạn nộp rút ngắn.</p>
+</section>
+<section>
+<p class="label">MILESTONE 4</p>
+<h2>Bàn giao và đánh giá</h2>
+<h3>4.1 Sản phẩm và demo</h3>
+<p>Các luồng chính, quản lý bãi và mô phỏng đã có bản tích hợp. Bằng chứng còn thiếu cho một số thao tác đặt chỗ thủ công, ma trận trình duyệt và bao phủ đủ tổ hợp phí trên cùng bản phát hành. Phạm vi ngoài bàn giao gồm thanh toán thật, phần cứng thật, tính phí theo giờ, tự đăng xuất do không hoạt động, giao diện tạo bãi thứ hai và khảo sát bắt buộc. Hạn chế kiểm thử được ghi vào P14 để đội bàn giao theo dõi.</p>
+<table>
+<tr><th>Vòng</th><th>Kết luận liên quan nghiệm thu</th></tr>
+<tr><td>1 · Q01–Q13</td><td>Ba chức năng cốt lõi là ưu tiên. Q11 yêu cầu luồng xuyên suốt, xử lý ngoại lệ và đáp ứng yêu cầu đã thống nhất. Web responsive được chấp nhận.</td></tr>
+<tr><td>2 · Q14–Q26</td><td>Q21 giới hạn ngoại lệ bắt buộc ở luồng cốt lõi. Q22 ưu tiên bảo vệ ba chức năng. Q23 cho phép gửi demo qua email. Q24 và Q26 xác nhận quy mô mô phỏng và cho phép số nền ước tính.</td></tr>
+<tr><td>3 · Q27–Q35</td><td>Q27 đồng ý năm ngoại lệ, phí phạt không bắt buộc. Chốt quy tắc báo cáo, đặt chỗ, tạm ngưng bãi, quyền Staff và lưu biển số. Các ngưỡng kèm Q28 còn chờ xác nhận.</td></tr>
+<tr><td>4 · Q36–Q46</td><td>Phí theo lượt, giờ bãi để hiển thị, đổi nhóm qua Manager. Q39/Q40/Q42 loại trừ tự đăng xuất do không hoạt động, UI bãi thứ hai và khảo sát bắt buộc. Q41 tách thử bãi đầy khỏi lượt tải thường. Q43 quy định ma trận trình duyệt. Q44–Q46 chốt xóa, hiển thị biển số và xem bảng giá.</td></tr>
+</table>
+<p>A-89 ghi A-88 được lên kế hoạch là demo nội bộ ngày 27/11. Kết quả buổi đó cần nhật ký riêng. Bốn vòng hỏi đáp xác nhận tiêu chí và loại trừ phạm vi. CP-08 đang chờ xác nhận nghiệm thu của giảng viên và quyết định về ngoại lệ còn mở.</p>
+<h3>4.2 So sánh kế hoạch và thực tế</h3>
+<p>Hạn nộp sớm hơn 8 ngày lịch. A-67 đúng mốc, A-22 trễ 7 ngày, A-63 và A-68 trễ 1 ngày. Chênh lệch chi phí quy đổi giữa hai baseline là 2.214.583 ₫. Chi phí thực tế chưa xác định vì giờ công chủ yếu tái dựng. A-101 ước tính 123,3 giờ tương đương thực hiện MVP thủ công trước baseline. Mốc này giúp giải thích việc V1.0 tập trung vào kiểm chứng và sửa lỗi. Rủi ro năng lực và bằng chứng QA còn tác động tới lịch đóng dự án.</p>
+<h3>4.3 Đánh giá mục tiêu</h3>
+<p>O1: AT-100 ghi 100 lượt vào, 69 lượt ra, 31 xe còn trong bãi; chỗ trống A/B/C là 143/138/18. O2: luồng vào/ra đã chạy; số đo thời gian AT-100 của A-87 còn thiếu. O3: bốn chỉ số được đối chiếu trên dữ liệu mẫu. O4: có chứng cứ cho ngoại lệ và tính phí theo lượt, bao phủ tổ hợp phí còn hạn chế. O5: sẵn sàng trình diễn nội bộ có điều kiện, xác nhận của giảng viên đang chờ.</p>
+</section>
+<section>
+<p class="label">MILESTONE 4</p>
+<h2>Đóng dự án và hồ sơ nộp</h2>
+<h3>4.4 Kế hoạch đóng dự án</h3>
+<p>RES-02 chốt hồ sơ QA, RES-03 cập nhật A-89/P14 và dự báo phần việc còn lại, RES-04/05 bàn giao bằng chứng giao diện và demo. RES-01 duyệt phiên bản PDF, phân công việc còn mở và xác nhận người nộp. Bàn giao README, cách cài đặt, bản mã nguồn được gắn SHA, baseline và chỉ mục chứng cứ. Sau bàn giao, lưu hồ sơ, thu hồi quyền hoặc môi trường demo khi không còn cần và ghi kết quả họp A-91.</p>
+<h3>4.5 Bài học</h3>
+<p>Giữ các lượt thử tích hợp nhỏ và đối chiếu số liệu giao diện với dữ liệu gốc. Ghi giờ và quyết định ngay trong tuần. Khóa SHA sản phẩm trước khi chạy thử, dùng checklist gồm kịch bản, bản build, môi trường, thời điểm và người kiểm tra. Giao rõ người ký QA, người duyệt ngoại lệ và người nộp. Xác nhận bài học chung và người phụ trách tại A-91.</p>
+<h3>4.6 Đóng góp cá nhân và viva</h3>
+<table>
+<tr><th>Thành viên</th><th>Đóng góp và nội dung chuẩn bị viva</th></tr>
+<tr><td>RES-01 · Đức Sơn</td><td>Điều phối, MVP, tích hợp và quyết định thay đổi. Giải thích vì sao giữ A-72/A-76 và liên hệ bằng chứng với mốc duyệt.</td></tr>
+<tr><td>RES-02 · Xuân Sơn</td><td>QA, CP-05 và A-87. Trình bày lý do đạt có điều kiện và chứng cứ còn thiếu.</td></tr>
+<tr><td>RES-03 · Mạnh Dũng</td><td>API, dữ liệu, actuals, V2.0 và bàn giao. Giải thích giả định giờ công và giới hạn của mô hình lịch.</td></tr>
+<tr><td>RES-04 · Duy Quý</td><td>SRS, màn hình chỗ trống và retest A-49. Giải thích cách đưa phản hồi thành ca kiểm thử.</td></tr>
+<tr><td>RES-05 · Tuấn Thành</td><td>Mô phỏng, A-68, demo và đo O1/O2. Giải thích đối chiếu số lượt với chỗ trống.</td></tr>
+</table>
+<p>Các dòng trên tổng hợp hồ sơ công việc. Thành viên xác nhận và bổ sung phản ánh cá nhân trước khi duyệt.</p>
+</section>
+<section>
+<p class="label">PHỤ LỤC</p>
+<h2>Truy vết và hồ sơ nộp</h2>
+<table>
+<tr><th>Mục tiêu / sản phẩm</th><th>Hoạt động / nguồn lực</th><th>Rủi ro / kiểm tra / cổng</th></tr>
+<tr><td>O1 · P09/P05</td><td>A-49/A-68 · RES-04/05</td><td>R-G2-01 · T05/AT-100 · CP-05</td></tr>
+<tr><td>O2 · P05/P04</td><td>A-65/A-67/A-68 · RES-03/01/05</td><td>R-G2-02 · T11/AT-100 · CP-04/05</td></tr>
+<tr><td>O3 · P06/P11</td><td>A-72/A-77 · RES-02/04</td><td>R-G2-01 · AT-05/07 · CP-07</td></tr>
+<tr><td>O4 · P05/P10/P21</td><td>A-76/A-87 · RES-04/02</td><td>R-G5-02 · AT-06/EX01–05 · CP-06/08</td></tr>
+<tr><td>O5 · P14/P21</td><td>A-87/A-88/A-89 · RES-02/01/03</td><td>R-G5-03/04 · AT-03/04 · CP-07/08</td></tr>
+</table>
+<p><strong>A-116.</strong> Gói nộp gồm PDF đã duyệt, repository, hướng dẫn chạy, V1.0/V2.0 và chỉ mục hồ sơ. Mục F5-06 giao RES-01 nộp; V2.0 ghi RES-04. Xác nhận người nộp khi duyệt. Ghi phiên bản PDF, ngày duyệt, thời điểm nộp và biên nhận LMS.</p>
+<p><small>Nguồn: <a href="https://github.com/nvdson2005/Parking-Management-System">repository và README</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f/docs/m3/baseline-v2.0.md">Baseline V2.0</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45fac500ccdb0eaeb05d4389761517f9336/docs/final/res02/a87-dry-run.md">A-87</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/pull/12">A-89/A-103/A-112</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/f42ab6f/docs/final/res01/closeout-handoff.md">hồ sơ closeout</a>.</small></p>
+</section>
+</body>
+</html>
