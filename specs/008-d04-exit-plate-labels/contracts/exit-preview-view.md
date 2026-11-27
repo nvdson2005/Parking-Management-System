@@ -21,6 +21,8 @@ Guarantees:
 - The entry plate is never shown under `exit.observedPlate`.
 - On a mismatch both plates are shown.
 - The mismatch warning, the manual-confirmation checkbox and the confirm-button rule stay in `ExitForm` and do not change.
+- `ExitForm` passes the plate it sent with the preview request (not the live input) as `observedPlate`, and confirms with that same plate.
+- A response to an outdated request is discarded: `createRequestGuard()` (`src/lib/requestGuard.ts`) gives each request a token, any input change invalidates it, and only the latest valid token may set the preview (FR-006).
 
 ## i18n
 

@@ -63,12 +63,14 @@ specs/008-d04-exit-plate-labels/
 
 ```text
 src/
-├── app/staff/exit/ExitForm.tsx   # export ExitPreviewDetails; ExitForm renders it
+├── app/staff/exit/ExitForm.tsx   # export ExitPreviewDetails; ExitForm renders it; discards late responses
+├── lib/requestGuard.ts           # createRequestGuard (FR-006)
 └── i18n/
     ├── vi.ts                     # exit.entryPlate
     └── en.ts                     # exit.entryPlate
 tests/
-└── exit-preview-details.test.ts  # new render test
+├── exit-preview-details.test.ts  # new render test
+└── request-guard.test.ts         # late-response guard (FR-006)
 docs/final/res04/
 └── d04-retest.md                 # manual AT-EX02 retest record (T007)
 ```

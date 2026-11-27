@@ -38,9 +38,16 @@
 - [ ] T008 Run `codegraph sync`, then the independent `review-implementation`; fix any Critical or Important finding before the PR
 - [ ] T009 Open one PR into `main` (commits reference A-68, D-04, ISS-11); after merge, owners of A-68 (RES-05) and the CP-05 gate (RES-02) update D-04 in `docs/m3/a-68-cp05-test.md` and F2-03 (rule 2: RES-04 does not edit their files)
 
+## Phase 5: Review fix (review of `12dae51`, 27/11: a late preview response could show the current input with a stale mismatch state)
+
+- [X] T010 [US1] Write `tests/request-guard.test.ts` for `createRequestGuard()` from `src/lib/requestGuard.ts`: a token from `begin()` is current; after `invalidate()` (an input change) the earlier token is not current; after a second `begin()` the first token is not current and the second is. Run it and record that it fails before T011
+- [X] T011 [US1] Add `src/lib/requestGuard.ts` (`begin`, `invalidate`, `isCurrent`). In `src/app/staff/exit/ExitForm.tsx`: keep one guard per form (`useRef`); `resetPreview()` calls `invalidate()`; `handlePreview` takes a token and the plate it sends, and sets the preview (stored with that plate) only if the token is still current; `ExitPreviewDetails` gets the stored plate; `handleConfirm` sends the stored plate. The visible behaviour without a race is unchanged
+- [X] T012 [US1] Run `npx vitest run tests/request-guard.test.ts tests/exit-preview-details.test.ts tests/exit.test.ts`, then mutation-check (`isCurrent` always true; `invalidate` a no-op): each must fail a T010 case; then `npm test`, `npm run lint`, `npm run build`
+- [ ] T013 Re-run step 2 of the manual retest (mismatch preview, vi) and the independent `review-implementation` on the new head; update `docs/final/res04/d04-retest.md` with the fix commit
+
 ## Dependencies & Execution Order
 
-- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009.
+- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009. Review fix: T010 (fails first) → T011 → T012 → T013, before the PR is merged.
 - T002 touches only the i18n files and can run in parallel with T003; T003 must fail for the right reason (missing export, wrong label) before T004.
 
 ## Parallel Example

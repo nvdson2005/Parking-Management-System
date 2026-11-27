@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Toaster } from '@/components/ui/sonner'
 import { useT } from '@/components/I18nProvider'
+import { createRequestGuard } from '@/lib/requestGuard'
 import { DEFAULT_GATE, GATES } from '@/lib/types'
 import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
@@ -79,6 +80,11 @@ export function ExitForm() {
   const [note, setNote] = useState('')
   const [gate, setGate] = useState<GateCode>(DEFAULT_GATE)
   const [preview, setPreview] = useState<ExitPreview | null>(null)
+  // The plate the shown preview was computed for (FR-006): displayed and
+  // confirmed instead of the live input.
+  const [comparedPlate, setComparedPlate] = useState('')
+  // Drops a preview response that arrives after an input changed (FR-006).
+  const previewGuard = useRef(createRequestGuard())
   const [confirmMismatch, setConfirmMismatch] = useState(false)
   const [previewing, setPreviewing] = useState(false)
   const [confirming, setConfirming] = useState(false)
@@ -87,12 +93,15 @@ export function ExitForm() {
   const effectiveMethod: IdMethod = lostCard ? 'PLATE' : method
 
   function resetPreview() {
+    previewGuard.current.invalidate()
     setPreview(null)
     setConfirmMismatch(false)
   }
 
   async function handlePreview(e: FormEvent) {
     e.preventDefault()
+    const token = previewGuard.current.begin()
+    const sentPlate = observedPlate
     setPreviewing(true)
     try {
       const res = await fetch('/api/events/exit/preview', {
@@ -101,12 +110,15 @@ export function ExitForm() {
         body: JSON.stringify({ method: effectiveMethod, identifier, observedPlate }),
       })
       const body = await res.json()
+      // An input changed while this request was in flight: its answer is stale.
+      if (!previewGuard.current.isCurrent(token)) return
       if (!res.ok) {
         resetPreview()
         toast.error(t(`errors.${body.error ?? 'VALIDATION'}`))
         return
       }
       setConfirmMismatch(false)
+      setComparedPlate(sentPlate)
       setPreview(body as ExitPreview)
     } catch {
       toast.error(t('common.networkError'))
@@ -124,7 +136,7 @@ export function ExitForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId: preview.sessionId,
-          observedPlate,
+          observedPlate: comparedPlate,
           confirmMismatch,
           lostCard,
           method: effectiveMethod,
@@ -252,7 +264,7 @@ export function ExitForm() {
 
         {preview ? (
           <div className="mt-4 flex flex-col gap-3 rounded-md border p-4">
-            <ExitPreviewDetails preview={preview} observedPlate={observedPlate} />
+            <ExitPreviewDetails preview={preview} observedPlate={comparedPlate} />
 
             {preview.plateMismatch ? (
               <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">
