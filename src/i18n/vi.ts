@@ -135,6 +135,7 @@ export const vi = {
     identifier: 'Mã định danh',
     identifierPlateHint: 'Nhập hoặc dán biển số',
     identifierCodeHint: 'Quét hoặc dán mã',
+    entryPlate: 'Biển số lúc vào',
     observedPlate: 'Biển số quan sát',
     observedPlateHint: 'Nhập biển số thực tế của xe',
     lostCard: 'Mất thẻ',
