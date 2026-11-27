@@ -136,6 +136,7 @@ export const en: Dict = {
     identifier: 'Identifier',
     identifierPlateHint: 'Type or paste a plate',
     identifierCodeHint: 'Scan or paste a code',
+    entryPlate: 'Plate at entry',
     observedPlate: 'Observed plate',
     observedPlateHint: "Type the vehicle's actual plate",
     lostCard: 'Lost card',
