@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState, useSyncExternalStore } from 'react'
 import type { FormEvent } from 'react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -18,10 +18,12 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Toaster } from '@/components/ui/sonner'
 import { useT } from '@/components/I18nProvider'
+import { createExitFormModel } from '@/lib/exitFormModel'
+import type { ApiResponse } from '@/lib/exitFormModel'
 import { DEFAULT_GATE, GATES } from '@/lib/types'
 import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
-type ExitPreview = {
+export type ExitPreview = {
   sessionId: string
   plateSnapshot: string
   zoneName: string
@@ -36,85 +38,88 @@ function formatFee(fee: number): string {
   return new Intl.NumberFormat('vi-VN').format(fee)
 }
 
+/**
+ * The exit preview details (A-68 D-04, spec 008): the plate recorded at entry
+ * and the plate Staff typed, each under its own label, with the typed plate
+ * marked when `previewExit` reports a mismatch (EX-02, AT-EX02). The typed
+ * plate is the one sent with the preview request (FR-006), not the live input.
+ */
+export function ExitPreviewDetails({ preview, observedPlate }: { preview: ExitPreview; observedPlate: string }) {
+  const t = useT()
+  return (
+    <dl className="grid grid-cols-2 gap-2 text-sm">
+      <dt className="text-muted-foreground">{t('exit.entryPlate')}</dt>
+      <dd className="font-mono">{preview.plateSnapshot}</dd>
+      <dt className="text-muted-foreground">{t('exit.observedPlate')}</dt>
+      {preview.plateMismatch ? (
+        <dd className="font-mono font-semibold text-destructive" data-mismatch="true">
+          {observedPlate.trim()}
+        </dd>
+      ) : (
+        <dd className="font-mono">{observedPlate.trim()}</dd>
+      )}
+      <dt className="text-muted-foreground">{t('exit.zone')}</dt>
+      <dd>{preview.zoneName}</dd>
+      <dt className="text-muted-foreground">{t('exit.vehicleType')}</dt>
+      <dd>{t(`availability.vehicleTypes.${preview.vehicleType}`)}</dd>
+      <dt className="text-muted-foreground">{t('exit.feeGroup')}</dt>
+      <dd>{t(`exit.feeGroups.${preview.feeGroup}`)}</dd>
+      <dt className="text-muted-foreground">{t('exit.entryTime')}</dt>
+      <dd>{new Date(preview.entryTime).toLocaleString()}</dd>
+      <dt className="text-muted-foreground">{t('exit.fee')}</dt>
+      <dd className="font-semibold">{formatFee(preview.fee)} ₫</dd>
+    </dl>
+  )
+}
+
+async function postJson(url: string, body: unknown): Promise<ApiResponse> {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  return { ok: res.ok, body: await res.json() }
+}
+
+function newExitFormModel() {
+  return createExitFormModel<ExitPreview>({
+    preview: (body) => postJson('/api/events/exit/preview', body),
+    confirm: (body) => postJson('/api/events/exit/confirm', body),
+  })
+}
+
 export function ExitForm() {
   const t = useT()
-  const [method, setMethod] = useState<IdMethod>('PLATE')
-  const [identifier, setIdentifier] = useState('')
-  const [observedPlate, setObservedPlate] = useState('')
-  const [lostCard, setLostCard] = useState(false)
+  // Inputs, preview requests, loading state and confirm live in the model
+  // (spec 008 FR-006, tested in tests/exit-form-model.test.ts); this component
+  // only renders them. Gate and note do not affect the preview.
+  const modelRef = useRef<ReturnType<typeof newExitFormModel> | null>(null)
+  if (!modelRef.current) modelRef.current = newExitFormModel()
+  const model = modelRef.current
+  const state = useSyncExternalStore(model.subscribe, model.getState, model.getState)
+  const { inputs, previewing, confirming, confirmMismatch } = state
+  const preview = state.shown?.preview ?? null
   const [note, setNote] = useState('')
   const [gate, setGate] = useState<GateCode>(DEFAULT_GATE)
-  const [preview, setPreview] = useState<ExitPreview | null>(null)
-  const [confirmMismatch, setConfirmMismatch] = useState(false)
-  const [previewing, setPreviewing] = useState(false)
-  const [confirming, setConfirming] = useState(false)
-
-  // A lost card is handled off the plate (there is no card/code to scan).
-  const effectiveMethod: IdMethod = lostCard ? 'PLATE' : method
-
-  function resetPreview() {
-    setPreview(null)
-    setConfirmMismatch(false)
-  }
+  const effectiveMethod = model.effectiveMethod()
 
   async function handlePreview(e: FormEvent) {
     e.preventDefault()
-    setPreviewing(true)
-    try {
-      const res = await fetch('/api/events/exit/preview', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ method: effectiveMethod, identifier, observedPlate }),
-      })
-      const body = await res.json()
-      if (!res.ok) {
-        resetPreview()
-        toast.error(t(`errors.${body.error ?? 'VALIDATION'}`))
-        return
-      }
-      setConfirmMismatch(false)
-      setPreview(body as ExitPreview)
-    } catch {
-      toast.error(t('common.networkError'))
-    } finally {
-      setPreviewing(false)
-    }
+    const outcome = await model.preview()
+    // null: the answer is stale (an input changed or a newer request started).
+    if (!outcome || outcome.kind === 'ok') return
+    toast.error(outcome.kind === 'network' ? t('common.networkError') : t(`errors.${outcome.code}`))
   }
 
   async function handleConfirm() {
-    if (!preview) return
-    setConfirming(true)
-    try {
-      const res = await fetch('/api/events/exit/confirm', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId: preview.sessionId,
-          observedPlate,
-          confirmMismatch,
-          lostCard,
-          method: effectiveMethod,
-          gate,
-          source: 'MANUAL',
-          note: note.trim() ? note.trim() : undefined,
-        }),
-      })
-      const body = await res.json()
-      if (!res.ok) {
-        toast.error(t(`errors.${body.error ?? 'VALIDATION'}`))
-        return
-      }
+    const outcome = await model.confirm({ gate, note: note.trim() ? note.trim() : undefined })
+    if (!outcome) return
+    if (outcome.kind === 'ok') {
       toast.success(t('exit.success'))
-      setIdentifier('')
-      setObservedPlate('')
       setNote('')
-      setLostCard(false)
-      resetPreview()
-    } catch {
-      toast.error(t('common.networkError'))
-    } finally {
-      setConfirming(false)
+      return
     }
+    toast.error(outcome.kind === 'network' ? t('common.networkError') : t(`errors.${outcome.code}`))
   }
 
   return (
@@ -128,19 +133,16 @@ export function ExitForm() {
             <Label>{t('exit.method')}</Label>
             <Tabs
               value={effectiveMethod}
-              onValueChange={(value) => {
-                setMethod(value as IdMethod)
-                resetPreview()
-              }}
+              onValueChange={(value) => model.setInput({ method: value as IdMethod })}
             >
               <TabsList>
-                <TabsTrigger value="PLATE" disabled={lostCard}>
+                <TabsTrigger value="PLATE" disabled={inputs.lostCard}>
                   {t('exit.methodPlate')}
                 </TabsTrigger>
-                <TabsTrigger value="QR" disabled={lostCard}>
+                <TabsTrigger value="QR" disabled={inputs.lostCard}>
                   {t('exit.methodQr')}
                 </TabsTrigger>
-                <TabsTrigger value="RFID" disabled={lostCard}>
+                <TabsTrigger value="RFID" disabled={inputs.lostCard}>
                   {t('exit.methodRfid')}
                 </TabsTrigger>
               </TabsList>
@@ -152,12 +154,9 @@ export function ExitForm() {
             <Input
               id="identifier"
               required
-              value={identifier}
+              value={inputs.identifier}
               placeholder={effectiveMethod === 'PLATE' ? t('exit.identifierPlateHint') : t('exit.identifierCodeHint')}
-              onChange={(e) => {
-                setIdentifier(e.target.value)
-                resetPreview()
-              }}
+              onChange={(e) => model.setInput({ identifier: e.target.value })}
             />
           </div>
 
@@ -166,12 +165,9 @@ export function ExitForm() {
             <Input
               id="observedPlate"
               required
-              value={observedPlate}
+              value={inputs.observedPlate}
               placeholder={t('exit.observedPlateHint')}
-              onChange={(e) => {
-                setObservedPlate(e.target.value)
-                resetPreview()
-              }}
+              onChange={(e) => model.setInput({ observedPlate: e.target.value })}
             />
           </div>
 
@@ -195,16 +191,13 @@ export function ExitForm() {
             <input
               type="checkbox"
               className="size-4"
-              checked={lostCard}
-              onChange={(e) => {
-                setLostCard(e.target.checked)
-                resetPreview()
-              }}
+              checked={inputs.lostCard}
+              onChange={(e) => model.setInput({ lostCard: e.target.checked })}
             />
             {t('exit.lostCard')}
           </label>
 
-          {lostCard ? (
+          {inputs.lostCard ? (
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="note">{t('exit.note')}</Label>
               <Textarea id="note" value={note} onChange={(e) => setNote(e.target.value)} />
@@ -218,20 +211,7 @@ export function ExitForm() {
 
         {preview ? (
           <div className="mt-4 flex flex-col gap-3 rounded-md border p-4">
-            <dl className="grid grid-cols-2 gap-2 text-sm">
-              <dt className="text-muted-foreground">{t('exit.observedPlate')}</dt>
-              <dd className="font-mono">{preview.plateSnapshot}</dd>
-              <dt className="text-muted-foreground">{t('exit.zone')}</dt>
-              <dd>{preview.zoneName}</dd>
-              <dt className="text-muted-foreground">{t('exit.vehicleType')}</dt>
-              <dd>{t(`availability.vehicleTypes.${preview.vehicleType}`)}</dd>
-              <dt className="text-muted-foreground">{t('exit.feeGroup')}</dt>
-              <dd>{t(`exit.feeGroups.${preview.feeGroup}`)}</dd>
-              <dt className="text-muted-foreground">{t('exit.entryTime')}</dt>
-              <dd>{new Date(preview.entryTime).toLocaleString()}</dd>
-              <dt className="text-muted-foreground">{t('exit.fee')}</dt>
-              <dd className="font-semibold">{formatFee(preview.fee)} ₫</dd>
-            </dl>
+            <ExitPreviewDetails preview={preview} observedPlate={state.shown?.comparedPlate ?? ''} />
 
             {preview.plateMismatch ? (
               <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">
@@ -243,7 +223,7 @@ export function ExitForm() {
                     type="checkbox"
                     className="size-4"
                     checked={confirmMismatch}
-                    onChange={(e) => setConfirmMismatch(e.target.checked)}
+                    onChange={(e) => model.setConfirmMismatch(e.target.checked)}
                   />
                   {t('exit.confirmManually')}
                 </label>
