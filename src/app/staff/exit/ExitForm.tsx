@@ -18,7 +18,7 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Toaster } from '@/components/ui/sonner'
 import { useT } from '@/components/I18nProvider'
-import { createRequestGuard } from '@/lib/requestGuard'
+import { createExitPreviewController } from '@/lib/exitPreviewController'
 import { DEFAULT_GATE, GATES } from '@/lib/types'
 import type { FeeGroup, GateCode, IdMethod, VehicleTypeCode } from '@/lib/types'
 
@@ -41,7 +41,7 @@ function formatFee(fee: number): string {
  * The exit preview details (A-68 D-04, spec 008): the plate recorded at entry
  * and the plate Staff typed, each under its own label, with the typed plate
  * marked when `previewExit` reports a mismatch (EX-02, AT-EX02). The typed
- * plate comes from the form, which clears the preview whenever it changes.
+ * plate is the one sent with the preview request (FR-006), not the live input.
  */
 export function ExitPreviewDetails({ preview, observedPlate }: { preview: ExitPreview; observedPlate: string }) {
   const t = useT()
@@ -79,12 +79,22 @@ export function ExitForm() {
   const [lostCard, setLostCard] = useState(false)
   const [note, setNote] = useState('')
   const [gate, setGate] = useState<GateCode>(DEFAULT_GATE)
-  const [preview, setPreview] = useState<ExitPreview | null>(null)
-  // The plate the shown preview was computed for (FR-006): displayed and
-  // confirmed instead of the live input.
-  const [comparedPlate, setComparedPlate] = useState('')
-  // Drops a preview response that arrives after an input changed (FR-006).
-  const previewGuard = useRef(createRequestGuard())
+  // The preview and the plate it was computed for, set together (FR-006).
+  const [shown, setShown] = useState<{ preview: ExitPreview; comparedPlate: string } | null>(null)
+  const preview = shown?.preview ?? null
+  // Drops a preview answer that arrives after an input changed (FR-006).
+  const previewController = useRef(
+    createExitPreviewController<{ method: IdMethod; identifier: string; observedPlate: string }, ExitPreview>(
+      async (input) => {
+        const res = await fetch('/api/events/exit/preview', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(input),
+        })
+        return { ok: res.ok, body: await res.json() }
+      },
+    ),
+  )
   const [confirmMismatch, setConfirmMismatch] = useState(false)
   const [previewing, setPreviewing] = useState(false)
   const [confirming, setConfirming] = useState(false)
@@ -93,38 +103,29 @@ export function ExitForm() {
   const effectiveMethod: IdMethod = lostCard ? 'PLATE' : method
 
   function resetPreview() {
-    previewGuard.current.invalidate()
-    setPreview(null)
+    previewController.current.inputChanged()
+    setShown(null)
     setConfirmMismatch(false)
   }
 
   async function handlePreview(e: FormEvent) {
     e.preventDefault()
-    const token = previewGuard.current.begin()
-    const sentPlate = observedPlate
     setPreviewing(true)
-    try {
-      const res = await fetch('/api/events/exit/preview', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ method: effectiveMethod, identifier, observedPlate }),
-      })
-      const body = await res.json()
-      // An input changed while this request was in flight: its answer is stale.
-      if (!previewGuard.current.isCurrent(token)) return
-      if (!res.ok) {
-        resetPreview()
-        toast.error(t(`errors.${body.error ?? 'VALIDATION'}`))
-        return
-      }
-      setConfirmMismatch(false)
-      setComparedPlate(sentPlate)
-      setPreview(body as ExitPreview)
-    } catch {
+    const outcome = await previewController.current.request({ method: effectiveMethod, identifier, observedPlate })
+    setPreviewing(false)
+    // null: an input changed while the request was in flight; leave the screen as it is.
+    if (!outcome) return
+    if (outcome.kind === 'network') {
       toast.error(t('common.networkError'))
-    } finally {
-      setPreviewing(false)
+      return
     }
+    if (outcome.kind === 'error') {
+      resetPreview()
+      toast.error(t(`errors.${outcome.code}`))
+      return
+    }
+    setConfirmMismatch(false)
+    setShown({ preview: outcome.preview, comparedPlate: outcome.comparedPlate })
   }
 
   async function handleConfirm() {
@@ -136,7 +137,7 @@ export function ExitForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId: preview.sessionId,
-          observedPlate: comparedPlate,
+          observedPlate: shown?.comparedPlate ?? observedPlate,
           confirmMismatch,
           lostCard,
           method: effectiveMethod,
@@ -264,7 +265,7 @@ export function ExitForm() {
 
         {preview ? (
           <div className="mt-4 flex flex-col gap-3 rounded-md border p-4">
-            <ExitPreviewDetails preview={preview} observedPlate={comparedPlate} />
+            <ExitPreviewDetails preview={preview} observedPlate={shown?.comparedPlate ?? ''} />
 
             {preview.plateMismatch ? (
               <div className="flex flex-col gap-2 rounded-md border border-destructive/50 bg-destructive/10 p-3">

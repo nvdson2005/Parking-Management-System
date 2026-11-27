@@ -24,11 +24,11 @@
 
 ## Recheck after the review fix (27/11, `b97caab`)
 
-The review of `12dae51` found that a late preview response could show the live input next to a stale mismatch state. `b97caab` discards outdated responses and shows the plate each preview was computed for. That race cannot be reproduced reliably by hand (a preview takes tens of milliseconds); it is covered by `tests/request-guard.test.ts` (mutation-checked). The normal flow was rechecked by hand:
+The review of `12dae51` found that a late preview response could show the live input next to a stale mismatch state. `b97caab` discards outdated responses and shows the plate each preview was computed for; the follow-up commit moves the request handling into `createExitPreviewController` so that the behaviour the screen relies on is tested. The race cannot be reproduced reliably by hand (a preview takes tens of milliseconds). `tests/exit-preview-controller.test.ts` stages it with a deferred response: a late success, error or network failure after an input change is dropped, and a current success carries the sent plate (mutation-checked). The remaining untested glue is the React state in `ExitForm` (no DOM test environment in the repo). The normal flow was rechecked by hand:
 
 | Step | Action | Expected | Result |
 |---|---|---|---|
-| R1 | Entry `66F-403.65`, zone A, motorbike; exit preview with observed `66F-403.66` | Both plates under their labels, observed plate in red, warning, confirm disabled | **Pass**: `evidence/d04/rerun-1-mismatch-vi.png` (entry 13:15:58) |
+| R1 | Entry `66F-403.65`, zone A, motorbike; exit preview with observed `66F-403.66` | Both plates under their labels, observed plate in red, warning, confirm disabled | **Pass**: `evidence/d04/rerun-1-mismatch-vi.png` (entry 13:15:58; box unticked, confirm disabled) |
 | R2 | Change the observed plate to `66F-403.65` | Preview disappears | **Pass**: `evidence/d04/rerun-2-preview-cleared-vi.png` |
 | R3 | Preview again | Both plates, no red mark, no warning, confirm enabled | **Pass**: `evidence/d04/rerun-3-match-vi.png` |
 | R4 | Confirm | Success; no mismatch event | **Pass**: `evidence/d04/rerun-4-exit-recorded-vi.png`; `dev.db`: closed 13:17:35, fee 2.000 đ, no session event |

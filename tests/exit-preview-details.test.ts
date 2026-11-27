@@ -64,6 +64,16 @@ describe('ExitPreviewDetails (spec 008, A-68 D-04)', () => {
     expect(html).not.toContain('data-mismatch')
   })
 
+  it('rows are in contract order: entry plate, observed plate, then zone', () => {
+    const html = render('vi', createElement(ExitPreviewDetails, { preview: preview(true), observedPlate: '66F-403.46' }))
+    const entry = html.indexOf('Biển số lúc vào')
+    const observed = html.indexOf('Biển số quan sát')
+    const zone = html.indexOf('Khu vực')
+    expect(entry).toBeGreaterThan(-1)
+    expect(entry).toBeLessThan(observed)
+    expect(observed).toBeLessThan(zone)
+  })
+
   it('en: labels are "Plate at entry" and "Observed plate"', () => {
     const html = render('en', createElement(ExitPreviewDetails, { preview: preview(true), observedPlate: '66F-403.46' }))
     expect(valueAfter(html, 'Plate at entry')?.text).toBe('66F-403.45')

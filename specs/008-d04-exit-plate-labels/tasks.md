@@ -43,11 +43,17 @@
 - [X] T010 [US1] Write `tests/request-guard.test.ts` for `createRequestGuard()` from `src/lib/requestGuard.ts`: a token from `begin()` is current; after `invalidate()` (an input change) the earlier token is not current; after a second `begin()` the first token is not current and the second is. Run it and record that it fails before T011
 - [X] T011 [US1] Add `src/lib/requestGuard.ts` (`begin`, `invalidate`, `isCurrent`). In `src/app/staff/exit/ExitForm.tsx`: keep one guard per form (`useRef`); `resetPreview()` calls `invalidate()`; `handlePreview` takes a token and the plate it sends, and sets the preview (stored with that plate) only if the token is still current; `ExitPreviewDetails` gets the stored plate; `handleConfirm` sends the stored plate. The visible behaviour without a race is unchanged
 - [X] T012 [US1] Run `npx vitest run tests/request-guard.test.ts tests/exit-preview-details.test.ts tests/exit.test.ts`, then mutation-check (`isCurrent` always true; `invalidate` a no-op): each must fail a T010 case; then `npm test`, `npm run lint`, `npm run build`
-- [X] T013 Re-run step 2 of the manual retest (mismatch preview, vi) and the independent `review-implementation` on the new head; update `docs/final/res04/d04-retest.md` with the fix commit
+- [ ] T013 Re-run step 2 of the manual retest (mismatch preview, vi) and the independent `review-implementation` on the new head; update `docs/final/res04/d04-retest.md` with the fix commit
+
+## Phase 6: Review fix 2 (review of `ca6867b`, 27/11: the guard was tested but its use in `ExitForm` was not; a stale network error still showed a toast)
+
+- [X] T014 [US1] Write `tests/exit-preview-controller.test.ts` with a deferred fetch: a current success returns the preview and the sent plate; a current error returns its code; after `inputChanged()` a late success, error or network failure returns `null`; a newer request makes the older answer stale; a current network failure is reported. Add a row-order case to `tests/exit-preview-details.test.ts`. Seen to fail before T015 (module missing)
+- [X] T015 [US1] Add `src/lib/exitPreviewController.ts`; `ExitForm` sends every preview request through it, calls `inputChanged()` in `resetPreview()`, ignores a `null` outcome, and keeps the preview and the sent plate in one state value used for display and confirm. Fix the outdated reasoning in research R1, data-model and the `ExitPreviewDetails` comment
+- [X] T016 [US1] Mutation-check the controller (no stale check on answers; stale network reported; sent plate not carried; `inputChanged` as a no-op): each fails a T014 case. Run `npm test` (or `npx vitest run` if `prisma generate` hits EPERM), `npm run lint`, `npm run build`
 
 ## Dependencies & Execution Order
 
-- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009. Review fix: T010 (fails first) → T011 → T012 → T013, before the PR is merged.
+- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009. Review fixes: T010 (fails first) → T011 → T012; T014 (fails first) → T015 → T016; then T013 (manual recheck and independent review on the final head), before the PR is merged.
 - T002 touches only the i18n files and can run in parallel with T003; T003 must fail for the right reason (missing export, wrong label) before T004.
 
 ## Parallel Example
