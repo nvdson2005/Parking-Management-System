@@ -30,6 +30,19 @@ Local `origin/main` at `2c5a587` shows #11 merged and the #17 integration landed
 2. Review the remaining QA and owner evidence against the pinned candidate. Keep CP-05 follow-up and any waiver open until the required QA and PM sign-offs are recorded. Carry the dated A-88 client verdict and accepted exceptions into A-89 and A-92.
 3. M3 §3.1 is checked based on merged PRs #18, #24 and #27. Check that each remaining row’s inputs are merged and referenced before marking it complete. After the owner inputs and closure decisions are available, RES-03 performs the shared workbook update in F3-05.
 
+### Proposed RES-01 decisions for approval
+
+These entries are drafts for RES-01 review. Record the decision and date after approval. Keep historical attendance, reported effort, client or QA decisions, and submission receipts tied to their original evidence.
+
+| Item | Proposed entry |
+| --- | --- |
+| F1-01 · A-100 effort | Use 8 h, 10 h and 12 h per person for W12, W13 and W14 as capacity-based estimates. That gives 30 h per person and 150 h for the team. Leave measured hours and actual variance unknown until supported by member records. |
+| F1-02 · Workshop actions | Use Option C as the closeout approach: retain the core pilot scope and the A-72/A-76 checks, consolidate report inputs, assign each unresolved evidence item to its owner, and plan against the reported 12 h per member in W14. The 20 November workshop actions still need confirmation before attributing this wording to the meeting. |
+| F1-03 · Baseline decision | Endorse V2.0 as the change-control record, subject to RES-01 approval. Keep 29 November as the submission target and show working day 24.63 of 15 as the model forecast. Retain A-72/A-76 without taking the 2.6 h fallback saving. Ask RES-03 to reconcile the remaining workload before approving a recovery schedule. |
+| CP-05 and A-88 · Acceptance | Keep CP-05 at pass with conditions, retain the A-87 dry-run results as internal QA evidence, and carry any unclosed conditions into the report. Record the lecturer verdict and any accepted exceptions only when they are available. |
+| A-91 and A-114 · Lessons | Bring these proposals to the retrospective and use the agreed wording in the reflection: log effort weekly, pin the candidate before collecting evidence, and track technical results, QA sign-off and lecturer acceptance as separate checkpoints. |
+| A-92 and A-116 · Closeout | Prepare the report for review with one pinned build, linked evidence and a list of open conditions. Obtain sign-off on the final package and log the LMS submission date and receipt after upload. |
+
 ### Final report and submission
 
 - [ ] Close A-90 with verified actuals and clearly identified estimates. Chair A-91 and hand off the lessons. Supply the verified M3 inputs for A-108, then review and sign off A-92 with its acceptance outcome and open exceptions.
