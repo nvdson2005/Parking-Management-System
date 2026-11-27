@@ -5,7 +5,7 @@ No item in the Technical Context was marked NEEDS CLARIFICATION. The decisions b
 ## R1. Where the observed plate comes from
 
 - **Decision**: from the plate the form sent with the preview request, kept together with the preview (`createExitFormModel`, FR-006), not from the live input and not from the preview API.
-- **Rationale**: the form already holds the value and sends it to `/api/events/exit/preview`. Clearing the preview on every input change is not enough on its own: a response that arrives after the change would restore a preview for the earlier value (reviews of `12dae51` and `ca6867b`). The controller drops such late answers and returns the sent plate with a current one. Returning the plate from the API would change the P18 contract and the contract tests for no gain.
+- **Rationale**: the form already holds the value and sends it to `/api/events/exit/preview`. Clearing the preview on every input change is not enough on its own: a response that arrives after the change would restore a preview for the earlier value (reviews of `12dae51` and `ca6867b`). The form model (`createExitFormModel`) drops such late answers and keeps the sent plate with a current preview. Returning the plate from the API would change the P18 contract and the contract tests for no gain.
 - **Alternatives considered**: add `observedPlate` to the `ExitPreview` response (option B in the design), rejected as a needless contract change.
 
 ## R2. How to make the preview testable

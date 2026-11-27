@@ -24,9 +24,9 @@ The exit preview shows the session's entry plate under the label of the observed
 
 **Performance Goals**: no change
 
-**Constraints**: i18n key parity between vi and en (`tests/i18n.test.ts`); the preview is still cleared whenever an input changes, so the displayed observed plate is the one that was compared
+**Constraints**: i18n key parity between vi and en (`tests/i18n.test.ts`); clearing the preview on an input change is not enough on its own, so the form state lives in `createExitFormModel`, which drops stale answers and keeps the sent plate with the preview (FR-006)
 
-**Scale/Scope**: 3 source files (`ExitForm.tsx`, `vi.ts`, `en.ts`), 1 new test file; about 1 h including the manual retest
+**Scale/Scope**: planned 3 source files and 1 test file (about 1 h). After four review rounds: 5 source files (`ExitForm.tsx`, `vi.ts`, `en.ts`, `lib/requestGuard.ts`, `lib/exitFormModel.ts`) and 3 test files; see Complexity Tracking
 
 ## Constitution Check
 
@@ -81,4 +81,8 @@ docs/final/res04/
 
 ## Complexity Tracking
 
-No constitution deviation.
+No constitution deviation. One process deviation:
+
+| Deviation | Why | Simpler option rejected because |
+|---|---|---|
+| Handwritten source change is about 375 lines (insertions + deletions in `src/`), over the default 300 of `review-implementation` | The reviews of `12dae51`, `ca6867b`, `e18e574` and `bc1b602` required the late-response handling, the loading-state fix and form-level tests. The form state had to move out of `ExitForm` into `src/lib/exitFormModel.ts` to be testable, because the repo has no DOM test environment and installing jsdom was not permitted in this session | Keeping the state in `ExitForm` leaves the fixes untested (rejected by the reviews); splitting the PR would leave `main` with a known race before the demo |

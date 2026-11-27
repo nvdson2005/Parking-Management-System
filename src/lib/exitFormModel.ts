@@ -146,6 +146,7 @@ export function createExitFormModel<T extends { sessionId: string }>(api: {
         guard.invalidate()
         set({
           confirming: false,
+          previewing: false,
           inputs: { ...state.inputs, identifier: '', observedPlate: '', lostCard: false },
           shown: null,
           confirmMismatch: false,

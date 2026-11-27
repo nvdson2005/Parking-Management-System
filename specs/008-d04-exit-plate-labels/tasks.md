@@ -33,7 +33,7 @@
 
 ## Phase 4: Polish & Cross-Cutting Concerns
 
-- [X] T006 Run `npm test`, `npm run lint` and `npm run build` (constitution IV); record the counts in the PR
+- [X] T006 Run `npm test`, `npm run lint` and `npm run build` (constitution IV); record the counts in the PR description (done when the PR was opened)
 - [X] T007 Manual AT-EX02 retest on the dev server following quickstart.md steps 1–7 (mismatch, match with separators, English, preview cleared when the observed plate changes, lost card); record the results and screenshots in `docs/final/res04/d04-retest.md`, ending with a paste-ready Quality Evidence row and the D-04 status for ISS-11
 - [ ] T008 Run `codegraph sync`, then the independent `review-implementation`; fix any Critical or Important finding before the PR
 - [ ] T009 Open one PR into `main` (commits reference A-68, D-04, ISS-11); after merge, owners of A-68 (RES-05) and the CP-05 gate (RES-02) update D-04 in `docs/m3/a-68-cp05-test.md` and F2-03 (rule 2: RES-04 does not edit their files)
@@ -53,13 +53,18 @@
 
 ## Phase 7: Review fix 3 (review of `e18e574` by the owner, 27/11: an outdated request still held the preview button and could clear a newer request's loading state; the form's invalidation call and confirm plate had no form-level test)
 
-- [X] T017 [US1] Write `tests/exit-form-model.test.ts` for `createExitFormModel` with deferred requests: editing the plate during a pending request releases the button and keeps the late preview hidden; a late error or network failure changes nothing; with overlapping requests the older answer cannot end the newer loading state or set the preview; confirm sends the plate of the current preview after an edit and a new preview; a current error hides the preview; a lost card is looked up by plate. (A DOM-based test with jsdom and Testing Library was not added: installing those packages was not permitted in this session.)
+- [X] T017 [US1] (The RED run was not recorded: the model and its test were written together; T019 mutation checks stand in for it.) Write `tests/exit-form-model.test.ts` for `createExitFormModel` with deferred requests: editing the plate during a pending request releases the button and keeps the late preview hidden; a late error or network failure changes nothing; with overlapping requests the older answer cannot end the newer loading state or set the preview; confirm sends the plate of the current preview after an edit and a new preview; a current error hides the preview; a lost card is looked up by plate. (A DOM-based test with jsdom and Testing Library was not added: installing those packages was not permitted in this session.)
 - [X] T018 [US1] Add `src/lib/exitFormModel.ts` (inputs, preview requests, loading, confirm) and make `ExitForm` render it with `useSyncExternalStore`; every input change calls `setInput`. Remove `src/lib/exitPreviewController.ts` and its test (superseded)
 - [X] T019 [US1] Mutation-check the model (edit without invalidation, edit keeps the button locked, a stale answer ends the loading state: each fails a T017 case; confirming with the live input instead of the compared plate is equivalent while every edit clears the preview, so no test can tell them apart). Run `npx vitest run`, `npm run lint`, `next build`
 
+## Phase 8: Review fix 4 (review of `01fe926`, 27/11: the rewritten confirm and error paths had no test; a successful confirm could leave the Preview button locked; size over 300 lines not recorded)
+
+- [X] T020 [US1] Add form-model cases: confirm sends `confirmMismatch`, `lostCard`, `method`, `gate`, `note` and the compared plate; a refused or failed confirm releases the confirm button and keeps the preview; a current error hides a preview already shown; a successful confirm releases the Preview button even if a preview started meanwhile (this case failed before T021)
+- [X] T021 [US1] Set `previewing: false` on a successful confirm in `src/lib/exitFormModel.ts`. Mutation-check: `confirmMismatch` or `lostCard` always false, `confirming` kept after an error, an error keeping the old preview, and a confirm leaving Preview locked each fail a T020 case. Record the size deviation in plan.md Complexity Tracking; fix the stale wording in research R1, the plan and the retest record
+
 ## Dependencies & Execution Order
 
-- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009. Review fixes: T010 (fails first) → T011 → T012; T014 (fails first) → T015 → T016; T017 → T018 → T019; then T013 (manual recheck and independent review on the final head), before the PR is merged.
+- T001 → T002 → T003 (test written and seen to fail) → T004 → T005 → T006 → T007 → T008 → T009. Review fixes: T010 (fails first) → T011 → T012; T014 (fails first) → T015 → T016; T017 → T018 → T019; T020 (one case fails first) → T021; then T013 (manual recheck and independent review on the final head), before the PR is merged.
 - T002 touches only the i18n files and can run in parallel with T003; T003 must fail for the right reason (missing export, wrong label) before T004.
 
 ## Parallel Example

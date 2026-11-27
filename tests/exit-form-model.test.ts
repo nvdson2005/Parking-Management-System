@@ -112,6 +112,69 @@ describe('Staff exit form model (spec 008, FR-006)', () => {
     expect(await form.confirm({ gate: 'GATE-1' })).toBeNull()
   })
 
+  it('confirm carries the manual mismatch confirmation, lost card, gate and note (FR-004)', async () => {
+    const { form, previews, confirms } = setup()
+    form.setInput({ lostCard: true })
+    const pending = form.preview()
+    previews[0].resolve(MISMATCH)
+    await pending
+    form.setConfirmMismatch(true)
+    void form.confirm({ gate: 'GATE-2', note: 'mất thẻ' })
+    expect(confirms[0].body).toEqual({
+      sessionId: 's1',
+      observedPlate: '66F-403.46',
+      confirmMismatch: true,
+      lostCard: true,
+      method: 'PLATE',
+      gate: 'GATE-2',
+      source: 'MANUAL',
+      note: 'mất thẻ',
+    })
+    expect(form.getState().confirming).toBe(true)
+  })
+
+  it('a refused confirm releases the button and keeps the preview; a network failure too', async () => {
+    const { form, previews, confirms } = setup()
+    const pending = form.preview()
+    previews[0].resolve(MISMATCH)
+    await pending
+    const refused = form.confirm({ gate: 'GATE-1' })
+    confirms[0].resolve({ ok: false, body: { error: 'PLATE_MISMATCH' } })
+    expect(await refused).toEqual({ kind: 'error', code: 'PLATE_MISMATCH' })
+    expect(form.getState().confirming).toBe(false)
+    expect(form.getState().shown).not.toBeNull()
+
+    const offline = form.confirm({ gate: 'GATE-1' })
+    confirms[1].reject(new Error('offline'))
+    expect(await offline).toEqual({ kind: 'network' })
+    expect(form.getState().confirming).toBe(false)
+  })
+
+  it('a current error hides a preview that is already shown', async () => {
+    const { form, previews } = setup()
+    const first = form.preview()
+    previews[0].resolve(MISMATCH)
+    await first
+    expect(form.getState().shown).not.toBeNull()
+    const second = form.preview()
+    previews[1].resolve({ ok: false, body: { error: 'NO_OPEN_SESSION' } })
+    expect(await second).toEqual({ kind: 'error', code: 'NO_OPEN_SESSION' })
+    expect(form.getState().shown).toBeNull()
+  })
+
+  it('a successful confirm releases the Preview button even if a preview started meanwhile', async () => {
+    const { form, previews, confirms } = setup()
+    const pending = form.preview()
+    previews[0].resolve(MATCH)
+    await pending
+    const done = form.confirm({ gate: 'GATE-1' })
+    void form.preview() // Staff press Preview while the confirm is in flight
+    expect(form.getState().previewing).toBe(true)
+    confirms[0].resolve({ ok: true, body: {} })
+    await done
+    expect(form.getState().previewing).toBe(false)
+  })
+
   it('a lost card is looked up by plate', async () => {
     const { form, previews } = setup()
     form.setInput({ method: 'QR', lostCard: true })
