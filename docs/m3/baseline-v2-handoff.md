@@ -35,6 +35,10 @@ RES-03's [V2.0 baseline on `main`](baseline-v2.0.md) reports generation on 23/11
 
 Review the [V2.0 draft](baseline-v2-draft.md) for the revised milestones, dependencies, and capacity scenarios.
 
+## F3-02 owner evidence reviewed
+
+The RES-03 closure branch records the regenerated V2.0 and labels its Phase 5 change CR-04. The generated schedule still forecasts working day 24.63 against a 15-day window, with 171.32 h of base effort against 150 h of capacity. The owner branch provides the model for review. F1-03 still needs a confirmed remaining-work forecast, reconciliation with the decision to retain A-72/A-76 verification, and dated PM approval. [RES-03 Baseline V2.0](https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f4cb30e3d085bfd75fa86314df9fc3ba4b/docs/m3/baseline-v2.0.md)
+
 ## RES-01 approval checklist
 
 - [X] Verify the V1.0 plan is archived and V1.0 `generated/` remains separately available; V2.0 uses `plan-v2.0.mjs` and `generated-v2/` on `main`. The archived plan is `data/archive/plan-v1.0.mjs`; the V1.0 generated files remain in their original directory.

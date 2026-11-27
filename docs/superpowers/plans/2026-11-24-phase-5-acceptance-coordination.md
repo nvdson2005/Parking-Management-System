@@ -19,8 +19,8 @@ Use this checklist for the remaining work. The [final work division](../../m3-m4
 ### Evidence carried into PR #19
 
 - F1-01 and F1-02 have draft records on the branch. The weekly log still needs measured team hours and the full W14 update. The workshop record still needs confirmation of the actions agreed on 20 November.
-- F1-03 awaits the F3-02 handoff and dated PM approval. F1-04 now includes the available W14 evidence. The client verdict, measured W14 effort and A-91 lesson remain pending.
-- F1-05 awaits final PR and report tracker reconciliation. [CP-05 follow-up](../../m3/cp05-follow-up-verification.md) and [the demo rehearsal record](../../m3/a-88-a-115-demo-rehearsal.md) track the formal acceptance inputs. Report sign-off and the LMS receipt remain open.
+- F1-03 has a [review of the F3-02 owner evidence](../../m3/baseline-v2-handoff.md#f3-02-owner-evidence-reviewed). It awaits a reconciled forecast and dated PM approval. F1-04 now includes the available W14 evidence. The client verdict, measured W14 effort and A-91 lesson remain pending.
+- F1-05 awaits final PR and report tracker reconciliation. [CP-05 follow-up](../../m3/cp05-follow-up-verification.md) and [the demo rehearsal record](../../m3/a-88-a-115-demo-rehearsal.md) track the formal acceptance inputs, including the owner’s A-87 dry-run record and the separate RES-05 internal demo evidence. Report sign-off and the LMS receipt remain open.
 
 ### PR sequence from the latest locally recorded main
 
