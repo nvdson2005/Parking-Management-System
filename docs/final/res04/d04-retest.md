@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Defect | A-68 D-04 (S2, owner RES-04, ISS-11): the Staff exit preview showed the plate recorded at entry under the label "Biển số quan sát" / "Observed plate" and never showed the plate Staff typed (`docs/m3/a-68-cp05-test.md`) |
-| Fix | Branch `fix/d04-exit-plate-labels`: `08a2bd4` (labels), `b97caab`, `e18e574` and `66e175c` (late-response handling and the form model, after the reviews of `12dae51`, `ca6867b` and `e18e574`); spec `specs/008-d04-exit-plate-labels/` |
+| Fix | Branch `fix/d04-exit-plate-labels`: `08a2bd4` (labels), `b97caab`, `e18e574`, `66e175c` and `16451bb` (late-response handling, the form model and its confirm-path tests, after the reviews of `12dae51`, `ca6867b`, `e18e574`/`bc1b602` and `01fe926`); spec `specs/008-d04-exit-plate-labels/` |
 | Acceptance | AT-EX02 (both plates shown); spec 008 SC-001..SC-004 |
 | Tester | Phạm Duy Quý (RES-04), 26/11/2026, 17:17–17:30 (steps 1–7 on `08a2bd4`); final recheck 27/11/2026, 21:36–21:39 (on `66e175c`; earlier rechecks on `b97caab` at 13:15–13:18 and on `e18e574` at 13:49–13:51 also passed) |
 | Environment | `npm run dev` on Windows, `dev.db` after `npx prisma migrate reset --force`; Staff `staff1@demo.local`; browser not recorded |
@@ -38,7 +38,7 @@ The review of `12dae51` found that a late preview response could show the live i
 ## Paste-ready row for the workbook Quality Evidence sheet (for RES-03, F3-05)
 
 ```text
-A-68 D-04 retest | P05 exit preview | fix/d04-exit-plate-labels 66e175c | 26–27/11/2026 | Pass: 7/7 steps on 08a2bd4, 4/4 recheck on 66e175c; entry plate and observed plate under their own labels in vi and en, observed plate marked on mismatch; PLATE_MISMATCH_CONFIRMED and MANUAL_CONFIRM unchanged; render test exit-preview-details.test.ts 4/4, late-response tests request-guard.test.ts 3/3 and form-level exit-form-model.test.ts 11/11, vitest 396/396 | RES-04 | docs/final/res04/d04-retest.md
+A-68 D-04 retest | P05 exit preview | fix/d04-exit-plate-labels 16451bb | 26–27/11/2026 | Pass: 7/7 steps on 08a2bd4, 4/4 recheck on 66e175c (16451bb changes one line of the model plus tests); entry plate and observed plate under their own labels in vi and en, observed plate marked on mismatch; PLATE_MISMATCH_CONFIRMED and MANUAL_CONFIRM unchanged; render test exit-preview-details.test.ts 4/4, late-response tests request-guard.test.ts 3/3 and form-level exit-form-model.test.ts 11/11, vitest 400/400 on 16451bb | RES-04 | docs/final/res04/d04-retest.md
 ```
 
 **D-04 status for ISS-11:** fixed and retested on 26/11, rechecked on 27/11 after the review fix (pending merge of `fix/d04-exit-plate-labels`). RES-05 (A-68) and RES-02 (CP-05 gate) record it in their own files.
