@@ -19,7 +19,7 @@ Use this checklist for the remaining work. The [final work division](../../m3-m4
 ### Evidence carried into PR #19
 
 - F1-01 and F1-02 have draft records on the branch. The weekly log still needs measured team hours and the full W14 update. The workshop record still needs confirmation of the actions agreed on 20 November.
-- F1-03 has a [review of the F3-02 owner evidence](../../m3/baseline-v2-handoff.md#f3-02-owner-evidence-reviewed). It awaits a reconciled forecast and dated PM approval. F1-04 now includes the available W14 evidence. The client verdict, measured W14 effort and A-91 lesson remain pending.
+- F1-03 has a [review of the F3-02 owner evidence](../../m3/baseline-v2-handoff.md#f3-02-owner-evidence-reviewed). RES-01 [endorsed V2.0 as the change-control record](../../final/res01/baseline-v2-approval.md). Recovery schedule approval awaits a reconciled forecast. F1-04 now includes the available W14 evidence. The client verdict, measured W14 effort and A-91 lesson remain pending.
 - F1-05 awaits final PR and report tracker reconciliation. [CP-05 follow-up](../../m3/cp05-follow-up-verification.md) and [the demo rehearsal record](../../m3/a-88-a-115-demo-rehearsal.md) track the formal acceptance inputs, including the owner’s A-87 dry-run record and the separate RES-05 internal demo evidence. Report sign-off and the LMS receipt remain open.
 
 ### PR sequence and verified status
@@ -30,15 +30,15 @@ Local `origin/main` at `2c5a587` shows #11 merged and the #17 integration landed
 2. Review the remaining QA and owner evidence against the pinned candidate. Keep CP-05 follow-up and any waiver open until the required QA and PM sign-offs are recorded. Carry the dated A-88 client verdict and accepted exceptions into A-89 and A-92.
 3. M3 §3.1 is checked based on merged PRs #18, #24 and #27. Check that each remaining row’s inputs are merged and referenced before marking it complete. After the owner inputs and closure decisions are available, RES-03 performs the shared workbook update in F3-05.
 
-### Proposed RES-01 decisions for approval
+### RES-01 decisions approved on 27 November 2026
 
-These entries are drafts for RES-01 review. Record the decision and date after approval. Keep historical attendance, reported effort, client or QA decisions, and submission receipts tied to their original evidence.
+RES-01 approved these planning decisions on 27 November 2026. Keep historical attendance, reported effort, client or QA decisions, and submission receipts tied to their original evidence.
 
 | Item | Proposed entry |
 | --- | --- |
 | F1-01 · A-100 effort | Use 8 h, 10 h and 12 h per person for W12, W13 and W14 as capacity-based estimates. That gives 30 h per person and 150 h for the team. Leave measured hours and actual variance unknown until supported by member records. |
 | F1-02 · Workshop actions | Use Option C as the closeout approach: retain the core pilot scope and the A-72/A-76 checks, consolidate report inputs, assign each unresolved evidence item to its owner, and plan against the reported 12 h per member in W14. The 20 November workshop actions still need confirmation before attributing this wording to the meeting. |
-| F1-03 · Baseline decision | Endorse V2.0 as the change-control record, subject to RES-01 approval. Keep 29 November as the submission target and show working day 24.63 of 15 as the model forecast. Retain A-72/A-76 without taking the 2.6 h fallback saving. Ask RES-03 to reconcile the remaining workload before approving a recovery schedule. |
+| F1-03 · Baseline decision | Endorse V2.0 as the change-control record. Keep 29 November as the submission target and show working day 24.63 of 15 as the model forecast. Retain A-72/A-76 without taking the 2.6 h fallback saving. Ask RES-03 to reconcile the remaining workload before approving a recovery schedule. |
 | CP-05 and A-88 · Acceptance | Keep CP-05 at pass with conditions, retain the A-87 dry-run results as internal QA evidence, and carry any unclosed conditions into the report. Record the lecturer verdict and any accepted exceptions only when they are available. |
 | A-91 and A-114 · Lessons | Bring these proposals to the retrospective and use the agreed wording in the reflection: log effort weekly, pin the candidate before collecting evidence, and track technical results, QA sign-off and lecturer acceptance as separate checkpoints. |
 | A-92 and A-116 · Closeout | Prepare the report for review with one pinned build, linked evidence and a list of open conditions. Obtain sign-off on the final package and log the LMS submission date and receipt after upload. |

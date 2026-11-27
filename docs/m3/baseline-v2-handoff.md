@@ -31,13 +31,13 @@ Scope (all V1.0 products), objectives O1–O5, the Q22 fallback order, roles and
 2. RES-01 reviews and approves the V2.0 set.
 3. The final report cites V1.0 and V2.0 side by side (Task 3.7: original information must remain available).
 
-RES-03's [V2.0 baseline on `main`](baseline-v2.0.md) reports generation on 23/11 and regeneration on 24/11 after PR #10 review. **RES-01 approval is held** pending the capacity and M-03 decisions below; no approval date is entered.
+RES-03's [V2.0 baseline on `main`](baseline-v2.0.md) reports generation on 23/11 and regeneration on 24/11 after PR #10 review. On 27 November, RES-01 [endorsed V2.0 as the change-control record](../final/res01/baseline-v2-approval.md). Recovery schedule approval remains open.
 
 Review the [V2.0 draft](baseline-v2-draft.md) for the revised milestones, dependencies, and capacity scenarios.
 
 ## F3-02 owner evidence reviewed
 
-The RES-03 closure branch records the regenerated V2.0 and labels its Phase 5 change CR-04. The generated schedule still forecasts working day 24.63 against a 15-day window, with 171.32 h of base effort against 150 h of capacity. The owner branch provides the model for review. F1-03 still needs a confirmed remaining-work forecast, reconciliation with the decision to retain A-72/A-76 verification, and dated PM approval. [RES-03 Baseline V2.0](https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f4cb30e3d085bfd75fa86314df9fc3ba4b/docs/m3/baseline-v2.0.md)
+The RES-03 closure branch records the regenerated V2.0 and labels its Phase 5 change CR-04. The generated schedule still forecasts working day 24.63 against a 15-day window, with 171.32 h of base effort against 150 h of capacity. The owner branch provides the model for review. F1-03 still needs a confirmed remaining-work forecast, reconciliation with the decision to retain A-72/A-76 verification, and dated PM approval of the recovery schedule. [RES-03 Baseline V2.0](https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f4cb30e3d085bfd75fa86314df9fc3ba4b/docs/m3/baseline-v2.0.md)
 
 ## RES-01 approval checklist
 
