@@ -88,7 +88,7 @@ No shared prerequisite. Each story touches its own files. The `DomainError.detai
 - [X] T019 Run `npm test`, `npm run lint` and `npm run build`; all pass (Constitution IV). Record the test count
 - [X] T020 [Manual, RES-04] Follow [quickstart.md](quickstart.md) "Manual" steps 1–6 on a freshly reset `dev.db`. Record the results in `docs/final/res04/a49-retest.md` (F4-05 of `docs/m3-m4-final-work-division.md`); in `docs/m3/quality-evidence-A-49.md` change the verdict to Verified and link to that file
 - [X] T021 Open the PR for `fix/cr-03-ui` with reviewer RES-02, after T020 and `review-implementation` (PR #24, 24/11; re-review APPROVED at `da0ac5f`)
-- [ ] T022 After #22 or #23 merges: mark SRS v2.1 section 9 rows FR-19/20/21 and FR-51 as resolved, in a follow-up PR (the SRS file is not edited in this PR, rule 1 of the final work division)
+- [X] T022 After #22 or #23 merges: mark SRS v2.1 section 9 rows FR-19/20/21 and FR-51 as resolved, in a follow-up PR (the SRS file is not edited in this PR, rule 1 of the final work division). Done 26/11 after #22 merged (`9b811a2`): section 9 re-checked against `main` `2c5a587`: these rows and the group D rows delivered by PR #21 (FR-52, FR-45, FR-42, FR-26, FR-22, FR-07) are all marked resolved with current behaviour and test evidence; SRS history row v2.1.1
 
 ## Dependencies
 

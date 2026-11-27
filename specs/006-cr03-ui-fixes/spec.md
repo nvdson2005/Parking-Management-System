@@ -4,7 +4,7 @@
 
 **Created**: 2026-11-24
 
-**Status**: Implemented and verified (T001–T020); PR T021 pending
+**Status**: Implemented and verified (T001–T020); merged in PR #24 (`ac57507`, T021); SRS section 9 updated (T022)
 
 **Owner**: Phạm Duy Quý (RES-04)
 
