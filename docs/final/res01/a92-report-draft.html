@@ -5,7 +5,9 @@
 <style>
 @page { size: A4; margin: 16mm 17mm }
 body { font: 10.5pt/1.38 Arial, sans-serif; color: #172536; max-width: 180mm; margin: auto }
-section + section { break-before: page }
+section:first-child { break-after: page }
+section > .label { break-after: avoid; margin-top: 16pt }
+h2 { break-after: avoid }
 h1 { font-size: 31pt; line-height: 1.08; margin: 12pt 0 }
 h2 { font-size: 23pt; margin: 8pt 0 14pt }
 h3 { font-size: 13pt; margin: 10pt 0 3pt; break-after: avoid }
@@ -43,23 +45,31 @@ a { color: #145771 }
 <p>Staff ghi nhận xe vào, đối chiếu lượt ra, xác nhận phí mô phỏng và cập nhật chỗ trống. Customer xem chỗ trống và đặt chỗ. Manager quản lý bãi, khu vực, sức chứa, giá và nhật ký. PR #21 tích hợp các thay đổi về quyền, nhóm phí và dữ liệu biển số. PR #24 sửa màn hình chỗ trống và các vấn đề trên luồng demo.</p>
 <h3>3.2 Nhật ký dự án</h3>
 <table>
-<tr><th>Tuần</th><th>Năng lực dự kiến</th><th>Công việc và xử lý</th></tr>
-<tr><td>W12 · 09–15/11</td><td>40 giờ</td><td>Chuẩn bị P18, đối chiếu thiết kế và tiếp nhận Q27–Q35. Ưu tiên các điều chỉnh vòng 3 khi có phản hồi.</td></tr>
-<tr><td>W13 · 16–22/11</td><td>50 giờ</td><td>Hoàn tất P18 v1.0, sửa luồng vào/ra và xác minh tích hợp A-67. Phân tích CR-01 và tổ chức workshop A-105.</td></tr>
-<tr><td>W14 · 23–29/11</td><td>60 giờ</td><td>Tích hợp thay đổi, kiểm thử A-68/A-87, chuẩn bị báo cáo và hồ sơ nộp. Kết quả nộp đang chờ.</td></tr>
+<tr><th>Tuần</th><th>Công việc dự kiến</th><th>Công việc ghi nhận và xử lý</th><th>Giờ kế hoạch / thực tế</th></tr>
+<tr><td>W12 · 09–15/11</td><td>SRS, P18, chuẩn bị xác minh MVP</td><td>Tiếp nhận Q27–Q35, cập nhật thứ tự ưu tiên và đối chiếu thiết kế. Nhật ký tuần được tái dựng.</td><td>40 giờ năng lực / chưa đo đủ</td></tr>
+<tr><td>W13 · 16–22/11</td><td>Sửa luồng vào/ra, tích hợp mô phỏng, thiết kế API</td><td>Chốt P18, kiểm A-67 qua HTTP, phân tích CR-01 và tổ chức workshop A-105. Chọn Option C sau khi hạn nộp bị rút ngắn.</td><td>50 giờ năng lực / chưa đo đủ</td></tr>
+<tr><td>W14 · 23–29/11</td><td>A-68/A-87, xử lý thay đổi, báo cáo và nộp</td><td>Tích hợp #21/#24, QA chạy thử, giữ A-72/A-76. Tăng năng lực dự kiến lên 12 giờ/người. Đóng gói và nộp còn mở.</td><td>60 giờ năng lực / chưa đo đủ</td></tr>
 </table>
-<p>40/50/60 giờ là năng lực kế hoạch. Số giờ ghi bù trong A-103 gồm tự khai và ước tính tái dựng. Chưa có tổng giờ đo đủ để tính chênh lệch của cả nhóm.</p>
+<p>A-103 có giờ tự khai và ước tính tái dựng theo hoạt động. Tổng năng lực 150 giờ được giữ làm tham chiếu. Chênh lệch giờ công đo được của nhóm chưa xác định.</p><p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res01/weekly-log-final.md">Nhật ký W12–W14</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/actuals.md">A-103 và phương pháp ghi bù</a></small></p>
 <h3>3.3 Theo dõi so với Baseline V1.0</h3>
 <table>
-<tr><th>Hoạt động</th><th>Kế hoạch → ghi nhận</th><th>Chênh lệch và nguyên nhân</th></tr>
-<tr><td>A-22 · P18</td><td>12/11 → 19/11</td><td>+7 ngày. Chờ chốt quy tắc phí và giao dịch, đồng thời xử lý phản hồi vòng 3.</td></tr>
-<tr><td>A-63 · Luồng vào/ra</td><td>18/11 → 19/11</td><td>+1 ngày. Phạm vi sửa tập trung vào các mục KB cần thay đổi mã.</td></tr>
-<tr><td>A-67 · Tích hợp</td><td>20/11 → 20/11</td><td>Đúng ngày. 25 kiểm tra HTTP, 120 sự kiện mô phỏng, 0 từ chối.</td></tr>
-<tr><td>A-68 · Kiểm thử CP-05</td><td>23/11 → 24/11</td><td>+1 ngày. QA ghi đạt có điều kiện C1–C6.</td></tr>
+<tr><th>Hoạt động</th><th>V1.0 · ngày / giờ</th><th>Ghi nhận · ngày / giờ ước tính</th><th>Sai lệch và lý do</th></tr>
+<tr><td>A-22 · P18</td><td>09–12/11 · 4,33</td><td>09–19/11 · 4,50</td><td>Trễ 7 ngày do chờ quyết định phí/giao dịch và ưu tiên vòng 3.</td></tr>
+<tr><td>A-24 · CSDL</td><td>12–13/11 · 2,25</td><td>17–24/11 · 4,75</td><td>Tốn thêm 2,50 giờ qua các vòng sửa SRS và CSDL.</td></tr>
+<tr><td>A-63 · Vào/ra</td><td>16–18/11 · 6,33</td><td>19/11 · 2,00</td><td>Trễ 1 ngày. Một số mục KB chỉ cần quyết định, giảm việc sửa mã.</td></tr>
+<tr><td>A-67 · Tích hợp</td><td>20/11 · 2,17</td><td>20–23/11 · 1,75</td><td>HTTP đạt ngày 20/11. RES-05 xác nhận giao diện ngày 23/11.</td></tr>
+<tr><td>A-68 · CP-05</td><td>23/11 · 2,50</td><td>24/11 · 4,00</td><td>Trễ 1 ngày. Phát sinh xử lý điều kiện và lỗi D-01.</td></tr>
 </table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/actuals.md">A-103, chi tiết và nguồn theo hoạt động</a></small></p>
 <h3>3.4 Rủi ro và vấn đề</h3>
-<p>R-G4-02 phát sinh khi nguồn lực bị dồn. R-G5-04 theo dõi nguy cơ trễ hạn do CR-01 và R-G5-01 theo dõi làm lại vì sửa muộn. Nhóm tăng năng lực dự kiến W14, gộp các mục báo cáo và kiểm tra lại các luồng bị ảnh hưởng. R-M3-06 vẫn mở vì ngưỡng đề xuất kèm Q28 chưa được xác nhận.</p>
-<p><small>Nguồn: F1-01, A-90, A-103, Risk Register và hồ sơ PR #21/#24.</small></p>
+<table>
+<tr><th>Rủi ro / chủ trì</th><th>Tình trạng và phản ứng</th><th>Ảnh hưởng</th></tr>
+<tr><td>R-G4-02 · RES-01</td><td>Thiếu năng lực phát sinh. Tăng năng lực dự kiến W14 và chia gói việc theo chủ trì.</td><td>Hạn sớm làm giảm năng lực từ 190 xuống 150 giờ dù đã bổ sung W14.</td></tr>
+<tr><td>R-G5-04 · RES-01</td><td>Nguy cơ trễ hạn mới sau CR-01. Gộp báo cáo, giữ A-72/A-76, chờ dự báo lại.</td><td>Giữ độ bao phủ. Khoản tiết kiệm dự phòng 2,6 giờ không được tính.</td></tr>
+<tr><td>R-G5-01 · RES-02</td><td>Sửa muộn trên luồng demo. Chốt SHA khi kiểm, chạy lại màn hình bị ảnh hưởng.</td><td>Tăng công làm lại và áp lực lịch. Điều kiện QA vẫn mở.</td></tr>
+<tr><td>R-M3-06 · RES-01</td><td>Ngưỡng nhóm đề xuất chưa có trả lời. Ghi giả định và giữ trạng thái theo dõi.</td><td>Giới hạn kết luận nghiệm thu; chưa định lượng được chi phí thực tế.</td></tr>
+</table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/risk-register.md">Sổ rủi ro và vấn đề</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/change-impact-analysis.md">Phân tích thay đổi</a></small></p>
 </section>
 <section>
 <p class="label">MILESTONE 3</p>
@@ -67,9 +77,18 @@ a { color: #145771 }
 <h3>3.5 Kiểm soát chất lượng</h3>
 <p>A-61 ghi bảy lượt Staff bị từ chối đúng quyền. A-49 ghi kết quả retest màn hình chỗ trống. A-87 ngày 26/11 trên <code>ac57507c</code> ghi 382 kiểm thử tự động và 25 kiểm tra HTTP đạt, build và lint đạt. QA ghi các kịch bản AT-01–AT-07 và AT-100 đạt, kèm khoảng trống về chứng cứ ảnh, thời gian và ma trận trình duyệt.</p>
 <p><strong>RES-02 cần làm:</strong> gán ISS-06–ISS-11 cho C1–C6, ghi chủ trì, hạn, SHA và chứng cứ. Ký xác minh đếm tay C1 và các dòng QE C4, dẫn số đo C3 và đối chiếu C5, kiểm tra D-01/D-03/D-04 trên bản phù hợp cho C6. Ghi C2 là yêu cầu Q23 chưa đáp ứng và chuyển quyết định ngoại lệ cho người có thẩm quyền. Với CP-07, chốt các khoảng trống đã kiểm lại hoặc còn mở, gồm Chrome/Edge/Firefox ở 360/768/1920 px. Chuyển hồ sơ có ngày và kết quả cho RES-01 duyệt.</p>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45/docs/final/res02/checkpoint-log.md.md">Nhật ký CP-01–CP-07</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45/docs/final/res02/quality-evidence-modules.md">Bằng chứng mô-đun</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/cp05-follow-up-verification.md">Theo dõi C1–C6</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res04/a49-retest.md">A-49 retest</a></small></p>
 <h3>3.6 Xử lý sự kiện thay đổi</h3>
 <p>CR-01 đưa hạn từ 07/12 lên 29/11. Nhóm so sánh A (giữ mọi việc và tăng giờ), B (giảm phạm vi theo Q22) và C (giữ phạm vi thí điểm, gộp báo cáo, giảm độ sâu xác minh ngoài ưu tiên và giữ Q22 dự phòng). RES-01 chọn C ngày 19/11 để bảo vệ luồng cốt lõi, kiểm thử và thời gian nộp. Ngày 24/11, RES-01 quyết định giữ A-72/A-76 sau khi nhận diện điều kiện kích hoạt Q22. Khoản tiết kiệm 2,6 giờ từ việc bỏ hai lượt kiểm tra không được tính.</p>
 <p><strong>A-105 · Nội dung tái dựng đề xuất, chờ xác nhận.</strong> Workshop 20/11 có đủ năm thành viên theo RES-01. Nội dung đề xuất gồm bảo vệ kiểm thử Must, gộp A-108/A-110/A-112/A-113 vào A-92, giao QA kiểm tra phần bằng chứng còn thiếu và giao RES-03 rà lại việc còn lại theo năng lực từng người. Ghi nhận cam kết 12 giờ/người ở W14 theo báo cáo riêng ngày 24/11. Các hành động đề xuất trong đoạn này chưa có biên bản xác nhận cho ngày 20/11.</p>
+<table>
+<tr><th>Tác động</th><th>Phương án C và thay đổi đã ghi</th></tr>
+<tr><td>Yêu cầu / sản phẩm</td><td>Giữ luồng Must và phạm vi thí điểm. CR-03 sửa khả dụng và luồng demo. CR-04 cập nhật phạm vi API/dữ liệu trong V2.0.</td></tr>
+<tr><td>Hoạt động / effort</td><td>Gộp A-95 vào A-87 và các mục đóng dự án vào A-92. A-28/A-65 tăng tổng 16,08 giờ kỳ vọng trong V2.0.</td></tr>
+<tr><td>Nguồn lực / lịch</td><td>Cam kết kế hoạch W14 là 12 giờ/người. Hạn sớm 8 ngày lịch; A-65 → A-87 → A-88 → A-89 → A-92 → A-116 là đoạn phụ thuộc trọng yếu.</td></tr>
+<tr><td>Chi phí / rủi ro / chất lượng</td><td>Tăng chi phí quy đổi 2.214.583 ₫. Theo dõi thiếu năng lực và làm lại do sửa muộn. Giữ kiểm tra A-72/A-76 và ghi các điều kiện QA trong P14.</td></tr>
+</table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/change-impact-analysis.md">A-99</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res01/m03-decision-and-workshop.md">A-105 và M-03</a></small></p>
 <h3>3.7 Baseline V2.0</h3>
 <table>
 <tr><th>Chỉ số kế hoạch</th><th>V1.0</th><th>V2.0</th></tr>
@@ -95,16 +114,48 @@ a { color: #145771 }
 <tr><td>4 · Q36–Q46</td><td>Phí theo lượt, giờ bãi để hiển thị, đổi nhóm qua Manager. Q39/Q40/Q42 loại trừ tự đăng xuất do không hoạt động, UI bãi thứ hai và khảo sát bắt buộc. Q41 tách thử bãi đầy khỏi lượt tải thường. Q43 quy định ma trận trình duyệt. Q44–Q46 chốt xóa, hiển thị biển số và xem bảng giá.</td></tr>
 </table>
 <p>A-89 ghi A-88 được lên kế hoạch là demo nội bộ ngày 27/11. Kết quả buổi đó cần nhật ký riêng. Bốn vòng hỏi đáp xác nhận tiêu chí và loại trừ phạm vi. CP-08 đang chờ xác nhận nghiệm thu của giảng viên và quyết định về ngoại lệ còn mở.</p>
+<table>
+<tr><th>Phân loại</th><th>Hạng mục và chứng cứ</th></tr>
+<tr><td>Hoàn thành triển khai</td><td>P05/P08/P09: vào/ra, quản lý bãi và chỗ trống. #21/#24 và A-49.</td></tr>
+<tr><td>Hoàn thành một phần xác minh</td><td>P06/P10/P21: đặt chỗ, phí và trình duyệt còn các khoảng trống QA.</td></tr>
+<tr><td>Hoãn</td><td>P12 hướng dẫn sử dụng riêng theo kế hoạch đóng dự án. P13 cung cấp hướng dẫn chạy/demo.</td></tr>
+<tr><td>Loại khỏi phạm vi bàn giao</td><td>Tự đăng xuất do không hoạt động, UI tạo bãi thứ hai, khảo sát bắt buộc và tính phí theo giờ theo Q36/Q39/Q40/Q42.</td></tr>
+</table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-112-closure-plan.md">A-112 phạm vi bàn giao</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-89-acceptance-section.md">A-89 và trạng thái demo</a></small></p>
 <h3>4.2 So sánh kế hoạch và thực tế</h3>
-<p>Hạn nộp sớm hơn 8 ngày lịch. A-67 đúng mốc, A-22 trễ 7 ngày, A-63 và A-68 trễ 1 ngày. Chênh lệch chi phí quy đổi giữa hai baseline là 2.214.583 ₫. Chi phí thực tế chưa xác định vì giờ công chủ yếu tái dựng. A-101 ước tính 123,3 giờ tương đương thực hiện MVP thủ công trước baseline. Mốc này giúp giải thích việc V1.0 tập trung vào kiểm chứng và sửa lỗi. Rủi ro năng lực và bằng chứng QA còn tác động tới lịch đóng dự án.</p>
+<table>
+<tr><th>Khía cạnh</th><th>Kế hoạch so với kết quả được ghi</th></tr>
+<tr><td>Effort</td><td>139,60 giờ V1.0 → 183,89 giờ V2.0 gồm dự phòng. Giờ thực tế toàn nhóm chưa đo đủ. A-24 tái dựng 4,75 giờ so với 2,25 giờ V1.0 do làm lại thiết kế.</td></tr>
+<tr><td>Thời gian / lịch</td><td>Hạn nộp 07/12 → 29/11. A-22 trễ 7 ngày, A-63 và A-68 trễ 1 ngày. Ngày hoàn thành dự án chưa xác nhận.</td></tr>
+<tr><td>Chi phí</td><td>6.980.000 ₫ → 9.194.583 ₫ theo 50.000 ₫/giờ. Chi phí thực tế chưa xác định.</td></tr>
+<tr><td>Phạm vi / chất lượng</td><td>Giữ luồng Must. A-87 ghi 382/382 kiểm thử và 25/25 HTTP. Các cổng QA và xác nhận khách hàng còn điều kiện.</td></tr>
+<tr><td>Rủi ro / quyết định</td><td>Tăng dự phòng từ 8,45 lên 12,58 giờ theo mô hình. Giữ A-72/A-76 dù mất khoản tiết kiệm dự kiến. Dự báo phục hồi đang chờ.</td></tr>
+</table>
+<p>A-101 ước tính 123,3 giờ tương đương làm thủ công cho phần MVP trước baseline. Đây là căn cứ giải thích vì sao V1.0 chuyển trọng tâm sang kiểm chứng và sửa lỗi. Số giờ tương đương không được cộng vào giờ đo thực tế.</p><p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/actuals.md">A-101/A-103</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/a-90-planned-vs-actual.md">A-90</a></small></p>
 <h3>4.3 Đánh giá mục tiêu</h3>
-<p>O1: AT-100 ghi 100 lượt vào, 69 lượt ra, 31 xe còn trong bãi; chỗ trống A/B/C là 143/138/18. O2: luồng vào/ra đã chạy; số đo thời gian AT-100 của A-87 còn thiếu. O3: bốn chỉ số được đối chiếu trên dữ liệu mẫu. O4: có chứng cứ cho ngoại lệ và tính phí theo lượt, bao phủ tổ hợp phí còn hạn chế. O5: sẵn sàng trình diễn nội bộ có điều kiện, xác nhận của giảng viên đang chờ.</p>
+<table>
+<tr><th>Mục tiêu</th><th>Thước đo và ngưỡng</th><th>Kết quả và mức đạt</th></tr>
+<tr><td>O1 · Biết trước chỗ trống</td><td>Cập nhật ≤5 giây, khớp đếm tay 100%.</td><td>A-49 SSE tối đa 155 ms, không tính vẽ lại trình duyệt. A-68 đếm tay khớp 3/3 khu. Khả năng đã chứng minh trên mô phỏng; chưa đo thời gian tìm chỗ thực tế.</td></tr>
+<tr><td>O2 · Số hóa vào/ra</td><td>100% bản ghi hợp lệ; nhóm dùng ngưỡng ≤3 giây trong A-89.</td><td>A-68 ghi 0 bản ghi thiếu; C3 đo 14–31 ms qua HTTP production. A-87 thiếu số đo thời gian của lượt AT-100. Chưa đo giảm ghi tay tại cổng thật.</td></tr>
+<tr><td>O3 · Theo dõi nhu cầu</td><td>Bốn chỉ số báo cáo khớp tính tay; đặt chỗ cập nhật số chỗ.</td><td>A-77 khớp trên dữ liệu mẫu. AT-05 có chứng cứ về đặt chỗ, hết hạn chưa chạy thủ công đủ. Chưa đo cải thiện sử dụng chỗ.</td></tr>
+<tr><td>O4 · Phí và ngoại lệ</td><td>Đúng 6/6 tổ hợp phí, 5/5 ngoại lệ theo bộ đo của nhóm.</td><td>Có chứng cứ 5/5 ngoại lệ, với một phần thử thủ công trên bản trước. Kiểm phí 4/6 trên main, 6/6 trên nhánh riêng. Chưa đo giảm tranh chấp.</td></tr>
+<tr><td>O5 · Bàn giao theo tiêu chí</td><td>100% Must có ca đạt, khách hàng xác nhận theo tiêu chí đã thống nhất.</td><td>Có chạy thử nội bộ. Bằng chứng Must và cổng QA còn điều kiện. Chưa có xác nhận khách hàng.</td></tr>
+</table>
+<p>Các ngưỡng đề xuất kèm Q28 chưa có xác nhận riêng. Kết luận dựa trên phạm vi và từng môi trường thử được ghi.</p><p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8bdaa4a/docs/final/res05/objectives-o1-o2.md">O1–O2</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45/docs/final/res02/objectives-o3-o5.md.md">O3–O5</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-89-acceptance-section.md">A-89</a></small></p>
 </section>
 <section>
 <p class="label">MILESTONE 4</p>
 <h2>Đóng dự án và hồ sơ nộp</h2>
 <h3>4.4 Kế hoạch đóng dự án</h3>
 <p>RES-02 chốt hồ sơ QA, RES-03 cập nhật A-89/P14 và dự báo phần việc còn lại, RES-04/05 bàn giao bằng chứng giao diện và demo. RES-01 duyệt phiên bản PDF, phân công việc còn mở và xác nhận người nộp. Bàn giao README, cách cài đặt, bản mã nguồn được gắn SHA, baseline và chỉ mục chứng cứ. Sau bàn giao, lưu hồ sơ, thu hồi quyền hoặc môi trường demo khi không còn cần và ghi kết quả họp A-91.</p>
+<table>
+<tr><th>Việc phải chốt</th><th>Người phụ trách</th><th>Mốc mục tiêu / tình trạng</th></tr>
+<tr><td>C1–C6, ma trận trình duyệt, D-05</td><td>RES-02 xác minh, RES-04 hỗ trợ, RES-01 duyệt</td><td>Trước ký PDF. Ghi kết quả, SHA và ngoại lệ còn mở.</td></tr>
+<tr><td>Kết quả A-88 và P14</td><td>RES-01/05 ghi demo, RES-03 cập nhật A-89</td><td>27–28/11. Demo nội bộ theo kế hoạch; verdict giảng viên chưa có.</td></tr>
+<tr><td>Dự báo còn lại và gói bàn giao</td><td>RES-03 tổng hợp; RES-01 duyệt PDF</td><td>28/11. Xác minh run guide, phiên bản, baseline và workbook.</td></tr>
+<tr><td>Nộp LMS, lưu và giải phóng tài nguyên</td><td>RES-01 theo F5-06; cả nhóm xác nhận A-91</td><td>29/11 theo kế hoạch. Lưu biên nhận, bàn giao chứng cứ, đóng môi trường thử khi hoàn tất.</td></tr>
+</table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-112-closure-plan.md">Danh mục bàn giao và vấn đề A-112</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res01/closeout-handoff.md">Sổ theo dõi duyệt và nộp</a></small></p>
 <h3>4.5 Bài học</h3>
 <p>Giữ các lượt thử tích hợp nhỏ và đối chiếu số liệu giao diện với dữ liệu gốc. Ghi giờ và quyết định ngay trong tuần. Khóa SHA sản phẩm trước khi chạy thử, dùng checklist gồm kịch bản, bản build, môi trường, thời điểm và người kiểm tra. Giao rõ người ký QA, người duyệt ngoại lệ và người nộp. Xác nhận bài học chung và người phụ trách tại A-91.</p>
 <h3>4.6 Đóng góp cá nhân và viva</h3>
@@ -116,21 +167,43 @@ a { color: #145771 }
 <tr><td>RES-04 · Duy Quý</td><td>SRS, màn hình chỗ trống và retest A-49. Giải thích cách đưa phản hồi thành ca kiểm thử.</td></tr>
 <tr><td>RES-05 · Tuấn Thành</td><td>Mô phỏng, A-68, demo và đo O1/O2. Giải thích đối chiếu số lượt với chỗ trống.</td></tr>
 </table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/a-114-reflection-draft.md">RES-01</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45/docs/final/res02/a114-reflection.md.md">RES-02</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-114-reflection-draft-res03.md">RES-03</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res04/a114-reflection.md">RES-04</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/e4652da/docs/final/res05/a114-reflection.md">RES-05</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res05/demo-script-and-viva.md">Kịch bản và viva</a></small></p>
 <p>Các dòng trên tổng hợp hồ sơ công việc. Thành viên xác nhận và bổ sung phản ánh cá nhân trước khi duyệt.</p>
 </section>
 <section>
 <p class="label">PHỤ LỤC</p>
 <h2>Truy vết và hồ sơ nộp</h2>
 <table>
-<tr><th>Mục tiêu / sản phẩm</th><th>Hoạt động / nguồn lực</th><th>Rủi ro / kiểm tra / cổng</th></tr>
-<tr><td>O1 · P09/P05</td><td>A-49/A-68 · RES-04/05</td><td>R-G2-01 · T05/AT-100 · CP-05</td></tr>
-<tr><td>O2 · P05/P04</td><td>A-65/A-67/A-68 · RES-03/01/05</td><td>R-G2-02 · T11/AT-100 · CP-04/05</td></tr>
-<tr><td>O3 · P06/P11</td><td>A-72/A-77 · RES-02/04</td><td>R-G2-01 · AT-05/07 · CP-07</td></tr>
-<tr><td>O4 · P05/P10/P21</td><td>A-76/A-87 · RES-04/02</td><td>R-G5-02 · AT-06/EX01–05 · CP-06/08</td></tr>
-<tr><td>O5 · P14/P21</td><td>A-87/A-88/A-89 · RES-02/01/03</td><td>R-G5-03/04 · AT-03/04 · CP-07/08</td></tr>
+<tr><th>Mục tiêu / sản phẩm</th><th>Hoạt động / nguồn lực</th><th>Triển khai</th><th>Rủi ro / kiểm tra / cổng</th></tr>
+<tr><td>O1 · P09/P05</td><td>A-49/A-68 · RES-04/05</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/pull/24">#24</a></td><td>R-G2-01 · T05/AT-100 · CP-05</td></tr>
+<tr><td>O2 · P05/P04</td><td>A-65/A-67/A-68 · RES-03/01/05</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/pull/21">#21</a></td><td>R-G2-02 · T11/AT-100 · CP-04/05</td></tr>
+<tr><td>O3 · P06/P11</td><td>A-72/A-77 · RES-02/05</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/pull/24">#24</a></td><td>R-G2-01 · AT-05/07 · CP-07</td></tr>
+<tr><td>O4 · P05/P10/P21</td><td>A-76/A-87 · RES-04 và RES-02/04</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/pull/21">#21</a></td><td>R-G5-02 · AT-06/EX01–05 · CP-06/08</td></tr>
+<tr><td>O5 · P14/P21</td><td>A-87/A-88/A-89 · RES-02/01/03</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/pull/21">#21</a>, <a href="https://github.com/nvdson2005/Parking-Management-System/pull/22">#22</a></td><td>R-G5-03/04 · AT-03/04 · CP-07/08</td></tr>
 </table>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/0fe9630/docs/final/res04/traceability-matrix.md">P24: yêu cầu, triển khai và kiểm thử</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/generated-v2/traceability.md">Truy vết V2.0</a></small></p>
 <p><strong>A-116.</strong> Gói nộp gồm PDF đã duyệt, repository, hướng dẫn chạy, V1.0/V2.0 và chỉ mục hồ sơ. Mục F5-06 giao RES-01 nộp; V2.0 ghi RES-04. Xác nhận người nộp khi duyệt. Ghi phiên bản PDF, ngày duyệt, thời điểm nộp và biên nhận LMS.</p>
-<p><small>Nguồn: <a href="https://github.com/nvdson2005/Parking-Management-System">repository và README</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f/docs/m3/baseline-v2.0.md">Baseline V2.0</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45fac500ccdb0eaeb05d4389761517f9336/docs/final/res02/a87-dry-run.md">A-87</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/pull/12">A-89/A-103/A-112</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/f42ab6f/docs/final/res01/closeout-handoff.md">hồ sơ closeout</a>.</small></p>
+<h3>Khai báo sử dụng AI tạo sinh</h3>
+<p><strong>Claude</strong> hỗ trợ rà soát yêu cầu, mô tả sản phẩm, ước lượng và rủi ro; hỗ trợ lập trình MVP, bản nháp P02/P03/P18/P20 và script tính đường găng, cân bằng nguồn lực. Hồ sơ M2 mô tả cách nhóm đối chiếu với phản hồi khách hàng, dữ liệu kế hoạch và kiểm thử.</p>
+<p><strong>OpenAI Codex</strong> hỗ trợ đối chiếu yêu cầu bài tập, tổng hợp bằng chứng, soạn và kiểm tra bản PDF M3/M4, lập checklist QA, và đề xuất nội dung tái dựng workshop để PM xem xét. Kết quả thử, quyết định và giờ công trong báo cáo dựa trên nguồn dẫn hoặc được đánh dấu là ước tính, đề xuất hay đang chờ. Nhóm chịu trách nhiệm duyệt bản nộp và giải thích các nội dung tại viva.</p>
+<p><small>Nguồn · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/report.src.md">Khai báo AI tại M2</a></small></p>
+</section>
+<section>
+<p class="label">PHỤ LỤC</p>
+<h2>Chỉ mục bằng chứng nộp kèm</h2>
+<table>
+<tr><th>Yêu cầu bài tập</th><th>Tài liệu</th></tr>
+<tr><td>Đề bài và M1 · Task 1</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/resources/CO3011_Assignment_2026.pdf">Đề bài</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/resources/%5BMilestone%201%5D%20CO3011_M1_Report_v0.3.docx">M1: bối cảnh, business case, mục tiêu, stakeholders và lifecycle</a></td></tr>
+<tr><td>Client Interaction Log</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/resources/%5BMilestone%201%5D%20CO3011_M1_Report_v0.3.docx">Q01–Q26, M1 Phụ lục A</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/risk-register.md">Q27–Q35, bảng ISS-M3-02</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/client-interaction-log-phase-5.md">Q36–Q46, email 23/11</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/v2.0/products/CO3011_M3_SRS_v2.1.md">Truy yêu cầu về câu hỏi</a></td></tr>
+<tr><td>Task 2 và Baseline V1.0</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/CO3011_M2_Report_v1.0.docx">M2 V1.0: PBS, PD, PFD, chi phí, mốc và chất lượng</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/data/archive/plan-v1.0.mjs">Dữ liệu V1.0 lưu trữ</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/generated/schedule.md">Lịch V1.0</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/generated/allocation.md">Phân bổ</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/generated/estimates.md">Ước lượng</a></td></tr>
+<tr><td>Sơ đồ đọc riêng</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/01-pbs.png">PBS</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/02-pfd.png">PFD</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/03-activity-network.png">Mạng hoạt động</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/04-gantt.png">Gantt</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/05-critical-path.png">Đường găng</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/06-risk-matrix.png">Ma trận rủi ro</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m2-report/diagrams/07-erd.png">ERD</a></td></tr>
+<tr><td>Baseline V2.0</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f/docs/m3/baseline-v2.0.md">Thuyết minh</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f/docs/m2-report/generated-v2/schedule.md">Lịch</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f/docs/m2-report/generated-v2/estimates.md">Ước lượng</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/b3ce01f/docs/m2-report/generated-v2/allocation.md">Nguồn lực</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res01/baseline-v2-approval.md">Quyết định 27/11</a></td></tr>
+<tr><td>Tiến độ và thay đổi</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res01/weekly-log-final.md">Nhật ký tuần</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/actuals.md">A-103</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/risk-register.md">Sổ rủi ro</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/m3/change-impact-analysis.md">A-99</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res01/m03-decision-and-workshop.md">A-105/M-03</a></td></tr>
+<tr><td>Chạy sản phẩm và demo</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/README.md">README: cài đặt, dữ liệu mẫu, tài khoản demo</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/P13-huong-dan-cai-dat-va-demo.md">P13 hướng dẫn chạy</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/4286e36/docs/final/res05/demo-script-and-viva.md">A-115</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/tree/ac57507c">SHA chạy thử A-87</a></td></tr>
+<tr><td>Chất lượng và bàn giao</td><td><a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45/docs/final/res02/a87-dry-run.md">A-87</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45/docs/final/res02/checkpoint-log.md.md">Nhật ký cổng</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-89-acceptance-section.md">A-89</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/8fcba99/docs/m3/a-112-closure-plan.md">A-112</a> · <a href="https://github.com/nvdson2005/Parking-Management-System/blob/0fe9630/docs/final/res04/traceability-matrix.md">P24</a></td></tr>
+</table>
+<p><strong>Chạy nhanh.</strong> Dùng Node.js ≥20. Theo README: cài gói, tạo <code>.env</code>, khởi tạo và seed CSDL demo, sau đó chạy <code>npm run dev</code> và mở <code>http://localhost:3000</code>. Trình diễn bằng tài khoản mẫu theo thứ tự Customer xem chỗ, Staff ghi vào/ra và Manager kiểm tra tình trạng bãi. Dùng môi trường demo riêng.</p>
+<p><strong>Phê duyệt và nộp.</strong> Kiểm tra yêu cầu LMS, quyền truy cập các liên kết, phiên bản PDF và người nộp. Bản này đang chờ ký duyệt và chưa có biên nhận.</p>
 </section>
 </body>
 </html>
