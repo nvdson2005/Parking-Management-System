@@ -83,7 +83,7 @@ For each cell record version, exact width, core entry/exit and Customer controls
 
 ### QA dry run and internal demo evidence
 
-RES-02 recorded A-87/CP-07 on 26 November at `ac57507c`. The record reports lint and build passing, 382 automated tests and 25 HTTP checks passing, and AT-01–AT-07 and AT-100 results with evidence gaps. AT-100 recorded 100 entries, 69 exits and 31 open sessions. Use the detailed gap list for exclusions. The run does not supply the full browser matrix or a lecturer verdict. [RES-02 dry-run record](https://github.com/nvdson2005/Parking-Management-System/blob/5dfa141/docs/final/res02/F2-04/a87-dry-run.md)
+RES-02 recorded A-87/CP-07 on 26 November at `ac57507c`. The record reports lint and build passing, 382 automated tests and 25 HTTP checks passing, and AT-01–AT-07 and AT-100 results with evidence gaps. AT-100 recorded 100 entries, 69 exits and 31 open sessions. Use the detailed gap list for exclusions. The run does not supply the full browser matrix or a lecturer verdict. [RES-02 dry-run record](https://github.com/nvdson2005/Parking-Management-System/blob/89d8f45fac500ccdb0eaeb05d4389761517f9336/docs/final/res02/a87-dry-run.md)
 
 RES-05 separately ran the O1/O2 internal demo segments on 26 November at `2c5a587`. Use that record for its simulator and monitoring observations. The A-88 lecturer outcome still needs a dated record. [RES-05 internal demo evidence](https://github.com/nvdson2005/Parking-Management-System/blob/8bdaa4a/docs/final/res05/objectives-o1-o2.md)
 

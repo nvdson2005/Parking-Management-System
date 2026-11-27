@@ -22,13 +22,13 @@ Use this checklist for the remaining work. The [final work division](../../m3-m4
 - F1-03 has a [review of the F3-02 owner evidence](../../m3/baseline-v2-handoff.md#f3-02-owner-evidence-reviewed). It awaits a reconciled forecast and dated PM approval. F1-04 now includes the available W14 evidence. The client verdict, measured W14 effort and A-91 lesson remain pending.
 - F1-05 awaits final PR and report tracker reconciliation. [CP-05 follow-up](../../m3/cp05-follow-up-verification.md) and [the demo rehearsal record](../../m3/a-88-a-115-demo-rehearsal.md) track the formal acceptance inputs, including the owner’s A-87 dry-run record and the separate RES-05 internal demo evidence. Report sign-off and the LMS receipt remain open.
 
-### PR sequence from the latest locally recorded main
+### PR sequence and verified status
 
 Local `origin/main` at `2c5a587` shows #11 merged and the #17 integration landed via #21. It also records #10, #13, #20, #8 and #18 as merged. #22 landed the SRS/P18 update selected from #22/#23. #24 carried the CR-03 UI work and A-49 retest, #26 the simulator overlap fix, #27 the simulator test timeout fix, #28 the demo and viva plan, and #25 the RES-04 reflection.
 
-1. Confirm live status for #12, the RES-01 Phase 5 records associated with #19, and later owner PRs before approving or merging. Use the landed #22 revision for SRS/P18 follow-ups.
+1. GitHub confirms #12, #19, #29, and #33–#39 are open. #30 is merged. Use #35 for the consolidated QA evidence and #36 for the SRS follow-up. #38 contains the D-04 fix and retest. #39 overlaps with the weekly log and workshop changes now on #19. Review the overlap before merging either PR. Use the landed #22 revision for SRS/P18 follow-ups.
 2. Review the remaining QA and owner evidence against the pinned candidate. Keep CP-05 follow-up and any waiver open until the required QA and PM sign-offs are recorded. Carry the dated A-88 client verdict and accepted exceptions into A-89 and A-92.
-3. Check that the report inputs are merged and referenced before ticking their tracker rows. After the owner inputs and closure decisions are available, RES-03 performs the shared workbook update in F3-05.
+3. M3 §3.1 is checked based on merged PRs #18, #24 and #27. Check that each remaining row’s inputs are merged and referenced before marking it complete. After the owner inputs and closure decisions are available, RES-03 performs the shared workbook update in F3-05.
 
 ### Final report and submission
 

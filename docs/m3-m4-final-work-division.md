@@ -104,7 +104,7 @@ One row per subsection. Tick the box when the PR for every listed item has merge
 
 | Section | Requirement (assignment) | Items | Done |
 |---|---|---|---|
-| M3 §3.1 | Implement the agreed core scope | PR #18 (A-68), F4-01, F4-02, F5-01 | [ ] |
+| M3 §3.1 | Implement the agreed core scope | #18 (A-68), #24 (F4-01 and F4-02), #27 (F5-01) | [x] |
 | M3 §3.2 | Weekly project log | F1-01, F3-05 | [ ] |
 | M3 §3.3 | Progress against Baseline V1.0, actuals and deviations | PR #12 (`actuals.md`), F3-05 | [ ] |
 | M3 §3.4 | Risk register maintenance | F3-01, F3-05 | [ ] |
