@@ -35,8 +35,8 @@
 
 - [X] T006 Run `npm test`, `npm run lint` and `npm run build` (constitution IV); record the counts in the PR description (done when the PR was opened)
 - [X] T007 Manual AT-EX02 retest on the dev server following quickstart.md steps 1–7 (mismatch, match with separators, English, preview cleared when the observed plate changes, lost card); record the results and screenshots in `docs/final/res04/d04-retest.md`, ending with a paste-ready Quality Evidence row and the D-04 status for ISS-11
-- [ ] T008 Run `codegraph sync`, then the independent `review-implementation`; fix any Critical or Important finding before the PR
-- [ ] T009 Open one PR into `main` (commits reference A-68, D-04, ISS-11); after merge, owners of A-68 (RES-05) and the CP-05 gate (RES-02) update D-04 in `docs/m3/a-68-cp05-test.md` and F2-03 (rule 2: RES-04 does not edit their files)
+- [X] T008 Run `codegraph sync`, then the independent `review-implementation`; fix any Critical or Important finding before the PR (done: APPROVED at `16451bb`, 0 Critical, 0 Important; `codegraph sync` run at `8c4d371`)
+- [X] T009 Open one PR into `main` (commits reference A-68, D-04, ISS-11); after merge, owners of A-68 (RES-05) and the CP-05 gate (RES-02) update D-04 in `docs/m3/a-68-cp05-test.md` and F2-03 (rule 2: RES-04 does not edit their files) (done: PR #38 merged at `8c4d371` on 27/11; recording D-04 as fixed in their files is left to RES-05 and RES-02)
 
 ## Phase 5: Review fix (review of `12dae51`, 27/11: a late preview response could show the current input with a stale mismatch state)
 

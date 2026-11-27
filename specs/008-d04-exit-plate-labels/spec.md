@@ -4,7 +4,7 @@
 
 **Created**: 2026-11-26
 
-**Status**: Draft
+**Status**: Implemented (PR #38, merged 27/11/2026 at `8c4d371`)
 
 **Input**: User description: "A-68 D-04 (S2, ISS-11): on the Staff exit screen the preview labels the plate recorded at entry as "Observed plate" and never shows the plate Staff typed. Show both plates in the exit preview: "Plate at entry" (plateSnapshot) and "Observed plate" (the typed plate), with the observed plate marked when they differ (EX-02, AT-EX02). Display only; no API or mismatch-logic change. Design: docs/superpowers/specs/2026-11-26-a68-d04-exit-plate-labels-design.md. Short name: d04-exit-plate-labels."
 
