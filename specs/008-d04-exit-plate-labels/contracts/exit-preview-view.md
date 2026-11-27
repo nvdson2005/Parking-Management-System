@@ -21,6 +21,8 @@ Guarantees:
 - The entry plate is never shown under `exit.observedPlate`.
 - On a mismatch both plates are shown.
 - The mismatch warning, the manual-confirmation checkbox and the confirm-button rule stay in `ExitForm` and do not change.
+- `ExitForm` passes the plate it sent with the preview request (not the live input) as `observedPlate`, and confirms with that same plate.
+- Preview requests go through `createExitPreviewController()` (`src/lib/exitPreviewController.ts`, built on `createRequestGuard()` in `src/lib/requestGuard.ts`). `request()` returns `null` for a stale answer (an input changed or a newer request started); a stale success, error or network failure changes nothing on screen. A current success returns the preview with the sent plate (FR-006).
 
 ## i18n
 

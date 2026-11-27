@@ -37,6 +37,7 @@ A Staff member records a vehicle leaving. They identify the vehicle (by plate, Q
 
 - A lost-card exit (EX-03) still requires an observed plate; the preview shows both plates in the same way.
 - An observed plate typed with extra spaces or lower-case letters is shown as typed (trimmed); the comparison itself is unchanged and stays separator-insensitive.
+- A preview response that arrives after Staff changed any input (identifier, method, observed plate, lost card) is discarded, so a preview computed for an earlier value is never shown next to the current one (review of 12dae51, 27/11).
 - The entry plate in the preview belongs to an open session, so Staff may see it in full (plate-masking rules for closed sessions do not apply).
 
 ## Requirements *(mandatory)*
@@ -48,6 +49,7 @@ A Staff member records a vehicle leaving. They identify the vehicle (by plate, Q
 - **FR-003**: When the system reports that the plates do not match, the observed plate MUST be visibly marked as different, in addition to the existing warning.
 - **FR-004**: The mismatch check, the manual-confirmation step, the confirm button rule, the recorded event and the access log MUST behave exactly as before.
 - **FR-005**: Every new label MUST exist in both Vietnamese and English.
+- **FR-006**: The observed plate shown in a preview MUST be the plate that preview was computed for; a response for an earlier input MUST NOT be shown.
 
 ### Key Entities
 
