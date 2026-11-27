@@ -43,7 +43,7 @@
 - [X] T010 [US1] Write `tests/request-guard.test.ts` for `createRequestGuard()` from `src/lib/requestGuard.ts`: a token from `begin()` is current; after `invalidate()` (an input change) the earlier token is not current; after a second `begin()` the first token is not current and the second is. Run it and record that it fails before T011
 - [X] T011 [US1] Add `src/lib/requestGuard.ts` (`begin`, `invalidate`, `isCurrent`). In `src/app/staff/exit/ExitForm.tsx`: keep one guard per form (`useRef`); `resetPreview()` calls `invalidate()`; `handlePreview` takes a token and the plate it sends, and sets the preview (stored with that plate) only if the token is still current; `ExitPreviewDetails` gets the stored plate; `handleConfirm` sends the stored plate. The visible behaviour without a race is unchanged
 - [X] T012 [US1] Run `npx vitest run tests/request-guard.test.ts tests/exit-preview-details.test.ts tests/exit.test.ts`, then mutation-check (`isCurrent` always true; `invalidate` a no-op): each must fail a T010 case; then `npm test`, `npm run lint`, `npm run build`
-- [ ] T013 Re-run step 2 of the manual retest (mismatch preview, vi) and the independent `review-implementation` on the new head; update `docs/final/res04/d04-retest.md` with the fix commit
+- [X] T013 Re-run step 2 of the manual retest (mismatch preview, vi) and the independent `review-implementation` on the new head; update `docs/final/res04/d04-retest.md` with the fix commit
 
 ## Dependencies & Execution Order
 
