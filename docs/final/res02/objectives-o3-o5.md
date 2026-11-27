@@ -31,7 +31,7 @@ The project has no real parking lot and no baseline measurements. The client acc
 | Objective | Product complete? | Objective achieved? | Main reason for the gap |
 |---|---|---|---|
 | O3 | **Yes** for reservations and the four report indicators | **Partly.** Monitoring is demonstrated on simulated data; improved utilisation is not measured | No real usage data, no baseline; no-show wait not run by hand |
-| O4 | **Yes** for fees and the five exceptions | **Mostly, on correctness.** Every fee combination and every exception behaves as specified; a reduction in errors or disputes is not measured | No before/after comparison; manual exception runs are AT-EX (27/11, D-04 build) and A-68 (24/11), not on the pinned SHA |
+| O4 | **Yes** for fees and the five exceptions | **Mostly, on correctness.** Every exception behaves as specified and fees are verified for 4 of 6 vehicle type × fee group combinations on `main` (6/6 on an unmerged branch); a reduction in errors or disputes is not measured | No before/after comparison; manual exception runs are AT-EX (27/11, D-04 build) and A-68 (24/11), not on the pinned SHA |
 | O5 | **Largely yes** (13 of 13 scenarios passed: eight on 26/11, five exception scenarios on 27/11) | **Not yet concluded** | Client acceptance (A-88, 27/11) pending; CP-06 and the acceptance thresholds not confirmed by the client |
 
 ## 3. O3: utilisation and demand monitoring
@@ -56,7 +56,7 @@ Gaps and how they affect the claim:
 
 | Measure | Target | Actual | Evidence |
 |---|---|---|---|
-| Fee equals the tariff for each of 6 vehicle type × fee group combinations | 100% | **Met in automated test**; by hand: student motorbike 2.000 đ, car 10.000 đ | `fees.test.ts` (6 combinations, one test; extended on branch `test/A-76-payment`, not merged); `A01-01`, `A01-07`, `A02-05`, `A06-01` |
+| Fee equals the tariff for each of 6 vehicle type × fee group combinations | 100% | **Partly met**: 4 of 6 combinations in automated test on `main` (motorbike × 3 fee groups, car × Khách); 6/6 only on branch `test/A-76-payment`, no PR yet. By hand, per-visit fee only: motorbike 2.000 đ, car (Khách) 10.000 đ, 15.000 đ after the tariff edit. Group pricing is shown by automated test only, because the seed gives every group the same price | `fees.test.ts` (4 of 6 on `main`); branch `test/A-76-payment` (`26677dc`, not merged); `A01-01`, `A01-07`, `A02-05`, `A03-05`, `A06-01` |
 | Fee uses the tariff at confirmation and the fee group snapshotted at entry | Correct | **Met** | `exit.test.ts` (KB-02, fee group snapshot) |
 | One payment per closed session; close and payment in one transaction | Correct | **Met** | `exit.test.ts` (KB-03, one payment per session); `A06-01` shows one row per session |
 | Customer sees the same amount as the payment record | Match | **Met**: 29A-02001, 2.000 đ in history and in payments | `A06-02`, `A06-01` |
@@ -66,10 +66,10 @@ Gaps and how they affect the claim:
 
 Gaps and how they affect the claim:
 
-1. D-04 (the exit preview field labelled "Observed plate" showed the plate recorded at entry) was seen on `ac57507c` (`A03-05`). It is fixed in PR #35, merged 27/11, and `AX02-02` shows both labels. RES-04 closes it after confirming on the post-merge SHA. The mismatch warning, the confirmation flow and the log entry worked on both builds.
+1. D-04 (the exit preview field labelled "Observed plate" showed the plate recorded at entry) was seen on `ac57507c` (`A03-05`). It is fixed in PR #35, merged 27/11, and `AX02-02` shows both labels. RES-04 closes it after confirming on the post-merge SHA. The mismatch warning, the confirmation flow and the log entry worked on both builds. The branch used for the AT-EX run merges the fix at `12dae51`, before the review fixes `b97caab` and `e18e574`; the final PR head is `bc1b602`. The AT-EX02 evidence (`AX02-02`) counts for the final SHA only after AT-EX02 is rerun on the merge of `bc1b602` (RES-02 to confirm which commit the AX build contained).
 2. The AT-EX run of 27/11 is on a different build from `ac57507c`; the post-merge rerun record decides whether it counts for the final SHA. RES-05 drives the exceptions at the 27/11 demo; add that outcome.
 
-**Conclusion:** O4 is achieved as correctness: each fee and each exception behaves as specified, with manual evidence from 27/11 on the D-04 build and from 24/11 on an earlier commit. A reduction in errors or disputes is not measured.
+**Conclusion:** O4 is achieved as correctness: each exception behaves as specified and fees are checked for 4 of 6 combinations on `main`, with manual evidence from 27/11 on the D-04 build and from 24/11 on an earlier commit. A reduction in errors or disputes is not measured.
 
 ## 5. O5: agreed scope and client acceptance
 

@@ -14,7 +14,7 @@
 | Activity | Module | Owner of the activity | Automated evidence | Acceptance pass | Result | Gap |
 |---|---|---|---|---|---|---|
 | A-72 | Reservation (P06) | RES-02 | `reservations.test.ts` 15, `reservation-form.test.ts` 6, `early-arrival-prompt.test.ts` 3, `arrival.test.ts` 5, `notifications.test.ts` 5 | AT-05 (`A05-01..06`) | Pass | No-show wait (TC-RES-12): automated test only on paper, no manual run evidenced (RES-02 to confirm); manual cancel not shown |
-| A-76 | Simulated payment (P10) | RES-04 | `fees.test.ts` 2 (6 combinations in one test), `exit.test.ts`, `history.test.ts`; RES-04's record `docs/m3/quality-evidence-A-76.md` | AT-06 (`A06-01`, `A06-02`, `A01-07`, `A02-05`) | Pass | Six fee combinations covered by test only, not by hand; RES-04's file is on branch `test/A-76-payment`, not on `main` |
+| A-76 | Simulated payment (P10) | RES-04 | `fees.test.ts` 2 (4 of 6 combinations on `main`), `exit.test.ts`, `history.test.ts`; RES-04's record `docs/m3/quality-evidence-A-76.md` | AT-06 (`A06-01`, `A06-02`, `A01-07`, `A02-05`) | Pass | 4 of 6 fee combinations covered by automated test on `main` (6/6 only on branch `test/A-76-payment`, no PR yet); by hand only the per-visit fee and the tariff edit effect, not group pricing; RES-04's file is on branch `test/A-76-payment`, not on `main` |
 | A-77 | Reports (P11) | RES-05 | `reports.test.ts` 11, `reports-a77.test.ts` 6; `docs/m3/A-77/` (comparison sheet and result screenshot) | AT-07 (`A07-01`, `A07-02`) | Pass | Report screenshot is cropped: only three of the four indicators are in view |
 | A-79 | Entry/exit API contract tests | RES-05 | `contract-inout.test.ts` 16; HTTP rehearsal `e2e/round3.e2e.mjs` 25/25 | AT-01, AT-02 (`A01-*`, `A02-*`) | Pass | none known |
 
@@ -46,7 +46,7 @@
 
 **Requirements:** fee = per-visit price of (vehicle type, fee group), six combinations (FR-34); payment record and history (SRS v2.1 FR-24, FR-35 to FR-37; per-visit fee only, Q36).
 
-**Automated tests:** `tests/fees.test.ts` (2 tests; one asserts all six combinations, extended on branch `test/A-76-payment`), `tests/exit.test.ts` (fee uses the fee group snapshotted at entry), `tests/history.test.ts`. RES-04's own record is `docs/m3/quality-evidence-A-76.md` on `test/A-76-payment` (not yet on `main`); link to it after merge instead of copying it.
+**Automated tests:** `tests/fees.test.ts` (2 tests; on `main` and on `ac57507c` they check 4 of the 6 combinations: motorbike × the 3 fee groups and car × Khách. Car × Sinh viên appears only in the missing-tariff case, and car × Giảng viên/Nhân viên is not checked. The 6/6 version is on branch `test/A-76-payment`, commit `26677dc` (RES-04), not yet in a PR; it merges into `main` without conflict), `tests/exit.test.ts` (fee uses the fee group snapshotted at entry), `tests/history.test.ts`. RES-04's own record is `docs/m3/quality-evidence-A-76.md` on `test/A-76-payment` (not yet on `main`); link to it after merge instead of copying it.
 
 **Acceptance pass (AT-06, 26/11):**
 
@@ -54,15 +54,19 @@
 |---|---|---|
 | Student fee table | Motorbike 2.000 đ, car 10.000 đ per turn | `A01-01` |
 | Motorbike exit and payment | 2.000 đ, confirmed by Staff 1 | `A01-07`, `A06-01` |
-| Car exit and payment | 10.000 đ, zone C | `A02-05`, `A06-01` |
+| Car exit and payment | 10.000 đ, zone C, plate 30K-123.45, fee group Khách (`A03-05`) | `A02-05`, `A06-01` |
 | Customer payment history | 29A-02001, in 13:50:18, out and paid 13:51:23, 2.000 đ | `A06-02` |
 | Guest car fee preview | 15.000 đ, fee group Khách | `A03-05` |
 
 **Note on the 15.000 đ guest fee:** the seed gives every fee group the same price (motorbike 2.000, car 10.000), per RES-04's record, so 15.000 đ means the guest car price was changed on the manager tariffs page during AT-03 (RES-02's report). Evidence is `A03-05`: the exit preview for plate 30K-123.45, zone C, car, fee group Khách, entry 13:39:37, **15.000 đ**. The same plate was charged **10.000 đ** at 13:34:22 in AT-02 (`A02-05`), so the price changed between the two visits. `A03-05` shows the effect of the change, not the edit itself: **the tariff edit screen was not captured**, and the price shown (15.000 đ) is the only value the screenshots give for the new tariff.
 
-**Gaps:** the six combinations are verified by automated test only, not by hand (by hand: student motorbike, student car, guest car at the edited price). The 6/6 test lives on an unmerged branch. The tariff edit screen is not captured (see the note above).
+**Gaps:**
+1. Fee by fee group is shown by automated test only, and on `main` only for 4 of the 6 combinations (see above). The by-hand checks show the per-visit fee and that a tariff edit takes effect: the car in AT-02 (`30K-123.45`) is in fee group Khách (`A03-05`), not Sinh viên, and because the seed gives every fee group the same price, no by-hand check on seed data tells the groups apart. State it that way; do not claim by-hand evidence of group pricing. The student car price (10.000 đ) is seen only in the fee table (`A01-01`).
+2. Either merge `test/A-76-payment` (6/6 test), or keep the wording "4 of 6 combinations by automated test".
+3. The tariff edit screen is not captured (see the note above).
+4. `A06-01` (13:51) shows only the payments of 13:51; the payments of 13:30 (`A01-07`) and 13:34 (`A02-05`) are not in view, and it lists plate `30K-123.42`, a different vehicle from `30K-123.45` (RES-02, 27/11), paid 10.000 đ at 13:51. **[RES-02 to fill: screenshot cropped, or DB reset between scenarios.]**
 
-**Verdict:** Pass.
+**Verdict:** Pass for the per-visit fee, the payment record and history; fee by group is by automated test for 4 of 6 combinations until the 6/6 test is merged.
 
 ## 4. A-77 Report module (RES-05's activity; RES-02 records the acceptance pass)
 
@@ -93,7 +97,7 @@ RES-03 pastes these on 28/11; do not edit the `.xlsx`.
 | Test | SHA | Date | Result | Evidence link |
 |---|---|---|---|---|
 | A-72 reservation module | `ac57507c` | 26/11/2026 | Pass: 34 declared tests in 5 files within the 382/382 run; AT-05 Pass; no-show wait by automated test only (manual run to be confirmed); manual cancel not shown | this file §2 |
-| A-76 simulated payment | `ac57507c` | 26/11/2026 | Pass: fee tests and exit/history tests within the 382/382 run; AT-06 Pass; 6 combinations by test only | this file §3; `docs/m3/quality-evidence-A-76.md` after merge |
+| A-76 simulated payment | `ac57507c` | 26/11/2026 | Pass: fee tests and exit/history tests within the 382/382 run; AT-06 Pass; 4 of 6 fee combinations by test on `main` (6/6 on unmerged `test/A-76-payment`); group pricing not shown by hand | this file §3; `docs/m3/quality-evidence-A-76.md` after merge |
 | A-77 report module | `ac57507c` | 26/11/2026 | Pass: 17 declared tests in 2 files; AT-07 Pass; screenshot of four indicators to add | this file §4; `docs/m3/A-77/` |
 | A-79 contract tests | `ac57507c` | 26/11/2026 | Pass: 16 declared tests; e2e 25/25; AT-01 and AT-02 Pass | this file §5 |
 
