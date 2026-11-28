@@ -129,9 +129,9 @@ On 27/11 this lists one file, `products/CO3011_M2_KienTrucAPI_v0.1.md` (P18), al
 
 ## 8. Upload steps (RES-01)
 
-1. Confirm B1–B9 are closed or written in the report as known gaps.
-2. Fill in the submission SHA in section 2 and commit this file.
+1. Confirm the final report PDF includes the AI declaration, the repository and P13 guide are accessible, the V1.0 and approved revised baseline references resolve, the required logs are included or linked, and the evidence is readable. Resolve any gap affecting a course or LMS requirement before uploading. Record any remaining internal exceptions in the report with RES-01’s approval.
+2. Record the pinned, verified source SHA in the final report and LMS submission details.
 3. Upload the final report PDF to the LMS. In the report and the LMS text, give the repository URL, the submission SHA and the path of P13.
 4. If the LMS asks for files instead of links, attach the workbook `.xlsx` and the M1 report (Client Interaction Log) as they are on the submission SHA.
 5. Open the repository URL from a logged-out browser and check that it loads.
-6. Tick the SUB row in section 5 of `docs/m3-m4-final-work-division.md`.
+6. Record the submitted PDF version, upload time and LMS receipt in `docs/m3/a-90-planned-vs-actual.md`, then tick the SUB row in section 5 of `docs/m3-m4-final-work-division.md`.
