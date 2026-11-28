@@ -5,6 +5,7 @@ import { requireRole } from '@/server/auth/rbac'
 import { logAccess } from '@/server/services/accessLog'
 import { canViewFullPlate, presentEventNote, presentPlate } from '@/lib/plate'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import type { IdMethod } from '@/lib/types'
 
 export default async function StaffSessionDetailPage({
   params,
@@ -21,6 +22,7 @@ export default async function StaffSessionDetailPage({
     include: {
       zone: true,
       vehicle: true,
+      entryStaff: { select: { name: true } },
       events: { orderBy: { createdAt: 'asc' } },
       payment: true,
     },
@@ -46,6 +48,11 @@ export default async function StaffSessionDetailPage({
   }
 
   const fee = session.payment ? new Intl.NumberFormat('vi-VN').format(session.payment.amount) : null
+  const methodLabel = {
+    PLATE: t(dict, 'entry.methodPlate'),
+    QR: t(dict, 'entry.methodQr'),
+    RFID: t(dict, 'entry.methodRfid'),
+  }[session.idMethod as IdMethod] ?? session.idMethod
 
   return (
     <div className="flex flex-col gap-4">
@@ -72,6 +79,10 @@ export default async function StaffSessionDetailPage({
             <dd>{t(dict, `exit.feeGroups.${session.feeGroup}`)}</dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.entryTime')}</dt>
             <dd>{session.entryTime.toLocaleString()}</dd>
+            <dt className="text-muted-foreground">{t(dict, 'sessions.identificationMethod')}</dt>
+            <dd>{methodLabel}</dd>
+            <dt className="text-muted-foreground">{t(dict, 'sessions.entryStaff')}</dt>
+            <dd>{session.entryStaff.name}</dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.entryGate')}</dt>
             <dd>{t(dict, `gates.${session.entryGate}`)}</dd>
             <dt className="text-muted-foreground">{t(dict, 'sessions.entrySource')}</dt>

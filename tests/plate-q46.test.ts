@@ -30,7 +30,7 @@ let f: Fixture
 let staff: CurrentUser
 let manager: CurrentUser
 
-async function session(status: 'OPEN' | 'CLOSED') {
+async function session(status: 'OPEN' | 'CLOSED', idMethod: 'PLATE' | 'QR' | 'RFID' = 'PLATE') {
   const now = new Date()
   return db.parkingSession.create({
     data: {
@@ -38,7 +38,7 @@ async function session(status: 'OPEN' | 'CLOSED') {
       zoneId: f.zoneA.id,
       vehicleTypeCode: 'MOTORBIKE',
       feeGroup: 'GUEST',
-      idMethod: 'PLATE',
+      idMethod,
       entryTime: now,
       exitTime: status === 'CLOSED' ? now : null,
       entryStaffId: f.staff.id,
@@ -82,6 +82,20 @@ describe('session lists and GET /api/sessions (listSessions)', () => {
 })
 
 describe('session detail page', () => {
+  it.each([
+    ['PLATE', 'Plate'],
+    ['QR', 'QR'],
+    ['RFID', 'RFID'],
+  ] as const)('shows entry method %s and the staff name', async (method, label) => {
+    currentUser = staff
+    const s = await session('OPEN', method)
+    const html = await detail(s.id)
+    expect(html).toContain('Identification method')
+    expect(html).toContain(label)
+    expect(html).toContain('Entry staff')
+    expect(html).toContain(f.staff.name)
+  })
+
   it('Staff on a closed session: masked plate, no VIEW_FULL_PLATE row', async () => {
     currentUser = staff
     const s = await session('CLOSED')

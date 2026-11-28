@@ -178,6 +178,8 @@ export const vi = {
     noPayment: 'Chưa có thanh toán.',
     amount: 'Số tiền',
     paidAt: 'Thời điểm thanh toán',
+    identificationMethod: 'Phương thức nhận dạng',
+    entryStaff: 'Nhân viên ghi nhận xe vào',
     entryGate: 'Cổng vào',
     exitGate: 'Cổng ra',
     entrySource: 'Nguồn ghi nhận vào',

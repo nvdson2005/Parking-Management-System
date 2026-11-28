@@ -179,6 +179,8 @@ export const en: Dict = {
     noPayment: 'No payment yet.',
     amount: 'Amount',
     paidAt: 'Paid at',
+    identificationMethod: 'Identification method',
+    entryStaff: 'Entry staff',
     entryGate: 'Entry gate',
     exitGate: 'Exit gate',
     entrySource: 'Entry recorded by',
