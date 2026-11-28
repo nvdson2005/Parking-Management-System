@@ -5,7 +5,7 @@
 | Owner | RES-02, Đào Xuân Sơn |
 | Date | 26/11/2026 (AT-01..AT-07, AT-100); 27/11/2026 (AT-EX01..AT-EX05) |
 | Candidate SHA (pinned) | `ac57507c9c2924d54ed35e3dac31e327deac4573` (`origin/main`, merge of PR #24, committed 26/11/2026 01:04 +0700) |
-| Build used for AT-EX (27/11) | A build that includes the D-04 fix (PR #35, branch `fix/d04-exit-plate-labels`; `AX02-02` shows both plate labels). SHA: **[RES-02 to fill: `git rev-parse HEAD` of that checkout]**. It is **not** `ac57507c`. The branch used merges the fix at `12dae51` (merge `1b80d4c`), the version before the review fixes `b97caab` and `e18e574`; the final PR head is `bc1b602` (RES-04, 27/11). **[RES-02 to confirm that the AX build is that branch.]** |
+| Build used for AT-EX (27/11) | Separate D-04 build. Screenshot `AX02-02` shows both labels. The exact checkout SHA was not captured in the available evidence. D-04 merged to main in PR #38 at `4002f37`. |
 | Status | **PASS WITH CONDITIONS.** 13 of 13 acceptance scenarios run (AT-01..AT-07 and AT-100 on `ac57507c`; AT-EX01..AT-EX05 on the 27/11 build). 9 evidence gaps in section 5 (items 1 to 6 for AT-01..AT-100, items 7 to 9 for AT-EX). Screenshots attached (`A87/`, 44 files); AT-100 numbers recorded. Open conditions A to C in section 5 |
 | Report reference | M3 §3.5, M4 §4.1 |
 
@@ -22,7 +22,9 @@ The AT-EX results below come from a different build (27/11, with the D-04 fix). 
 | Unit and API tests | `npm test` | **Pass: 49 files, 382 tests, 0 failed** (191 s) | Run by RES-02 on Windows, 26/11, 12:29. `tests/simulator.test.ts` 18/18 pass in 52.7 s with the largest tests at 5 to 13 s, so the former 5 s timeout failures no longer occur on this checkout. `git rev-parse HEAD` on the same checkout is `ac57507c` |
 | Build | `npm run build` | **Pass**: Next.js 15.5.29, compiled in 36.5 s, types and lint valid, 50/50 pages | The route table lists the API routes and the customer, staff and manager pages |
 
-The checks above were run on `ac57507c` only. On the 27/11 build used for AT-EX: **[RES-02 to fill: `npm test` result and test count on that SHA, or "not rerun"]**.
+The checks above ran on `ac57507c`. No automated test result was captured for the historical 27/11 AT-EX checkout.
+
+On 28/11/2026, a fresh worktree pinned to `d9c663805deac7a85fa964d2d3e520427ced7059` (PR #35 with the D-04 fix integrated) passed `npm test` (396/396 in 52 files), `npm run lint`, and `npm run build`. The AT-01/AT-02 and AT-EX02 UI reruns are still open for this SHA.
 
 ## 2. Environment for the acceptance run
 
@@ -106,7 +108,7 @@ Notes:
 
 | ID | Description | Severity | Steps to reproduce | Owner | Status |
 |---|---|---|---|---|---|
-| D-04 | Staff exit preview showed the plate recorded at entry under the label "Biển số quan sát" and never the plate Staff typed. Known from A-68 (`docs/m3/a-68-cp05-test.md`); seen again on the pinned SHA in `A03-05` ("Biển số quan sát: 30K-123.45" is the entry plate) | S2 | Staff exit preview of any open session (`A03-05`) | RES-04 | **Fixed** on branch `fix/d04-exit-plate-labels` (PR #35; RES-04 retest 7/7, independent review approved). Both labels shown in `AX02-02` on the 27/11 build. **Not on the pinned SHA `ac57507c`.** Merge and re-pin state: **[RES-02 to fill]** |
+| D-04 | Staff exit preview showed the plate recorded at entry under the label "Biển số quan sát" and never the plate Staff typed. Known from A-68 (`docs/m3/a-68-cp05-test.md`); seen again on the pinned SHA in `A03-05` ("Biển số quan sát: 30K-123.45" is the entry plate) | S2 | Staff exit preview of any open session (`A03-05`) | RES-04 | **Fixed** on branch `fix/d04-exit-plate-labels` (PR #38; RES-04 retest 7/7, independent review approved). Both labels shown in `AX02-02` on the 27/11 build. **Not on the pinned SHA `ac57507c`.** Merge and re-pin state: **[RES-02 to fill]** |
 | none | No other defect reported in AT-01..AT-07, AT-100 or AT-EX01..AT-EX05 | | | | |
 
 Observations, not defects (for the demo, nothing to fix unless the owner disagrees):
@@ -120,11 +122,11 @@ Owner guide: UI and reservation screens RES-04, simulator and monitoring RES-05,
 
 **CP-07 status: Pass with conditions** (not yet Pass).
 
-What is shown. On `ac57507c`: automated checks pass (382/382 tests, build, lint), the HTTP rehearsal passes 25/25, and RES-02 ran AT-01..AT-07 and AT-100 by hand, all Pass (the ones with evidence gaps are marked in section 3). On 27/11, RES-02 ran AT-EX01..AT-EX05 by hand on a build that includes the D-04 fix, all Pass (two with evidence gaps). That is 13 of 13 acceptance scenarios run and 13 Pass. D-04 is visible on the pinned SHA (`A03-05`), so "no defect" does not hold for `ac57507c`; D-04 is fixed in PR #35.
+What is shown. On `ac57507c`: automated checks pass (382/382 tests, build, lint), the HTTP rehearsal passes 25/25, and RES-02 ran AT-01..AT-07 and AT-100 by hand, all Pass (the ones with evidence gaps are marked in section 3). On 27/11, RES-02 ran AT-EX01..AT-EX05 by hand on a build that includes the D-04 fix, all Pass (two with evidence gaps). That is 13 of 13 acceptance scenarios run and 13 Pass. D-04 is visible on the pinned SHA (`A03-05`), so "no defect" does not hold for `ac57507c`; D-04 is fixed in PR #38.
 
-Ready for the 27/11 client demo **if conditions A to C are closed or accepted by RES-01** (CP-07 rule: open items need the project manager's acceptance):
+A-88 ran internally on 26/11 because the client was unavailable. CP-08 was not obtained and the CP-06 fallback applies. See [F5-03](../res05/objectives-o1-o2.md). CP-07 conditions A to C remain open.
 
-- **A. One build.** The results come from two builds: `ac57507c` (AT-01..AT-07, AT-100, automated checks) and the 27/11 build with the D-04 fix (AT-EX). Rule at the top of this file: do not mix results from two SHAs. RES-01 chooses: (1) merge PR #35, re-pin, and rerun `npm test`, lint, build and a short smoke (AT-01, AT-02) on the new SHA, in which case the AT-EX results above stand for that SHA once it is recorded; or The D-04 PR must be merged at its current head `bc1b602`, not taken from the branch used for the AT-EX run, and AT-EX02 rerun on that merge; or (2) demo on `ac57507c` with D-04 accepted as an open defect, in which case the AT-EX results do not apply to that SHA and AT-EX01..AT-EX05 need a rerun on it or RES-01's written acceptance.
+- **A. One build.** Keep the two historical runs separate. The checkpoint log reported a rerun on 27/11, but no pinned checkout or result is available to substantiate it. Close this condition with same-SHA automated checks and the AT-01/AT-02 and AT-EX02 UI checks, or obtain written RES-01 acceptance.
 - **B. Evidence gaps** 1 to 9 below closed or accepted.
 - **C. Independent review.** RES-04 reviewed this file on 27/11 and asked for changes; this revision answers them. RES-04 re-checks, and RES-01 takes the demo decision.
 
@@ -140,13 +142,15 @@ Remaining evidence gaps (not defects):
 8. AT-EX03: the LOST_CARD event and the MANUAL_CONFIRM access-log row are not captured (the log screenshot `AX02-03` is cropped to the 13:17:01 row of AT-EX02).
 9. AT-EX01: the screenshots do not show how zone C was filled (simulator EX-01, which fills the whole zone and needs a DB reset afterwards, or capacity set to 1). Say which, and whether the DB was reset after.
 
-The screenshots do not show the commit; the SHA claim rests on RES-02's `git rev-parse HEAD` in sections 1 and 2 for `ac57507c`, and on the SHA to be filled in the header for the 27/11 build. Keep both terminal logs.
+The screenshots do not identify the 27/11 checkout. The historical SHA and automated rerun result remain unverified.
 
 ## 6. Paste-ready workbook rows (Quality Evidence)
 
 | Test | SHA | Date | Result | Evidence link |
 |---|---|---|---|---|
-| A-87 / A-95 dry run (AT-01..AT-07, AT-100) | `ac57507c` | 26/11/2026 | Pass with conditions: 382/382 tests, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (AT-100: 100/100 sessions, 69 exits, 31 inside, free A143/B138/C18); evidence gaps 1 to 6 open; D-04 seen in `A03-05` (fixed in PR #35, not on this SHA) | this file and `A87/` screenshots |
-| A-87 AT-EX01..AT-EX05 | **[SHA of the 27/11 build]** | 27/11/2026 | Pass with conditions: 5 of 5 Pass; evidence gaps 7 to 9 open; D-04 fix visible in `AX02-02` | this file §3 and `A87/AX*` screenshots |
+| A-87 / A-95 dry run (AT-01..AT-07, AT-100) | `ac57507c` | 26/11/2026 | Pass with conditions: 382/382 tests, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (AT-100: 100/100 sessions, 69 exits, 31 inside, free A143/B138/C18); evidence gaps 1 to 6 open; D-04 seen in `A03-05` (fixed in PR #38, not on this SHA) | this file and `A87/` screenshots |
+| A-87 AT-EX01..AT-EX05 | Unverified historical checkout | 27/11/2026 | Pass with conditions: 5 of 5 Pass; evidence gaps 7 to 9 open; D-04 fix visible in `AX02-02` | this file §3 and `A87/AX*` screenshots |
+
+| Condition A automated recheck | `d9c663805deac7a85fa964d2d3e520427ced7059` | 28/11/2026 | 396/396 tests, lint and production build pass. UI checks open | §1 |
 
 Report reference: M3 §3.5, M4 §4.1.
