@@ -59,9 +59,11 @@ On 27 November, RES-01 approved Option C as the closeout approach. Keep the core
 
 ## 5. Open items
 
+RES-02 recorded the A-87 dry run on `ac57507c`. See the [closeout handoff](closeout-handoff.md#decision-and-submission-records) for the reported results.
+
 | Item | Owner | Needed before |
 |---|---|---|
 | Confirm the levers chosen at the workshop (the one remaining `TODO(RES-01)` in section 2) | RES-01 | F1-03, report freeze 28/11 |
-| Formal acceptance of the CP-05 conditions, including the waived C2 client video (Q23 unmet until accepted) | RES-02 records, RES-01 approves | A-87 / CP-07 |
+| Formal acceptance of the CP-05 conditions, including the waived C2 client video (Q23 unmet until accepted) | RES-02 records, RES-01 approves | CP-07 closeout |
 | Revised remaining-work forecast and recovery assignment | RES-03 | F3-02, F1-03 |
-| Candidate SHA for A-87 (`26a623c` is out of date; `main` has since gained #22, #24, #26, #27, #28) | RES-02 | A-87 dry run |
+| Complete the outstanding browser matrix retests and record which A-87 evidence gaps were closed or remain open | RES-02 | CP-07 closeout |
