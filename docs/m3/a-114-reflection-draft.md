@@ -3,9 +3,9 @@
 Draft from the repository history. Edit freely: the reflection must be in your own words and match what you can explain at the viva. Review the first-person draft below before submission.
 
 **Member:** Nguyễn Võ Đức Sơn (RES-01), PM and Tech lead
-**Period covered:** W12 through 21/11/2026 (update at the end of W14)
+**Period covered:** W12–W14, with evidence through 26/11/2026
 
-**Phase 5 update to verify before submission:** The 23 November client reply was mapped to 11 decisions in [PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) and the [RES-01 interaction log](client-interaction-log-phase-5.md). I prepared the split delivery design and Spec Kit plan in [PR #19](https://github.com/nvdson2005/Parking-Management-System/pull/19). A-68 was reported one day late in PR #18, while the QA gate, integrated build and client verdict remained open at the 24 November review. I kept estimates separate from measured hours. Add the actual M-03, A-87, A-88 and retrospective outcomes after they occur; this draft is not a signed personal statement.
+**Phase 5 update to verify before submission:** The 23 November client reply was mapped to 11 decisions in [PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) and the [RES-01 interaction log](client-interaction-log-phase-5.md). I prepared the split delivery design and Spec Kit plan in [PR #19](https://github.com/nvdson2005/Parking-Management-System/pull/19). A-68 was reported one day late in PR #18, while the QA gate, integrated build and client verdict remained open at the 24 November review. I kept estimates separate from measured hours. The [M-03 record](../final/res01/m03-decision-and-workshop.md) documents the decision to retain the A-72 and A-76 acceptance checks. The [integrated technical run](evidence/a87-res01-technical-2026-11-24.md) recorded 200 events and 100 complete closed visits on `26a623c`. Formal QA and client outcomes still need dated evidence.
 
 ## Contribution (evidence)
 
@@ -17,6 +17,7 @@ Draft from the repository history. Edit freely: the reflection must be in your o
 | Execution (A-63, A-74) | Exit plate match without separators (KB-04), server-side lost-card PLATE rule (KB-05), known-vehicle type tests (KB-13); fee-at-exit and one-transaction tests | `42b9d98`, `9e07e29` |
 | Design decisions | P18 v1.0 with decisions for KB-01..KB-19 | `3d911b6` |
 | Change event (Task 3.6, 3.7) | Impact analysis, decision record, revised W13–W14 plan, V2.0 hand-off | `3e7d822`, `d8dd6ce`, `d6dbfb2`, `e43c2bf`, `ca7808b` |
+| W14 coordination | Recorded M-03 and Q22, prepared the W12–W14 log, and documented the integrated acceptance candidate and remaining checks | [M-03 record](../final/res01/m03-decision-and-workshop.md), [weekly log](../final/res01/weekly-log-final.md), [demo rehearsal](a-88-a-115-demo-rehearsal.md) |
 | Process | Spec Kit scaffold and constitution; AGENTS.md, CLAUDE.md, codegraph rules | `0578a4e`, `5ee2186`, `7e99357` |
 | AI use | Claude Code assisted with code and drafts. Codex helped prepare the A-90 comparison, reflection, and demo rehearsal. | Workbook AI Usage Log for the 21/11 Codex session. Confirm earlier Claude Code entries before submission. |
 
@@ -32,4 +33,4 @@ I started the weekly log after W12 and had to reconstruct my effort from activit
 
 For the mock viva I will explain RES-05's A-43 simulator review, including how SC-07 tests the 100-session requirement and how that evidence feeds the demo.
 
-After A-88 and A-90, add the acceptance outcome, any W14 hours available, and one lesson from the retrospective. RES-01 should revise the first-person wording before submission.
+The W14 log records 12 h of planned capacity for RES-01. Measured W14 hours, the dated client verdict and a lesson agreed at A-91 remain pending. RES-01 should confirm the evidence and review the first-person wording before submission.
