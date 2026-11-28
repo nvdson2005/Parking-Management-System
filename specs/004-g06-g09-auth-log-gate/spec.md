@@ -8,7 +8,7 @@
 
 ## Background
 
-P03 v0.4 §11.1 deferred G-06 because it came only from SRS v0.2. The CP-03 review showed that the acceptance tests AT-03 and AT-04 check exactly these log rows, so G-06 is now in scope. The review also found a gap P03 missed: FR-09 requires the entry record to hold the **gate**, and the schema has no gate column, so AT-01 cannot pass. This is recorded as G-09. Both changes go into CR-03.
+P03 v0.4 §11.1 deferred G-06 because it came only from SRS v0.2. The CP-03 review showed that the acceptance tests AT-03 and AT-04 check exactly these log rows, so G-06 is now in scope. The review also found a gap P03 missed: FR-09 requires the entry record to hold the **gate**, and the schema has no gate column, so AT-01 cannot pass. This is recorded as G-09. Both changes go into CR-04.
 
 ## User Scenarios & Testing
 

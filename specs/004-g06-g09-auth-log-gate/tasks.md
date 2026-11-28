@@ -23,7 +23,7 @@
 ## Phase 3: Polish
 
 - [X] T008 Full `npm test`, `npm run lint`, `npm run build`; `codegraph sync`
-- [X] T009 Update P03 (v0.5), README, `docs/m3/workbook-rows.md`, CR-03 row in the risk register (P03 v0.5 and the risk register are on branch `docs/a24-a102-round3-update`, PR #10, commits `2187bd1`, `0ea25e4`)
+- [X] T009 Update P03 (v0.5), README, `docs/m3/workbook-rows.md`, CR-04 row in the risk register (P03 v0.5 and the risk register are on branch `docs/a24-a102-round3-update`, PR #10, commits `2187bd1`, `0ea25e4`)
 
 ## Phase 4: Review of PR #11 (RES-01, 23/11)
 
