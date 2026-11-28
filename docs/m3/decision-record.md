@@ -59,10 +59,12 @@ The Q22 fallback fires if, at M-03, any Must product is not verified or the sche
 
 | Input or decision | Evidence to record |
 |---|---|
-| Must verification | [A-67 integration](a-67-integration-check.md) and [A-61 lot management](quality-evidence-A-61.md) evidence are available. The formal A-68/CP-05 verdict and remaining Must checks are pending. RES-02 records any unverified product and its owner. |
+| Must verification | [A-67 integration](a-67-integration-check.md) and [A-61 lot management](quality-evidence-A-61.md) evidence are available. RES-02 later recorded CP-05 pass with conditions C1–C6 on PR #18; the conditions and remaining Must checks are open. RES-02 records any unverified product and its owner. |
 | Schedule variance | The [V2.0 draft](baseline-v2-draft.md) records target dates. The live forecast and measured variance are pending from RES-03. Record the reference baseline and variance in days. |
 | Q22 decision and effect | RES-01 records trigger status, rationale, verification omitted if triggered, and any recovery actions. Copy the result to R-G5-04 and the weekly log. |
 | Status | Pending gate evidence and RES-01 decision. |
+
+**24 November update:** RES-01 confirmed that no dated M-03/Q22 decision or A-87 build-and-schedule decision was recorded at the gate. An integrated `main` candidate was later identified by [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) at `26a623c15df6686ee329c496a3788fed3850d9a2`; it is not a retroactive M-03 approval. The regenerated V2.0 forecast reports a finish around working day 24.63 of 15 and Must A-49/CP-05 verification remains open. **Late RES-01 decision, 24/11:** retain the A-72 and A-76 manual acceptance checks despite the documented Q22 trigger. No checks are omitted under Q22. This preserves coverage but saves none of the forecast 2.6 h; RES-03 must produce a revised remaining-work forecast and recovery assignment. The original M-03 gate remains unsigned.
 
 ## Consequences
 
@@ -122,3 +124,19 @@ Approved by Nguyễn Võ Đức Sơn (RES-01, PM) on 19/11/2026. The decision st
 For planning, assume the workshop selected Option C, with a target of one additional W14 hour from each member above the existing two. Protect Must verification, O1/O2 evidence, the client demo, and the submission. Each member still needs to confirm the extra hour, for up to 5 h of additional team capacity. If all five confirm, the estimated gap falls from 14.1 h to 9.1 h before Q22, or from 11.5 h to 6.5 h if Q22 triggers. Treat these figures as scenarios until capacity is confirmed.
 
 Have RES-03 recalculate remaining effort from completed activities and owner estimates. If a gap remains, propose reducing Could-level acceptance coverage and shortening Should-module report sections while retaining the evidence required by the assignment. Record owners and revised effort before counting any savings. Evaluate Q22 only at the documented 24 November gate. The workshop date, attendance, and team agreement still need confirmation.
+
+## M-03 / CR-03 Phase 5 decision checkpoint (24 November)
+
+**Status: held pending evidence; no new approval recorded.** This checkpoint updates the earlier Option C decision; it does not replace the 19 November approval of CR-01. [Client answers Q36–Q46](client-interaction-log-phase-5.md) and [PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) establish the acceptance interpretation.
+
+| Decision input | Current evidence / required next record | Owner |
+| --- | --- | --- |
+| CR-03 options | Compare **28 h full scope** with **16 h selected scope** on identical line items, assumptions and affected checks in [PR #10](https://github.com/nvdson2005/Parking-Management-System/pull/10). Record the accepted option, approver and date there. | RES-03 prepares; RES-01 approves |
+| A-87 candidate | [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) subsequently integrated #11/#17 into `main` at `26a623c15df6686ee329c496a3788fed3850d9a2`. Build and migration evidence exists, but the A-87 operator must pin the actual tested SHA and environment. | RES-02/RES-04 verify |
+| Must and CP-05 | On 24/11 RES-02 recorded CP-05 pass with conditions C1–C6 on PR #18 head `840ba76`. ISS allocation, PM approval and closure evidence are pending; A-49 Must screen gaps still lack a fix and retest. | RES-02 QA; RES-01 conditions approval; RES-04 A-49 |
+| Schedule variance | A-68 completed 24/11, one day after its 23/11 plan. Regenerated V2.0 models a finish around working day 24.63 of 15. This is a plan forecast, not a live remaining-work estimate; owner actuals and a recovery choice remain pending. | RES-03 tracker; RES-01 gate |
+| Q22 fallback | At the late 24/11 review RES-01 chose to **retain A-72/A-76 manual checks**, even though Must verification was incomplete. Do not count the 2.6 h fallback saving or list those checks as omitted in P14. Reforecast and assign recovery work. | RES-01; RES-03 reforecasts |
+
+The gate record needs the decision time, participants, Q22 outcome, recovery owners and dates, and exceptions before it can be signed. The 26 November A-87 dry run, 27 November A-88 demo, 28 November report sign-off, and 29 November submission are targets, not completed events.
+
+On 24/11, RES-01 reported that all five members committed to 12 h in W14 and to weekend work on 28–29/11. No M-03 or build-and-schedule decision had been recorded at the original gate; the Q22 retention choice above was made later. The integrated build is available; the gate and V2.0 approval remain unsigned pending the recovery forecast and QA evidence.

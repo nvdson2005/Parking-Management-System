@@ -1,5 +1,13 @@
 # A-90 Planned vs Actual · report draft
 
+## Phase 5 status note (24 November 2026)
+
+[PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15) merged the 11 lecturer answers; [the interaction log](client-interaction-log-phase-5.md) maps Q36–Q46. A-68 finished on 24 November according to [PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18), one day after the 23 November plan. RES-02 recorded CP-05 **pass with conditions C1–C6** on 24/11 at PR #18 head `840ba76`; the gate stays open until those conditions have ISS IDs, owners, dates and PM approval. [PR #21](https://github.com/nvdson2005/Parking-Management-System/pull/21) integrated #11/#17 product work into `main` at `26a623c15df6686ee329c496a3788fed3850d9a2`; the formal A-87 run and A-88 verdict on that build remain pending. [PR #14](https://github.com/nvdson2005/Parking-Management-System/pull/14) merged the RES-05 confirmation of A-67; that does not close the conditions on CP-05.
+
+RES-01's [24 November production-build technical run](evidence/a87-res01-technical-2026-11-24.md) on that integrated tree passed the 100-visit timing, complete-record and count checks; it is not QA's formal A-87 result. PR #23 proposes integrating SRS v2.1/P18 v1.1 onto `main`. The remaining browser, QA and client verdicts stay open.
+
+No measured RES-01 or team hours for W12–W14 were found in the repository. RES-01 was asked for actual hours on 24 November and requested a proposed reconstruction; the W12/W13 estimates below are that proposal, **not measured hours**. W14 has no defensible total yet. RES-01 must confirm or correct the figures from personal time records or recollection before they enter A-100 or RES-03's A-103 tracker as actuals. A-91, A-92 sign-off and the LMS submission receipt remain pending; the 28 and 29 November dates are targets.
+
 Planned values come from `docs/m2-report/generated/estimates.md` and the work-division plan. **Actual hours and start dates are unknown** (assumed equal to capacity at team level, 8 h in W12 and 10 h from W13; see the RES-01 effort estimates below); finish dates come from commits and documents. Deviations over 20% are explained once actual hours exist (A-103, Task 3.3). The detailed activity table covers RES-01. RES-03 owns the team tracker.
 
 | A-ID | Activity | Planned start–finish | Planned E (h) | Actual finish (evidence) | Estimated RES-01 effort (h) | Deviation | Explanation |
@@ -15,20 +23,20 @@ Planned values come from `docs/m2-report/generated/estimates.md` and the work-di
 | A-105 | Options workshop | when event arrives | 2.5 | decision draft 19/11 | 0.50 (preparation) | planning assumption recorded | Option C with one additional W14 hour per member targeted. Confirm the workshop date, attendance, and capacity. |
 | A-106 | Baseline V2.0 hand-off | after A-105 | 3.0 (now 1.5) | hand-off 19/11 (`e43c2bf`); regeneration by RES-03 pending | 0.25 (handoff) | pending | — |
 | A-94 / A-97 | Weekly log and meeting | weekly | TODO | draft 19/11 (`docs/m3/weekly-log-draft.md`) | 0.50 (log) | late (no log for W12) | Log started in W13 |
-| A-100 | Own hours in Task Log | weekly | 1 per week | not started; hours ASSUMED equal to capacity (8 h W12, 10 h W13) | TODO | missed W12 | No hours were logged; see weekly-log-draft.md |
+| A-100 | Own hours in Task Log | weekly | 1 per week | not started; proposed reconstruction is 8 h W12, 10 h W13, W14 unknown | TODO | missed W12 | Proposed hours are estimates and require RES-01 validation before recording as actuals; see weekly-log-draft.md |
 | A-90 | Actuals vs baseline | 23–25/11 | 3.42 | draft through 21/11 | — | in progress | Team actuals and gate evidence pending |
 | A-88 | Client acceptance demo | 27/11 | 2.83 | pending | — | — | — |
 
-## Comparison for A-92 · evidence through 21 November
+## Comparison for A-92 · evidence through 24 November
 
 | Dimension | Original baseline and revised plan | Observed result or variance |
 |---|---|---|
-| Effort | V1.0 planned 139.6 team hours including reserve. Revised demand is about 164.1 h after the agreed cuts. | Team actuals are pending. RES-01 has 18 h estimated across W12–W13. A-22 is estimated at 4.50 h versus 4.33 h planned (+3.9%). A-61 is estimated at 1.50 h versus 1.50 h planned. Compare other activities once RES-03 provides like-for-like planned and actual allocations. |
-| Schedule | V1.0 submission was 7 Dec. CR-01 moves submission to 29 Nov and targets report sign-off on 28 Nov. | The submission target moved eight calendar days earlier. A-22 finished seven days late and A-63 finished one day late. A-67 verification was recorded on its 20 Nov target. Current project forecast and M-03 variance are pending. |
-| Cost | At the baseline proxy rate of 50,000 VND/h, V1.0 planned 6,980,000 VND and revised demand represents about 8,205,000 VND. | Revised planned cost is about 1,225,000 VND higher. RES-01's 18 h estimate represents 900,000 VND in proxy effort. Team actual cost awaits the tracker. |
+| Effort | V1.0 planned 139.6 team hours including reserve. The earlier CR-01 scenario estimated about 164.1 h after cuts; regenerated V2.0 on `main` now plans 183.89 h including reserve against 150 h of committed capacity reported by RES-01. These figures have different revision boundaries and must not be silently substituted. | Team actuals are pending. RES-01 has 18 h proposed across W12–W13, not measured. Confirm the CR-03 scope and added activities with RES-03 before recalculating like-for-like variance. |
+| Schedule | V1.0 submission was 7 Dec. CR-01 moves submission to 29 Nov and targets report sign-off on 28 Nov. | The submission target moved eight calendar days earlier. A-22 finished seven days late and A-63 finished one day late. A-67 verification was recorded on its 20 Nov target. Regenerated V2.0 models a finish around working day 24.63 of a 15-day window; actual remaining work and the M-03 decision are pending. |
+| Cost | At the baseline proxy rate of 50,000 VND/h, V1.0 planned 6,980,000 VND; the earlier CR-01 scenario represented about 8,205,000 VND. Regenerated V2.0 plans about 9,194,583 VND including reserve. | The regenerated plan is about 2,214,583 VND above V1.0 at the proxy rate. Team actual cost awaits verified hours. |
 | Scope | Option C retains V1.0 product scope while consolidating report work and reducing verification depth. | CR-02 added four lecturer clarifications on 15 Nov. The changes were implemented, with 4.25 h estimated for RES-01. Final accepted scope and any omissions await A-87/A-88 and the M-03 gate. |
-| Quality | The revised plan protects Must verification and O1/O2 evidence. | A-61 recorded seven expected Staff authorization denials. A-67 recorded 25 passing HTTP checks and a 120-event simulator run with zero rejections. Formal CP-02 and A-68/CP-05 outcomes and the client acceptance record remain pending. |
-| Risk | Revised demand exceeds 140 h base capacity by about 24.1 h. R-G4-02 tracks capacity shortfalls and R-G5-04 tracks deadline compression. | The estimated gap is 14.1 h after the planned W14 extra hours. The workshop assumption reduces it to 9.1 h if all additional hours are confirmed. Q22 is conditional on the M-03 gate. |
+| Quality | The revised plan protects Must verification and O1/O2 evidence. | A-61 recorded seven expected Staff authorization denials. A-67 recorded 25 passing HTTP checks and a 120-event simulator run with zero rejections. CP-05 has a conditional QA decision with C1–C6 open; CP-02 and the client acceptance record remain pending. |
+| Risk | Earlier CR-01 scenario used 140 h base capacity; regenerated V2.0 uses 150 h by adding 2 h for each member in W14. R-G4-02 tracks capacity shortfalls and R-G5-04 deadline compression. | RES-01 reported all five commitments on 24/11; actual hours remain unknown. The regenerated plan still exceeds that capacity by 33.89 h including reserve. RES-01 chose to retain A-72/A-76 in a late Q22 decision, so no 2.6 h saving is available; M-03 recovery remains open. |
 
 For final integration into A-92, add RES-03's dated team tracker and risk update, RES-02's gate evidence, and the M-03 decision. Keep the original and revised planned figures distinct from measured actuals. Explain comparable effort deviations over 20% once the tracker is available.
 

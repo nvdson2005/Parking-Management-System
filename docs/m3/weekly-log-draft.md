@@ -11,6 +11,14 @@ Paste into the workbook's **Weekly Project Log** sheet. Columns: Week | Date fro
 
 ## A-100 reminder (own hours)
 
+## W14 live update (23–24 November; A-94, A-97, A-100)
+
+Planned: M-03 on 24 November, A-87 internal dry run on 26 November, A-88 client demo on 27 November, report review on 28 November, and submission on 29 November. Observed: the 11 client answers were merged through [PR #15](https://github.com/nvdson2005/Parking-Management-System/pull/15); A-67 confirmation merged through [PR #14](https://github.com/nvdson2005/Parking-Management-System/pull/14); A-68 was reported complete on 24 November in [PR #18](https://github.com/nvdson2005/Parking-Management-System/pull/18), one day later than planned. The [M-03/CR-03 decision inputs](decision-record.md#m-03--cr-03-phase-5-decision-checkpoint-24-november) and 28 h/16 h option comparison still need a signed gate record.
+
+**Later update, 24/11:** PR #21 integrated #11/#17 product work into `main` at `26a623c`; RES-02 recorded CP-05 pass with conditions C1–C6 on PR #18, with issue allocation and PM approval still open. RES-01 reported all five members committed to 12 h in W14 and to weekend work on 28–29/11. No decision was recorded at the original M-03 gate. In a late decision, RES-01 chose to keep the A-72/A-76 manual checks despite the Q22 trigger; the 2.6 h fallback saving is therefore unavailable. RES-03 must reforecast the remaining work against the regenerated V2.0 model, and the gate remains unsigned.
+
+W14 measured RES-01 and team hours, A-97 attendees/minutes and the revised recovery forecast are **pending owner records**. Do not enter the 12 h W14 commitment or W12/W13 estimates as actuals. When available, enter each member's A-100 hours in the workbook and recalculate the remaining forecast with RES-03.
+
 RES-01's estimated activity allocations total 8 h in W12 and 10 h in W13. The team totals above still use capacity as a proxy. See the [A-90 estimate breakdown](a-90-planned-vs-actual.md#res-01-weekly-effort-estimates) and the [assumed workshop outcome](decision-record.md#assumed-workshop-outcome).
 
 ## Evidence for the evidence column

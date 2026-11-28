@@ -15,6 +15,10 @@
 | C5 | Re-run the two-click D-01 scenario on a scratch database and compare `a68-check` with the UI. | RES-05; RES-02 reviews | Before A-87 | **Done 25/11**: overlap reproduced, availability matched, incomplete records 0; D-01 remains S2. `a-68-cp05-test.md` §3.3, ISS-10 | Done |
 | C6 | Fix and retest D-01, D-03, and D-04. | D-01: RES-05 with RES-01; D-03/D-04: RES-04 | CP-07 | D-01 fixed and retested 25/11; fix PR merge pending. D-03/D-04 remain open to CP-07. `a-68-cp05-test.md` §3.5, ISS-11 | Partial; D-03/D-04 outstanding |
 
+## C6 evidence update
+
+The locally recorded main includes the D-01 single-run fix via [PR #26](https://github.com/nvdson2005/Parking-Management-System/pull/26) and the D-03 labels fix via [PR #24](https://github.com/nvdson2005/Parking-Management-System/pull/24). RES-04 reports seven passing D-04 development checks on the fix branch. Verify the D-04 merge and candidate retest before closing C6. QA verification and formal PM approval remain open. [D-04 retest record](https://github.com/nvdson2005/Parking-Management-System/blob/12dae51/docs/final/res04/d04-retest.md)
+
 ## Gate controls
 
 - Track conditions as ISS-06–ISS-11; RES-02 allocation and RES-01 approval remain to be recorded per the A-68 gate log. Mark ISS-07 waived by user direction, not completed; authorized gate acceptance is still required because Q23 is unmet.
