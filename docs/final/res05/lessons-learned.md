@@ -6,13 +6,15 @@
 | Owner | Nguyễn Tuấn Thành (RES-05). Review: RES-01; every member adds or disagrees in section 5 |
 | Report section | M4 §4.5 (lessons learned: repeat, change, improve) |
 | Status | Draft 28/11/2026, for review before the report freeze |
-| Retrospective format | **Written. No meeting was held.** Input comes from each member's own written reflection (A-114), see section 1 |
+| A-91 status | Open. The written material below is input for the retrospective. |
 
-## 1. How the retrospective was run
+## 1. A-91 retrospective and closeout
 
-The plan was a 30-minute A-91 meeting with all five members (`docs/m3-m4-final-work-division.md`, F5-05). **No meeting was held.** Instead, the retrospective was done in writing: each member's views come from the reflection that member wrote on their own (A-114, F*-reflection tasks), and RES-05 combined them with the project records into the lessons below. RES-01 must confirm this change. The meeting effort (5 × 0.5 h) was not spent, and the lessons were not discussed as a group. Record this in the W14 weekly log as a deviation from A-91.
+RES-01 chairs the 30-minute A-91 retrospective with all five members, as required by F5-05. Use the written inputs below to prepare. Allow 5 minutes for the timeline, 10 for what worked and what caused rework, 10 to agree on changes, and 5 to assign owners.
 
-### 1.1 Input from each member
+A-91 remains open until RES-01 records the meeting date, duration, all five attendees, agreed lessons and owners. If RES-01 approves a written retrospective instead, record the dated decision in the W14 log and collect explicit input from all five members before closing A-91. Record the outcome in `docs/m3/a-90-planned-vs-actual.md` and hand the agreed lessons to RES-04 for A-113.
+
+### 1.1 Written inputs for discussion
 
 | Member | Own written input | State on 28/11 | Lessons it supports |
 |---|---|---|---|
@@ -86,13 +88,13 @@ Where a lesson rests on a draft that its author has not confirmed, it stays attr
 | L-I8 | Book the client acceptance demo when the baseline is approved, with a fallback date, and treat client availability as a tracked risk | L-C9 |
 | L-I9 | One branch and one PR per task, cut from `main`. Stacked PRs say so in the description. Avoid parallel PRs on the same files (#22/#23, and #31/#32/#35 carried the same F2-04 commit) | Rework in merge order |
 
-## 4. Report-ready summary (M4 §4.5)
+## 4. Draft summary for M4 §4.5
 
-The team would **repeat** three practices: handling every change as a numbered CR with options, agreeing fallback rules before gates, and closing gate conditions with evidence, including independent counts under the client's own scenario. It would **change** two things first. Actual hours were never logged, so the planned-versus-actual effort comparison rests on estimates. The baseline was planned after most of the product had been built with AI assistance, so it measures verification more than construction. Late client rounds, an unprotected baseline freeze and unrecorded meetings were further weaknesses. For a future project, the approach would make tracking a gate criterion, estimate AI-assisted work by its verification effort, schedule client rounds and the acceptance demo as dated activities with lead time, and automate the baseline freeze.
+RES-05 proposes that the team **repeat** three practices: handling every change as a numbered CR with options, agreeing fallback rules before gates, and closing gate conditions with evidence, including independent counts under the client's own scenario. The draft identifies two changes to prioritize. Actual hours were never logged, so the planned-versus-actual effort comparison rests on estimates. The baseline was planned after most of the product had been built with AI assistance, so it measures verification more than construction. Late client rounds, an unprotected baseline freeze and unrecorded meetings were further weaknesses. For a future project, the approach would make tracking a gate criterion, estimate AI-assisted work by its verification effort, schedule client rounds and the acceptance demo as dated activities with lead time, and automate the baseline freeze.
 
-## 5. Member input (fill before freeze)
+## 5. Member input and decision record
 
-Mark each lesson **A** (agree), **D** (disagree, with reason) or **+** (add a lesson). Lessons nobody confirms stay attributed to RES-05 in the report.
+Mark each lesson **A** (agree), **D** (disagree, with reason) or **+** (add a lesson). Record the meeting date, duration, attendance and agreed owners here, or link the dated RES-01 decision approving written input. Attribute unconfirmed lessons to their source. Use the agreed lessons for the final M4 §4.5 summary.
 
 | Member | Agree / disagree | Lessons added | Date |
 |---|---|---|---|
