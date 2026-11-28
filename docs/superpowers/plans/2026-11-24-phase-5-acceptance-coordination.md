@@ -26,7 +26,7 @@ Use this checklist for the remaining work. The [final work division](../../m3-m4
 
 Local `origin/main` at `2c5a587` shows #11 merged and the #17 integration landed via #21. It also records #10, #13, #20, #8 and #18 as merged. #22 landed the SRS/P18 update selected from #22/#23. #24 carried the CR-03 UI work and A-49 retest, #26 the simulator overlap fix, #27 the simulator test timeout fix, #28 the demo and viva plan, and #25 the RES-04 reflection.
 
-1. GitHub confirms #12, #19, #29, and #33–#39 are open. #30 is merged. Use #35 for the consolidated QA evidence and #36 for the SRS follow-up. #38 contains the D-04 fix and retest. #39 overlaps with the weekly log and workshop changes now on #19. Review the overlap before merging either PR. Use the landed #22 revision for SRS/P18 follow-ups.
+1. GitHub records #33 (`ec83c4a`), #34 (`373fe7b`), #35 (`e706043`), #36 (`bb92900`), #37 (`5afe2ad`) and #38 (`4002f37`) as merged into `main`. Use #35 for consolidated QA evidence, #36 for the SRS follow-up and #38 for the D-04 fix and retest. PR #39 is open against `docs/phase-5-res01-delivery`. Check its overlap with #19 and confirm remaining PR dependencies before merging. Use the landed #22 revision for SRS/P18 follow-ups.
 2. Review the remaining QA and owner evidence against the pinned candidate. Keep CP-05 follow-up and any waiver open until the required QA and PM sign-offs are recorded. Carry the dated A-88 client verdict and accepted exceptions into A-89 and A-92.
 3. M3 §3.1 is checked based on merged PRs #18, #24 and #27. Check that each remaining row’s inputs are merged and referenced before marking it complete. After the owner inputs and closure decisions are available, RES-03 performs the shared workbook update in F3-05.
 
