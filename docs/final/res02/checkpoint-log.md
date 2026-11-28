@@ -80,7 +80,7 @@
 - Evidence: `docs/final/res02/a87-dry-run.md`. On pinned SHA `ac57507c` (26/11): 382/382 tests, lint and build pass, 25/25 e2e, AT-01..AT-07 and AT-100 Pass. On 27/11 AT-EX01..AT-EX05 were run on a checkout with the D-04 fix (PR #38), all Pass. Total 13 of 13 Pass. The file has one copy, in `docs/final/res02/`; the `f2-04` copy is dropped. Screenshots: `A87/`, 44 files.
 - Defect: D-04 (known since A-68) showed again on `ac57507c` (`A03-05`). It is fixed in PR #38, merged 27/11, and `AX02-02` shows both labels. No other defect.
 - RES-04 reviewed the file on 27/11 and asked for changes; the file was revised to answer them.
-- Conditions: A, re-pin to the post-merge SHA and rerun `npm test`, lint, build, AT-EX02 and smoke AT-01/AT-02: **open for UI checks**. Fresh 28/11 automated recheck on `d9c6638`: 396/396 tests, lint and build pass. The reported 27/11 rerun remains unverified; B, evidence gaps 1 to 9 open; C, RES-04 re-check and RES-01's demo decision open.
+- Conditions: A, re-pin to the post-merge SHA and rerun `npm test`, lint, build, AT-EX02 and smoke AT-01/AT-02: **closed**. RES-01 confirmed AT-01/AT-02 and AT-EX02 on 28/11. Fresh 28/11 automated recheck on `d9c6638`: 396/396 tests, lint and build pass. The reported 27/11 rerun remains unverified; B, evidence gaps 1 to 9 open; C, RES-04 re-check and RES-01's demo decision open.
 - Entry: Pass with conditions; update to Pass after A to C close.
 
 ## 3. Gates that are still open and who closes them
@@ -105,6 +105,6 @@ RES-03 pastes these on 28/11; do not edit the `.xlsx`. Update the Result column 
 | CP-04 simulator test (A-45) | see PR #8 | 24/11 (PR); 26/11 (gate) | Pass: KB-01 service-layer contract accepted, 100 sessions & 5 exceptions verified, RES-01 reviewed PR #8 | `docs/evidence/A-45/`; this file §2 |
 | CP-05 entry/exit test (A-68) | see `a-68-cp05-test.md` | 24/11 (confirmed 26/11) | Pass with conditions (open: C1 and C4 verification, D-04 confirmation after the merge, C2 waiver) | `docs/m3/a-68-cp05-test.md`, `docs/m3/cp05-follow-up-verification.md` |
 | CP-06 acceptance test review (A-85) | n/a | 26/11 | No client confirmation on file; fallback applied (proceeding with proposed AT list) | `PD-P21 Bộ test nghiệm thu.md` (Drive); this file §2 |
-| CP-07 dry run (A-87 / A-95) | `ac57507c`; AT-EX SHA unverified, see a87 §6 | 26/11; 27/11 | Pass with conditions: 382/382, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (26/11); AT-EX01..AT-EX05 Pass (27/11, D-04 build, PR #38 merged); fresh automated recheck on `d9c6638` passed (F2-04 §1); UI rerun and evidence gaps 1 to 9 open | `docs/final/res02/a87-dry-run.md` |
+| CP-07 dry run (A-87 / A-95) | `ac57507c`; AT-EX SHA unverified, see a87 §6 | 26/11; 27/11 | Pass with conditions: 382/382, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (26/11); AT-EX01..AT-EX05 Pass (27/11, D-04 build, PR #38 merged); fresh automated recheck on `d9c6638` passed (F2-04 §1); UI checks confirmed by RES-01; evidence gaps 1 to 9 open | `docs/final/res02/a87-dry-run.md` |
 
 Report reference: M3 §3.5.

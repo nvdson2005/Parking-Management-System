@@ -24,7 +24,7 @@ The AT-EX results below come from a different build (27/11, with the D-04 fix). 
 
 The checks above ran on `ac57507c`. No automated test result was captured for the historical 27/11 AT-EX checkout.
 
-On 28/11/2026, a fresh worktree pinned to `d9c663805deac7a85fa964d2d3e520427ced7059` (PR #35 with the D-04 fix integrated) passed `npm test` (396/396 in 52 files), `npm run lint`, and `npm run build`. The AT-01/AT-02 and AT-EX02 UI reruns are still open for this SHA.
+On 28/11/2026, a fresh worktree pinned to `d9c663805deac7a85fa964d2d3e520427ced7059` (PR #35 with the D-04 fix integrated) passed `npm test` (396/396 in 52 files), `npm run lint`, and `npm run build`. RES-01 confirmed the AT-01/AT-02 smoke checks and the AT-EX02 UI check for CP-07 condition A on 28/11/2026.
 
 ## 2. Environment for the acceptance run
 
@@ -124,9 +124,9 @@ Owner guide: UI and reservation screens RES-04, simulator and monitoring RES-05,
 
 What is shown. On `ac57507c`: automated checks pass (382/382 tests, build, lint), the HTTP rehearsal passes 25/25, and RES-02 ran AT-01..AT-07 and AT-100 by hand, all Pass (the ones with evidence gaps are marked in section 3). On 27/11, RES-02 ran AT-EX01..AT-EX05 by hand on a build that includes the D-04 fix, all Pass (two with evidence gaps). That is 13 of 13 acceptance scenarios run and 13 Pass. D-04 is visible on the pinned SHA (`A03-05`), so "no defect" does not hold for `ac57507c`; D-04 is fixed in PR #38.
 
-A-88 ran internally on 26/11 because the client was unavailable. CP-08 was not obtained and the CP-06 fallback applies. See [F5-03](../res05/objectives-o1-o2.md). CP-07 conditions A to C remain open.
+A-88 ran internally on 26/11 because the client was unavailable. CP-08 was not obtained and the CP-06 fallback applies. See [F5-03](../res05/objectives-o1-o2.md). CP-07 conditions B and C remain open.
 
-- **A. One build.** Keep the two historical runs separate. The checkpoint log reported a rerun on 27/11, but no pinned checkout or result is available to substantiate it. Close this condition with same-SHA automated checks and the AT-01/AT-02 and AT-EX02 UI checks, or obtain written RES-01 acceptance.
+- **A. One build.** Keep the two historical runs separate. The checkpoint log reported a rerun on 27/11, but no pinned checkout or result is available to substantiate it. Condition A is closed based on the fresh automated recheck above and RES-01 confirmation of the AT-01/AT-02 and AT-EX02 UI checks on 28/11/2026.
 - **B. Evidence gaps** 1 to 9 below closed or accepted.
 - **C. Independent review.** RES-04 reviewed this file on 27/11 and asked for changes; this revision answers them. RES-04 re-checks, and RES-01 takes the demo decision.
 
@@ -151,6 +151,6 @@ The screenshots do not identify the 27/11 checkout. The historical SHA and autom
 | A-87 / A-95 dry run (AT-01..AT-07, AT-100) | `ac57507c` | 26/11/2026 | Pass with conditions: 382/382 tests, 25/25 e2e, AT-01..AT-07 and AT-100 Pass (AT-100: 100/100 sessions, 69 exits, 31 inside, free A143/B138/C18); evidence gaps 1 to 6 open; D-04 seen in `A03-05` (fixed in PR #38, not on this SHA) | this file and `A87/` screenshots |
 | A-87 AT-EX01..AT-EX05 | Unverified historical checkout | 27/11/2026 | Pass with conditions: 5 of 5 Pass; evidence gaps 7 to 9 open; D-04 fix visible in `AX02-02` | this file §3 and `A87/AX*` screenshots |
 
-| Condition A automated recheck | `d9c663805deac7a85fa964d2d3e520427ced7059` | 28/11/2026 | 396/396 tests, lint and production build pass. UI checks open | §1 |
+| Condition A automated recheck | `d9c663805deac7a85fa964d2d3e520427ced7059` | 28/11/2026 | 396/396 tests, lint and production build pass. AT-01/AT-02 and AT-EX02 UI checks confirmed by RES-01 | §1 |
 
 Report reference: M3 §3.5, M4 §4.1.
