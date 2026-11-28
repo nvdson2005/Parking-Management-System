@@ -6,13 +6,13 @@
 | Owner | Nguyễn Tuấn Thành (RES-05). Review: RES-01; every member adds or disagrees in section 5 |
 | Report section | M4 §4.5 (lessons learned: repeat, change, improve) |
 | Status | Draft 28/11/2026, for review before the report freeze |
-| A-91 status | Open. The written material below is input for the retrospective. |
+| A-91 status | Written format approved by RES-01 on 28 November 2026. Member confirmations are in progress. |
 
 ## 1. A-91 retrospective and closeout
 
-RES-01 chairs the 30-minute A-91 retrospective with all five members, as required by F5-05. Use the written inputs below to prepare. Allow 5 minutes for the timeline, 10 for what worked and what caused rework, 10 to agree on changes, and 5 to assign owners.
+RES-01 approved the written format on 28 November 2026 in the PR #40 review conversation, replacing the planned 30-minute meeting. Record the decision in the W14 log. Each member reviews their draft entry in section 5 and confirms or corrects it in their own words.
 
-A-91 remains open until RES-01 records the meeting date, duration, all five attendees, agreed lessons and owners. If RES-01 approves a written retrospective instead, record the dated decision in the W14 log and collect explicit input from all five members before closing A-91. Record the outcome in `docs/m3/a-90-planned-vs-actual.md` and hand the agreed lessons to RES-04 for A-113.
+A-91 remains open until all five members' responses are recorded. RES-01 records the agreed lessons, action owners and any unresolved disagreements in `docs/m3/a-90-planned-vs-actual.md`, then hands the agreed lessons to RES-04 for A-113.
 
 ### 1.1 Written inputs for discussion
 
@@ -94,12 +94,12 @@ RES-05 proposes that the team **repeat** three practices: handling every change 
 
 ## 5. Member input and decision record
 
-Mark each lesson **A** (agree), **D** (disagree, with reason) or **+** (add a lesson). Record the meeting date, duration, attendance and agreed owners here, or link the dated RES-01 decision approving written input. Attribute unconfirmed lessons to their source. Use the agreed lessons for the final M4 §4.5 summary.
+The entries summarize existing reflections and project records. Each member can confirm or correct their entry and add any lesson IDs they agree or disagree with.
 
-| Member | Agree / disagree | Lessons added | Date |
-|---|---|---|---|
-| RES-01 Nguyễn Võ Đức Sơn | ___ | ___ | ___ |
-| RES-02 Đào Xuân Sơn | ___ | ___ | ___ |
-| RES-03 Nguyễn Phạm Mạnh Dũng | ___ | ___ | ___ |
-| RES-04 Phạm Duy Quý | ___ | ___ | ___ |
-| RES-05 Nguyễn Tuấn Thành | A (author) | — | 28/11 |
+| Member | Repeat | Change | Proposed improvement | Confirmation |
+|---|---|---|---|---|
+| RES-01 Nguyễn Võ Đức Sơn | Agree on fallback rules before checkpoints, as with Q22 before M-03. | Compare remaining work with available hours earlier. Missing actuals made the effort gap hard to measure. | Each member logs actual hours when finishing a task. RES-01 checks remaining effort against capacity at every weekly checkpoint. | Confirmed 28 November 2026 |
+| RES-02 Đào Xuân Sơn | Track checkpoint conditions individually, as with CP-05. | Review and test evidence was split across locations. | The QA owner links each condition to its evidence and records its status on the day of the checkpoint. | Pending member confirmation |
+| RES-03 Nguyễn Phạm Mạnh Dũng | Give each deliverable a named owner and use activity IDs to trace changes. | V1.0 was planned around an existing MVP, and a baseline file was later overwritten. | The planning owner records what already exists before estimating, then tags and verifies the baseline at approval. | Pending member confirmation |
+| RES-04 Phạm Duy Quý | Use the client's agreed scenario for performance checks, as in A-49. | A-49 found missing availability information late in verification. | The UI owner checks affected screens against the revised SRS whenever a requirements change is approved. | Pending member confirmation |
+| RES-05 Nguyễn Tuấn Thành | Compare simulator results with an independent count and retain the evidence. | Initial dev-server runs complicated diagnosis of simulator defects. | The test owner uses a production build for acceptance timings and records the tested commit SHA. | Pending confirmation of this entry |
