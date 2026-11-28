@@ -6,7 +6,7 @@
 | Owner | Nguyễn Tuấn Thành (RES-05). Upload: Nguyễn Võ Đức Sơn (RES-01) only |
 | Report section | SUB (submission package) |
 | Requirement | "Submission Requirements", `resources/CO3011_Assignment_2026.pdf` page 7 |
-| State checked | `origin/main` at `663cc61` (merge of PR #12) and open PRs, 28/11/2026 |
+| State checked | `origin/main` at `5afe2ad` (merge of PR #37) and open PRs, 28/11/2026 |
 | Status | Draft 27/11. Items marked "pending #N" become final when that PR merges. RES-05 does **not** upload anything |
 
 This file lists what goes into the submission and where each item lives. It does not copy content. Links are relative to this file unless they are full URLs.
@@ -18,9 +18,9 @@ This file lists what goes into the submission and where each item lives. It does
 | S1 | Final project-management report in PDF | Final report PDF (A-92, and the M3 report A-108 if submitted separately) | Written in the final phase from the section files in `docs/final/` | Not started (deferred, division §6) |
 | S2 | Working link to the source-code repository | Repository URL plus the submission SHA | Section 2 | Repo ready. SHA not chosen yet (B1) |
 | S3 | Clear instructions for running and demonstrating | P13 install and demo guide; README | Section 3 | P13 on `main` (#12 merged 28/11) |
-| S4 | Baseline V1.0 and approved revised baseline(s) kept for comparison | V1.0 freeze record, V2.0 record and generated tables | Section 4 | V1.0 present, tag not on remote (B2). V2.0 not approved yet (B3) |
+| S4 | Baseline V1.0 and approved revised baseline(s) kept for comparison | V1.0 freeze record, V2.0 record and generated tables | Section 4 | V1.0 present, tag not on remote (B2). V2.0 endorsed by RES-01 on 27/11 (pending #39); recovery schedule not approved (B3) |
 | S5 | Client Interaction Log and weekly project logs included or linked | Log index | Section 5 | Rounds 1–3 on `main`. Phase 5 log and final weekly log pending #39 |
-| S6 | Major diagrams, estimates, schedules, risk registers and traceability readable | Diagram PNGs, generated tables, risk register, P24 matrix | Section 6 | Diagrams and tables present. Final risk register pending #29, P24 pending #37 |
+| S6 | Major diagrams, estimates, schedules, risk registers and traceability readable | Diagram PNGs, generated tables, risk register, P24 matrix | Section 6 | Present on `main` (#29 and #37 merged 28/11) |
 | S7 | AI tools declared, with the tasks they were used for (Use of Generative AI) | AI declaration in the final report | Workbook sheet **AI Usage Log**; M2 report AI table (`docs/m2-report/report.src.md`) | Source present. Must be carried into the final report |
 | S8 | Exact submission instructions | Format and deadline on the LMS | LMS | RES-01 to confirm (division §1, 29/11) |
 
@@ -30,7 +30,8 @@ This file lists what goes into the submission and where each item lives. It does
 |---|---|
 | URL | https://github.com/nvdson2005/Parking-Management-System |
 | Branch | `main` |
-| Last pinned SHA | `ac57507c9c2924d54ed35e3dac31e327deac4573`, pinned for the A-87 dry run (`docs/final/res02/a87-dry-run.md`, pending #35). 382/382 tests, build and lint passed on it |
+| Last pinned SHA | `ac57507c9c2924d54ed35e3dac31e327deac4573`, pinned for the A-87 dry run (`docs/final/res02/a87-dry-run.md`). 382/382 tests, build and lint passed on it |
+| Latest checked SHA | `d9c663805deac7a85fa964d2d3e520427ced7059` (PR #35 with the D-04 fix): 396/396 tests, lint and build passed on 28/11, AT-01/AT-02 and AT-EX02 UI checks confirmed by RES-01 (A-87 condition A) |
 | Submission SHA | ___ (RES-01 fills in after the last merge on 28/11) |
 | Visibility | Check that the lecturer can open the URL without being added as a collaborator, or add the lecturer. Test from a browser that is not logged in |
 
@@ -70,9 +71,9 @@ P13 acceptance criterion (PD-P13): someone who did not write it can run the demo
 | Item | Where |
 |---|---|
 | V2.0 record (reason CR-01..CR-03, method, figures) | [`docs/m3/baseline-v2.0.md`](../../m3/baseline-v2.0.md) |
-| Plan source and generated tables | `docs/m2-report/data/plan-v2.0.mjs`, `docs/m2-report/generated-v2/` (regenerated in pending #29) |
+| Plan source and generated tables | `docs/m2-report/data/plan-v2.0.mjs`, `docs/m2-report/generated-v2/` (regenerated, #29 merged 28/11) |
 | Regenerate command | `node docs/m2-report/scripts/schedule-v2.mjs` |
-| Approval (F1-03) | `docs/final/res01/baseline-v2-approval.md`, not created yet |
+| Approval (F1-03) | `docs/final/res01/baseline-v2-approval.md` (pending #39): RES-01 endorsed V2.0 on 27/11; recovery schedule approval pending |
 | Products changed in V2.0 | `docs/m2-report/v2.0/products/` (SRS v2.1, P18 v1.1) |
 
 Comparison command for the lecturer (works once B2 is fixed):
@@ -97,8 +98,8 @@ On 27/11 this lists one file, `products/CO3011_M2_KienTrucAPI_v0.1.md` (P18), al
 | Planned vs actual draft (A-90) | [`docs/m3/a-90-planned-vs-actual.md`](../../m3/a-90-planned-vs-actual.md) | On `main`. Final comparison F3-04 not created yet |
 | Change-impact analysis and decision record (Task 3.6) | [`docs/m3/change-impact-analysis.md`](../../m3/change-impact-analysis.md), [`docs/m3/decision-record.md`](../../m3/decision-record.md) | On `main` |
 | Workshop and M-03 decision (F1-02) | `docs/final/res01/m03-decision-and-workshop.md` | pending #39 |
-| Risk register | [`docs/m3/risk-register.md`](../../m3/risk-register.md); final review `docs/final/res03/risk-register-final.md` | On `main`; final pending #29 |
-| Checkpoint gate log CP-01..CP-07 (F2-03) | `docs/final/res02/checkpoint-log.md` | pending #35 (file currently named `checkpoint-log.md.md`, see B6) |
+| Risk register | [`docs/m3/risk-register.md`](../../m3/risk-register.md); final review `docs/final/res03/risk-register-final.md` | On `main` (#29 merged 28/11) |
+| Checkpoint gate log CP-01..CP-07 (F2-03) | [`docs/final/res02/checkpoint-log.md`](../res02/checkpoint-log.md) | On `main` (#35 merged 28/11) |
 | PR contribution ledger | `docs/m3/pr-contribution-ledger.md` | pending #39 |
 | Commit and PR history | https://github.com/nvdson2005/Parking-Management-System/commits/main, `/pulls?q=is%3Apr` | Live |
 
@@ -108,9 +109,9 @@ On 27/11 this lists one file, `products/CO3011_M2_KienTrucAPI_v0.1.md` (P18), al
 |---|---|---|
 | PBS, PFD, activity network, Gantt, critical path, risk matrix, ERD (PNG and `.drawio`) | `docs/m2-report/diagrams/` | On `main`. Check each PNG is legible at the size used in the PDF |
 | Estimates, schedule, CPM, allocation, risks (V1.0 / V2.0) | `docs/m2-report/generated/`, `docs/m2-report/generated-v2/` | On `main` |
-| Traceability matrix P24 (F4-03) | `docs/final/res04/traceability-matrix.md` | pending #37 |
-| Quality evidence | `docs/m3/quality-evidence-*.md`, `docs/m3/a-68-cp05-test.md`, `docs/m3/a-31-auth-test.md`, `docs/final/res04/a49-retest.md`, `docs/final/res02/` | Partly pending #35 |
-| Individual reflections (A-114) | RES-01 `docs/m3/a-114-reflection-draft.md`; RES-02 `docs/final/res02/a114-reflection.md`; RES-03 `docs/m3/a-114-reflection-draft-res03.md`; RES-04 [`docs/final/res04/a114-reflection.md`](../res04/a114-reflection.md); RES-05 `docs/final/res05/a114-reflection.md` | RES-04 on `main`; RES-02 pending #35 (named `.md.md`); RES-03 on `main` (#12); RES-05 pending #34; RES-01 update pending #39 |
+| Traceability matrix P24 (F4-03) | [`docs/final/res04/traceability-matrix.md`](../res04/traceability-matrix.md) | On `main` (#37 merged 28/11) |
+| Quality evidence | `docs/m3/quality-evidence-*.md`, `docs/m3/a-68-cp05-test.md`, `docs/m3/a-31-auth-test.md`, `docs/final/res04/a49-retest.md`, `docs/final/res02/` | On `main` |
+| Individual reflections (A-114) | RES-01 `docs/m3/a-114-reflection-draft.md`; RES-02 `docs/final/res02/a114-reflection.md`; RES-03 `docs/m3/a-114-reflection-draft-res03.md`; RES-04 [`docs/final/res04/a114-reflection.md`](../res04/a114-reflection.md); RES-05 `docs/final/res05/a114-reflection.md` | RES-04 on `main`; RES-02 on `main` (#35, still marked draft by its author); RES-03 on `main` (#12); RES-05 on `main` (#34); RES-01 update pending #39 |
 
 ## 7. Blockers before upload
 
@@ -118,10 +119,10 @@ On 27/11 this lists one file, `products/CO3011_M2_KienTrucAPI_v0.1.md` (P18), al
 |---|---|---|---|
 | B1 | Choose the submission SHA after the last merge and rerun test, lint and build on it (section 2) | RES-01 | 28/11 |
 | B2 | Tag `baseline-v1.0` exists only on RES-03's machine (`git ls-remote --tags origin` is empty on 27/11). Push it: `git tag -a baseline-v1.0 061120c9ab26 -m "Project Baseline V1.0"` then `git push origin baseline-v1.0`. Without it the check commands in `baseline-v1.0-freeze.md` and section 4 fail on the lecturer's clone | RES-03, agreed by RES-01 | 28/11 |
-| B3 | Baseline V2.0 not approved (F1-03 after F3-02) | RES-03, then RES-01 | 28/11 |
+| B3 | Baseline V2.0 endorsed by RES-01 on 27/11 (pending #39). Recovery schedule still to be approved after RES-03 reconciles remaining work | RES-03, then RES-01 | 28/11 |
 | B4 | ~~Merge #12~~ Done: #12 merged 28/11 (P13, actuals, A-89, A-112, RES-03 reflection) | RES-01 | Closed |
-| B5 | Merge #39 (final weekly log, phase 5 client log, M-03 decision), #37 (P24), #29 (risk register final, V2.0 regenerate), #34 (RES-05 reflection) | RES-01 | 28/11 |
-| B6 | #35 contains three RES-02 files named `*.md.md` (`a114-reflection`, `checkpoint-log`, `objectives-o3-o5`) and is stacked on the F2-04 commit of #31/#32 (`5dfa141`), with the A87 screenshots under `docs/final/res02/A87/` instead of `docs/final/res02/F2-04/A87/`. Rename the files and merge one of the three PRs so the paths in this file and the report resolve | RES-02 | 28/11 |
+| B5 | Merge #39 (final weekly log, phase 5 client log, M-03 decision, V2.0 approval). #29, #34, #37 merged 28/11 | RES-01 | 28/11 |
+| B6 | ~~RES-02 file names and PR choice~~ Done: #35 merged 28/11 with the files renamed (`a114-reflection.md`, `checkpoint-log.md`, `objectives-o3-o5.md`). #31 and #32 carry the same F2-04 commit and should be closed without merging | RES-02 | Closed (close #31, #32) |
 | B7 | P13 clean-clone check by a non-author (section 3) | Any member except RES-03 | 28/11 |
 | B8 | Final report PDF written and AI declaration included (S1, S7) | Final phase (A-92) | 29/11 |
 | B9 | Confirm LMS instructions: file format, naming, whether logs are uploaded or linked | RES-01 | 28/11 |
