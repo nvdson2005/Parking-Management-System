@@ -17,17 +17,20 @@ Built with Next.js 15 (App Router), React 19, Prisma + SQLite, and Zod.
 ## Setup
 
 ```bash
-npm i
-cp .env.example .env
-npx prisma migrate reset --force   # applies migrations and seeds demo data
+npm ci
+cp .env.example .env              # fresh checkout
+npx prisma migrate deploy
+npx prisma generate
+npm run db:seed
 npm run dev
 ```
 
 The app runs at http://localhost:3000.
 
 `npx prisma migrate reset --force` runs the migrations **and** the seed script
-(`prisma/seed.ts`), creating the pilot lot (zones A, B, C), tariffs, and all
-demo accounts. Re-run it any time to return to a clean demo state.
+(`prisma/seed.ts`) after erasing the configured database. Use it only to reset
+a disposable demo database. The fresh setup above creates the pilot lot
+(zones A, B, C), tariffs, and demo accounts.
 
 After pulling changes that add a migration (for example
 `prisma/migrations/20261123100000_a65_indexes`), apply it without losing your
@@ -67,6 +70,9 @@ so the Prisma client matches the checked-out schema. After switching to a branch
 with new migrations, a direct `npx vitest run …` or `npx next build` uses the old
 client and fails with errors such as `Property 'entryGate' does not exist`: run
 `npx prisma generate` first.
+
+The production build fetches Geist and Geist Mono from Google Fonts. Ensure
+`fonts.googleapis.com` is reachable when building.
 
 Some simulator tests (`tests/simulator.test.ts`, large `simulateLive` runs) can
 exceed vitest's default 5 s timeout on slower machines. If only those fail,
