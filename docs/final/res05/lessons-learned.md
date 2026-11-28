@@ -17,7 +17,7 @@ The plan was a 30-minute A-91 meeting with all five members (`docs/m3-m4-final-w
 | Member | Own written input | State on 28/11 | Lessons it supports |
 |---|---|---|---|
 | RES-01 Nguyễn Võ Đức Sơn | `docs/m3/a-114-reflection-draft.md` | Draft on `main`; update for W14 pending #39 | L-C1 (log effort on the day), L-C8 (compare remaining work with hours), L-R2 |
-| RES-02 Đào Xuân Sơn | `docs/final/res02/a114-reflection.md` | Draft, pending #35. Marked by RES-02 as still to be rewritten in his own words | L-R3 (CP-05 conditions), L-C7 (review and test records kept on the Drive, not in the repo) |
+| RES-02 Đào Xuân Sơn | `docs/final/res02/a114-reflection.md` | On `main` (#35 merged 28/11), still marked by RES-02 as still to be rewritten in his own words | L-R3 (CP-05 conditions), L-C7 (review and test records kept on the Drive, not in the repo) |
 | RES-03 Nguyễn Phạm Mạnh Dũng | `docs/m3/a-114-reflection-draft-res03.md` | Pending #12. The reflection part is still commented out in the file | L-C2, L-C4, L-C8, L-R5 |
 | RES-04 Phạm Duy Quý | `docs/final/res04/a114-reflection.md` | On `main` | L-C5, L-R1 (CR-03), L-R4 (AT-100 timing) |
 | RES-05 Nguyễn Tuấn Thành | `docs/final/res05/a114-reflection.md` | On `main` | L-C6, L-R3, L-R4, L-R6, L-I9 |
@@ -25,10 +25,10 @@ The plan was a 30-minute A-91 meeting with all five members (`docs/m3-m4-final-w
 Where a lesson rests on a draft that its author has not confirmed, it stays attributed to that draft until the author ticks it in section 5. Lessons not listed against a member come from the project records:
 
 - the decision record and change-impact analysis (`docs/m3/decision-record.md`, `docs/m3/change-impact-analysis.md`)
-- the risk register and the final risk review (`docs/m3/risk-register.md`; `docs/final/res03/risk-register-final.md`, pending #29)
+- the risk register and the final risk review (`docs/m3/risk-register.md`; `docs/final/res03/risk-register-final.md`)
 - the weekly log and the M-03 record (`docs/final/res01/weekly-log-final.md`, `docs/final/res01/m03-decision-and-workshop.md`, pending #39)
-- planned against actual (`docs/m3/a-90-planned-vs-actual.md`; `docs/m3/actuals.md`, pending #12)
-- the A-68/CP-05 record, the A-87 dry run (pending #35) and the A-88 internal demo (`docs/final/res05/objectives-o1-o2.md`)
+- planned against actual (`docs/m3/a-90-planned-vs-actual.md`; `docs/m3/actuals.md`)
+- the A-68/CP-05 record, the A-87 dry run (`docs/final/res02/a87-dry-run.md`) and the A-88 internal demo (`docs/final/res05/objectives-o1-o2.md`)
 
 ## 2. What happened, in brief
 
@@ -41,8 +41,9 @@ Where a lesson rests on a draft that its author has not confirmed, it stays attr
 | 23/11 | Client round 5 answers (Q36–Q46), three days before the dry run | Client interaction log, phase 5 |
 | 24/11 | M-03 gate: Q22 triggered by its rule. RES-01 kept the A-72 and A-76 checks. CP-05 passed with conditions C1–C6 | F1-02; `docs/m3/a-68-cp05-test.md` |
 | 24–27/11 | A-49 found FR-19..21 missing on screen (CR-03). A-68 found D-01..D-06. Fixes merged (#24, #26, #38) | `docs/final/res04/a49-retest.md`; risk register final |
-| 26/11 | A-87 dry run on `ac57507`: 382/382 tests, AT-01..AT-07 and AT-100 pass | `docs/final/res02/a87-dry-run.md` (pending #35) |
+| 26/11 | A-87 dry run on `ac57507`: 382/382 tests, AT-01..AT-07 and AT-100 pass | `docs/final/res02/a87-dry-run.md` |
 | 26/11 | A-88 run as an internal demo because the client was not available. Client confirmation (CP-08) not obtained | `docs/final/res05/objectives-o1-o2.md` |
+| 28/11 | A-87 condition A closed: recheck on `d9c6638` (396/396 tests, lint, build) and RES-01's UI check. Conditions B (evidence gaps) and C (re-review) still open | `docs/final/res02/a87-dry-run.md` |
 
 ## 3. Lessons
 
