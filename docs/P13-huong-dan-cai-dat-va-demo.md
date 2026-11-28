@@ -19,7 +19,7 @@ Tài liệu đi kèm: [README](../README.md) (lệnh, tài khoản, bảng API),
 | Node.js | ≥ 20 | Đã thử với 22.17.1 |
 | npm | Đi kèm Node | |
 | Git | Bất kỳ bản nào | Để tải mã nguồn |
-| Trình duyệt | Chrome, Edge hoặc Firefox bản mới | Nên mở 2-3 cửa sổ riêng (hoặc profile riêng) cho từng vai trò |
+| Trình duyệt | Chrome, Edge hoặc Firefox bản mới | Cần 3 hồ sơ trình duyệt độc lập hoặc 3 trình duyệt khác nhau để đăng nhập đồng thời |
 | Mạng | Chỉ cần khi cài đặt (`npm i`) | Ứng dụng chạy hoàn toàn trên máy, không cần internet, không cần thiết bị thật (QR, RFID và biển số được mô phỏng) |
 
 Không cần cài CSDL riêng: hệ thống dùng SQLite, CSDL là một file `prisma/dev.db` tự tạo khi chạy lệnh ở mục 2.
@@ -54,7 +54,7 @@ Mỗi Customer có sẵn một xe máy. Customer số lẻ thuộc nhóm Sinh vi
 
 ## 4. Kịch bản demo (khoảng 20 phút)
 
-Chuẩn bị: chạy `npm run db:reset`, rồi mở 3 cửa sổ trình duyệt riêng, đăng nhập lần lượt **Customer** (`customer01`), **Staff** (`staff1`) và **Manager** (`manager1`). Đặt cửa sổ Staff cạnh cửa sổ Customer để thấy số chỗ trống cập nhật trực tiếp.
+Chuẩn bị: chạy `npm run db:reset`, rồi dùng 3 hồ sơ trình duyệt độc lập (hoặc 3 trình duyệt khác nhau), mỗi hồ sơ đăng nhập một vai trò **Customer** (`customer01`), **Staff** (`staff1`) và **Manager** (`manager1`). Các cửa sổ trong cùng một hồ sơ dùng chung cookie đăng nhập. Đặt cửa sổ Staff cạnh cửa sổ Customer để thấy số chỗ trống cập nhật trực tiếp.
 
 | # | Vai trò | Thao tác | Kết quả mong đợi | Yêu cầu |
 |---|---|---|---|---|
@@ -66,16 +66,16 @@ Chuẩn bị: chạy `npm run db:reset`, rồi mở 3 cửa sổ trình duyệt 
 | 6 | Staff | `/staff/entry`: chọn biển số, nhập một biển mới (ví dụ `51F-999.99`), ô tô, khu C | Mở lượt gửi cho xe khách vãng lai | Q30 |
 | 7 | Staff | `/staff/exit`: tìm xe máy ở bước 5, xem phí, xác nhận thanh toán | Hiện phí; lượt đóng; Customer thấy giao dịch ở `/customer/history` | Q33, O4 |
 | 8 | Manager | `/manager/simulator`: chạy lần lượt 5 ngoại lệ EX-01 đến EX-05 | Mỗi ngoại lệ trả đúng kết quả (hết chỗ, lệch biển, mất thẻ, lượt đã mở, bãi tạm ngưng). EX-02 và EX-03 xử lý tiếp ở `/staff/exit` theo hướng dẫn hiện ra | Q27, O4 |
-| 9 | Manager | `/manager/lots`: tạm ngưng bãi | Huy hiệu "Tạm ngưng" hiện trên màn hình chỗ trống; xe mới bị từ chối; xe đang gửi vẫn ra được; đặt chỗ đang chờ bị hủy và **Customer nhận thông báo ở chuông** | Q32 |
+| 9 | Customer, Staff, Manager | Customer tạo một đặt chỗ mới ở khu A và giữ trạng thái PENDING. Staff kiểm tra còn một lượt gửi đang mở (dùng xe khách ở bước 6 nếu lượt còn mở, hoặc cho một xe khách mới vào khu C). Sau đó Manager tạm ngưng bãi ở `/manager/lots`. Customer mở chuông để kiểm tra thông báo, Staff thử cho xe mới vào rồi cho xe đang gửi ra | Huy hiệu "Tạm ngưng" hiện trên màn hình chỗ trống; xe mới bị từ chối; xe đang gửi vẫn ra được; đặt chỗ đang chờ bị hủy và **Customer nhận thông báo ở chuông** | Q32 |
 | 10 | Manager | Kích hoạt lại bãi; `/manager/tariffs`: sửa giá | Bãi hoạt động lại; giá mới áp dụng cho lượt ra sau đó | Q14, Q16 |
 | 11 | Manager | `/manager/simulator`: chạy "live" với ít nhất 100 lượt, rồi "history" vài ngày | Bộ mô phỏng báo số lượt vào, ra và bị từ chối; mọi lượt có bản ghi đầy đủ | SC-07, O2 |
 | 12 | Manager | `/manager/reports`: chọn khoảng ngày | 4 chỉ số: tỷ lệ sử dụng theo giờ (có chọn từng khu và loại xe), 3 giờ cao điểm, doanh thu theo ngày, tỷ lệ không đến | Q28, O3 |
-| 13 | Manager | `/manager/access-log` | Thấy LOGIN, VIEW_FULL_PLATE (từ bước 4), PURGE. Dòng PURGE không có người thực hiện là lần xóa **tự động** | Q35, CN4 |
+| 13 | Manager | `/manager/access-log` | Thấy LOGIN, VIEW_FULL_PLATE và dòng PURGE mới không có người thực hiện, với số lượt đã che biển lớn hơn 0. Nếu đã đặt lại CSDL sau bước 4, tra lại biển số đầy đủ ở `/staff/lookup` để tạo dòng VIEW_FULL_PLATE | Q35, CN4 |
 | 14 | Bất kỳ | Bấm nút đổi ngôn ngữ VI ↔ EN | Mọi trang đổi ngôn ngữ | Q8 |
 
 Lưu ý:
-- Sau EX-01 (hết chỗ), khu bị lấp đầy. Màn hình mô phỏng sẽ nhắc chạy `npm run db:reset` trước kịch bản tiếp theo.
-- Lần xóa tự động đầu tiên chạy khoảng 60 giây sau khi server khởi động. Dữ liệu demo cần có lượt cũ hơn 12 tháng mới thấy biển số bị che; chạy "history" ở bước 11 với số ngày lớn sẽ tạo dữ liệu như vậy.
+- Sau EX-01 (hết chỗ), chạy `npm run db:reset` theo nhắc nhở của bộ mô phỏng rồi đăng nhập lại cả ba vai trò trước khi tiếp tục. Lệnh này xóa lượt gửi, đặt chỗ và nhật ký của các bước trước.
+- Mỗi lần chạy "history" ở bước 11 (1–60 ngày) đều tạo thêm 20 lượt đã đóng từ khoảng 13 tháng trước. Sau khi tạo dữ liệu, dừng server và chạy lại `npm run dev`, giữ nguyên CSDL. Chờ khoảng 60 giây để server chạy lần xóa tự động đầu tiên, rồi kiểm tra bước 13.
 
 ## 5. Kiểm tra tự động (tùy chọn)
 

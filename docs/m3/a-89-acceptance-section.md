@@ -25,7 +25,7 @@
 | AT | Nội dung | Mục tiêu | Kết quả đến 26/11 | Bằng chứng | Demo A-88 (27/11) |
 |---|---|---|---|---|---|
 | AT-100 | Kịch bản 100 lượt | O1, O2 | **Đạt.** 100 lượt vào, 69 lượt ra, 0 bị từ chối; chỗ trống A 143, B 138, C 18 khớp số đếm tay (7 / 12 / 12 xe đang gửi) và CSDL. RES-02 chưa ký xác nhận số đếm tay (ISS-06) | A-68 T05, T11, ISS-06; A-87 chạy kỹ thuật | |
-| AT-01 | Xe máy: đặt chỗ, vào bằng QR, ra, thanh toán | O1, O2 | **Đạt phần vào, ra, thanh toán.** Vào bằng QR với 3 thao tác, ≤ 3 s; ra và thanh toán mô phỏng đúng phí. Bước đặt chỗ chưa chạy cùng luồng này; đặt chỗ kiểm riêng ở AT-05 | A-68 T13, T08; A-79 test hợp đồng | |
+| AT-01 | Xe máy: đặt chỗ, vào bằng QR, ra, thanh toán | O1, O2 | **Đạt một phần.** T13 xác nhận vào bằng QR với 3 thao tác, ≤ 3 s; lượt này còn mở. T08 xác nhận ra bằng biển số khi mất thẻ và tính đúng phí ở một lượt khác. Đặt chỗ được kiểm riêng ở AT-05. Cần chạy đầy đủ luồng đặt chỗ, vào bằng QR, ra và thanh toán trên cùng một lượt | A-68 T13, T08; A-79 test hợp đồng | |
 | AT-02 | Ô tô khách vãng lai theo biển số | O2 | **Đạt** | A-68 (vào/ra theo biển số), A-87 chạy kỹ thuật | |
 | AT-03 | Quản lý bãi, khu vực, sức chứa, bảng giá | O5 | **Đạt.** Staff nhận 403 ở cả 7 yêu cầu quản lý bãi đã thử; giờ hoạt động (Q37) chỉ để hiển thị | A-61 (`0faa6cb`); test Q37 (PR #17, #21) | |
 | AT-04 | RBAC, che biển số, nhật ký truy cập | O5 | **Đạt.** Customer bị từ chối (403) ở mọi route vào/ra; Staff thấy biển số đã che với lượt đã đóng (Q46); lọc nhật ký theo tài khoản, thao tác, thời gian (FR-44) | A-31, T12; test Q46, FR-44 | |
@@ -33,7 +33,7 @@
 | AT-06 | Thanh toán mô phỏng, 6 tổ hợp phí | O4 | **Đạt một phần.** Trên `main`, `tests/fees.test.ts` kiểm 4 tổ hợp loại xe × nhóm phí; test đủ 6 tổ hợp nằm ở `26677dc` (nhánh `test/A-76-payment`, chưa có PR). Một lượt ra (xe máy, sinh viên) thu 2.000 ₫ đúng bảng | `tests/fees.test.ts`, `26677dc` (A-76); A-68 T08 | |
 | AT-07 | Báo cáo 4 chỉ số | O3 | **Đạt trên dữ liệu mẫu.** 4 chỉ số khớp số tính tay; tỷ lệ sử dụng theo khu vực × loại xe (Q28) | A-77 (`docs/m3/A-77/`) | |
 | AT-EX01 | Khu đầy, từ chối xe vào | O4 | **Đạt.** `ZONE_FULL`, chỗ trống không âm | A-67 SC-02, A-68 T06 | |
-| AT-EX02 | Biển số không khớp, cần xác nhận thủ công | O4 | **Đạt.** Có cảnh báo; nút xác nhận chỉ bật sau khi tích "Xác nhận thủ công". Lỗi hiển thị D-04 còn mở | A-68 T07 | |
+| AT-EX02 | Biển số không khớp, cần xác nhận thủ công | O4 | **Đạt một phần.** Có cảnh báo; nút xác nhận chỉ bật sau khi tích "Xác nhận thủ công". D-04 còn mở: trường biển số quan sát hiện biển số lúc vào, nên chưa hiển thị đúng cả hai biển số | A-68 T07 | |
 | AT-EX03 | Mất thẻ, tra theo biển số | O4 | **Đạt** | A-68 T08 | |
 | AT-EX04 | Không cho mở lượt thứ hai cùng xe | O4 | **Đạt** | A-67 SC-05, A-68 T09 | |
 | AT-EX05 | Bãi tạm ngưng: từ chối xe vào, vẫn cho ra | O4 | **Đạt** | A-68 T10 | |
@@ -47,8 +47,8 @@
 | O2 | Thời gian ghi nhận mỗi lượt | ≤ 3 s | Chậm nhất 153 ms (A-49); 14-31 ms mỗi yêu cầu vào/ra trên bản build production (A-68 C3) | Đạt |
 | O1 | Thời gian hiển thị chỗ trống | ≤ 5 s | Chậm nhất 155 ms (A-49) | Đạt |
 | O3 | 4 chỉ số khớp số tính tay | Khớp | Khớp trên dữ liệu mẫu (A-77) | Đạt |
-| O4 | Ngoại lệ xử lý đúng; phí đúng | 5/5; 6/6 | 5/5 ngoại lệ (AT-EX01..05); phí: 4/6 tổ hợp có test trên `main`, 6/6 trên nhánh chưa merge | Ngoại lệ đạt; phí **đạt một phần** |
-| O5 | P20 mục 4: 100% yêu cầu Must có ≥ 1 test đạt; CP-07: 100% AT Must đạt | 100% | Chưa đủ: ma trận truy vết F4-03 (RES-04) và A-87 (CP-07) chưa xong; AT-05 chưa chạy thủ công đủ; phí 4/6 trên `main` | **Chưa xác nhận** |
+| O4 | Ngoại lệ xử lý đúng; phí đúng | 5/5; 6/6 | 4/5 ngoại lệ đạt đầy đủ; AT-EX02 đạt một phần do D-04. Phí: 4/6 tổ hợp có test trên `main`, 6/6 trên nhánh chưa merge | **Đạt một phần** ở cả hai thước đo |
+| O5 | P20 mục 4: 100% yêu cầu Must có ≥ 1 test đạt; CP-07: 100% AT Must đạt | 100% | Chưa đủ: ma trận truy vết F4-03 (RES-04) và A-87 (CP-07) chưa xong; AT-01 chưa chạy đủ luồng, AT-EX02 còn D-04, AT-05 chưa chạy thủ công đủ; phí 4/6 trên `main` | **Chưa xác nhận** |
 | O5 | SRS v2.1: đạt tiêu chí nghiệm thu của khách hàng | Khách hàng xác nhận | Không có: A-88 là buổi nội bộ; video CP-05 chưa gửi khách hàng (ISS-07, Q23) | **Chưa đạt** |
 
 Các ngưỡng do nhóm đề xuất kèm Q28. Khách hàng không trả lời phần này (R-M3-06), nên kết quả "Đạt" ở trên là đạt theo ngưỡng của nhóm, chưa phải ngưỡng khách hàng đã chấp nhận.
@@ -68,7 +68,7 @@ Các ngưỡng do nhóm đề xuất kèm Q28. Khách hàng không trả lời p
 
 ## 5. Kết luận
 
-**Nghiệm thu nội bộ:** đến 26/11, mọi kịch bản AT đã được kiểm, và các thước đo O1-O3 đạt ngưỡng nhóm đề xuất; O4 đạt phần ngoại lệ, phần phí mới có 4/6 tổ hợp trên `main`. Còn một lỗi S2 về hiển thị (D-04), một lỗi S2 đã sửa nhưng chưa chạy lại (D-03) và một lỗi S3 (D-05), không lỗi nào làm sai kết quả của kịch bản.
+**Nghiệm thu nội bộ:** đến 26/11, các thước đo O1-O3 đạt ngưỡng nhóm đề xuất. AT-01 còn thiếu lần chạy đủ luồng trên cùng một lượt. O4 đạt một phần: 4/5 ngoại lệ đạt đầy đủ (AT-EX02 còn lỗi hiển thị S2 D-04), và 4/6 tổ hợp phí có test trên `main`. D-03 (S2) đã sửa và chờ chạy lại; D-05 (S3) còn mở.
 
 **Nghiệm thu của khách hàng:** chưa có. A-88 là buổi demo nội bộ, và chưa có email nào gửi khách hàng (Q23). Vì vậy O5 theo SRS ghi là chưa đạt; O5 theo thước đo của P20 chờ F4-03 và A-87. A-92 phải trình bày đúng như vậy. Đây là khác biệt so với Baseline V1.0, nơi M-04 cần "video demo và email xác nhận của khách hàng (Q23, Q11)". Nếu nhóm gửi video và khách hàng trả lời trước ngày 29/11, ghi ngày và trích nội dung trả lời vào đây.
 
